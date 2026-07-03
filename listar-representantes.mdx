@@ -1,0 +1,115 @@
+---
+title: "Listar"
+sidebarTitle: "Listar"
+description: "Permite manejar representantes mediante REST API"
+---
+
+Obtén una lista paginada de representantes en tu empresa.
+
+```http
+GET /business-representatives
+```
+
+<Note>
+  Este endpoint requiere el scope **`BusinessRepresentatives.Read`**.
+</Note>
+
+### Query parameters
+
+<ParamField query="isActive" type="BooleanSearchFilter">
+  Filtrar por si está activo o no.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/business-representatives" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/business-representatives",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID",
+    },
+  }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/business-representatives",
+    params={
+        "status_id": 2,
+        "skip": 20,
+        "take": 20,
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+[
+  {
+    "id": 0,
+    "name": "string",
+    "isSalesPerson": true,
+    "isExecutiveAccount": true,
+    "isCustomerService": true,
+    "isDebtCollector": true,
+    "isActive": true
+  }
+]
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único del representante.
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  Nombre completo del representante.
+</ResponseField>
+
+<ResponseField name="isSalesPerson" type="boolean">
+  Indica si el representante es un vendedor.
+</ResponseField>
+
+<ResponseField name="isExecutiveAccount" type="boolean">
+  Indica si el representante es un ejecutivo de cuentas.
+</ResponseField>
+
+<ResponseField name="isCustomerService" type="boolean">
+  Indica si el representante pertenece al área de servicio al cliente.
+</ResponseField>
+
+<ResponseField name="isDebtCollector" type="boolean">
+  Indica si el representante es un gestor de cobros o cobrador.
+</ResponseField>
+
+<ResponseField name="isActive" type="boolean">
+  Indica si el representante está actualmente activo en el sistema.
+</ResponseField>

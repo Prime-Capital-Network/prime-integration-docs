@@ -1,0 +1,60 @@
+---
+title: "Rate Limiting"
+description: "Para garantizar un servicio estable para todos los usuarios de la API, las solicitudes realizadas con tu API Key están sujetas a límites de uso (*rate limiting*)."
+---
+
+### Cómo funciona
+
+Cada empresa tiene una límite máximo base de **1,000 solicitudes por día**, administrada mediante el algoritmo de _token bucket_. Cada solicitud consume un token del bucket; los tokens se recargan de forma continua a lo largo del día hasta alcanzar nuevamente el límite máximo.
+
+<Note>
+  Si tu integración necesita un límite mayor a 1,000 solicitudes diarias, contáctanos para evaluar un plan con cuota extendida.
+</Note>
+
+### Respuesta al exceder el límite
+
+Si excedes tu cuota, la API responderá con un código `429 Too Many Requests` y un cuerpo en formato `application/problem+json` ([RFC 7807](https://tools.ietf.org/html/rfc7807)):
+
+```json
+{
+  "type": "https://tools.ietf.org/html/rfc6585#section-4",
+  "title": "Too Many Requests",
+  "status": 429,
+  "detail": "The request quota has exceeded. Please wait for 86 seconds before trying again.",
+  "retryAfterSeconds": 86
+}
+```
+
+Además, la respuesta incluye el header estándar `Retry-After`, con la misma cantidad de segundos que debes esperar antes de reintentar:
+
+```http
+Retry-After: 86
+```
+
+La respuesta `429` también incluye los siguientes headers con información sobre tu cuota:
+
+```http
+X-RateLimit-Limit: 1000
+X-RateLimit-Remaining: 0
+```
+
+<ResponseField name="X-RateLimit-Limit" type="integer">
+  La cuota total de requests permitida en el período actual.
+</ResponseField>
+
+<ResponseField name="X-RateLimit-Remaining" type="integer">
+  La cantidad de requests restantes en el período actual. En una respuesta `429` este valor será `0`.
+</ResponseField>
+
+<Warning>
+  Los headers `X-RateLimit-Limit` y `X-RateLimit-Remaining` solo se incluyen en respuestas `429 Too Many Requests`. No están presentes en respuestas exitosas, por lo que no deben usarse para monitorear tu consumo de forma proactiva antes de alcanzar el límite.
+</Warning>
+
+<Tip>
+  Es recomendable leer el header `Retry-After` (o el campo `retryAfterSeconds` del cuerpo) para implementar un backoff antes de reintentar, en lugar de reintentar de inmediato.
+</Tip>
+
+### Buenas prácticas
+
+- **Cachea las respuestas** cuando sea posible, especialmente para datos que cambian con poca frecuencia (catálogos, configuración, etc.).
+- **Distribuye la carga** — si tu integración realiza tareas programadas (batch jobs), considera espaciar las solicitudes en lugar de enviarlas todas al mismo tiempo.

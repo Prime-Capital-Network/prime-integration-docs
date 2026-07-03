@@ -1,0 +1,99 @@
+---
+title: "Filtros de búsqueda"
+---
+
+### Filtros de búsqueda
+
+Generalmente, los listados soportan filtros avanzados mediante query parameters. Existen tres tipos de filtro según el tipo de dato del campo:
+
+#### Filtros de texto (`StringSearchFilter`)
+
+<CodeGroup>
+
+```text Coincidencia exacta
+?name=Importaciones del Caribe
+```
+
+```text Empieza con
+?name=Importaciones*
+```
+
+```text Termina con
+?name=Caribe*
+```
+
+```text Contiene
+?name=*Caribe*
+```
+
+```text Es nulo / no nulo
+?name_isnull=true
+```
+
+</CodeGroup>
+
+El carácter `*` funciona como comodín, equivalente a `%` en SQL. Puede colocarse al inicio, al final, o en ambos extremos del valor.
+
+Todo filtro de texto también soporta el sufijo `_isnull` (`true` / `false`) para filtrar por campos nulos o no nulos, independientemente del valor.
+
+<Tip>
+  Si necesitas buscar un valor que contiene un asterisco literal (por ejemplo, `Car*be`), escápalo con `\*` para que no sea interpretado como comodín:
+
+  ```text
+  ?name=Car\*be
+  ```
+</Tip>
+
+#### Filtros de rango (`RangeSearchFilter`)
+
+Aplican a campos numéricos y de fecha. Soportan tres formas de uso:
+
+<CodeGroup>
+
+```text Valor exacto
+?age=235
+```
+
+```text Mínimo (no inclusivo)
+?age_min=100
+```
+
+```text Máximo (no inclusivo)
+?age_max=500
+```
+
+```text Rango combinado
+?age_min=100&age_max=500
+```
+
+</CodeGroup>
+
+<Warning>
+  Los sufijos `_min` y `_max` son **no inclusivos**: `age_min=100` retorna registros con `age > 100`, no `age >= 100`. Lo mismo aplica para `_max` con `<`.
+</Warning>
+
+#### Filtros booleanos (`BooleanSearchFilter`)
+
+Aplican a campos booleanos. Soportan una sola forma:
+
+<CodeGroup>
+
+```text Valor exacto
+?isCustomer=true
+```
+
+</CodeGroup>
+
+#### Filtros de Enum (`EnumSearchFilter`)
+
+Aplican a campos tipo enum, con valores predeterminados. Soportan una sola forma:
+
+Suponiendo que tenemos el enum `status` con los valores permitidos `Active` e `Inactive`,
+
+<CodeGroup>
+
+```text Valor exacto
+?status=Active
+```
+
+</CodeGroup>

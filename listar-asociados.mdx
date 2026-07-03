@@ -1,0 +1,370 @@
+---
+title: "Listar"
+sidebarTitle: "Listar"
+description: "Permite manejar asociados mediante REST API"
+---
+
+Obtén una lista paginada de asociados en tu empresa.
+
+```http
+GET /associates
+```
+
+<Note>
+  Este endpoint requiere el scope **`Associates.Read`**.
+</Note>
+
+### Query parameters
+
+<ParamField query="status_id" type="byte">
+  Filtrar por el estatus de sociado. Valores aceptados:
+
+  - 1 (En Aprobación)
+  - 2 (Activo)
+  - 3 (Inactivo)
+  - 4 (Suspendido)
+  - 5 (Cancelado)
+</ParamField>
+
+<ParamField query="skip" default="20" type="integer">
+  Número de registros a omitir desde el inicio de los resultados. Utilízado junto con `take` para paginar los resultados.
+</ParamField>
+
+<ParamField query="take" type="integer">
+  Número de registros a retornar. Por defecto `20`, máximo `100`.
+</ParamField>
+
+<ParamField query="name" type="StringSearchFilter">
+  Filtra por nombre del asociado.
+</ParamField>
+
+<ParamField query="alias" type="StringSearchFilter">
+  Filtra por alias o nombre corto del asociado.
+</ParamField>
+
+<ParamField query="IdentityDocument.Mask" type="StringSearchFilter">
+  Filtra por la máscara del tipo de documento de identidad.
+</ParamField>
+
+<ParamField query="IdentityDocument.Number" type="StringSearchFilter">
+  Filtra por el número de documento de identidad.
+</ParamField>
+
+<ParamField query="countryId" type="StringSearchFilter">
+  Filtra por el identificador del país del asociado.
+</ParamField>
+
+<ParamField query="cityName" type="StringSearchFilter">
+  Filtra por el nombre de la ciudad del asociado.
+</ParamField>
+
+<ParamField query="isCustomer" type="BooleanSearchFilter">
+  Filtra asociados que operan como cliente.
+</ParamField>
+
+<ParamField query="isVendor" type="BooleanSearchFilter">
+  Filtra asociados que operan como suplidor.
+</ParamField>
+
+<ParamField query="isAgent" type="BooleanSearchFilter">
+  Filtra asociados que operan como agente.
+</ParamField>
+
+<ParamField query="isCustomAgent" type="BooleanSearchFilter">
+  Filtra asociados que operan como agente aduanal.
+</ParamField>
+
+<ParamField query="isWarehouse" type="BooleanSearchFilter">
+  Filtra asociados que operan como almacén.
+</ParamField>
+
+<ParamField query="isSealine" type="BooleanSearchFilter">
+  Filtra asociados que operan como línea marítima.
+</ParamField>
+
+<ParamField query="isAirline" type="BooleanSearchFilter">
+  Filtra asociados que operan como aerolínea.
+</ParamField>
+
+<ParamField query="isTrucking" type="BooleanSearchFilter">
+  Filtra asociados que operan como transportista.
+</ParamField>
+
+<ParamField query="isBank" type="BooleanSearchFilter">
+  Filtra asociados que operan como entidad bancaria.
+</ParamField>
+
+<ParamField query="isInsurance" type="BooleanSearchFilter">
+  Filtra asociados que operan como aseguradora.
+</ParamField>
+
+<ParamField query="isEmployee" type="BooleanSearchFilter">
+  Filtra asociados que son empleados internos.
+</ParamField>
+
+<ParamField query="salesPersonName" type="StringSearchFilter">
+  Filtra por el nombre del vendedor asignado.
+</ParamField>
+
+<ParamField query="accountExecutiveName" type="StringSearchFilter">
+  Filtra por el nombre del ejecutivo de cuenta asignado.
+</ParamField>
+
+<ParamField query="debtCollectorName" type="StringSearchFilter">
+  Filtra por el nombre del gestor de cobros asignado.
+</ParamField>
+
+<ParamField query="businessTypeName" type="StringSearchFilter">
+  Filtra por el nombre del tipo de negocio.
+</ParamField>
+
+<ParamField query="commercialActivityName" type="StringSearchFilter">
+  Filtra por el nombre de la actividad comercial.
+</ParamField>
+
+<ParamField query="CustomerPaymentTerm.Name" type="StringSearchFilter">
+  Filtra por el nombre del término de pago del cliente.
+</ParamField>
+
+<ParamField query="VendorPaymentTerm.Name" type="StringSearchFilter">
+  Filtra por el nombre del término de pago del suplidor.
+</ParamField>
+
+<ParamField query="hasPassedDueDiligence" type="BooleanSearchFilter">
+  Filtra asociados que completaron el proceso de debida diligencia.
+</ParamField>
+
+<ParamField query="statusName" type="StringSearchFilter">
+  Filtra por el nombre del estado del asociado.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/associates?status_id=2&skip=20&take=20" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/associates?status_id=2&skip=20&take=20",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID"
+    },
+  }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/associates",
+    params={
+        "status_id": 2,
+        "skip": 20,
+        "take": 20,
+    },
+   headers={
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID"
+    }
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "totalCount": 0,
+  "data": [
+    {
+      "id": 0,
+      "name": "string",
+      "alias": "string",
+      "identityDocument": {
+        "mask": "string",
+        "number": "string"
+      },
+      "countryId": "string",
+      "cityName": "string",
+      "isCustomer": true,
+      "isVendor": true,
+      "isAgent": true,
+      "isCustomAgent": true,
+      "isWarehouse": true,
+      "isSealine": true,
+      "isAirline": true,
+      "isTrucking": true,
+      "isBank": true,
+      "isInsurance": true,
+      "isEmployee": true,
+      "salesPersonName": "string",
+      "accountExecutiveName": "string",
+      "debtCollectorName": "string",
+      "customerBusinessTypeName": "string",
+      "customerPaymentTerm": {
+        "name": "string"
+      },
+      "vendorPaymentTerm": {
+        "name": "string"
+      },
+      "commercialActivityName": "string",
+      "hasPassedDueDiligence": true,
+      "statusName": "string"
+    }
+  ]
+}
+```
+
+### Response fields
+
+<ResponseField name="totalCount" type="integer">
+  Total de registros.
+</ResponseField>
+
+<ResponseField name="data" type="array">
+  Lista de objetos Associate.
+
+  <Expandable title="Associate">
+    <ResponseField name="id" type="integer">
+      Identificador único del asociado.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre completo del asociado.
+    </ResponseField>
+
+    <ResponseField name="alias" type="string">
+      Nombre corto o alias utilizado internamente.
+    </ResponseField>
+
+    <ResponseField name="identityDocument" type="object">
+      Documento de identidad del asociado.
+
+      <Expandable title="identityDocument">
+        <ResponseField name="mask" type="string">
+          Máscara del documento (ej. CED de cédula).
+        </ResponseField>
+
+        <ResponseField name="number" type="string">
+          Número de documento de identidad.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="countryId" type="string">
+      Identificador único del país del asociado.
+    </ResponseField>
+
+    <ResponseField name="cityName" type="string">
+      Ciudad del asociado.
+    </ResponseField>
+
+    <ResponseField name="isCustomer" type="boolean">
+      Indica si el asociado opera como cliente. Por defecto, `false`
+    </ResponseField>
+
+    <ResponseField name="isVendor" type="boolean">
+      Indica si el asociado opera como suplidor. Por defecto, `false`
+    </ResponseField>
+
+    <ResponseField name="isAgent" type="boolean">
+      Indica si el asociado opera como agente. Por defecto, `false`
+    </ResponseField>
+
+    <ResponseField name="isCustomAgent" type="boolean">
+      Indica si el asociado opera como agente aduanal. Por defecto, `false`
+    </ResponseField>
+
+    <ResponseField name="isWarehouse" type="boolean">
+      Indica si el asociado opera como almacén. Por defecto, `false`
+    </ResponseField>
+
+    <ResponseField name="isSealine" type="boolean">
+      Indica si el asociado opera como línea marítima. Por defecto, `false`
+    </ResponseField>
+
+    <ResponseField name="isAirline" type="boolean">
+      Indica si el asociado opera como aerolínea. Por defecto, `false`
+    </ResponseField>
+
+    <ResponseField name="isTrucking" type="boolean">
+      Indica si el asociado opera como transportista. Por defecto, `false`
+    </ResponseField>
+
+    <ResponseField name="isBank" type="boolean">
+      Indica si el asociado opera como entidad bancaria. Por defecto, `false`
+    </ResponseField>
+
+    <ResponseField name="isInsurance" type="boolean">
+      Indica si el asociado opera como aseguradora. Por defecto, `false`
+    </ResponseField>
+
+    <ResponseField name="isEmployee" type="boolean">
+      Indica si el asociado es un empleado interno. Por defecto, `false`
+    </ResponseField>
+
+    <ResponseField name="salesPersonName" type="string">
+      Nombre del vendedor asignado. `null` si no aplica.
+    </ResponseField>
+
+    <ResponseField name="accountExecutiveName" type="string">
+      Nombre del ejecutivo de cuenta asignado. `null` si no aplica.
+    </ResponseField>
+
+    <ResponseField name="debtCollectorName" type="string">
+      Nombre del gestor de cobros asignado. `null` si no aplica.
+    </ResponseField>
+
+    <ResponseField name="customerBusinessTypeName" type="string">
+      Tipo de negocio del cliente. `null` si no aplica.
+    </ResponseField>
+
+    <ResponseField name="customerPaymentTerm" type="object">
+      Término de pago asignado como cliente.
+
+      <Expandable title="customerPaymentTerm">
+        <ResponseField name="name" type="string">
+          Nombre del término de pago.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="vendorPaymentTerm" type="object">
+      Término de pago asignado como suplidor.
+
+      <Expandable title="vendorPaymentTerm">
+        <ResponseField name="name" type="string">
+          Nombre del término de pago.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="commercialActivityName" type="string">
+      Actividad comercial del asociado.
+    </ResponseField>
+
+    <ResponseField name="hasPassedDueDiligence" type="boolean">
+      Indica si el asociado completó el proceso de debida diligencia.
+    </ResponseField>
+
+    <ResponseField name="statusName" type="string">
+      Estado actual del asociado (ej. `Activo`, `Inactivo`).
+    </ResponseField>
+  </Expandable>
+</ResponseField>

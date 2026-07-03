@@ -1,0 +1,562 @@
+---
+title: "Listar"
+sidebarTitle: "Listar"
+description: "Permite manejar houses mediante REST API"
+---
+
+Obtén una lista paginada de houses en tu empresa.
+
+```http
+GET /houses
+```
+
+<Note>
+  Este endpoint requiere el scope **`Houses.Read`**.
+</Note>
+
+### Query parameters
+
+<ParamField query="sort_by" type="string">
+  Campo por el cual ordenar los resultados. Valores aceptados:
+
+  - `Id`
+  - `TransactionNumber`
+  - `TrackingNumber`
+  - `MovementType`
+  - `TransportType`
+  - `SalesPerson.Name`
+  - `BL`
+  - `Shipper.Name`
+  - `Consignee.Name`
+  - `OriginAgent.Name`
+  - `DestinationAgent.Name`
+  - `PortOfLoading.Id`
+  - `PortOfDischarge.Id`
+  - `ETD`
+  - `ETA`
+  - `InsertedDate`
+  - `Status`
+</ParamField>
+
+<ParamField query="skip" default="20" type="integer">
+  Número de registros a omitir desde el inicio de los resultados. Utilízado junto con `take` para paginar los resultados.
+</ParamField>
+
+<ParamField query="take" type="integer">
+  Número de registros a retornar. Por defecto `20`, máximo `100`.
+</ParamField>
+
+<ParamField query="TransactionNumber" type="RangeSearchFilter<integer>">
+  Filtra por número de transacción del house.
+</ParamField>
+
+<ParamField query="TrackingNumber" type="RangeSearchFilter<integer>">
+  Filtra por número de tracking del house.
+</ParamField>
+
+<ParamField query="Master.ATD" type="RangeSearchFilter<datetime>">
+  Filtra por la fecha real de salida (ATD) del master.
+</ParamField>
+
+<ParamField query="Master.ATA" type="RangeSearchFilter<datetime>">
+  Filtra por la fecha real de llegada (ATA) del master.
+</ParamField>
+
+<ParamField query="Master.MasterBL" type="StringSearchFilter">
+  Filtra por el número de BL del master.
+</ParamField>
+
+<ParamField query="Master.TransactionNumber" type="RangeSearchFilter<integer>">
+  Filtra por el número de transacción del master.
+</ParamField>
+
+<ParamField query="MovementType.Id" type="EnumSearchFilter">
+  Filtra por el tipo de movimiento del house.
+</ParamField>
+
+<ParamField query="TransportType.Id" type="EnumSearchFilter">
+  Filtra por el tipo de transporte del house.
+</ParamField>
+
+<ParamField query="ContainerType.Id" type="EnumSearchFilter">
+  Filtra por el tipo de contenedor del house.
+</ParamField>
+
+<ParamField query="Customer.Id" type="RangeSearchFilter<integer>">
+  Filtra por el identificador del cliente.
+</ParamField>
+
+<ParamField query="Customer.Name" type="StringSearchFilter">
+  Filtra por el nombre del cliente.
+</ParamField>
+
+<ParamField query="IsBilled" type="BooleanSearchFilter">
+  Filtra houses que ya han sido facturados.
+</ParamField>
+
+<ParamField query="SalesPerson.Name" type="StringSearchFilter">
+  Filtra por el nombre del vendedor asignado.
+</ParamField>
+
+<ParamField query="BL" type="StringSearchFilter">
+  Filtra por el número de BL del house.
+</ParamField>
+
+<ParamField query="Shipper.Type" type="string">
+  Filtra por el tipo de contacto del shipper. Valores aceptados:
+
+  - `Associate`
+  - `CustomerAssociate`
+</ParamField>
+
+<ParamField query="Shipper.Name" type="StringSearchFilter">
+  Filtra por el nombre del shipper.
+</ParamField>
+
+<ParamField query="Consignee.Type" type="string">
+  Filtra por el tipo de contacto del consignee. Valores aceptados:
+
+  - `Associate`
+  - `CustomerAssociate`
+</ParamField>
+
+<ParamField query="Consignee.Name" type="StringSearchFilter">
+  Filtra por el nombre del consignee.
+</ParamField>
+
+<ParamField query="Agent.Name" type="StringSearchFilter">
+  Filtra por el nombre del agente. Aplica sobre el agente de origen o de destino según el tipo de movimiento.
+</ParamField>
+
+<ParamField query="PortOfLoading.Id" type="StringSearchFilter">
+  Filtra por el identificador del puerto de carga.
+</ParamField>
+
+<ParamField query="PortOfDischarge.Id" type="StringSearchFilter">
+  Filtra por el identificador del puerto de descarga.
+</ParamField>
+
+<ParamField query="ETD" type="RangeSearchFilter<datetime>">
+  Filtra por la fecha estimada de salida.
+</ParamField>
+
+<ParamField query="ETA" type="RangeSearchFilter<datetime>">
+  Filtra por la fecha estimada de llegada.
+</ParamField>
+
+<ParamField query="Kilograms" type="RangeSearchFilter<decimal>">
+  Filtra por el peso en kilogramos.
+</ParamField>
+
+<ParamField query="CubicMeters" type="RangeSearchFilter<decimal>">
+  Filtra por el volumen en metros cúbicos.
+</ParamField>
+
+<ParamField query="AssignedTo.Id" type="StringSearchFilter">
+  Filtra por el identificador del usuario asignado.
+</ParamField>
+
+<ParamField query="InsertedDate" type="RangeSearchFilter<datetime>">
+  Filtra por la fecha de creación del house.
+</ParamField>
+
+<ParamField query="Status.Id" type="EnumSearchFilter">
+  Filtra por el estatus del house.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primeerp.com/v1/houses?Status.Id=InCoordination&skip=20&take=20" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primeerp.com/v1/houses?Status.Id=InCoordination&skip=20&take=20",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID"
+    },
+  }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primeerp.com/v1/houses",
+    params={
+        "Status.Id": "InCoordination",
+        "skip": 20,
+        "take": 20,
+    },
+   headers={
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID"
+    }
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "totalCount": 0,
+  "data": [
+    {
+      "id": 0,
+      "transactionNumber": 0,
+      "trackingNumber": 0,
+      "master": {
+        "id": 0,
+        "atd": "2026-07-15T00:00:00Z",
+        "ata": "2026-07-20T00:00:00Z",
+        "transactionNumber": 0,
+        "masterBL": "string"
+      },
+      "movementType": {
+        "id": "string",
+        "name": "string"
+      },
+      "transportType": {
+        "id": "string",
+        "name": "string"
+      },
+      "containerType": {
+        "id": "string",
+        "name": "string"
+      },
+      "customer": {
+        "id": 0,
+        "name": "string"
+      },
+      "isBilled": true,
+      "salesPerson": {
+        "name": "string"
+      },
+      "bl": "string",
+      "shipper": {
+        "type": "Associate",
+        "name": "string"
+      },
+      "consignee": {
+        "type": "Associate",
+        "name": "string"
+      },
+      "agent": {
+        "name": "string"
+      },
+      "portOfLoading": {
+        "id": "string"
+      },
+      "portOfDischarge": {
+        "id": "string"
+      },
+      "etd": "2026-07-15T00:00:00Z",
+      "eta": "2026-07-20T00:00:00Z",
+      "weightUnit": {
+        "id": "string",
+        "name": "string"
+      },
+      "kilograms": 0,
+      "tons": 0,
+      "pounds": 0,
+      "volumeUnit": {
+        "id": "string",
+        "name": "string"
+      },
+      "cubicMeters": 0,
+      "cubicFeet": 0,
+      "assignedTo": {
+        "id": "string"
+      },
+      "insertedDate": "2026-07-10T00:00:00Z",
+      "status": {
+        "id": "string",
+        "name": "string"
+      }
+    }
+  ]
+}
+```
+
+### Response fields
+
+<ResponseField name="totalCount" type="integer">
+  Total de registros.
+</ResponseField>
+
+<ResponseField name="data" type="array">
+  Lista de objetos House.
+
+  <Expandable title="House">
+    <ResponseField name="id" type="integer">
+      Identificador único del house.
+    </ResponseField>
+
+    <ResponseField name="transactionNumber" type="integer">
+      Número de transacción del house.
+    </ResponseField>
+
+    <ResponseField name="trackingNumber" type="integer">
+      Número de tracking del house.
+    </ResponseField>
+
+    <ResponseField name="master" type="object">
+      Master asociado al house.
+
+      <Expandable title="master">
+        <ResponseField name="id" type="integer">
+          Identificador único del master.
+        </ResponseField>
+
+        <ResponseField name="atd" type="datetime">
+          Fecha real de salida (ATD) del master.
+        </ResponseField>
+
+        <ResponseField name="ata" type="datetime">
+          Fecha real de llegada (ATA) del master.
+        </ResponseField>
+
+        <ResponseField name="transactionNumber" type="integer">
+          Número de transacción del master.
+        </ResponseField>
+
+        <ResponseField name="masterBL" type="string">
+          Número de BL del master.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="movementType" type="object">
+      Tipo de movimiento del house.
+
+      <Expandable title="movementType">
+        <ResponseField name="id" type="string">
+          Identificador del tipo de movimiento.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido del tipo de movimiento.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="transportType" type="object">
+      Tipo de transporte del house.
+
+      <Expandable title="transportType">
+        <ResponseField name="id" type="string">
+          Identificador del tipo de transporte.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido del tipo de transporte.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="containerType" type="object">
+      Tipo de contenedor del house.
+
+      <Expandable title="containerType">
+        <ResponseField name="id" type="string">
+          Identificador del tipo de contenedor.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido del tipo de contenedor.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="customer" type="object">
+      Cliente asociado al house.
+
+      <Expandable title="customer">
+        <ResponseField name="id" type="integer">
+          Identificador único del cliente.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del cliente.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="isBilled" type="boolean">
+      Indica si el house ya ha sido facturado.
+    </ResponseField>
+
+    <ResponseField name="salesPerson" type="object">
+      Vendedor asignado al house.
+
+      <Expandable title="salesPerson">
+        <ResponseField name="name" type="string">
+          Nombre del vendedor. `null` si no aplica.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="bl" type="string">
+      Número de BL del house.
+    </ResponseField>
+
+    <ResponseField name="shipper" type="object">
+      Shipper del house.
+
+      <Expandable title="shipper">
+        <ResponseField name="type" type="string">
+          Tipo de contacto del shipper (`Associate` o `CustomerAssociate`). `null` si no aplica.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del shipper. `null` si no aplica.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="consignee" type="object">
+      Consignee del house.
+
+      <Expandable title="consignee">
+        <ResponseField name="type" type="string">
+          Tipo de contacto del consignee (`Associate` o `CustomerAssociate`). `null` si no aplica.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del consignee. `null` si no aplica.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="agent" type="object">
+      Agente del house. Corresponde al agente de origen si el tipo de movimiento es Importación, Crosstrade o Tránsito; de lo contrario, al agente de destino.
+
+      <Expandable title="agent">
+        <ResponseField name="name" type="string">
+          Nombre del agente. `null` si no aplica.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="portOfLoading" type="object">
+      Puerto de carga.
+
+      <Expandable title="portOfLoading">
+        <ResponseField name="id" type="string">
+          Identificador del puerto de carga.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="portOfDischarge" type="object">
+      Puerto de descarga.
+
+      <Expandable title="portOfDischarge">
+        <ResponseField name="id" type="string">
+          Identificador del puerto de descarga.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="etd" type="datetime">
+      Fecha estimada de salida.
+    </ResponseField>
+
+    <ResponseField name="eta" type="datetime">
+      Fecha estimada de llegada.
+    </ResponseField>
+
+    <ResponseField name="weightUnit" type="object">
+      Unidad de peso del house.
+
+      <Expandable title="weightUnit">
+        <ResponseField name="id" type="string">
+          Identificador de la unidad de peso.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido de la unidad de peso.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="kilograms" type="decimal">
+      Peso del house en kilogramos.
+    </ResponseField>
+
+    <ResponseField name="tons" type="decimal">
+      Peso del house en toneladas.
+    </ResponseField>
+
+    <ResponseField name="pounds" type="decimal">
+      Peso del house en libras.
+    </ResponseField>
+
+    <ResponseField name="volumeUnit" type="object">
+      Unidad de volumen del house.
+
+      <Expandable title="volumeUnit">
+        <ResponseField name="id" type="string">
+          Identificador de la unidad de volumen.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido de la unidad de volumen.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="cubicMeters" type="decimal">
+      Volumen del house en metros cúbicos.
+    </ResponseField>
+
+    <ResponseField name="cubicFeet" type="decimal">
+      Volumen del house en pies cúbicos.
+    </ResponseField>
+
+    <ResponseField name="assignedTo" type="object">
+      Usuario asignado al house.
+
+      <Expandable title="assignedTo">
+        <ResponseField name="id" type="string">
+          Identificador único del usuario asignado. `null` si no aplica.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="insertedDate" type="datetime">
+      Fecha de creación del house.
+    </ResponseField>
+
+    <ResponseField name="status" type="object">
+      Estatus actual del house.
+
+      <Expandable title="status">
+        <ResponseField name="id" type="string">
+          Identificador del estatus.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido del estatus.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>

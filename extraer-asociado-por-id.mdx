@@ -1,0 +1,1374 @@
+---
+title: "Extraer Asociado Por ID"
+sidebarTitle: "Extraer por ID"
+description: "Permite extrar un asociado en específico mediante REST API"
+---
+
+Obtén una asociado por ID en tu empresa.
+
+```http
+GET /associates/{id}
+```
+
+<Note>
+  Este endpoint requiere el scope **`Associates.Read`**.
+</Note>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único del asociado.
+</ParamField>
+
+### Query parameters
+
+<ParamField query="include" type="string">
+  Incluye los detalles a traer en el mismo request. Valores aceptados: `Addresses`, `Categories`, `Documents`, `Services`, `Contacts`, y `Tariffs`. De no ser enviados, el API devuelve un array vacío.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/associates/1023?include=Documents" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/associates/1023?include=Documents",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "e3d5e6af-3ec2-49c1-92bd-9632171e9a66"
+    },
+  }
+);
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/associates/1023",
+    params={"include": "Documents"},
+    headers={
+      "X-Api-Key": "pnk_abc123.s3cr3tValue",
+      "X-Tenant-Id": "e3d5e6af-3ec2-49c1-92bd-9632171e9a66"
+    }
+)
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "id": 0,
+  "name": "string",
+  "alias": "string",
+  "type": {
+    "id": 0,
+    "name": "string"
+  },
+  "identityDocument": {
+    "id": 0,
+    "name": "string",
+    "mask": "string",
+    "number": "string",
+    "length": 0
+  },
+  "franchise": {
+    "id": 0,
+    "name": "string"
+  },
+  "address": {
+    "addressLine": "string",
+    "country": {
+      "id": "string",
+      "name": "string"
+    },
+    "city": {
+      "id": "string",
+      "name": "string"
+    },
+    "sector": {
+      "id": 0,
+      "name": "string"
+    },
+    "postcode": "string",
+    "latitude": 0,
+    "longitude": 0
+  },
+  "isCustomer": true,
+  "isVendor": true,
+  "isAgent": true,
+  "isCustomAgent": true,
+  "isWarehouse": true,
+  "isSealine": true,
+  "isAirline": true,
+  "isTrucking": true,
+  "isBank": true,
+  "isInsurance": true,
+  "isEmployee": true,
+  "salesPerson": {
+    "id": 0,
+    "name": "string"
+  },
+  "accountExecutive": {
+    "id": 0,
+    "name": "string"
+  },
+  "debtCollector": {
+    "id": 0,
+    "name": "string"
+  },
+  "commercialActivity": {
+    "id": 0,
+    "name": "string"
+  },
+  "attention": "string",
+  "customerBusinessType": {
+    "id": 0,
+    "name": "string",
+    "fiscalDocument": {
+      "id": "string",
+      "name": "string"
+    },
+    "taxPercent": 0
+  },
+  "customerAccountGroup": {
+    "id": 0,
+    "name": "string"
+  },
+  "customerPaymentTerm": {
+    "id": 0,
+    "name": "string",
+    "expirationDays": 0
+  },
+  "customerCurrency": {
+    "id": "string",
+    "name": "string"
+  },
+  "customerBillingCreditLimit": 0,
+  "customerReimbursementCreditLimit": 0,
+  "vendorAccountGroup": {
+    "id": 0,
+    "name": "string"
+  },
+  "vendorPaymentTerm": {
+    "id": 0,
+    "name": "string",
+    "expirationDays": 0
+  },
+  "vendorCurrency": {
+    "id": "string",
+    "name": "string"
+  },
+  "vendorGoodService": {
+    "id": "string",
+    "name": "string"
+  },
+  "vendorBusinessType": {
+    "id": 0,
+    "name": "string",
+    "fiscalDocument": {
+      "id": "string",
+      "name": "string"
+    },
+    "taxPercent": 0
+  },
+  "isVendorNCFRequired": true,
+  "salesTaxRetention": {
+    "id": 0,
+    "name": "string"
+  },
+  "incomeTaxRetention": {
+    "id": 0,
+    "name": "string"
+  },
+  "isRetentionRequired": true,
+  "referenceCode": "string",
+  "standardCarrierAlphaCode": "string",
+  "agentCode": "string",
+  "customRegime": {
+    "id": 0,
+    "name": "string"
+  },
+  "shouldHoldShipment": true,
+  "shouldHoldCustom": true,
+  "shouldNotifyArrivalStatement": true,
+  "website": "string",
+  "iataCode": "string",
+  "phone": "string",
+  "mail": "string",
+  "consignorType": {
+    "id": "Personal",
+    "name": "string"
+  },
+  "isProfit": true,
+  "quotePrintFormat": {
+    "id": "Spanish",
+    "name": "string"
+  },
+  "invoicePrintFormat": {
+    "id": "Spanish",
+    "name": "string"
+  },
+  "reimbursementPrintFormat": {
+    "id": "Spanish",
+    "name": "string"
+  },
+  "department": {
+    "id": 0,
+    "name": "string"
+  },
+  "costCenter": {
+    "id": 0,
+    "name": "string"
+  },
+  "project": {
+    "id": 0,
+    "name": "string"
+  },
+  "hasPassedDueDiligence": true,
+  "insertedBy": "string",
+  "insertedDate": "2026-07-01T22:58:21.588Z",
+  "updatedBy": "string",
+  "updatedDate": "2026-07-01T22:58:21.588Z",
+  "status": {
+    "id": 0,
+    "name": "string"
+  },
+  "addresses": [
+    {
+      "id": 0,
+      "title": "string",
+      "addressLine": "string",
+      "country": {
+        "id": "string"
+      },
+      "city": {
+        "id": "string",
+        "name": "string"
+      },
+      "sector": {
+        "id": 0,
+        "name": "string"
+      },
+      "latitude": 0,
+      "longitude": 0
+    }
+  ],
+  "categories": [
+    {
+      "id": 0,
+      "name": "string"
+    }
+  ],
+  "documents": [
+    {
+      "id": 0,
+      "name": "string",
+      "document": {
+        "name": "string",
+        "number": "string",
+        "expirationDate": "2026-07-01T22:58:21.588Z"
+      },
+      "attachmentName": "string",
+      "numberOption": {
+        "id": "Mandatory",
+        "name": "string"
+      },
+      "expirationOption": {
+        "id": "Mandatory",
+        "name": "string"
+      }
+    }
+  ],
+  "services": [
+    {
+      "operationCategory": {
+        "id": "Additional",
+        "name": "string"
+      },
+      "currency": {
+        "id": "string"
+      },
+      "salesPerson": {
+        "id": 0,
+        "name": "string"
+      },
+      "accountExecutive": {
+        "id": 0,
+        "name": "string"
+      },
+      "debtCollector": {
+        "id": 0,
+        "name": "string"
+      },
+      "billTo": {
+        "id": 0,
+        "name": "string"
+      },
+      "operator": {
+        "id": "string",
+        "fullName": "string"
+      }
+    }
+  ],
+  "contacts": [
+    {
+      "id": 0,
+      "firstName": "string",
+      "lastName": "string",
+      "title": "string",
+      "department": "string",
+      "phones": [
+        "string"
+      ],
+      "mails": [
+        "string"
+      ],
+      "skype": "string",
+      "twitter": "string",
+      "assistant": {
+        "name": "string",
+        "phone": "string"
+      },
+      "birthday": "2026-07-01T22:58:21.588Z"
+    }
+  ],
+  "tariffs": [
+    {
+      "id": 0,
+      "type": {
+        "id": "Inland",
+        "name": "string"
+      },
+      "number": "string",
+      "name": "string",
+      "contractNumber": "string",
+      "validSince": "2026-07-01T22:58:21.588Z",
+      "validUntil": "2026-07-01T22:58:21.588Z",
+      "additional": "string",
+      "status": {
+        "id": "Active",
+        "name": "string"
+      }
+    }
+  ]
+}
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único del asociado.
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  Nombre o razón social del asociado.
+</ResponseField>
+
+<ResponseField name="alias" type="string">
+  Alias o nombre corto del asociado.
+</ResponseField>
+
+<ResponseField name="type" type="object">
+  Tipo de asociado.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del tipo.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del tipo.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="identityDocument" type="object">
+  Documento de identidad asociado.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del documento de identidad.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del documento de identidad (ej. RNC, Cédula, Pasaporte).
+    </ResponseField>
+
+    <ResponseField name="mask" type="string">
+      Máscara de formato del documento.
+    </ResponseField>
+
+    <ResponseField name="number" type="string">
+      Número del documento de identidad.
+    </ResponseField>
+
+    <ResponseField name="length" type="integer">
+      Longitud esperada del número de documento.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="franchise" type="object">
+  Franquicia asociada.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador de la franquicia.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre de la franquicia.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="address" type="object">
+  Dirección principal del asociado.
+
+  <Expandable title="propiedades">
+    <ResponseField name="addressLine" type="string">
+      Línea de dirección.
+    </ResponseField>
+
+    <ResponseField name="country" type="object">
+      País.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="string">
+          Identificador del país.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del país.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="city" type="object">
+      Ciudad.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="string">
+          Identificador de la ciudad.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre de la ciudad.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="sector" type="object">
+      Sector.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador del sector.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del sector.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="postcode" type="string">
+      Código postal.
+    </ResponseField>
+
+    <ResponseField name="latitude" type="number">
+      Latitud geográfica.
+    </ResponseField>
+
+    <ResponseField name="longitude" type="number">
+      Longitud geográfica.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="isCustomer" type="boolean">
+  Indica si el asociado es cliente.
+</ResponseField>
+
+<ResponseField name="isVendor" type="boolean">
+  Indica si el asociado es proveedor.
+</ResponseField>
+
+<ResponseField name="isAgent" type="boolean">
+  Indica si el asociado es agente.
+</ResponseField>
+
+<ResponseField name="isCustomAgent" type="boolean">
+  Indica si el asociado es agente aduanal.
+</ResponseField>
+
+<ResponseField name="isWarehouse" type="boolean">
+  Indica si el asociado es almacén.
+</ResponseField>
+
+<ResponseField name="isSealine" type="boolean">
+  Indica si el asociado es naviera.
+</ResponseField>
+
+<ResponseField name="isAirline" type="boolean">
+  Indica si el asociado es aerolínea.
+</ResponseField>
+
+<ResponseField name="isTrucking" type="boolean">
+  Indica si el asociado es transportista terrestre.
+</ResponseField>
+
+<ResponseField name="isBank" type="boolean">
+  Indica si el asociado es banco.
+</ResponseField>
+
+<ResponseField name="isInsurance" type="boolean">
+  Indica si el asociado es aseguradora.
+</ResponseField>
+
+<ResponseField name="isEmployee" type="boolean">
+  Indica si el asociado es empleado.
+</ResponseField>
+
+<ResponseField name="salesPerson" type="object">
+  Vendedor asignado.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del vendedor.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del vendedor.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="accountExecutive" type="object">
+  Ejecutivo de cuenta asignado.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del ejecutivo de cuenta.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del ejecutivo de cuenta.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="debtCollector" type="object">
+  Cobrador asignado.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del cobrador.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del cobrador.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="commercialActivity" type="object">
+  Actividad comercial del asociado.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador de la actividad comercial.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre de la actividad comercial.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="attention" type="string">
+  Persona de contacto ("atención a").
+</ResponseField>
+
+<ResponseField name="customerBusinessType" type="object">
+  Tipo de negocio del cliente.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del tipo de negocio.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del tipo de negocio.
+    </ResponseField>
+
+    <ResponseField name="fiscalDocument" type="object">
+      Documento fiscal asociado al tipo de negocio.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="string">
+          Identificador del documento fiscal.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del documento fiscal.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="taxPercent" type="number">
+      Porcentaje de impuesto aplicable.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="customerAccountGroup" type="object">
+  Grupo de cuenta del cliente.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del grupo de cuenta.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del grupo de cuenta.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="customerPaymentTerm" type="object">
+  Término de pago del cliente.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del término de pago.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del término de pago.
+    </ResponseField>
+
+    <ResponseField name="expirationDays" type="integer">
+      Días de vencimiento del término de pago.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="customerCurrency" type="object">
+  Moneda del cliente.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador de la moneda.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre de la moneda.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="customerBillingCreditLimit" type="number">
+  Límite de crédito de facturación del cliente.
+</ResponseField>
+
+<ResponseField name="customerReimbursementCreditLimit" type="number">
+  Límite de crédito de reembolso del cliente.
+</ResponseField>
+
+<ResponseField name="vendorAccountGroup" type="object">
+  Grupo de cuenta del proveedor.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del grupo de cuenta.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del grupo de cuenta.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="vendorPaymentTerm" type="object">
+  Término de pago del proveedor.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del término de pago.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del término de pago.
+    </ResponseField>
+
+    <ResponseField name="expirationDays" type="integer">
+      Días de vencimiento del término de pago.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="vendorCurrency" type="object">
+  Moneda del proveedor.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador de la moneda.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre de la moneda.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="vendorGoodService" type="object">
+  Bien o servicio provisto por el proveedor.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del bien o servicio.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del bien o servicio.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="vendorBusinessType" type="object">
+  Tipo de negocio del proveedor.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del tipo de negocio.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del tipo de negocio.
+    </ResponseField>
+
+    <ResponseField name="fiscalDocument" type="object">
+      Documento fiscal asociado al tipo de negocio.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="string">
+          Identificador del documento fiscal.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del documento fiscal.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="taxPercent" type="number">
+      Porcentaje de impuesto aplicable.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="isVendorNCFRequired" type="boolean">
+  Indica si el proveedor requiere NCF (Número de Comprobante Fiscal).
+</ResponseField>
+
+<ResponseField name="salesTaxRetention" type="object">
+  Retención de impuesto sobre ventas (ITBIS).
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador de la retención.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre de la retención.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="incomeTaxRetention" type="object">
+  Retención de impuesto sobre la renta.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador de la retención.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre de la retención.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="isRetentionRequired" type="boolean">
+  Indica si aplica retención de impuestos.
+</ResponseField>
+
+<ResponseField name="referenceCode" type="string">
+  Código de referencia interno del asociado.
+</ResponseField>
+
+<ResponseField name="standardCarrierAlphaCode" type="string">
+  Código SCAC (Standard Carrier Alpha Code), aplicable a transportistas.
+</ResponseField>
+
+<ResponseField name="agentCode" type="string">
+  Código de agente.
+</ResponseField>
+
+<ResponseField name="customRegime" type="object">
+  Régimen aduanero.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del régimen aduanero.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del régimen aduanero.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="shouldHoldShipment" type="boolean">
+  Indica si los embarques del asociado deben retenerse.
+</ResponseField>
+
+<ResponseField name="shouldHoldCustom" type="boolean">
+  Indica si los trámites aduanales del asociado deben retenerse.
+</ResponseField>
+
+<ResponseField name="shouldNotifyArrivalStatement" type="boolean">
+  Indica si se debe notificar el estado de llegada.
+</ResponseField>
+
+<ResponseField name="website" type="string">
+  Sitio web del asociado.
+</ResponseField>
+
+<ResponseField name="iataCode" type="string">
+  Código IATA, aplicable a aerolíneas.
+</ResponseField>
+
+<ResponseField name="phone" type="string">
+  Teléfono principal.
+</ResponseField>
+
+<ResponseField name="mail" type="string">
+  Correo electrónico principal.
+</ResponseField>
+
+<ResponseField name="consignorType" type="object">
+  Tipo de consignatario.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del tipo. Valores posibles: `Personal`, entre otros.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del tipo.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="isProfit" type="boolean">
+  Indica si el asociado es una entidad con fines de lucro.
+</ResponseField>
+
+<ResponseField name="quotePrintFormat" type="object">
+  Formato de impresión de cotizaciones.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del formato. Valores posibles: `Spanish`, entre otros.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del formato.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="invoicePrintFormat" type="object">
+  Formato de impresión de facturas.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del formato. Valores posibles: `Spanish`, entre otros.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del formato.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="reimbursementPrintFormat" type="object">
+  Formato de impresión de reembolsos.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del formato. Valores posibles: `Spanish`, entre otros.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del formato.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="department" type="object">
+  Departamento asignado.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del departamento.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del departamento.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="costCenter" type="object">
+  Centro de costo asignado.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del centro de costo.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del centro de costo.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="project" type="object">
+  Proyecto asignado.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del proyecto.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del proyecto.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="hasPassedDueDiligence" type="boolean">
+  Indica si el asociado ha pasado el proceso de debida diligencia.
+</ResponseField>
+
+<ResponseField name="insertedBy" type="string">
+  Usuario que creó el registro.
+</ResponseField>
+
+<ResponseField name="insertedDate" type="string">
+  Fecha y hora de creación del registro, en formato ISO 8601.
+</ResponseField>
+
+<ResponseField name="updatedBy" type="string">
+  Usuario que realizó la última actualización del registro.
+</ResponseField>
+
+<ResponseField name="updatedDate" type="string">
+  Fecha y hora de la última actualización, en formato ISO 8601.
+</ResponseField>
+
+<ResponseField name="status" type="object">
+  Estado del asociado.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del estado.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del estado.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="addresses" type="object[]">
+  Lista de direcciones adicionales del asociado. Solo se incluye si se envía `include=Addresses`; de lo contrario retorna `null`.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador de la dirección.
+    </ResponseField>
+
+    <ResponseField name="title" type="string">
+      Título o etiqueta de la dirección.
+    </ResponseField>
+
+    <ResponseField name="addressLine" type="string">
+      Línea de dirección.
+    </ResponseField>
+
+    <ResponseField name="country" type="object">
+      País.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="string">
+          Identificador del país.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="city" type="object">
+      Ciudad.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="string">
+          Identificador de la ciudad.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre de la ciudad.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="sector" type="object">
+      Sector.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador del sector.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del sector.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="latitude" type="number">
+      Latitud geográfica.
+    </ResponseField>
+
+    <ResponseField name="longitude" type="number">
+      Longitud geográfica.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="categories" type="object[]">
+  Lista de categorías asignadas al asociado. Solo se incluye si se envía `include=Categories`; de lo contrario retorna `null`.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador de la categoría.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre de la categoría.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="documents" type="object[]">
+  Lista de documentos asociados.Solo se incluye si se envía `include=Documents` de lo contrario retorna `null`.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del documento.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del documento.
+    </ResponseField>
+
+    <ResponseField name="document" type="object">
+      Detalles del documento.
+
+      <Expandable title="propiedades">
+        <ResponseField name="name" type="string">
+          Nombre del documento.
+        </ResponseField>
+
+        <ResponseField name="number" type="string">
+          Número del documento.
+        </ResponseField>
+
+        <ResponseField name="expirationDate" type="string">
+          Fecha de expiración, en formato ISO 8601.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="attachmentName" type="string">
+      Nombre del archivo adjunto.
+    </ResponseField>
+
+    <ResponseField name="numberOption" type="object">
+      Indica si el número de documento es obligatorio.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="string">
+          Valores posibles: `Mandatory`, entre otros.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre de la opción.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="expirationOption" type="object">
+      Indica si la fecha de expiración es obligatoria.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="string">
+          Valores posibles: `Mandatory`, entre otros.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre de la opción.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="services" type="object[]">
+  Lista de servicios configurados para el asociado. Solo se incluye si se envía `include=Services` de lo contrario retorna `null`.
+
+  <Expandable title="propiedades">
+    <ResponseField name="operationCategory" type="object">
+      Categoría de operación del servicio.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="string">
+          Valores posibles: `Additional`, entre otros.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre de la categoría.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="currency" type="object">
+      Moneda del servicio.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="string">
+          Identificador de la moneda.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="salesPerson" type="object">
+      Vendedor asignado al servicio.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador del vendedor.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del vendedor.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="accountExecutive" type="object">
+      Ejecutivo de cuenta asignado al servicio.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador del ejecutivo de cuenta.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del ejecutivo de cuenta.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="debtCollector" type="object">
+      Cobrador asignado al servicio.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador del cobrador.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del cobrador.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="billTo" type="object">
+      Asociado a quien se factura el servicio.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador del asociado.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del asociado.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="operator" type="object">
+      Operador asignado al servicio.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="string">
+          Identificador del operador.
+        </ResponseField>
+
+        <ResponseField name="fullName" type="string">
+          Nombre completo del operador.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="contacts" type="object[]">
+  Lista de contactos del asociado. Solo se incluye si se envía `include=Contacts`; de lo contrario retorna `null`.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del contacto.
+    </ResponseField>
+
+    <ResponseField name="firstName" type="string">
+      Nombre del contacto.
+    </ResponseField>
+
+    <ResponseField name="lastName" type="string">
+      Apellido del contacto.
+    </ResponseField>
+
+    <ResponseField name="title" type="string">
+      Cargo del contacto.
+    </ResponseField>
+
+    <ResponseField name="department" type="string">
+      Departamento del contacto.
+    </ResponseField>
+
+    <ResponseField name="phones" type="string[]">
+      Lista de teléfonos del contacto.
+    </ResponseField>
+
+    <ResponseField name="mails" type="string[]">
+      Lista de correos electrónicos del contacto.
+    </ResponseField>
+
+    <ResponseField name="skype" type="string">
+      Usuario de Skype del contacto.
+    </ResponseField>
+
+    <ResponseField name="twitter" type="string">
+      Usuario de Twitter del contacto.
+    </ResponseField>
+
+    <ResponseField name="assistant" type="object">
+      Asistente del contacto.
+
+      <Expandable title="propiedades">
+        <ResponseField name="name" type="string">
+          Nombre del asistente.
+        </ResponseField>
+
+        <ResponseField name="phone" type="string">
+          Teléfono del asistente.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="birthday" type="string">
+      Fecha de nacimiento, en formato ISO 8601.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="tariffs" type="object[]">
+  Lista de tarifas asociadas. Solo se incluye si se envía `include=Tariffs`; de lo contrario retorna `null`.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador de la tarifa.
+    </ResponseField>
+
+    <ResponseField name="type" type="object">
+      Tipo de tarifa.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="string">
+          Valores posibles: `Inland`, entre otros.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del tipo de tarifa.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="number" type="string">
+      Número de la tarifa.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre de la tarifa.
+    </ResponseField>
+
+    <ResponseField name="contractNumber" type="string">
+      Número de contrato asociado.
+    </ResponseField>
+
+    <ResponseField name="validSince" type="string">
+      Fecha de inicio de vigencia, en formato ISO 8601.
+    </ResponseField>
+
+    <ResponseField name="validUntil" type="string">
+      Fecha de fin de vigencia, en formato ISO 8601.
+    </ResponseField>
+
+    <ResponseField name="additional" type="string">
+      Información adicional de la tarifa.
+    </ResponseField>
+
+    <ResponseField name="status" type="object">
+      Estado de la tarifa.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="string">
+          Valores posibles: `Active`, entre otros.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del estado.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>

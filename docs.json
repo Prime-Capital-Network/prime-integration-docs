@@ -1,0 +1,74 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "name": "PrimeERP",
+  "theme": "almond",
+  "colors": {
+    "primary": "#ef7025",
+    "light": "#eec9bc",
+    "dark": "#4fa1ab"
+  },
+  "favicon": "/favicon.svg",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Inicio",
+            "pages": [
+              "Introduccion",
+              "generar-api-key",
+              "autenticacion",
+              "rate-limiting"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "pages": [
+          "api-reference/filtros-avanzados",
+          {
+            "group": "Asociados",
+            "pages": [
+              "listar-asociados",
+              "extraer-asociado-por-id",
+              "crear-asociado",
+              "actualizar-asociado",
+              "actualizar-parcial-asociado"
+            ]
+          },
+          {
+            "group": "Representates de Negocios",
+            "pages": [
+              "listar-representantes"
+            ]
+          },
+          {
+            "group": "Tasas de Cambio",
+            "pages": [
+              "listar-tasas-de-cambio"
+            ]
+          },
+          {
+            "group": "Houses",
+            "pages": [
+              "listar-houses",
+              "extraer-house-por-id",
+              "crear-houses",
+              "actualizar-houses",
+              "actualizar-parcial-house"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "navbar": {
+    "primary": {
+      "type": "button",
+      "label": "Dashboard",
+      "href": "https://app.primeerp.com"
+    }
+  }
+}

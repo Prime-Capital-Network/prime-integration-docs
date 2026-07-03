@@ -1,0 +1,44 @@
+---
+title: "Prime ERP"
+sidebarTitle: "Introducción"
+---
+
+Bienvenido a la documentación de la API de PrimeNet ERP. Prime ERP es una plataforma ERP SaaS especializada en la industria logística. Centraliza la gestión de operaciones, finanzas y procesos empresariales en una única plataforma en la nube, ayudando a las empresas a mejorar su productividad, automatizar sus procesos y tomar decisiones basadas en información en tiempo real.
+
+Esta API te permite integrar tus sistemas con la plataforma PrimeERP para gestionar todos los recursos de tu operación logística.
+
+## Autenticación
+
+La API de PrimeNet utiliza **API Keys** para autenticar los requests de terceros. Cada API Key está asociada a un conjunto de permisos (scopes) que determinan a qué endpoints puedes acceder.
+
+<CardGroup cols={2}>
+  <Card title="Generar un API Key" icon="key" href="/generar-api-key">
+    Aprende a crear y administrar tus llaves de acceso desde la pantalla de Integraciones.
+  </Card>
+
+  <Card title="Autenticación" icon="lock" href="/autenticacion">
+    Cómo enviar tu API Key en cada request y qué scopes existen disponibles.
+  </Card>
+</CardGroup>
+
+## Límites de uso
+
+Para garantizar la estabilidad del servicio, la API aplica límites de tasa (rate limiting) por integración.
+
+<Card title="Rate Limiting" icon="gauge" href="/rate-limiting">
+  Consulta las cuotas disponibles y cómo interpretar los headers de límite.
+</Card>
+
+## Primeros pasos
+
+<Steps>
+  <Step title="Genera tu API Key">
+    Ve a **Integraciones** dentro de PrimeERP y crea un nuevo registro con al menos un scope. Consulta la guía [Generar un API Key](/generar-api-key).
+  </Step>
+  <Step title="Autentica tus requests">
+    Envía tu API Key en el header `X-Api-Key` y el ID de la compañia en el header `X-Tenant-Id` en cada solicitud. Consulta la guía de [Autenticación](/autenticacion).
+  </Step>
+  <Step title="Empieza a integrar">
+    Explora los endpoints disponibles según los scopes de tu API Key.
+  </Step>
+</Steps>

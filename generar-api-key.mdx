@@ -1,0 +1,70 @@
+---
+title: "Generar un API Key"
+description: "Aprende a crear y administrar tus llaves de acceso a la API de PrimeNet"
+---
+
+Para integrarte con la API de PrimeNet necesitas generar un API Key. Este documento explica el proceso paso a paso desde el panel de administración.
+
+<Note>
+  Solo los usuarios con permisos de administración en tu cuenta pueden crear y administrar API Keys.
+</Note>
+
+## Pasos para generar un API Key
+
+<Steps>
+  <Step title="Ir a Configuración">
+    Desde el menú principal, dirígete a **Configuración**.
+  </Step>
+  <Step title="Abrir Integración de Terceros">
+    Dentro de Configuración, selecciona la sección **Integración de Terceros**.
+  </Step>
+  <Step title="Crear nuevo registro">
+    Haz clic en **Crear nuevo registro** para iniciar la configuración de tu nueva llave.
+  </Step>
+  <Step title="Completar el formulario">
+    Ingresa la siguiente información:
+
+    <ParamField body="Nombre" type="string" required>
+      Un nombre descriptivo para identificar el propósito de este API Key (por ejemplo, "Integración de Contabilidad").
+    </ParamField>
+
+    <ParamField body="Descripción" type="string">
+      Detalle opcional sobre el uso o contexto de esta integración.
+    </ParamField>
+
+    <ParamField body="Fecha de vencimiento" type="date">
+      Fecha opcional en la que el API Key dejará de funcionar. Si no se especifica, el key no tendrá vencimiento.
+    </ParamField>
+
+    <ParamField body="Scopes" type="array" required>
+      Selecciona como mínimo un scope (permiso) que determinará a qué recursos y acciones podrá acceder este API Key.
+    </ParamField>
+  </Step>
+  <Step title="Guardar y copiar el token">
+    Al guardar el registro, el sistema genera el API Key automáticamente y lo muestra en pantalla junto a un botón para copiarlo.
+
+    <Warning>
+      Este es el **único momento** en que el token completo estará disponible para copiar. Guárdalo en un lugar seguro antes de continuar.
+    </Warning>
+  </Step>
+</Steps>
+
+## Consideraciones importantes
+
+<CardGroup cols={2}>
+  <Card title="El token no se puede volver a ver" icon="eye-slash">
+    Una vez que cierras la pantalla de creación, no existe forma de recuperar el token completo. Solo se muestra un fragmento enmascarado (por ejemplo, los últimos 4 caracteres) para fines de identificación.
+  </Card>
+
+  <Card title="Edición limitada" icon="pen">
+    Al editar un registro existente, no es posible ver ni regenerar el token desde la pantalla de edición. Solo se pueden modificar datos como nombre, descripción, o scopes.
+  </Card>
+</CardGroup>
+
+<Tip>
+  Si pierdes o expones accidentalmente un API Key, la mejor práctica es revocar el registro y crear uno nuevo, en lugar de intentar reutilizar el existente.
+</Tip>
+
+## Siguiente paso
+
+Una vez que tengas tu API Key, consulta la guía de [Autenticación](/autenticacion) para aprender a usarlo en tus solicitudes a la API.

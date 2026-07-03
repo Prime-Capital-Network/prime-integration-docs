@@ -1,0 +1,628 @@
+---
+title: "Crear"
+---
+
+Crea un nuevo house (embarque) en tu empresa.
+
+```http
+POST /houses
+```
+
+<Note>
+  Este endpoint requiere el scope **`Houses.Write`**.
+</Note>
+
+### Body parameters
+
+<ParamField body="trackingNumber" type="integer">
+  Número de tracking del house.
+</ParamField>
+
+<ParamField body="quotationId" type="integer">
+  Identificador de la cotización de origen. No debe tener el estatus `Deleted`.
+</ParamField>
+
+<ParamField body="transportType" type="string" required>
+  Tipo de transporte del house. Valores aceptados:
+
+  - `Air`
+  - `Sea`
+  - `Ground`
+  - `Rail`
+</ParamField>
+
+<ParamField body="movementType" type="string" required>
+  Tipo de movimiento del house. Valores aceptados:
+
+  - `Import`
+  - `Export`
+  - `Transshipment`
+  - `Crosstrade`
+  - `Transit`
+</ParamField>
+
+<ParamField body="containerType" type="string" required>
+  Tipo de contenedor del house.
+
+  - Si `transportType` es `Air`, `containerType` también debe ser `Air`.
+  - Si `transportType` no es `Air`, `containerType` no debe ser `Air`.
+
+  Valores aceptados:
+
+  - `FCL`
+  - `LCL`
+  - `BreakBulk`
+  - `Air`
+</ParamField>
+
+<ParamField body="customerId" type="integer" required>
+  Identificador del cliente asociado al house.
+
+  - Debe ser un asociado con el campo `IsCustomer` como true, y su `status.id` debe ser `2` (Activo).
+</ParamField>
+
+<ParamField body="salesPersonId" type="integer">
+  Identificador del vendedor asignado.
+
+  - Debe ser un representante con el campo `IsSalesPerson` como `true`.
+</ParamField>
+
+<ParamField body="billToId" type="integer">
+  Identificador del asociado a quien se factura el house.
+
+  - Debe ser un asociado con el campo `IsCustomer` como true, y su `status.id` debe ser `2` (Activo).
+</ParamField>
+
+<ParamField body="status" type="string" required>
+  Estatus del house. Valores aceptados:
+
+  - `Quoted`
+  - `InWarehouse`
+  - `Unassigned`
+  - `InCoordination`
+  - `InPlanning`
+  - `EnRoute`
+  - `Arrived`
+</ParamField>
+
+<ParamField body="parentId" type="integer">
+  Identificador del house padre, si este house pertenece a una jerarquía.
+</ParamField>
+
+<ParamField body="eventId" type="integer">
+  Identificador del evento asociado al house.
+</ParamField>
+
+<ParamField body="assignedToId" type="string">
+  Identificador del usuario asignado al house.
+</ParamField>
+
+<ParamField body="blDate" type="date">
+  Fecha del BL.
+</ParamField>
+
+<ParamField body="blNumber" type="string">
+  Número del BL. Máximo 24 caracteres.
+</ParamField>
+
+<ParamField body="blPlaceOfIssue" type="string">
+  Lugar de emisión del BL. Máximo 30 caracteres.
+</ParamField>
+
+<ParamField body="blType" type="string">
+  Tipo de BL.
+</ParamField>
+
+<ParamField body="blPier" type="string">
+  Muelle del BL. Máximo 20 caracteres.
+</ParamField>
+
+<ParamField body="blTerminal" type="string">
+  Terminal del BL. Máximo 30 caracteres.
+</ParamField>
+
+<ParamField body="blExportReference" type="string">
+  Referencia de exportación. Máximo 150 caracteres.
+</ParamField>
+
+<ParamField body="blForwardingAgent" type="string">
+  Tipo de contacto que actúa como agente forwarder.
+</ParamField>
+
+<ParamField body="blForDeliveryApply" type="string">
+  Tipo de contacto a quien aplica la entrega.
+</ParamField>
+
+<ParamField body="blPrecarriage" type="string">
+  Precarriage del BL. Máximo 74 caracteres.
+</ParamField>
+
+<ParamField body="blHandlingInstructions" type="string">
+  Instrucciones de manejo. Máximo 250 caracteres.
+</ParamField>
+
+<ParamField body="blReferenceNumber" type="string">
+  Número de referencia del BL. Máximo 20 caracteres.
+</ParamField>
+
+<ParamField body="blShippingInfo" type="string[]">
+  Información adicional de envío. Máximo 2 valores, cada uno de hasta 20 caracteres.
+</ParamField>
+
+<ParamField body="blCarriageValue" type="decimal">
+  Valor del flete. Debe ser mayor o igual a cero.
+</ParamField>
+
+<ParamField body="blShouldShowLogoOnBL" type="boolean">
+  Indica si el logo de la empresa debe mostrarse en el BL.
+</ParamField>
+
+<ParamField body="shipperType" type="string">
+  Tipo de contacto del shipper (`Associate` o `CustomerAssociate`). Si no es null, `shipperId` es requerido.
+</ParamField>
+
+<ParamField body="shipperId" type="integer">
+  Identificador del shipper.
+
+  - Requerido si `shipperType` no es null.
+  - Si `IsShipperCustomer` es `true`, este campo debe ser igual a `customerId`.
+  - Si `shipperType` es `Associate`, debe ser un asociado con el `status.id` como `2` (Activo).
+  - Si `shipperType` es `CustomerAssociate`, debe ser un cliente de asociado con el campo `IsActive` como true.
+</ParamField>
+
+<ParamField body="shipperAddress" type="string">
+  Dirección del shipper. Máximo 250 caracteres.
+</ParamField>
+
+<ParamField body="isShipperCustomer" type="boolean">
+  Indica si el shipper es el mismo cliente.
+</ParamField>
+
+<ParamField body="consigneeType" type="string">
+  Tipo de contacto del consignee (`Associate` o `CustomerAssociate`). Si no es null, `consigneeId` es requerido.
+</ParamField>
+
+<ParamField body="consigneeId" type="integer">
+  Identificador del consignee.
+
+  - Requerido si `consigneeType` no es null.
+  - Si `isConsigneeCustomer` es `true`, este campo debe ser igual a `customerId`.
+  - Si `consigneeType` es `Associate`, debe ser un asociado con el `status.id` como `2` (Activo).
+  - Si `consigneeType` es `CustomerAssociate`, debe ser un cliente de asociado con el campo `IsActive` como true.
+</ParamField>
+
+<ParamField body="consigneeAddress" type="string">
+  Dirección del consignee. Máximo 250 caracteres.
+</ParamField>
+
+<ParamField body="isConsigneeCustomer" type="boolean">
+  Indica si el consignee es el mismo cliente.
+</ParamField>
+
+<ParamField body="notifyToType" type="string">
+  Tipo de contacto a notificar (`Associate` o `CustomerAssociate`). Si no es null, `notifyToId` es requerido.
+</ParamField>
+
+<ParamField body="notifyToId" type="integer">
+  Identificador del contacto a notificar.
+
+  - Requerido si `notifyToType` no es null.
+  - Si `isNotifyToConsignee` es `true`, este campo debe ser igual a `consigneeId`.
+  - Si `notifyToType` es `Associate`, debe ser un asociado con el `status.id` como `2` (Activo).
+  - Si `notifyToType` es `CustomerAssociate`, debe ser un cliente de asociado con el campo `IsActive` como true.
+</ParamField>
+
+<ParamField body="notifyToAddress" type="string">
+  Dirección del contacto a notificar. Máximo 250 caracteres.
+</ParamField>
+
+<ParamField body="isNotifyToConsignee" type="boolean">
+  Indica si el contacto a notificar es el mismo consignee.
+</ParamField>
+
+<ParamField body="incotermId" type="string">
+  Identificador del incoterm.
+</ParamField>
+
+<ParamField body="containerId" type="integer">
+  Identificador del contenedor.
+</ParamField>
+
+<ParamField body="paymentType" type="string">
+  Tipo de pago logístico. Valores aceptados:
+
+  - `Prepaid`
+  - `Collect`
+</ParamField>
+
+<ParamField body="bookingNumber" type="string">
+  Número de booking. Máximo 48 caracteres.
+</ParamField>
+
+<ParamField body="jobNumber" type="string">
+  Número de job. Máximo 24 caracteres.
+</ParamField>
+
+<ParamField body="warehouseId" type="integer">
+  Identificador del almacén. Requerido si el campo `warehouseReceivedById` no es null.
+</ParamField>
+
+<ParamField body="warehouseReceivedById" type="string">
+  Identificador del usuario que recibió en almacén.
+</ParamField>
+
+<ParamField body="originAgentId" type="integer">
+  Identificador del agente de origen.
+
+  - Si el campo `movementType` es `Export`, este campo debe ser null.
+  - Debe ser un asociado con el campo `IsVendor` como true, y con el campo `IsAgent` como true.
+</ParamField>
+
+<ParamField body="destinationAgentId" type="integer">
+  Identificador del agente de destino.
+
+  - Si el campo `movementType` es `Import` o `Transit`, este campo debe ser null.
+  - Debe ser un asociado con el campo `IsVendor` como true, y con el campo `IsAgent` como true.
+</ParamField>
+
+<ParamField body="serviceLevelId" type="integer">
+  Identificador del nivel de servicio.
+
+  - Si el campo `movementType` es `Transit`, `Transshipment` o `Crosstrade`, este campo debe ser nulo.
+</ParamField>
+
+<ParamField body="isCharter" type="boolean">
+  Indica si el house es chárter.
+</ParamField>
+
+<ParamField body="portOfLoadingId" type="string">
+  Identificador del puerto de carga.
+
+  - Si el campo `transportType` es `Ground`, este campo debe ser null.
+  - Este campo debe ser diferente al campo `portOfDischargeId`.
+</ParamField>
+
+<ParamField body="portOfDischargeId" type="string">
+  Identificador del puerto de descarga.
+
+  - Si el campo `transportType` es `Ground`, este campo debe ser null.
+  - Este campo debe ser diferente al campo `portOfLoadingId`.
+</ParamField>
+
+<ParamField body="etd" type="datetime">
+  Fecha estimada de salida.
+</ParamField>
+
+<ParamField body="eta" type="datetime">
+  Fecha estimada de llegada.
+</ParamField>
+
+<ParamField body="placeReceipt" type="string">
+  Lugar de recibo. Máximo 100 caracteres.
+</ParamField>
+
+<ParamField body="placeDelivery" type="string">
+  Lugar de entrega. Máximo 100 caracteres.
+</ParamField>
+
+<ParamField body="sigaTransitType" type="string">
+  Tipo de tránsito SIGA.
+</ParamField>
+
+<ParamField body="departureFrequency" type="string">
+  Frecuencia de salida (`Daily`, `Weekly` o `Monthly`).
+
+  - Si es `Daily`, `weeklyDepartures` y `monthlyDepartures` deben estar vacíos.
+  - Si es `Weekly`, `weeklyDepartures` es requerido y `monthlyDepartures` debe estar vacío.
+  - Si es `Monthly`, `monthlyDepartures` es requerido y `weeklyDepartures` debe estar vacío.
+</ParamField>
+
+<ParamField body="weeklyDepartures" type="string[]">
+  Días de la semana en que aplica la salida (ej. `Monday`, `Wednesday`).
+</ParamField>
+
+<ParamField body="monthlyDepartures" type="integer[]">
+  Días del mes en que aplica la salida.
+</ParamField>
+
+<ParamField body="transitDays" type="integer">
+  Días de tránsito. Debe ser mayor o igual a 1.
+</ParamField>
+
+<ParamField body="description" type="string">
+  Descripción de la carga. Máximo 250 caracteres.
+</ParamField>
+
+<ParamField body="weightValue" type="decimal">
+  Peso de la carga. Requiere `weightUnit` si se define.
+</ParamField>
+
+<ParamField body="weightUnit" type="string">
+  Unidad de peso. Requerido si `weightValue` no es null.
+</ParamField>
+
+<ParamField body="volumeValue" type="decimal">
+  Volumen de la carga. Requiere `volumeUnit` si se define.
+</ParamField>
+
+<ParamField body="volumeUnit" type="string">
+  Unidad de volumen. Requerido si `volumeValue` no es null.
+</ParamField>
+
+<ParamField body="length" type="integer">
+  Largo de la carga.
+</ParamField>
+
+<ParamField body="width" type="integer">
+  Ancho de la carga.
+</ParamField>
+
+<ParamField body="height" type="integer">
+  Alto de la carga.
+</ParamField>
+
+<ParamField body="dimensionUnit" type="string">
+  Unidad de las dimensiones.
+</ParamField>
+
+<ParamField body="pieces" type="integer">
+  Cantidad de piezas.
+</ParamField>
+
+<ParamField body="packingTypeId" type="integer">
+  Identificador del tipo de empaque.
+</ParamField>
+
+<ParamField body="cargoValue" type="decimal">
+  Valor de la carga. Debe ser mayor o igual a cero.
+</ParamField>
+
+<ParamField body="cargoCurrencyId" type="string">
+  Identificador de la moneda de la carga.
+</ParamField>
+
+<ParamField body="freightCost" type="decimal">
+  Costo del flete. Debe ser mayor o igual a cero.
+</ParamField>
+
+<ParamField body="exWorks" type="decimal">
+  Valor ex works. Debe ser mayor o igual a cero.
+</ParamField>
+
+<ParamField body="insuranceValue" type="decimal">
+  Valor asegurado. Debe ser mayor o igual a cero.
+</ParamField>
+
+<ParamField body="isDangerous" type="boolean">
+  Indica si la carga es mercancía peligrosa.
+</ParamField>
+
+<ParamField body="imoClassId" type="string">
+  Identificador de la clase IMO. Si el campo `isDangerous` no es `true`, este campo debe ser null.
+</ParamField>
+
+<ParamField body="dangerousUNCode" type="string">
+  Código UN de la mercancía peligrosa. Máximo 7 caracteres. Si el campo `isDangerous` no es `true`, este campo debe ser null
+</ParamField>
+
+<ParamField body="dangerousPackingGroup" type="string">
+  Grupo de empaque. Máximo 3 caracteres. Si el campo `isDangerous` no es `true`, este campo debe ser null
+</ParamField>
+
+<ParamField body="dangerousPackingInstructions" type="string">
+  Instrucciones de empaque. Máximo 200 caracteres. Si el campo `isDangerous` no es `true`, este campo debe ser null
+</ParamField>
+
+<ParamField body="warehouseArrival" type="date">
+  Fecha de llegada al almacén.
+</ParamField>
+
+<ParamField body="warehouseReceiver" type="string">
+  Nombre de quien recibió en almacén. Máximo 30 caracteres.
+</ParamField>
+
+<ParamField body="includesShipment" type="boolean">
+  Indica si el servicio incluye embarque.
+</ParamField>
+
+<ParamField body="includesCustoms" type="boolean">
+  Indica si el servicio incluye aduana.
+</ParamField>
+
+<ParamField body="includesInland" type="boolean">
+  Indica si el servicio incluye transporte terrestre.
+</ParamField>
+
+<ParamField body="includesWarehouse" type="boolean">
+  Indica si el servicio incluye almacenaje.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request POST \
+  --url "https://api.primenetcloud.com/v1/houses" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "transportType": "Ocean",
+    "movementType": "FCL",
+    "containerType": "Dry",
+    "customerId": 1024,
+    "status": "InCoordination",
+    "portOfLoadingId": "DOSDQ",
+    "portOfDischargeId": "USMIA",
+    "etd": "2026-07-15T00:00:00Z",
+    "eta": "2026-07-20T00:00:00Z"
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/houses", {
+  method: "POST",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    transportType: "Ocean",
+    movementType: "FCL",
+    containerType: "Dry",
+    customerId: 1024,
+    status: "InCoordination",
+    portOfLoadingId: "DOSDQ",
+    portOfDischargeId: "USMIA",
+    etd: "2026-07-15T00:00:00Z",
+    eta: "2026-07-20T00:00:00Z",
+  }),
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.post(
+    "https://api.primenetcloud.com/v1/houses",
+    json={
+        "transportType": "Ocean",
+        "movementType": "FCL",
+        "containerType": "Dry",
+        "customerId": 1024,
+        "status": "InCoordination",
+        "portOfLoadingId": "DOSDQ",
+        "portOfDischargeId": "USMIA",
+        "etd": "2026-07-15T00:00:00Z",
+        "eta": "2026-07-20T00:00:00Z",
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "id": 5321,
+  "trackingNumber": 5321
+}
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único del house creado.
+</ResponseField>
+
+<ResponseField name="trackingNumber" type="integer">
+  Número de tracking del house.
+</ResponseField>
+
+<RequestExample>
+
+```json
+{
+  "quotationId": 1,
+  "transportType": "Ocean",
+  "movementType": "FCL",
+  "containerType": "Dry",
+  "customerId": 1024,
+  "salesPersonId": 1,
+  "billToId": 1024,
+  "blDate": "2026-07-10",
+  "blNumber": "MAEU123456789",
+  "blPlaceOfIssue": "Santo Domingo",
+  "blType": "Original",
+  "blPier": "Pier 1",
+  "blTerminal": "Terminal A",
+  "blExportReference": "string",
+  "blForwardingAgent": "Shipper",
+  "blForDeliveryApply": "Consignee",
+  "blPrecarriage": "string",
+  "blHandlingInstructions": "string",
+  "blReferenceNumber": "string",
+  "blShippingInfo": ["string"],
+  "blCarriageValue": 0,
+  "blShouldShowLogoOnBL": true,
+  "insuranceValue": 0,
+  "incotermId": "FOB",
+  "containerId": 1,
+  "paymentType": "Prepaid",
+  "bookingNumber": "string",
+  "jobNumber": "string",
+  "warehouseId": 1,
+  "warehouseReceivedById": "string",
+  "originAgentId": 1,
+  "destinationAgentId": 1,
+  "shipperType": "Associate",
+  "shipperId": 1,
+  "shipperAddress": "string",
+  "isShipperCustomer": true,
+  "consigneeType": "Associate",
+  "consigneeId": 1,
+  "consigneeAddress": "string",
+  "isConsigneeCustomer": true,
+  "notifyToType": "Associate",
+  "notifyToId": 1,
+  "notifyToAddress": "string",
+  "isNotifyToConsignee": true,
+  "serviceLevelId": 1,
+  "isCharter": false,
+  "portOfLoadingId": "DOSDQ",
+  "portOfDischargeId": "USMIA",
+  "etd": "2026-07-15T00:00:00Z",
+  "eta": "2026-07-20T00:00:00Z",
+  "placeReceipt": "string",
+  "placeDelivery": "string",
+  "description": "string",
+  "weightValue": 0,
+  "weightUnit": "Kilogram",
+  "volumeValue": 0,
+  "volumeUnit": "CubicMeter",
+  "length": 0,
+  "width": 0,
+  "height": 0,
+  "dimensionUnit": "Centimeter",
+  "pieces": 0,
+  "packingTypeId": 1,
+  "assignedToId": "string",
+  "isDangerous": false,
+  "imoClassId": "string",
+  "dangerousUNCode": "string",
+  "dangerousPackingGroup": "string",
+  "dangerousPackingInstructions": "string",
+  "cargoValue": 0,
+  "freightCost": 0,
+  "warehouseArrival": "2026-07-01",
+  "warehouseReceiver": "string",
+  "includesShipment": true,
+  "includesCustoms": true,
+  "includesInland": true,
+  "includesWarehouse": true,
+  "sigaTransitType": "string",
+  "eventId": 1,
+  "departureFrequency": "Daily",
+  "weeklyDepartures": [],
+  "monthlyDepartures": [],
+  "transitDays": 0,
+  "parentId": null,
+  "cargoCurrencyId": "USD",
+  "exWorks": 0,
+  "status": "InCoordination"
+}
+```
+
+</RequestExample>

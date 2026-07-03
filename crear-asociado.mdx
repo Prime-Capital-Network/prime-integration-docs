@@ -1,0 +1,596 @@
+---
+title: "Crear Asociado"
+sidebarTitle: "Crear"
+description: "Este endpoint permite registrar un nuevo asociado a la empresa."
+---
+
+```http
+POST /associates
+```
+
+<Note>
+  Este endpoint requiere el scope **`Associates.Write`**.
+</Note>
+
+### Body parameters
+
+<ParamField body="name" type="string" required>
+  Nombre completo del asociado.
+</ParamField>
+
+<ParamField body="alias" type="string">
+  Nombre corto o alias utilizado internamente.
+</ParamField>
+
+<ParamField body="typeId" type="integer" required>
+  Identificador del tipo de asociado.
+</ParamField>
+
+<ParamField body="identityDocumentId" type="integer" required>
+  Identificador del tipo de documento de identidad.
+</ParamField>
+
+<ParamField body="identityDocumentNumber" type="string">
+  Número de documento de identidad. Debe coincidir con el largo definido por el `identityDocumentId` seleccionado.
+</ParamField>
+
+<ParamField body="franchiseId" type="integer">
+  Identificador de la franquicia a la que pertenece el asociado.
+</ParamField>
+
+<ParamField body="addressLine" type="string">
+  Dirección física del asociado.
+</ParamField>
+
+<ParamField body="countryId" type="string">
+  Identificador del país del asociado.
+</ParamField>
+
+<ParamField body="cityId" type="string">
+  Identificador de la ciudad del asociado.
+</ParamField>
+
+<ParamField body="sectorId" type="integer">
+  Identificador del sector o barrio del asociado.
+</ParamField>
+
+<ParamField body="latitude" type="number">
+  Latitud geográfica. Valor entre `-90` y `90`.
+</ParamField>
+
+<ParamField body="longitude" type="number">
+  Longitud geográfica. Valor entre `-180` y `180`.
+</ParamField>
+
+<ParamField body="postcode" type="string">
+  Código postal del asociado.
+</ParamField>
+
+<ParamField body="isCustomer" type="boolean">
+  Indica si el asociado opera como cliente.
+</ParamField>
+
+<ParamField body="isVendor" type="boolean">
+  Indica si el asociado opera como suplidor.
+</ParamField>
+
+<ParamField body="isAgent" type="boolean">
+  Indica si el asociado opera como agente.
+</ParamField>
+
+<ParamField body="isCustomAgent" type="boolean">
+  Indica si el asociado opera como agente aduanal.
+</ParamField>
+
+<ParamField body="isWarehouse" type="boolean">
+  Indica si el asociado opera como almacén.
+</ParamField>
+
+<ParamField body="isSealine" type="boolean">
+  Indica si el asociado opera como línea marítima.
+</ParamField>
+
+<ParamField body="isAirline" type="boolean">
+  Indica si el asociado opera como aerolínea.
+</ParamField>
+
+<ParamField body="isTrucking" type="boolean">
+  Indica si el asociado opera como transportista.
+</ParamField>
+
+<ParamField body="isBank" type="boolean">
+  Indica si el asociado opera como entidad bancaria.
+</ParamField>
+
+<ParamField body="isInsurance" type="boolean">
+  Indica si el asociado opera como aseguradora.
+</ParamField>
+
+<ParamField body="isEmployee" type="boolean">
+  Indica si el asociado es un empleado interno.
+</ParamField>
+
+<ParamField body="customerAccountGroupId" type="integer">
+  Identificador del grupo contable del cliente. Requerido si `isCustomer` es `true` . Su tipo de asociado `AssociateType` debe ser del tipo **Customer.**
+</ParamField>
+
+<ParamField body="customerPaymentTermId" type="integer">
+  Identificador del término de pago del cliente.  Requerido si `isCustomer` es `true` .
+</ParamField>
+
+<ParamField body="businessTypeId" type="integer">
+  Identificador del tipo de negocio del cliente.  Requerido si `isCustomer` es `true` .
+</ParamField>
+
+<ParamField body="customerCurrencyId" type="string">
+  Código de la moneda del cliente (ej. `DOP`, `USD`).  Requerido si `isCustomer` es `true` .
+</ParamField>
+
+<ParamField body="customerBillingCreditLimit" type="number">
+  Límite de crédito de facturación del cliente.
+</ParamField>
+
+<ParamField body="customerReimbursementCreditLimit" type="number">
+  Límite de crédito de reembolso del cliente.
+</ParamField>
+
+<ParamField body="vendorAccountGroupId" type="integer">
+  Identificador del grupo contable del suplidor.  Requerido si `isVendor` es `true` . Su tipo de asociado `AssociateType` debe ser del tipo **Vendor.**
+</ParamField>
+
+<ParamField body="vendorPaymentTermId" type="integer">
+  Identificador del término de pago del suplidor.  Requerido si `isVendor` es `true` .
+</ParamField>
+
+<ParamField body="vendorCurrencyId" type="string">
+  Código de la moneda del suplidor (ej. `DOP`, `USD`).  Requerido si `isVendor` es `true` .
+</ParamField>
+
+<ParamField body="vendorGoodServiceId" type="string">
+  Identificador del bien o servicio principal del suplidor.
+</ParamField>
+
+<ParamField body="vendorBusinessTypeId" type="integer">
+  Identificador del tipo de negocio del suplidor.
+</ParamField>
+
+<ParamField body="isVendorNCFRequired" type="boolean">
+  Indica si el suplidor está obligado a emitir NCF. Por defecto, `false`
+</ParamField>
+
+<ParamField body="salesTaxRetentionId" type="integer">
+  Identificador del tipo de retención de ITBIS aplicable.
+</ParamField>
+
+<ParamField body="incomeTaxRetentionId" type="integer">
+  Identificador del tipo de retención de ISR aplicable.
+</ParamField>
+
+<ParamField body="isRetentionRequired" type="boolean">
+  Indica si aplica retención de impuestos al asociado. Por defecto, `false`
+</ParamField>
+
+<ParamField body="customRegimeId" type="integer">
+  Identificador del régimen aduanal del asociado. `null` si no aplica.
+</ParamField>
+
+<ParamField body="salesPersonId" type="integer">
+  Identificador del vendedor asignado al asociado.
+</ParamField>
+
+<ParamField body="accountExecutiveId" type="integer">
+  Identificador del ejecutivo de cuenta asignado.
+</ParamField>
+
+<ParamField body="debtCollectorId" type="integer">
+  Identificador del gestor de cobros asignado.
+</ParamField>
+
+<ParamField body="commercialActivityId" type="integer">
+  Identificador de la actividad comercial del asociado.
+</ParamField>
+
+<ParamField body="departmentId" type="integer">
+  Identificador del departamento asignado. Aplica si `isEmployee` es `true`.
+</ParamField>
+
+<ParamField body="costCenterId" type="integer">
+  Identificador del centro de costo asignado.
+</ParamField>
+
+<ParamField body="projectId" type="integer">
+  Identificador del proyecto asignado.
+</ParamField>
+
+<ParamField body="standardCarrierAlphaCode" type="string">
+  Código SCAC del transportista. Máximo 4 caracteres.
+</ParamField>
+
+<ParamField body="agentCode" type="string">
+  Código interno del agente.
+</ParamField>
+
+<ParamField body="iataCode" type="string">
+  Código IATA de la aerolínea. Máximo 4 caracteres.
+</ParamField>
+
+<ParamField body="shouldHoldShipment" type="boolean">
+  Indica si los embarques del asociado deben ser retenidos. Por defecto, `false`
+</ParamField>
+
+<ParamField body="shouldHoldCustom" type="boolean">
+  Indica si las gestiones aduanales del asociado deben ser retenidas. Por defecto, `false`
+</ParamField>
+
+<ParamField body="shouldNotifyArrivalStatement" type="boolean">
+  Indica si el asociado debe recibir notificaciones de aviso de llegada. Por defecto, `false`
+</ParamField>
+
+<ParamField body="attention" type="string">
+  Nombre de la persona de contacto principal.
+</ParamField>
+
+<ParamField body="phone" type="string">
+  Número de teléfono del asociado.
+</ParamField>
+
+<ParamField body="mail" type="string">
+  Correo electrónico del asociado.
+</ParamField>
+
+<ParamField body="website" type="string">
+  Sitio web del asociado.
+</ParamField>
+
+<ParamField body="referenceCode" type="string">
+  Código de referencia externo del asociado.
+</ParamField>
+
+<ParamField body="consignorType" type="string">
+  Tipo de consignante. Valores permitidos: `Personal`, `Business`.
+</ParamField>
+
+<ParamField body="isProfit" type="boolean">
+  Indica si el asociado es una entidad con fines de lucro. Por defecto, `false`
+</ParamField>
+
+<ParamField body="quotePrintFormat" type="string">
+  Idioma del formato de impresión de cotizaciones. Valores permitidos: `Spanish`, `English`.
+</ParamField>
+
+<ParamField body="invoicePrintFormat" type="string">
+  Idioma del formato de impresión de facturas. Valores permitidos: `Spanish`, `English`.
+</ParamField>
+
+<ParamField body="reimbursementPrintFormat" type="string">
+  Idioma del formato de impresión de reembolsos. Valores permitidos: `Spanish`, `English`, `ReimbursementInvoice` y `InternationalFreightDocument`.
+</ParamField>
+
+<ParamField body="hasPassedDueDiligence" type="boolean">
+  Indica si el asociado completó el proceso de debida diligencia. Por defecto, `false`
+</ParamField>
+
+<ParamField body="statusId" type="integer" required>
+  Identificador del estado inicial del asociado.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request POST \
+  --url "https://api.primenetcloud.com/v1/associates" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "name": "Importaciones del Caribe, SRL",
+    "alias": "ImportCaribe",
+    "typeId": 1,
+    "identityDocumentId": 1,
+    "identityDocumentNumber": "131058319",
+    "franchiseId": 4,
+    "addressLine": "Av. Winston Churchill 500",
+    "countryId": "DO",
+    "cityId": "DOSDQ",
+    "sectorId": 1,
+    "latitude": 18.4861,
+    "longitude": -69.9312,
+    "postcode": "10148",
+    "isCustomer": true,
+    "isVendor": true,
+    "isAgent": true,
+    "isCustomAgent": true,
+    "isWarehouse": true,
+    "isSealine": true,
+    "isAirline": true,
+    "isTrucking": true,
+    "isBank": true,
+    "isInsurance": true,
+    "isEmployee": true,
+    "salesPersonId": 1,
+    "commercialActivityId": 1,
+    "attention": "Atención a",
+    "customerAccountGroupId": 1,
+    "customerPaymentTermId": 1,
+    "businessTypeId": 1,
+    "customerCurrencyId": "DOP",
+    "customerBillingCreditLimit": 1000,
+    "customerReimbursementCreditLimit": 1000,
+    "vendorAccountGroupId": 2,
+    "vendorPaymentTermId": 1,
+    "vendorCurrencyId": "DOP",
+    "vendorGoodServiceId": "SRV-001",
+    "vendorBusinessTypeId": 1,
+    "isVendorNCFRequired": true,
+    "salesTaxRetentionId": 1,
+    "incomeTaxRetentionId": 1,
+    "isRetentionRequired": true,
+    "customRegimeId": 1,
+    "accountExecutiveId": 1,
+    "debtCollectorId": 1,
+    "referenceCode": "Reference",
+    "standardCarrierAlphaCode": "CODE",
+    "agentCode": "CODE",
+    "shouldHoldShipment": true,
+    "shouldHoldCustom": true,
+    "shouldNotifyArrivalStatement": true,
+    "website": "https://www.importcaribe.com",
+    "iataCode": "CODE",
+    "phone": "809-123-1234",
+    "mail": "soporte@importcaribe.do",
+    "consignorType": "Personal",
+    "isProfit": true,
+    "quotePrintFormat": "Spanish",
+    "invoicePrintFormat": "Spanish",
+    "reimbursementPrintFormat": "Spanish",
+    "departmentId": 1,
+    "costCenterId": 2,
+    "projectId": 3,
+    "hasPassedDueDiligence": true,
+    "statusId": 1
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/associates", {
+  method: "POST",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "e3d5e6af-3ec2-49c1-92bd-9632171e9a66",
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    name: "Importaciones del Caribe, SRL",
+    alias: "ImportCaribe",
+    typeId: 1,
+    identityDocumentId: 1,
+    identityDocumentNumber: "131058319",
+    franchiseId: 4,
+    addressLine: "Av. Winston Churchill 500",
+    countryId: "DO",
+    cityId: "DOSDQ",
+    sectorId: 1,
+    latitude: 18.4861,
+    longitude: -69.9312,
+    postcode: "10148",
+    isCustomer: true,
+    isVendor: true,
+    isAgent: true,
+    isCustomAgent: true,
+    isWarehouse: true,
+    isSealine: true,
+    isAirline: true,
+    isTrucking: true,
+    isBank: true,
+    isInsurance: true,
+    isEmployee: true,
+    salesPersonId: 1,
+    commercialActivityId: 1,
+    attention: "Atención a",
+    customerAccountGroupId: 1,
+    customerPaymentTermId: 1,
+    businessTypeId: 1,
+    customerCurrencyId: "DOP",
+    customerBillingCreditLimit: 1000,
+    customerReimbursementCreditLimit: 1000,
+    vendorAccountGroupId: 2,
+    vendorPaymentTermId: 1,
+    vendorCurrencyId: "DOP",
+    vendorGoodServiceId: "SRV-001",
+    vendorBusinessTypeId: 1,
+    isVendorNCFRequired: true,
+    salesTaxRetentionId: 1,
+    incomeTaxRetentionId: 1,
+    isRetentionRequired: true,
+    customRegimeId: 1,
+    accountExecutiveId: 1,
+    debtCollectorId: 1,
+    referenceCode: "Reference",
+    standardCarrierAlphaCode: "CODE",
+    agentCode: "CODE",
+    shouldHoldShipment: true,
+    shouldHoldCustom: true,
+    shouldNotifyArrivalStatement: true,
+    website: "https://www.importcaribe.com",
+    iataCode: "CODE",
+    phone: "809-123-1234",
+    mail: "soporte@importcaribe.do",
+    consignorType: "Personal",
+    isProfit: true,
+    quotePrintFormat: "Spanish",
+    invoicePrintFormat: "Spanish",
+    reimbursementPrintFormat: "Spanish",
+    departmentId: 1,
+    costCenterId: 2,
+    projectId: 3,
+    hasPassedDueDiligence: true,
+    statusId: 1,
+  }),
+});
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.post(
+    "https://api.primenetcloud.com/v1/associates",
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "e3d5e6af-3ec2-49c1-92bd-9632171e9a66"
+    },
+    json={
+        "name": "Importaciones del Caribe, SRL",
+        "alias": "ImportCaribe",
+        "typeId": 1,
+        "identityDocumentId": 1,
+        "identityDocumentNumber": "131058319",
+        "franchiseId": 4,
+        "addressLine": "Av. Winston Churchill 500",
+        "countryId": "DO",
+        "cityId": "DOSDQ",
+        "sectorId": 1,
+        "latitude": 18.4861,
+        "longitude": -69.9312,
+        "postcode": "10148",
+        "isCustomer": True,
+        "isVendor": True,
+        "isAgent": True,
+        "isCustomAgent": True,
+        "isWarehouse": True,
+        "isSealine": True,
+        "isAirline": True,
+        "isTrucking": True,
+        "isBank": True,
+        "isInsurance": True,
+        "isEmployee": True,
+        "salesPersonId": 1,
+        "commercialActivityId": 1,
+        "attention": "Atención a",
+        "customerAccountGroupId": 1,
+        "customerPaymentTermId": 1,
+        "businessTypeId": 1,
+        "customerCurrencyId": "DOP",
+        "customerBillingCreditLimit": 1000,
+        "customerReimbursementCreditLimit": 1000,
+        "vendorAccountGroupId": 2,
+        "vendorPaymentTermId": 1,
+        "vendorCurrencyId": "DOP",
+        "vendorGoodServiceId": "SRV-001",
+        "vendorBusinessTypeId": 1,
+        "isVendorNCFRequired": True,
+        "salesTaxRetentionId": 1,
+        "incomeTaxRetentionId": 1,
+        "isRetentionRequired": True,
+        "customRegimeId": 1,
+        "accountExecutiveId": 1,
+        "debtCollectorId": 1,
+        "referenceCode": "Reference",
+        "standardCarrierAlphaCode": "CODE",
+        "agentCode": "CODE",
+        "shouldHoldShipment": True,
+        "shouldHoldCustom": True,
+        "shouldNotifyArrivalStatement": True,
+        "website": "https://www.importcaribe.com",
+        "iataCode": "CODE",
+        "phone": "809-123-1234",
+        "mail": "soporte@importcaribe.do",
+        "consignorType": "Personal",
+        "isProfit": True,
+        "quotePrintFormat": "Spanish",
+        "invoicePrintFormat": "Spanish",
+        "reimbursementPrintFormat": "Spanish",
+        "departmentId": 1,
+        "costCenterId": 2,
+        "projectId": 3,
+        "hasPassedDueDiligence": True,
+        "statusId": 1
+    }
+)
+print(response.json())
+```
+
+</CodeGroup>
+
+### Response
+
+<ResponseField name="id" type="integer">
+  Identificador único del asociado recién creado.
+</ResponseField>
+
+<RequestExample>
+
+```json
+{
+  "name": "Importaciones del Caribe, SRL",
+  "alias": "ImportCaribe",
+  "typeId": 1,
+  "identityDocumentId": 1,
+  "identityDocumentNumber": "131058319",
+  "franchiseId": 4,
+  "addressLine": "string",
+  "countryId": "DO",
+  "cityId": "DOSDQ",
+  "sectorId": 1,
+  "latitude": 90,
+  "longitude": 180,
+  "postcode": "string",
+  "isCustomer": true,
+  "isVendor": true,
+  "isAgent": true,
+  "isCustomAgent": true,
+  "isWarehouse": true,
+  "isSealine": true,
+  "isAirline": true,
+  "isTrucking": true,
+  "isBank": true,
+  "isInsurance": true,
+  "isEmployee": true,
+  "salesPersonId": 1,
+  "commercialActivityId": 1,
+  "attention": "Atención a",
+  "customerAccountGroupId": 1,
+  "customerPaymentTermId": 1,
+  "businessTypeId": 1,
+  "customerCurrencyId": "DOP",
+  "customerBillingCreditLimit": 1000,
+  "customerReimbursementCreditLimit": 1000,
+  "vendorAccountGroupId": 2,
+  "vendorPaymentTermId": 1,
+  "vendorCurrencyId": "DOP",
+  "vendorGoodServiceId": "string",
+  "vendorBusinessTypeId": 1,
+  "isVendorNCFRequired": true,
+  "salesTaxRetentionId": 1,
+  "incomeTaxRetentionId": 1,
+  "isRetentionRequired": true,
+  "customRegimeId": 1,
+  "accountExecutiveId": 1,
+  "debtCollectorId": 1,
+  "referenceCode": "Reference",
+  "standardCarrierAlphaCode": "CODE",
+  "agentCode": "CODE",
+  "shouldHoldShipment": true,
+  "shouldHoldCustom": true,
+  "shouldNotifyArrivalStatement": true,
+  "website": "www.importcaribe.com",
+  "iataCode": "CODE",
+  "phone": "809-123-1234",
+  "mail": "soporte@importcaribe.do",
+  "consignorType": "Personal",
+  "isProfit": true,
+  "quotePrintFormat": "Spanish",
+  "invoicePrintFormat": "Spanish",
+  "reimbursementPrintFormat": "Spanish",
+  "departmentId": 1,
+  "costCenterId": 2,
+  "projectId": 3,
+  "hasPassedDueDiligence": true,
+  "statusId": 1
+}
+```
+
+</RequestExample>
