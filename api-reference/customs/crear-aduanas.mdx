@@ -1,0 +1,198 @@
+---
+title: "Crear"
+---
+
+Crea un nuevo despacho aduanal en tu empresa.
+
+```http
+POST /customs
+```
+
+<Note>
+  Este endpoint requiere el scope **`Customs.Write`**.
+</Note>
+
+### Body parameters
+
+<ParamField body="houseId" type="integer" required>
+  Identificador del house asociado al despacho.
+</ParamField>
+
+<ParamField body="trackingNumber" type="integer">
+  Número de tracking del despacho.
+</ParamField>
+
+<ParamField body="salesPersonId" type="integer">
+  Identificador del vendedor asignado.
+</ParamField>
+
+<ParamField body="regimeId" type="integer">
+  Identificador del régimen aduanero.
+</ParamField>
+
+<ParamField body="customStatusId" type="integer">
+  Identificador del estatus aduanal.
+
+  - Debe ser un estatus aduanal que pertenezca al régimen aduanero `regimeId`.
+</ParamField>
+
+<ParamField body="dispatcherId" type="integer">
+  Identificador del despachante asignado.
+</ParamField>
+
+<ParamField body="assignedToId" type="string">
+  Identificador del usuario asignado al despacho.
+</ParamField>
+
+<ParamField body="billToId" type="integer">
+  Identificador del asociado a quien se factura el despacho.
+
+  - Debe ser un asociado con el campo `IsCustomer` como true, y su `status.id` debe ser `2` (Activo).
+</ParamField>
+
+<ParamField body="declarationDate" type="date">
+  Fecha de declaración del despacho.
+</ParamField>
+
+<ParamField body="isCargoHeld" type="boolean">
+  Indica si la carga del despacho está retenida.
+</ParamField>
+
+<ParamField body="status" type="string" required>
+  Estatus del despacho. Valores aceptados:
+
+  - `Cancelled`
+  - `Quoted`
+  - `Unassigned`
+  - `InCoordination`
+  - `AtCustoms`
+  - `AvailableForDelivery`
+  - `Completed`
+</ParamField>
+
+<ParamField body="blReceipt" type="string">
+  Estatus de recepción del documento BL. Valores aceptados:
+
+  - `NotReceived`
+  - `Copy`
+  - `Original`
+</ParamField>
+
+<ParamField body="blReceiptReceived" type="datetime">
+  Fecha y hora en que se recibió el documento BL.
+
+  - Si el campo `blReceipt` es `Copy` o `Original`, este campo es requerido.
+</ParamField>
+
+<ParamField body="invoiceReceipt" type="string">
+  Estatus de recepción de la factura.
+</ParamField>
+
+<ParamField body="invoiceReceiptReceived" type="datetime">
+  Fecha y hora en que se recibió la factura.
+
+  - Si el campo `invoiceReceipt` es `Copy` o `Original`, este campo es requerido.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request POST \
+  --url "https://api.primenetcloud.com/v1/customs" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "houseId": 5321,
+    "status": "InCoordination",
+    "regimeId": 1,
+    "declarationDate": "2026-07-10"
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/customs", {
+  method: "POST",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    houseId: 5321,
+    status: "InCoordination",
+    regimeId: 1,
+    declarationDate: "2026-07-10",
+  }),
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.post(
+    "https://api.primenetcloud.com/v1/customs",
+    json={
+        "houseId": 5321,
+        "status": "InCoordination",
+        "regimeId": 1,
+        "declarationDate": "2026-07-10",
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "id": 8214,
+  "trackingNumber": 8214
+}
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único del despacho creado.
+</ResponseField>
+
+<ResponseField name="trackingNumber" type="integer">
+  Número de tracking del despacho.
+</ResponseField>
+
+<RequestExample>
+
+```json
+{
+  "houseId": 5321,
+  "trackingNumber": 8214,
+  "salesPersonId": 1,
+  "regimeId": 1,
+  "customStatusId": 1,
+  "dispatcherId": 1,
+  "assignedToId": "string",
+  "billToId": 1024,
+  "declarationDate": "2026-07-10",
+  "isCargoHeld": false,
+  "status": "InCoordination",
+  "blReceipt": "Pending",
+  "blReceiptReceived": "2026-07-10T00:00:00Z",
+  "invoiceReceipt": "Pending",
+  "invoiceReceiptReceived": "2026-07-10T00:00:00Z"
+}
+```
+
+</RequestExample>

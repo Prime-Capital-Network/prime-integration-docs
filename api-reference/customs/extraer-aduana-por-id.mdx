@@ -1,0 +1,355 @@
+---
+title: "Extraer Aduana Por ID"
+sidebarTitle: "Extraer por ID"
+description: "Permite extraer un registro de aduana en específico mediante REST API"
+---
+
+Obtén un registro de aduana por ID en tu empresa.
+
+```http
+GET /customs/{id}
+```
+
+<Note>
+  Este endpoint requiere el scope **`Customs.Read`**.
+</Note>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único del registro de aduana.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/customs/1234" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/customs/1234",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "e3d5e6af-3ec2-49c1-92bd-9632171e9a66"
+    },
+  }
+);
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/customs/1234",
+    headers={
+      "X-Api-Key": "pnk_abc123.s3cr3tValue",
+      "X-Tenant-Id": "e3d5e6af-3ec2-49c1-92bd-9632171e9a66"
+    }
+)
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "id": 1234,
+  "transactionNumber": 100543,
+  "trackingNumber": 50021,
+  "house": {
+    "id": 5321,
+    "includesShipment": true
+  },
+  "salesPerson": {
+    "id": 15,
+    "name": "string"
+  },
+  "regime": {
+    "id": 1,
+    "name": "string"
+  },
+  "customStatus": {
+    "id": 2,
+    "name": "string"
+  },
+  "dispatcher": {
+    "id": 8,
+    "name": "string"
+  },
+  "assignedTo": {
+    "id": "a1b2c3d4-e5f6-7890",
+    "fullName": "string"
+  },
+  "assignedDate": "2026-07-03T11:28:55.000Z",
+  "billTo": {
+    "id": 42,
+    "name": "string"
+  },
+  "declarationDate": "2026-07-03",
+  "isCargoHeld": false,
+  "blReceipt": {
+    "receivedDate": "2026-07-01T14:30:00Z",
+    "status": {
+      "id": 1,
+      "name": "string"
+    }
+  },
+  "invoiceReceipt": {
+    "receivedDate": "2026-07-02T09:15:00Z",
+    "status": {
+      "id": 1,
+      "name": "string"
+    }
+  },
+  "insertedBy": "string",
+  "insertedDate": "2026-07-01T08:00:00.000Z",
+  "updatedBy": "string",
+  "updatedDate": "2026-07-03T11:00:00.000Z",
+  "cancelledBy": {
+    "id": "string",
+    "fullName": "string"
+  },
+  "cancelledDate": "2026-07-03T11:28:55.000Z",
+  "cancelledReason": "string",
+  "status": {
+    "id": 0,
+    "name": "string"
+  }
+}
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único de la aduana.
+</ResponseField>
+
+<ResponseField name="transactionNumber" type="integer">
+  Número de transacción de la aduana.
+</ResponseField>
+
+<ResponseField name="trackingNumber" type="integer">
+  Número de tracking de la aduana.
+</ResponseField>
+
+<ResponseField name="house" type="object">
+  House asociado a la aduana.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador único del house.
+    </ResponseField>
+
+    <ResponseField name="includesShipment" type="boolean">
+      Indica si incluye embarque.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="salesPerson" type="object">
+  Vendedor asignado a la aduana.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del vendedor.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del vendedor.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="regime" type="object">
+  Régimen aduanero.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del régimen aduanero.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del régimen aduanero.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="customStatus" type="object">
+  Estatus de la aduana.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del estatus de la aduana.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del estatus de la aduana.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="dispatcher" type="object">
+  Despachador asignado.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del despachador.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del despachador.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="assignedTo" type="object">
+  Usuario asignado al proceso de aduana.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador único del usuario asignado.
+    </ResponseField>
+
+    <ResponseField name="fullName" type="string">
+      Nombre completo del usuario asignado.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="assignedDate" type="string">
+  Fecha de asignación, en formato ISO 8601.
+</ResponseField>
+
+<ResponseField name="billTo" type="object">
+  Asociado a quien se factura la aduana.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del asociado.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del asociado.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="declarationDate" type="string">
+  Fecha de declaración, en formato `YYYY-MM-DD`.
+</ResponseField>
+
+<ResponseField name="isCargoHeld" type="boolean">
+  Indica si la carga está retenida.
+</ResponseField>
+
+<ResponseField name="blReceipt" type="object">
+  Recibo del Bill of Lading (BL).
+
+  <Expandable title="propiedades">
+    <ResponseField name="receivedDate" type="string">
+      Fecha de recepción del documento, en formato ISO 8601.
+    </ResponseField>
+
+    <ResponseField name="status" type="object">
+      Estatus del documento.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador del estatus.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido del estatus.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="invoiceReceipt" type="object">
+  Recibo de la factura comercial.
+
+  <Expandable title="propiedades">
+    <ResponseField name="receivedDate" type="string">
+      Fecha de recepción de la factura, en formato ISO 8601.
+    </ResponseField>
+
+    <ResponseField name="status" type="object">
+      Estatus de la factura.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador del estatus.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido del estatus.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="insertedBy" type="string">
+  Usuario que creó el registro.
+</ResponseField>
+
+<ResponseField name="insertedDate" type="string">
+  Fecha y hora de creación del registro, en formato ISO 8601.
+</ResponseField>
+
+<ResponseField name="updatedBy" type="string">
+  Usuario que realizó la última actualización del registro.
+</ResponseField>
+
+<ResponseField name="updatedDate" type="string">
+  Fecha y hora de la última actualización, en formato ISO 8601.
+</ResponseField>
+
+<ResponseField name="cancelledBy" type="object">
+  Usuario que canceló la aduana.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador único del usuario.
+    </ResponseField>
+
+    <ResponseField name="fullName" type="string">
+      Nombre completo del usuario.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="cancelledDate" type="string">
+  Fecha y hora de cancelación, en formato ISO 8601.
+</ResponseField>
+
+<ResponseField name="cancelledReason" type="string">
+  Razón de la cancelación.
+</ResponseField>
+
+<ResponseField name="status" type="object">
+  Estatus general del proceso de aduana.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del estatus general.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido del estatus general.
+    </ResponseField>
+  </Expandable>
+</ResponseField>

@@ -59,6 +59,16 @@
               "api-reference/houses/actualizar-houses",
               "api-reference/houses/actualizar-parcial-house"
             ]
+          },
+          {
+            "group": "Aduanas",
+            "pages": [
+              "api-reference/customs/listar-aduanas",
+              "api-reference/customs/extraer-aduana-por-id",
+              "api-reference/customs/crear-aduanas",
+              "api-reference/customs/actualizar-aduanas",
+              "api-reference/customs/actualizar-parcial-aduanas"
+            ]
           }
         ]
       }

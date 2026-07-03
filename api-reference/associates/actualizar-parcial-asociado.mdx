@@ -20,7 +20,7 @@ PATCH /associates/{id}
 
 ### Body parameters
 
-<ParamField body="name" type="string" required>
+<ParamField body="name" type="string">
   Nombre completo del asociado.
 </ParamField>
 
@@ -28,11 +28,11 @@ PATCH /associates/{id}
   Nombre corto o alias utilizado internamente.
 </ParamField>
 
-<ParamField body="typeId" type="integer" required>
+<ParamField body="typeId" type="integer">
   Identificador del tipo de asociado.
 </ParamField>
 
-<ParamField body="identityDocumentId" type="integer" required>
+<ParamField body="identityDocumentId" type="integer">
   Identificador del tipo de documento de identidad.
 </ParamField>
 
@@ -276,7 +276,7 @@ PATCH /associates/{id}
   Indica si el asociado completó el proceso de debida diligencia. Por defecto, `false`
 </ParamField>
 
-<ParamField body="statusId" type="integer" required>
+<ParamField body="statusId" type="integer">
   Identificador del estado inicial del asociado.
 </ParamField>
 

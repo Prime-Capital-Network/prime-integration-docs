@@ -24,7 +24,7 @@ PATCH /houses/{id}
   Identificador de la cotización de origen. No debe tener el estatus `Deleted`.
 </ParamField>
 
-<ParamField body="transportType" type="string" required>
+<ParamField body="transportType" type="string">
   Tipo de transporte del house. Valores aceptados:
 
   - `Air`
@@ -33,7 +33,7 @@ PATCH /houses/{id}
   - `Rail`
 </ParamField>
 
-<ParamField body="movementType" type="string" required>
+<ParamField body="movementType" type="string">
   Tipo de movimiento del house. Valores aceptados:
 
   - `Import`
@@ -43,7 +43,7 @@ PATCH /houses/{id}
   - `Transit`
 </ParamField>
 
-<ParamField body="containerType" type="string" required>
+<ParamField body="containerType" type="string">
   Tipo de contenedor del house.
 
   - Si `transportType` es `Air`, `containerType` también debe ser `Air`.
@@ -57,7 +57,7 @@ PATCH /houses/{id}
   - `Air`
 </ParamField>
 
-<ParamField body="customerId" type="integer" required>
+<ParamField body="customerId" type="integer">
   Identificador del cliente asociado al house.
 
   - Debe ser un asociado con el campo `IsCustomer` como true, y su `status.id` debe ser `2` (Activo).
@@ -458,7 +458,7 @@ const response = await fetch("https://api.primenetcloud.com/v1/houses/5321", {
     "Content-Type": "application/json",
   },
   body: JSON.stringify({
-    transportType: "Air",
+    transportType: "Sea",
     movementType: "Import",
     containerType: "FCL",
     customerId: 1024,
@@ -581,7 +581,7 @@ Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
   "pieces": 0,
   "packingTypeId": 1,
   "assignedToId": "string",
-  "isDangerous": false,
+  "isDangerous": true,
   "imoClassId": "string",
   "dangerousUNCode": "string",
   "dangerousPackingGroup": "string",

@@ -1,0 +1,406 @@
+---
+title: "Listar"
+---
+
+Obtén una lista paginada de despachos aduanales en tu empresa.
+
+```http
+GET /customs
+```
+
+<Note>
+  Este endpoint requiere el scope **`Customs.Read`**.
+</Note>
+
+### Query parameters
+
+<ParamField query="sort_by" type="string">
+  Campo por el cual ordenar los resultados. Valores aceptados:
+
+  - `TransactionNumber`
+  - `House.Id`
+  - `House.ETD`
+  - `House.ETA`
+  - `SalesPerson.Name`
+  - `Regime.Name`
+  - `CustomStatus.Id`
+  - `CustomStatus.Name`
+  - `Dispatcher.Name`
+  - `AssignedTo.FullName`
+  - `DeclarationDate`
+  - `IsCargoHeld`
+  - `Status`
+  - `InsertedDate`
+</ParamField>
+
+<ParamField query="skip" default="20" type="integer">
+  Número de registros a omitir desde el inicio de los resultados. Utilízado junto con `take` para paginar los resultados.
+</ParamField>
+
+<ParamField query="take" type="integer">
+  Número de registros a retornar. Por defecto `20`, máximo `100`.
+</ParamField>
+
+<ParamField query="TransactionNumber" type="RangeSearchFilter<integer>">
+  Filtra por número de transacción del despacho.
+</ParamField>
+
+<ParamField query="TrackingNumber" type="RangeSearchFilter<integer>">
+  Filtra por número de tracking del despacho.
+</ParamField>
+
+<ParamField query="House.ETD" type="RangeSearchFilter<datetime>">
+  Filtra por la fecha estimada de salida del house asociado.
+</ParamField>
+
+<ParamField query="House.ETA" type="RangeSearchFilter<datetime>">
+  Filtra por la fecha estimada de llegada del house asociado.
+</ParamField>
+
+<ParamField query="House.BL" type="StringSearchFilter">
+  Filtra por el número de BL del house asociado.
+</ParamField>
+
+<ParamField query="SalesPerson.Name" type="StringSearchFilter">
+  Filtra por el nombre del vendedor asignado.
+</ParamField>
+
+<ParamField query="Regime.Name" type="StringSearchFilter">
+  Filtra por el nombre del régimen aduanero.
+</ParamField>
+
+<ParamField query="CustomStatus.Name" type="StringSearchFilter">
+  Filtra por el nombre del estatus aduanal.
+</ParamField>
+
+<ParamField query="Dispatcher.Name" type="StringSearchFilter">
+  Filtra por el nombre del despachante.
+</ParamField>
+
+<ParamField query="BillTo.Name" type="StringSearchFilter">
+  Filtra por el nombre del asociado a quien se factura.
+</ParamField>
+
+<ParamField query="AssignedTo.FullName" type="StringSearchFilter">
+  Filtra por el nombre completo del usuario asignado.
+</ParamField>
+
+<ParamField query="PortOfLoading.Name" type="StringSearchFilter">
+  Filtra por el nombre del puerto de carga del house asociado.
+</ParamField>
+
+<ParamField query="PortOfDischarge.Name" type="StringSearchFilter">
+  Filtra por el nombre del puerto de descarga del house asociado.
+</ParamField>
+
+<ParamField query="DeclarationDate" type="RangeSearchFilter<date>">
+  Filtra por la fecha de declaración.
+</ParamField>
+
+<ParamField query="IsCargoHeld" type="BooleanSearchFilter">
+  Filtra despachos cuya carga está retenida.
+</ParamField>
+
+<ParamField query="TransportType.Id" type="EnumSearchFilter">
+  Filtra por el tipo de transporte del house asociado. Valores aceptados:
+
+  - `Air`
+  - `Sea`
+  - `Ground`
+  - `Rail`
+</ParamField>
+
+<ParamField query="DeclarationStatus.Id" type="EnumSearchFilter">
+  Filtra por el estatus de la declaración. Valores aceptados:
+
+  - `Expired`
+  - `ToExpire`
+  - `InProgress`
+</ParamField>
+
+<ParamField query="Status" type="EnumSearchFilter">
+  Filtra por el estatus del proceso aduanal. Valores aceptados:
+
+  - `Cancelled`
+  - `Quoted`
+  - `Unassigned`
+  - `InCoordination`
+  - `AtCustoms`
+  - `AvailableForDelivery`
+  - `Completed`
+  - `Declined`
+</ParamField>
+
+<ParamField query="InsertedDate" type="RangeSearchFilter<datetime>">
+  Filtra por la fecha de creación del despacho.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/customs?IsCargoHeld=true&skip=20&take=20" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/customs?IsCargoHeld=true&skip=20&take=20",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID"
+    },
+  }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/customs",
+    params={
+        "IsCargoHeld": "true",
+        "skip": 20,
+        "take": 20,
+    },
+   headers={
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID"
+    }
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "totalCount": 0,
+  "data": [
+    {
+      "id": 0,
+      "transactionNumber": 0,
+      "trackingNumber": 0,
+      "house": {
+        "id": 0,
+        "etd": "2026-07-15T00:00:00Z",
+        "eta": "2026-07-20T00:00:00Z",
+        "bl": "string"
+      },
+      "salesPerson": {
+        "name": "string"
+      },
+      "regime": {
+        "name": "string"
+      },
+      "customStatus": {
+        "name": "string"
+      },
+      "dispatcher": {
+        "name": "string"
+      },
+      "assignedTo": {
+        "fullName": "string"
+      },
+      "billTo": {
+        "name": "string"
+      },
+      "declarationDate": "2026-07-01",
+      "isCargoHeld": true,
+      "portOfLoading": {
+        "name": "string"
+      },
+      "portOfDischarge": {
+        "name": "string"
+      },
+      "transportType": {
+        "id": 0,
+        "name": "string"
+      },
+      "declarationStatus": {
+        "id": 0,
+        "name": "string"
+      },
+      "insertedDate": "2026-07-01T22:58:21.588Z"
+    }
+  ]
+}
+```
+
+### Response fields
+
+<ResponseField name="totalCount" type="integer">
+  Total de registros.
+</ResponseField>
+
+<ResponseField name="data" type="array">
+  Lista de objetos Custom.
+
+  <Expandable title="Custom">
+    <ResponseField name="id" type="integer">
+      Identificador único del despacho.
+    </ResponseField>
+
+    <ResponseField name="transactionNumber" type="integer">
+      Número de transacción del despacho.
+    </ResponseField>
+
+    <ResponseField name="trackingNumber" type="integer">
+      Número de tracking del despacho.
+    </ResponseField>
+
+    <ResponseField name="house" type="object">
+      House asociado al despacho.
+
+      <Expandable title="house">
+        <ResponseField name="id" type="integer">
+          Identificador único del house.
+        </ResponseField>
+
+        <ResponseField name="etd" type="datetime">
+          Fecha estimada de salida del house.
+        </ResponseField>
+
+        <ResponseField name="eta" type="datetime">
+          Fecha estimada de llegada del house.
+        </ResponseField>
+
+        <ResponseField name="bl" type="string">
+          Número de BL del house.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="salesPerson" type="object">
+      Vendedor asignado al despacho.
+
+      <Expandable title="salesPerson">
+        <ResponseField name="name" type="string">
+          Nombre del vendedor. `null` si no aplica.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="regime" type="object">
+      Régimen aduanero del despacho.
+
+      <Expandable title="regime">
+        <ResponseField name="name" type="string">
+          Nombre del régimen aduanero.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="customStatus" type="object">
+      Estatus aduanal del despacho.
+
+      <Expandable title="customStatus">
+        <ResponseField name="name" type="string">
+          Nombre del estatus aduanal.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="dispatcher" type="object">
+      Despachante asignado al despacho.
+
+      <Expandable title="dispatcher">
+        <ResponseField name="name" type="string">
+          Nombre del despachante. `null` si no aplica.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="assignedTo" type="object">
+      Usuario asignado al despacho.
+
+      <Expandable title="assignedTo">
+        <ResponseField name="fullName" type="string">
+          Nombre completo del usuario asignado. `null` si no aplica.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="billTo" type="object">
+      Asociado a quien se factura el despacho.
+
+      <Expandable title="billTo">
+        <ResponseField name="name" type="string">
+          Nombre del asociado. `null` si no aplica.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="declarationDate" type="date">
+      Fecha de declaración del despacho.
+    </ResponseField>
+
+    <ResponseField name="isCargoHeld" type="boolean">
+      Indica si la carga del despacho está retenida.
+    </ResponseField>
+
+    <ResponseField name="portOfLoading" type="object">
+      Puerto de carga del house asociado.
+
+      <Expandable title="portOfLoading">
+        <ResponseField name="name" type="string">
+          Nombre del puerto de carga.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="portOfDischarge" type="object">
+      Puerto de descarga del house asociado.
+
+      <Expandable title="portOfDischarge">
+        <ResponseField name="name" type="string">
+          Nombre del puerto de descarga.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="transportType" type="object">
+      Tipo de transporte del house asociado.
+
+      <Expandable title="transportType">
+        <ResponseField name="id" type="integer">
+          Identificador del tipo de transporte.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido del tipo de transporte.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="declarationStatus" type="object">
+      Estatus de la declaración.
+
+      <Expandable title="declarationStatus">
+        <ResponseField name="id" type="integer">
+          Identificador del estatus de la declaración.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido del estatus de la declaración.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="insertedDate" type="datetime">
+      Fecha de creación del despacho.
+    </ResponseField>
+  </Expandable>
+</ResponseField>

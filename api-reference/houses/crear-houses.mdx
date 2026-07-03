@@ -469,7 +469,7 @@ const response = await fetch("https://api.primenetcloud.com/v1/houses", {
     "Content-Type": "application/json",
   },
   body: JSON.stringify({
-    transportType: "Air",
+    transportType: "Sea",
     movementType: "Import",
     containerType: "FCL",
     customerId: 1024,
@@ -599,7 +599,7 @@ print(response.json())
   "pieces": 0,
   "packingTypeId": 1,
   "assignedToId": "string",
-  "isDangerous": false,
+  "isDangerous": true,
   "imoClassId": "string",
   "dangerousUNCode": "string",
   "dangerousPackingGroup": "string",

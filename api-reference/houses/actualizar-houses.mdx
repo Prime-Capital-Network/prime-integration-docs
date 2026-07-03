@@ -13,7 +13,7 @@ PUT /houses/{id}
 </Note>
 
 <Warning>
-  Este es un reemplazo completo del recurso (PUT). Todos los campos enviados en el body sobrescribirán el estado actual del house. Para cambios parciales, verificar la sección [Actualizar Parcial House](/actualizar-parcial-house).
+  Este es un reemplazo completo del recurso (PUT). Todos los campos enviados en el body sobrescribirán el estado actual del house. Para cambios parciales, verificar la sección [Actualizar Parcial House](/api-reference/houses/actualizar-parcial-house).
 </Warning>
 
 ### Path parameters
@@ -462,7 +462,7 @@ const response = await fetch("https://api.primenetcloud.com/v1/houses/5321", {
     "Content-Type": "application/json",
   },
   body: JSON.stringify({
-    transportType: "Air",
+    transportType: "Sea",
     movementType: "Import",
     containerType: "FCL",
     customerId: 1024,
@@ -585,7 +585,7 @@ Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
   "pieces": 0,
   "packingTypeId": 1,
   "assignedToId": "string",
-  "isDangerous": false,
+  "isDangerous": true,
   "imoClassId": "string",
   "dangerousUNCode": "string",
   "dangerousPackingGroup": "string",
