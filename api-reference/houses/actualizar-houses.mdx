@@ -442,9 +442,9 @@ curl --request PUT \
   --header "X-Tenant-Id: TENANT_ID" \
   --header "Content-Type: application/json" \
   --data '{
-    "transportType": "Ocean",
-    "movementType": "FCL",
-    "containerType": "Dry",
+    "transportType": "Sea",
+    "movementType": "Import",
+    "containerType": "FCL",
     "customerId": 1024,
     "portOfLoadingId": "DOSDQ",
     "portOfDischargeId": "USMIA",
@@ -462,9 +462,9 @@ const response = await fetch("https://api.primenetcloud.com/v1/houses/5321", {
     "Content-Type": "application/json",
   },
   body: JSON.stringify({
-    transportType: "Ocean",
-    movementType: "FCL",
-    containerType: "Dry",
+    transportType: "Air",
+    movementType: "Import",
+    containerType: "FCL",
     customerId: 1024,
     portOfLoadingId: "DOSDQ",
     portOfDischargeId: "USMIA",
@@ -483,9 +483,9 @@ import requests
 response = requests.put(
     "https://api.primenetcloud.com/v1/houses/5321",
     json={
-        "transportType": "Ocean",
-        "movementType": "FCL",
-        "containerType": "Dry",
+        "transportType": "Sea",
+        "movementType": "Import",
+        "containerType": "FCL",
         "customerId": 1024,
         "portOfLoadingId": "DOSDQ",
         "portOfDischargeId": "USMIA",
@@ -522,9 +522,9 @@ Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
 ```json
 {
   "quotationId": 1,
-  "transportType": "Ocean",
-  "movementType": "FCL",
-  "containerType": "Dry",
+  "transportType": "Sea",
+  "movementType": "Import",
+  "containerType": "FCL",
   "customerId": 1024,
   "salesPersonId": 1,
   "billToId": 1024,

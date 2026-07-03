@@ -1,74 +1,38 @@
 {
-  "$schema": "https://mintlify.com/docs.json",
-  "name": "PrimeERP",
-  "theme": "almond",
-  "colors": {
-    "primary": "#ef7025",
-    "light": "#eec9bc",
-    "dark": "#4fa1ab"
-  },
-  "favicon": "/favicon.svg",
-  "navigation": {
-    "tabs": [
-      {
-        "tab": "Documentation",
-        "groups": [
-          {
-            "group": "Inicio",
-            "pages": [
-              "Introduccion",
-              "generar-api-key",
-              "autenticacion",
-              "rate-limiting"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "API Reference",
-        "pages": [
-          "api-reference/filtros-avanzados",
-          {
-            "group": "Asociados",
-            "pages": [
-              "listar-asociados",
-              "extraer-asociado-por-id",
-              "crear-asociado",
-              "actualizar-asociado",
-              "actualizar-parcial-asociado"
-            ]
-          },
-          {
-            "group": "Representates de Negocios",
-            "pages": [
-              "listar-representantes"
-            ]
-          },
-          {
-            "group": "Tasas de Cambio",
-            "pages": [
-              "listar-tasas-de-cambio"
-            ]
-          },
-          {
-            "group": "Houses",
-            "pages": [
-              "listar-houses",
-              "extraer-house-por-id",
-              "crear-houses",
-              "actualizar-houses",
-              "actualizar-parcial-house"
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  "navbar": {
-    "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "https://app.primeerp.com"
+  "tab": "API Reference",
+  "pages": [
+    "api-reference/filtros-avanzados",
+    {
+      "group": "Asociados",
+      "pages": [
+        "api-reference/associates/listar-asociados",
+        "api-reference/associates/extraer-asociado-por-id",
+        "api-reference/associates/crear-asociado",
+        "api-reference/associates/actualizar-asociado",
+        "api-reference/associates/actualizar-parcial-asociado"
+      ]
+    },
+    {
+      "group": "Representates de Negocios",
+      "pages": [
+        "api-reference/business representatives/listar-representantes"
+      ]
+    },
+    {
+      "group": "Tasas de Cambio",
+      "pages": [
+        "api-reference/exchange-rates/listar-tasas-de-cambio"
+      ]
+    },
+    {
+      "group": "Houses",
+      "pages": [
+        "api-reference/houses/listar-houses",
+        "api-reference/houses/extraer-house-por-id",
+        "api-reference/houses/crear-houses",
+        "api-reference/houses/actualizar-houses",
+        "api-reference/houses/actualizar-parcial-house"
+      ]
     }
-  }
+  ]
 }

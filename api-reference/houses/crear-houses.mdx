@@ -448,9 +448,9 @@ curl --request POST \
   --header "X-Tenant-Id: TENANT_ID" \
   --header "Content-Type: application/json" \
   --data '{
-    "transportType": "Ocean",
-    "movementType": "FCL",
-    "containerType": "Dry",
+    "transportType": "Sea",
+    "movementType": "Import",
+    "containerType": "FCL",
     "customerId": 1024,
     "status": "InCoordination",
     "portOfLoadingId": "DOSDQ",
@@ -469,9 +469,9 @@ const response = await fetch("https://api.primenetcloud.com/v1/houses", {
     "Content-Type": "application/json",
   },
   body: JSON.stringify({
-    transportType: "Ocean",
-    movementType: "FCL",
-    containerType: "Dry",
+    transportType: "Air",
+    movementType: "Import",
+    containerType: "FCL",
     customerId: 1024,
     status: "InCoordination",
     portOfLoadingId: "DOSDQ",
@@ -491,9 +491,9 @@ import requests
 response = requests.post(
     "https://api.primenetcloud.com/v1/houses",
     json={
-        "transportType": "Ocean",
-        "movementType": "FCL",
-        "containerType": "Dry",
+        "transportType": "Sea",
+        "movementType": "Import",
+        "containerType": "FCL",
         "customerId": 1024,
         "status": "InCoordination",
         "portOfLoadingId": "DOSDQ",
@@ -536,9 +536,9 @@ print(response.json())
 ```json
 {
   "quotationId": 1,
-  "transportType": "Ocean",
-  "movementType": "FCL",
-  "containerType": "Dry",
+  "transportType": "Sea",
+  "movementType": "Import",
+  "containerType": "FCL",
   "customerId": 1024,
   "salesPersonId": 1,
   "billToId": 1024,
