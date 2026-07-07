@@ -55,9 +55,10 @@ POST /houses
   - `Air`
 </ParamField>
 
-<ParamField body="customerId" type="integer" required>
+<ParamField body="customerId" type="integer">
   Identificador del cliente asociado al house.
 
+  - Si el campo `status` es `Quoted`, este campo es opcional. De lo contrario, este campo es requerido.
   - Debe ser un asociado con el campo `IsCustomer` como true, y su `status.id` debe ser `2` (Activo).
 </ParamField>
 

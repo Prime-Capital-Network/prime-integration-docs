@@ -60,6 +60,7 @@ PATCH /houses/{id}
 <ParamField body="customerId" type="integer">
   Identificador del cliente asociado al house.
 
+  - Si el campo `status` no es `Quoted`, este campo no puede ser null.
   - Debe ser un asociado con el campo `IsCustomer` como true, y su `status.id` debe ser `2` (Activo).
 </ParamField>
 
