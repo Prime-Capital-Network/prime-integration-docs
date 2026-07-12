@@ -92,6 +92,16 @@
                   "api-reference/operation-sales/actualizar-ventas",
                   "api-reference/operation-sales/actualizar-parcial-ventas"
                 ]
+              },
+              {
+                "group": "Estimados de Gastos",
+                "pages": [
+                  "api-reference/operation-expenses/listar-gastos",
+                  "api-reference/operation-expenses/extraer-gasto-por-id",
+                  "api-reference/operation-expenses/crear-gastos",
+                  "api-reference/operation-expenses/actualizar-gastos",
+                  "api-reference/operation-expenses/actualizar-parcial-gastos"
+                ]
               }
             ]
           }

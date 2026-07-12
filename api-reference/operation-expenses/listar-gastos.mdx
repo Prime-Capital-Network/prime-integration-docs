@@ -1,0 +1,336 @@
+---
+title: "Listar"
+---
+
+Obtén la lista de estimados de gasto (operation expenses) asociados a una operación logística específica en la empresa.
+
+```http
+GET /operation-expenses
+```
+
+<Note>
+  Este endpoint requiere el scope **`OperationExpenses.Read`**.
+</Note>
+
+### Query parameters
+
+<ParamField query="operation_id" type="integer" required>
+  Identificador de la operación logística de la cual se quieren obtener los estimados de gasto.
+</ParamField>
+
+<ParamField query="category" type="string" required>
+  Categoría de la operación logística. Valores aceptados:
+
+  - `Shipment` (Embarque)
+  - `CustomManagement` (Aduanas)
+  - `Additional` (Misceláneos)
+  - `InlandFreight` (Transporte Terrestre)
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/operation-expenses?operation_id=5321&category=Shipment" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/operation-expenses?operation_id=5321&category=Shipment",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID"
+    },
+  }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/operation-expenses",
+    params={
+        "operation_id": 5321,
+        "category": "Shipment",
+    },
+   headers={
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID"
+    }
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+[
+  {
+    "id": 731,
+    "charge": {
+      "id": 5,
+      "name": "string",
+      "isUsedForCosts": true,
+      "appliesForReimbursement": false,
+      "taxRate": 0,
+      "hasFixedTax": false
+    },
+    "chargeDescription": "Ocean Freight",
+    "chargeDetail": "string",
+    "quotation": {
+      "id": 12,
+      "number": 100543
+    },
+    "quotationGroup": {
+      "id": 3,
+      "name": "string"
+    },
+    "calculationType": {
+      "id": "BLS",
+      "name": "string"
+    },
+    "currency": {
+      "id": "USD",
+      "name": "string"
+    },
+    "quantity": 1,
+    "price": 1200,
+    "discount": 0,
+    "subTotalAmount": 1200,
+    "taxPercent": 0,
+    "taxAmount": 0,
+    "totalAmount": 1200,
+    "vendor": {
+      "id": 12,
+      "name": "string"
+    },
+    "forUseOn": {
+      "id": "Invoice",
+      "name": "string"
+    },
+    "useDepartment": {
+      "id": "Mandatory",
+      "name": "string"
+    },
+    "useCostCenter": {
+      "id": "Mandatory",
+      "name": "string"
+    },
+    "useProject": {
+      "id": "Mandatory",
+      "name": "string"
+    }
+  }
+]
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único del estimado de gasto.
+</ResponseField>
+
+<ResponseField name="charge" type="object">
+  Cargo asociado al gasto.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del cargo.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del cargo.
+    </ResponseField>
+
+    <ResponseField name="isUsedForCosts" type="boolean">
+      Indica si el cargo se utiliza para costos.
+    </ResponseField>
+
+    <ResponseField name="appliesForReimbursement" type="boolean">
+      Indica si el cargo aplica para reembolso.
+    </ResponseField>
+
+    <ResponseField name="taxRate" type="decimal">
+      Tasa de impuesto del cargo.
+    </ResponseField>
+
+    <ResponseField name="hasFixedTax" type="boolean">
+      Indica si el cargo tiene un impuesto fijo.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="chargeDescription" type="string">
+  Descripción del cargo.
+</ResponseField>
+
+<ResponseField name="chargeDetail" type="string">
+  Detalle adicional del cargo.
+</ResponseField>
+
+<ResponseField name="quotation" type="object">
+  Cotización de origen asociada al gasto.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador de la cotización.
+    </ResponseField>
+
+    <ResponseField name="number" type="integer">
+      Número de la cotización.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="quotationGroup" type="object">
+  Grupo de cotización asociado al gasto.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del grupo de cotización.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del grupo de cotización.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="calculationType" type="object">
+  Tipo de cálculo del gasto.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del tipo de cálculo.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del tipo de cálculo.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="currency" type="object">
+  Moneda del gasto.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador de la moneda.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre de la moneda.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="quantity" type="decimal">
+  Cantidad.
+</ResponseField>
+
+<ResponseField name="price" type="decimal">
+  Precio unitario.
+</ResponseField>
+
+<ResponseField name="discount" type="decimal">
+  Descuento aplicado.
+</ResponseField>
+
+<ResponseField name="subTotalAmount" type="decimal">
+  Subtotal del gasto.
+</ResponseField>
+
+<ResponseField name="taxPercent" type="decimal">
+  Porcentaje de impuesto aplicado.
+</ResponseField>
+
+<ResponseField name="taxAmount" type="decimal">
+  Monto del impuesto.
+</ResponseField>
+
+<ResponseField name="totalAmount" type="decimal">
+  Monto total del gasto.
+</ResponseField>
+
+<ResponseField name="vendor" type="object">
+  Vendor asociado al gasto.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del vendor. `null` si no aplica.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del vendor. `null` si no aplica.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="forUseOn" type="object">
+  Uso del cargo.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del uso del cargo.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido del uso del cargo.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="useDepartment" type="object">
+  Indica si la cuenta contable del cargo utiliza departamento.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador de la opción de uso.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido de la opción de uso.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="useCostCenter" type="object">
+  Indica si la cuenta contable del cargo utiliza centro de costo.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador de la opción de uso.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido de la opción de uso.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="useProject" type="object">
+  Indica si la cuenta contable del cargo utiliza proyecto.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador de la opción de uso.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido de la opción de uso.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
