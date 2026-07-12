@@ -1,0 +1,277 @@
+---
+title: "Extraer Estimado de Venta Por ID"
+sidebarTitle: "Extraer por ID"
+description: "Permite extraer un estimado de venta (operation sale) en específico mediante REST API"
+---
+
+Obtén un estimado de venta por ID en la empresa.
+
+```http
+GET /operation-sales/{id}
+```
+
+<Note>
+  Este endpoint requiere el scope **`OperationSales.Read`**.
+</Note>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único del estimado de venta.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/operation-sales/901" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/operation-sales/901",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "e3d5e6af-3ec2-49c1-92bd-9632171e9a66"
+    },
+  }
+);
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/operation-sales/901",
+    headers={
+      "X-Api-Key": "pnk_abc123.s3cr3tValue",
+      "X-Tenant-Id": "e3d5e6af-3ec2-49c1-92bd-9632171e9a66"
+    }
+)
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "id": 901,
+  "charge": {
+    "id": 5,
+    "name": "string"
+  },
+  "chargeDescription": "Ocean Freight",
+  "chargeDetail": "string",
+  "quotationGroup": {
+    "id": 3,
+    "name": "string"
+  },
+  "calculationType": {
+    "id": "BLS",
+    "name": "string"
+  },
+  "currency": {
+    "id": "USD",
+    "name": "string"
+  },
+  "operation": {
+    "id": 5321,
+    "category": "Shipment"
+  },
+  "forUseOn": {
+    "id": "Invoice",
+    "name": "Factura"
+  },
+  "quantity": 1,
+  "price": 1500,
+  "discount": 0,
+  "subTotalAmount": 1500,
+  "taxPercent": 0,
+  "taxAmount": 0,
+  "totalAmount": 1500,
+  "isModified": false,
+  "containerType": {
+    "id": "12TR",
+    "name": "string"
+  },
+  "insertedBy": "string",
+  "insertedDate": "2026-07-01T08:00:00.000Z",
+  "updatedBy": "string",
+  "updatedDate": "2026-07-03T11:00:00.000Z",
+  "isActive": true
+}
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único del estimado de venta.
+</ResponseField>
+
+<ResponseField name="charge" type="object">
+  Cargo asociado a la venta.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del cargo.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del cargo.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="chargeDescription" type="string">
+  Descripción del cargo.
+</ResponseField>
+
+<ResponseField name="chargeDetail" type="string">
+  Detalle adicional del cargo.
+</ResponseField>
+
+<ResponseField name="quotationGroup" type="object">
+  Grupo de cotización asociado a la venta.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del grupo de cotización.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del grupo de cotización.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="calculationType" type="object">
+  Tipo de cálculo de la venta.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del tipo de cálculo.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del tipo de cálculo.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="currency" type="object">
+  Moneda de la venta.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador de la moneda.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre de la moneda.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="operation" type="object">
+  Operación logística asociada a la venta.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador de la operación logística.
+    </ResponseField>
+
+    <ResponseField name="category" type="string">
+      Categoría de la operación logística. Valores posibles: `Shipment`, `CustomManagement`, `Additional`, `InlandFreight`.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="forUseOn" type="object">
+  Uso del cargo.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del uso del cargo.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido del uso del cargo.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="quantity" type="decimal">
+  Cantidad.
+</ResponseField>
+
+<ResponseField name="price" type="decimal">
+  Precio unitario.
+</ResponseField>
+
+<ResponseField name="discount" type="decimal">
+  Descuento aplicado.
+</ResponseField>
+
+<ResponseField name="subTotalAmount" type="decimal">
+  Subtotal de la venta.
+</ResponseField>
+
+<ResponseField name="taxPercent" type="decimal">
+  Porcentaje de impuesto aplicado.
+</ResponseField>
+
+<ResponseField name="taxAmount" type="decimal">
+  Monto del impuesto.
+</ResponseField>
+
+<ResponseField name="totalAmount" type="decimal">
+  Monto total de la venta.
+</ResponseField>
+
+<ResponseField name="isModified" type="boolean">
+  Indica si la venta fue modificada respecto a su valor original.
+</ResponseField>
+
+<ResponseField name="containerType" type="object">
+  Tipo de contenedor asociado a la venta.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del tipo de contenedor.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del tipo de contenedor.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="insertedBy" type="string">
+  Usuario que creó el registro.
+</ResponseField>
+
+<ResponseField name="insertedDate" type="string">
+  Fecha y hora de creación del registro, en formato ISO 8601.
+</ResponseField>
+
+<ResponseField name="updatedBy" type="string">
+  Usuario que realizó la última actualización del registro.
+</ResponseField>
+
+<ResponseField name="updatedDate" type="string">
+  Fecha y hora de la última actualización, en formato ISO 8601.
+</ResponseField>
+
+<ResponseField name="isActive" type="boolean">
+  Indica si el estimado de venta está activo.
+</ResponseField>

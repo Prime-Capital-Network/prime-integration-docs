@@ -1,0 +1,208 @@
+---
+title: "Actualizar"
+sidebarTitle: "Actualizar"
+---
+
+Actualiza los datos de un estimado de venta (operation sale) en la empresa.
+
+```http
+PUT /operation-sales
+```
+
+<Note>
+  Este endpoint requiere el scope **`OperationSales.Write`**.
+</Note>
+
+<Warning>
+  Este es un reemplazo completo del recurso (PUT). Todos los campos enviados en el body sobrescribirán el estado actual del asociado. Para cambios parciales, verificar la sección [Actualizar Parcial Asociado](/api-reference/associates/actualizar-parcial-asociado).
+</Warning>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único del estimado a actualizar.
+</ParamField>
+
+### Body parameters
+
+<ParamField body="chargeId" type="integer" required>
+  Identificador del cargo asociado a la venta.
+</ParamField>
+
+<ParamField body="chargeDescription" type="string" required>
+  Descripción del cargo. Máximo 120 caracteres.
+</ParamField>
+
+<ParamField body="chargeDetail" type="string">
+  Detalle adicional del cargo. Máximo 250 caracteres.
+</ParamField>
+
+<ParamField body="quotationGroupId" type="integer" required>
+  Identificador del grupo de cotización asociado.
+</ParamField>
+
+<ParamField body="calculationTypeId" type="string">
+  Identificador del tipo de cálculo.
+</ParamField>
+
+<ParamField body="currencyId" type="string" required>
+  Identificador de la moneda.
+</ParamField>
+
+<ParamField body="quantity" type="decimal" required>
+  Cantidad. Debe ser mayor que cero, y menor o igual a 9,999,999.
+</ParamField>
+
+<ParamField body="price" type="decimal" required>
+  Precio unitario. Debe ser mayor que cero, y menor o igual a 99,999,999.
+</ParamField>
+
+<ParamField body="taxPercent" type="decimal" required>
+  Porcentaje de impuesto. Debe ser mayor o igual a cero.
+</ParamField>
+
+<ParamField body="discount" type="decimal" required>
+  Descuento aplicado. Debe ser mayor o igual a cero, y menor o igual a 99,999,999.
+</ParamField>
+
+<ParamField body="operationId" type="integer" required>
+  Identificador de la operación logística asociada, según el campo `operationCategory`.
+</ParamField>
+
+<ParamField body="operationCategory" type="string" required>
+  Categoría de la operación logística asociada. Valores aceptados:
+
+  - `Shipment` (Embarque)
+  - `CustomManagement` (Aduanas)
+  - `Additional` (Misceláneos)
+  - `InlandFreight` (Transporte Terrestre)
+</ParamField>
+
+<ParamField body="forUseOn" type="string" required>
+  Indica el uso del cargo. Valores aceptados:
+
+  - `Invoice`
+  - `Reimbursement`
+</ParamField>
+
+<ParamField body="containerTypeId" type="string">
+  Identificador del tipo de contenedor asociado.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request PUT \
+  --url "https://api.primenetcloud.com/v1/operation-sales" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "chargeId": 5,
+    "chargeDescription": "Ocean Freight",
+    "quotationGroupId": 3,
+    "currencyId": "USD",
+    "quantity": 1,
+    "price": 1500,
+    "taxPercent": 0,
+    "discount": 0,
+    "operationId": 5321,
+    "operationCategory": "Shipment",
+    "forUseOn": "Invoice"
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/operation-sales", {
+  method: "PUT",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    chargeId: 5,
+    chargeDescription: "Ocean Freight",
+    quotationGroupId: 3,
+    currencyId: "USD",
+    quantity: 1,
+    price: 1500,
+    taxPercent: 0,
+    discount: 0,
+    operationId: 5321,
+    operationCategory: "Shipment",
+    forUseOn: "Invoice",
+  }),
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.put(
+    "https://api.primenetcloud.com/v1/operation-sales",
+    json={
+        "chargeId": 5,
+        "chargeDescription": "Ocean Freight",
+        "quotationGroupId": 3,
+        "currencyId": "USD",
+        "quantity": 1,
+        "price": 1500,
+        "taxPercent": 0,
+        "discount": 0,
+        "operationId": 5321,
+        "operationCategory": "Shipment",
+        "forUseOn": "Invoice",
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Response
+
+Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
+
+### Errores
+
+<ResponseField name="404 Not Found" type="error">
+  No existe ningún house con el `id` especificado en la URL.
+</ResponseField>
+
+<ResponseField name="403 Forbidden" type="error">
+  El API Key no tiene el scope `Houses.Write` requerido.
+</ResponseField>
+
+<RequestExample>
+
+```json
+{
+  "chargeId": 5,
+  "chargeDescription": "Ocean Freight",
+  "chargeDetail": "string",
+  "quotationGroupId": 3,
+  "calculationTypeId": "BLS",
+  "currencyId": "USD",
+  "quantity": 1,
+  "price": 1500,
+  "taxPercent": 0,
+  "discount": 0,
+  "operationId": 5321,
+  "operationCategory": "Shipment",
+  "forUseOn": "Invoice",
+  "containerTypeId": "12TR"
+}
+```
+
+</RequestExample>

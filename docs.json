@@ -26,58 +26,73 @@
       },
       {
         "tab": "API Reference",
-        "pages": [
-          "api-reference/filtros-avanzados",
+        "groups": [
           {
-            "group": "Asociados",
+            "group": "API",
             "pages": [
-              "api-reference/associates/listar-asociados",
-              "api-reference/associates/extraer-asociado-por-id",
-              "api-reference/associates/crear-asociado",
-              "api-reference/associates/actualizar-asociado",
-              "api-reference/associates/actualizar-parcial-asociado"
-            ]
-          },
-          {
-            "group": "Representates de Negocios",
-            "pages": [
-              "api-reference/business-representatives/listar-representantes"
-            ]
-          },
-          {
-            "group": "Tasas de Cambio",
-            "pages": [
-              "api-reference/exchange-rates/listar-tasas-de-cambio"
-            ]
-          },
-          {
-            "group": "Houses",
-            "pages": [
-              "api-reference/houses/listar-houses",
-              "api-reference/houses/extraer-house-por-id",
-              "api-reference/houses/crear-houses",
-              "api-reference/houses/actualizar-houses",
-              "api-reference/houses/actualizar-parcial-house"
-            ]
-          },
-          {
-            "group": "Aduanas",
-            "pages": [
-              "api-reference/customs/listar-aduanas",
-              "api-reference/customs/extraer-aduana-por-id",
-              "api-reference/customs/crear-aduanas",
-              "api-reference/customs/actualizar-aduanas",
-              "api-reference/customs/actualizar-parcial-aduanas"
-            ]
-          },
-          {
-            "group": "Contenedores",
-            "pages": [
-              "api-reference/containers/listar-contenedores",
-              "api-reference/containers/extraer-contenedor-por-id",
-              "api-reference/containers/crear-contenedores",
-              "api-reference/containers/actualizar-contenedores",
-              "api-reference/containers/actualizar-parcial-contenedores"
+              "api-reference/filtros-avanzados",
+              {
+                "group": "Asociados",
+                "pages": [
+                  "api-reference/associates/listar-asociados",
+                  "api-reference/associates/extraer-asociado-por-id",
+                  "api-reference/associates/crear-asociado",
+                  "api-reference/associates/actualizar-asociado",
+                  "api-reference/associates/actualizar-parcial-asociado"
+                ]
+              },
+              {
+                "group": "Representates de Negocios",
+                "pages": [
+                  "api-reference/business-representatives/listar-representantes"
+                ]
+              },
+              {
+                "group": "Tasas de Cambio",
+                "pages": [
+                  "api-reference/exchange-rates/listar-tasas-de-cambio"
+                ]
+              },
+              {
+                "group": "Houses",
+                "pages": [
+                  "api-reference/houses/listar-houses",
+                  "api-reference/houses/extraer-house-por-id",
+                  "api-reference/houses/crear-houses",
+                  "api-reference/houses/actualizar-houses",
+                  "api-reference/houses/actualizar-parcial-house"
+                ]
+              },
+              {
+                "group": "Aduanas",
+                "pages": [
+                  "api-reference/customs/listar-aduanas",
+                  "api-reference/customs/extraer-aduana-por-id",
+                  "api-reference/customs/crear-aduanas",
+                  "api-reference/customs/actualizar-aduanas",
+                  "api-reference/customs/actualizar-parcial-aduanas"
+                ]
+              },
+              {
+                "group": "Contenedores",
+                "pages": [
+                  "api-reference/containers/listar-contenedores",
+                  "api-reference/containers/extraer-contenedor-por-id",
+                  "api-reference/containers/crear-contenedores",
+                  "api-reference/containers/actualizar-contenedores",
+                  "api-reference/containers/actualizar-parcial-contenedores"
+                ]
+              },
+              {
+                "group": "Estimados de Ventas",
+                "pages": [
+                  "api-reference/operation-sales/listar-ventas",
+                  "api-reference/operation-sales/extraer-venta-por-id",
+                  "api-reference/operation-sales/crear-ventas",
+                  "api-reference/operation-sales/actualizar-ventas",
+                  "api-reference/operation-sales/actualizar-parcial-ventas"
+                ]
+              }
             ]
           }
         ]
