@@ -33,11 +33,11 @@ GET /customs
   - `InsertedDate`
 </ParamField>
 
-<ParamField query="skip" default="20" type="integer">
+<ParamField query="skip" default="0" type="integer">
   Número de registros a omitir desde el inicio de los resultados. Utilízado junto con `take` para paginar los resultados.
 </ParamField>
 
-<ParamField query="take" type="integer">
+<ParamField query="take" default="20" type="integer">
   Número de registros a retornar. Por defecto `20`, máximo `100`.
 </ParamField>
 

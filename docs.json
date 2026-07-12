@@ -69,6 +69,16 @@
               "api-reference/customs/actualizar-aduanas",
               "api-reference/customs/actualizar-parcial-aduanas"
             ]
+          },
+          {
+            "group": "Contenedores",
+            "pages": [
+              "api-reference/containers/listar-contenedores",
+              "api-reference/containers/extraer-contenedor-por-id",
+              "api-reference/containers/crear-contenedores",
+              "api-reference/containers/actualizar-contenedores",
+              "api-reference/containers/actualizar-parcial-contenedores"
+            ]
           }
         ]
       }

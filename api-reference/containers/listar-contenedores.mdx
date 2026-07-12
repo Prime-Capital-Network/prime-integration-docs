@@ -1,0 +1,339 @@
+---
+title: "Listar"
+---
+
+Obtén una lista paginada de containers en tu empresa.
+
+```http
+GET /containers
+```
+
+<Note>
+  Este endpoint requiere el scope **`Containers.Read`**.
+</Note>
+
+### Query parameters
+
+<ParamField query="master_id" type="integer">
+  Filtra los containers asociados a un master específico.
+</ParamField>
+
+<ParamField query="sort_by" type="string">
+  Campo por el cual ordenar los resultados. Valores aceptados:
+
+  - `Id`
+  - `Type.Id`
+  - `Type.Name`
+  - `Number`
+  - `Vendor.Name`
+  - `LoadedDate`
+  - `ArrivalDate`
+  - `ReturnedDate`
+  - `FreeDays`
+  - `Tariff`
+  - `PackingType.Name`
+  - `Pieces`
+</ParamField>
+
+<ParamField query="skip" default="0" type="integer">
+  Número de registros a omitir desde el inicio de los resultados. Utilízado junto con `take` para paginar los resultados.
+</ParamField>
+
+<ParamField query="take" default="20" type="integer">
+  Número de registros a retornar. Por defecto `20`, máximo `100`.
+</ParamField>
+
+<ParamField query="Type.Id" type="StringSearchFilter">
+  Filtra por el identificador del tipo de contenedor.
+</ParamField>
+
+<ParamField query="Type.Name" type="StringSearchFilter">
+  Filtra por el nombre del tipo de contenedor.
+</ParamField>
+
+<ParamField query="Number" type="StringSearchFilter">
+  Filtra por el número del contenedor.
+</ParamField>
+
+<ParamField query="Seal" type="StringSearchFilter">
+  Filtra por un sello (seal) asociado al contenedor.
+</ParamField>
+
+<ParamField query="LoadedDate" type="RangeSearchFilter<date>">
+  Filtra por la fecha de carga del contenedor.
+</ParamField>
+
+<ParamField query="ArrivalDate" type="RangeSearchFilter<date>">
+  Filtra por la fecha de llegada del contenedor.
+</ParamField>
+
+<ParamField query="ReturnedDate" type="RangeSearchFilter<date>">
+  Filtra por la fecha de devolución del contenedor.
+</ParamField>
+
+<ParamField query="Vendor.Name" type="StringSearchFilter">
+  Filtra por el nombre del vendor asociado.
+</ParamField>
+
+<ParamField query="FreeDays" type="RangeSearchFilter<integer>">
+  Filtra por la cantidad de días libres asignados.
+</ParamField>
+
+<ParamField query="Tariff" type="RangeSearchFilter<decimal>">
+  Filtra por la tarifa asociada al contenedor.
+</ParamField>
+
+<ParamField query="Pieces" type="RangeSearchFilter<integer>">
+  Filtra por la cantidad de piezas dentro del contenedor.
+</ParamField>
+
+<ParamField query="PackingType.Name" type="StringSearchFilter">
+  Filtra por el nombre del tipo de empaque.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/containers?master_id=45&skip=20&take=20" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/containers?master_id=45&skip=20&take=20",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID"
+    },
+  }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/containers",
+    params={
+        "master_id": 45,
+        "skip": 20,
+        "take": 20,
+    },
+   headers={
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID"
+    }
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "totalCount": 0,
+  "data": [
+    {
+      "id": 0,
+      "type": {
+        "id": "string",
+        "name": "string",
+        "kilogramMaxCapacity": 0,
+        "cubicMeterMaxCapacity": 0
+      },
+      "number": "string",
+      "seals": ["string"],
+      "marks": ["string"],
+      "vendor": {
+        "name": "string"
+      },
+      "loadedDate": "2026-07-01",
+      "arrivalDate": "2026-07-11",
+      "returnedDate": "2026-07-20",
+      "freeDays": 0,
+      "tariff": 0,
+      "weightUnit": {
+        "id": 0,
+        "name": "string"
+      },
+      "kilograms": 0,
+      "pounds": 0,
+      "volumeUnit": {
+        "id": 0,
+        "name": "string"
+      },
+      "cubicMeters": 0,
+      "cubicFeet": 0,
+      "usedKilogramCapacityPercent": 0,
+      "housesQuantity": 0,
+      "pieces": 0,
+      "packingType": {
+        "id": 0,
+        "name": "string"
+      }
+    }
+  ]
+}
+```
+
+### Response fields
+
+<ResponseField name="totalCount" type="integer">
+  Total de registros.
+</ResponseField>
+
+<ResponseField name="data" type="array">
+  Lista de objetos Container.
+
+  <Expandable title="Container">
+    <ResponseField name="id" type="integer">
+      Identificador único del contenedor.
+    </ResponseField>
+
+    <ResponseField name="type" type="object">
+      Tipo del contenedor.
+
+      <Expandable title="type">
+        <ResponseField name="id" type="string">
+          Identificador del tipo de contenedor.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del tipo de contenedor.
+        </ResponseField>
+
+        <ResponseField name="kilogramMaxCapacity" type="integer">
+          Capacidad máxima en kilogramos del tipo de contenedor.
+        </ResponseField>
+
+        <ResponseField name="cubicMeterMaxCapacity" type="decimal">
+          Capacidad máxima en metros cúbicos del tipo de contenedor.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="number" type="string">
+      Número del contenedor.
+    </ResponseField>
+
+    <ResponseField name="seals" type="string[]">
+      Sellos asociados al contenedor.
+    </ResponseField>
+
+    <ResponseField name="marks" type="string[]">
+      Marcas asociadas al contenedor.
+    </ResponseField>
+
+    <ResponseField name="vendor" type="object">
+      Vendor asociado al contenedor.
+
+      <Expandable title="vendor">
+        <ResponseField name="name" type="string">
+          Nombre del vendor.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="loadedDate" type="date">
+      Fecha de carga del contenedor.
+    </ResponseField>
+
+    <ResponseField name="arrivalDate" type="date">
+      Fecha de llegada del contenedor.
+    </ResponseField>
+
+    <ResponseField name="returnedDate" type="date">
+      Fecha de devolución del contenedor.
+    </ResponseField>
+
+    <ResponseField name="freeDays" type="integer">
+      Cantidad de días libres asignados.
+    </ResponseField>
+
+    <ResponseField name="tariff" type="decimal">
+      Tarifa asociada al contenedor.
+    </ResponseField>
+
+    <ResponseField name="weightUnit" type="object">
+      Unidad de peso del contenedor.
+
+      <Expandable title="weightUnit">
+        <ResponseField name="id" type="integer">
+          Identificador de la unidad de peso.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido de la unidad de peso.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="kilograms" type="decimal">
+      Peso del contenedor convertido a kilogramos.
+    </ResponseField>
+
+    <ResponseField name="pounds" type="decimal">
+      Peso del contenedor convertido a libras.
+    </ResponseField>
+
+    <ResponseField name="volumeUnit" type="object">
+      Unidad de volumen del contenedor.
+
+      <Expandable title="volumeUnit">
+        <ResponseField name="id" type="integer">
+          Identificador de la unidad de volumen.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido de la unidad de volumen.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="cubicMeters" type="decimal">
+      Volumen del contenedor convertido a metros cúbicos.
+    </ResponseField>
+
+    <ResponseField name="cubicFeet" type="decimal">
+      Volumen del contenedor convertido a pies cúbicos.
+    </ResponseField>
+
+    <ResponseField name="usedKilogramCapacityPercent" type="integer">
+      Porcentaje de la capacidad en kilogramos utilizada, según el tipo de contenedor.
+    </ResponseField>
+
+    <ResponseField name="housesQuantity" type="integer">
+      Cantidad de houses asociados al contenedor.
+    </ResponseField>
+
+    <ResponseField name="pieces" type="integer">
+      Cantidad de piezas dentro del contenedor.
+    </ResponseField>
+
+    <ResponseField name="packingType" type="object">
+      Tipo de empaque del contenedor.
+
+      <Expandable title="packingType">
+        <ResponseField name="id" type="integer">
+          Identificador del tipo de empaque.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del tipo de empaque.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
