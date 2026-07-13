@@ -102,6 +102,16 @@
                   "api-reference/operation-expenses/actualizar-gastos",
                   "api-reference/operation-expenses/actualizar-parcial-gastos"
                 ]
+              },
+              {
+                "group": "Facturas por Pagar",
+                "pages": [
+                  "api-reference/purchase-invoices/listar-facturas",
+                  "api-reference/purchase-invoices/extraer-factura-por-id",
+                  "api-reference/purchase-invoices/crear-facturas",
+                  "api-reference/purchase-invoices/actualizar-facturas",
+                  "api-reference/purchase-invoices/actualizar-parcial-facturas"
+                ]
               }
             ]
           }

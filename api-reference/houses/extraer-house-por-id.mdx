@@ -4,7 +4,7 @@ sidebarTitle: "Extraer por ID"
 description: "Permite extraer un house en específico mediante REST API"
 ---
 
-Obtén un house por ID en tu empresa.
+Obtén un house por ID en la empresa.
 
 ```http
 GET /houses/{id}
@@ -269,6 +269,7 @@ print(response.json())
     "name": "string"
   },
   "transitDays": 0,
+  "transitDaysTo": 0,
   "parent": {
     "id": 0
   },

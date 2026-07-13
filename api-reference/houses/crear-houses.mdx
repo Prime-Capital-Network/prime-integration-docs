@@ -2,7 +2,7 @@
 title: "Crear"
 ---
 
-Crea un nuevo house (embarque) en tu empresa.
+Crea un nuevo house (embarque) en la empresa.
 
 ```http
 POST /houses
@@ -327,7 +327,11 @@ POST /houses
 </ParamField>
 
 <ParamField body="transitDays" type="integer">
-  Días de tránsito. Debe ser mayor o igual a 1.
+  Días de tránsito (desde). Debe ser mayor o igual a 1.
+</ParamField>
+
+<ParamField body="transitDaysTo" type="integer">
+  Días de tránsito (hasta). Debe ser mayor o igual a 1.
 </ParamField>
 
 <ParamField body="description" type="string">
