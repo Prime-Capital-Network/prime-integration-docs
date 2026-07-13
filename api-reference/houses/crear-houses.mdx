@@ -536,6 +536,12 @@ print(response.json())
   Número de tracking del house.
 </ResponseField>
 
+### Errores
+
+<ResponseField name="403 Forbidden" type="error">
+  El API Key no tiene el scope `Houses.Write` requerido.
+</ResponseField>
+
 <RequestExample>
 
 ```json

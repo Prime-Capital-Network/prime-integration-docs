@@ -234,6 +234,12 @@ print(response.json())
   Identificador único de la factura de compra creada.
 </ResponseField>
 
+### Errores
+
+<ResponseField name="403 Forbidden" type="error">
+  El API Key no tiene el scope `PurchaseInvoices.Write` requerido.
+</ResponseField>
+
 <RequestExample>
 
 ```json

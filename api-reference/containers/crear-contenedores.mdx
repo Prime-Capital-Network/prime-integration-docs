@@ -217,6 +217,12 @@ print(response.json())
   Identificador único del contenedor creado.
 </ResponseField>
 
+### Errores
+
+<ResponseField name="403 Forbidden" type="error">
+  El API Key no tiene el scope `Containers.Write` requerido.
+</ResponseField>
+
 <RequestExample>
 
 ```json

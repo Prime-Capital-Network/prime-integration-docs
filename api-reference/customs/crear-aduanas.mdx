@@ -173,6 +173,12 @@ print(response.json())
   Número de tracking del despacho.
 </ResponseField>
 
+### Errores
+
+<ResponseField name="403 Forbidden" type="error">
+  El API Key no tiene el scope `Customs.Write` requerido.
+</ResponseField>
+
 <RequestExample>
 
 ```json

@@ -196,6 +196,12 @@ print(response.json())
   Identificador único del estimado de gasto creado.
 </ResponseField>
 
+### Errores
+
+<ResponseField name="403 Forbidden" type="error">
+  El API Key no tiene el scope `OperationExpenses.Write` requerido.
+</ResponseField>
+
 <RequestExample>
 
 ```json

@@ -173,6 +173,12 @@ print(response.json())
   Identificador único del estimado de venta creado.
 </ResponseField>
 
+### Errores
+
+<ResponseField name="403 Forbidden" type="error">
+  El API Key no tiene el scope `OperationSales.Write` requerido.
+</ResponseField>
+
 <RequestExample>
 
 ```json

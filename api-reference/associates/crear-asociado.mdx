@@ -521,6 +521,12 @@ print(response.json())
   Identificador único del asociado recién creado.
 </ResponseField>
 
+### Errores
+
+<ResponseField name="403 Forbidden" type="error">
+  El API Key no tiene el scope `Associates.Write` requerido.
+</ResponseField>
+
 <RequestExample>
 
 ```json
