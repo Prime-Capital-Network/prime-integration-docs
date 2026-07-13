@@ -304,8 +304,8 @@ PATCH /houses/{id}
   Frecuencia de salida (`Daily`, `Weekly` o `Monthly`).
 
   - Si es `Daily`, `weeklyDepartures` y `monthlyDepartures` deben estar vacíos.
-  - Si es `Weekly`, `weeklyDepartures` es requerido y `monthlyDepartures` debe estar vacío.
-  - Si es `Monthly`, `monthlyDepartures` es requerido y `weeklyDepartures` debe estar vacío.
+  - Si es `Weekly`, `monthlyDepartures` debe estar vacío.
+  - Si es `Monthly`, `weeklyDepartures` debe estar vacío.
 </ParamField>
 
 <ParamField body="weeklyDepartures" type="string[]">
