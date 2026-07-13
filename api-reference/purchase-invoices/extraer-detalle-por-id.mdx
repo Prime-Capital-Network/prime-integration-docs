@@ -1,0 +1,413 @@
+---
+title: "Obtener Detalle por ID"
+---
+
+Obtén un detalle específico asociado a una factura de compra.
+
+```http
+GET /purchase-invoices/{id}/details/{detailId}
+```
+
+<Note>
+  Este endpoint requiere el scope **`PurchaseInvoices.Read`**.
+</Note>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único de la factura de compra.
+</ParamField>
+
+<ParamField path="detailId" type="integer" required>
+  Identificador único del detalle a consultar.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/purchase-invoices/1054/details/1" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: application/json"
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/purchase-invoices/1054/details/1", {
+  method: "GET",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+    "Content-Type": "application/json",
+  },
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/purchase-invoices/1054/details/1",
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único del detalle.
+</ResponseField>
+
+<ResponseField name="itemType" type="object">
+  Tipo de ítem
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del tipo de ítem.
+
+      Valores posibles:
+      - `Charge`
+      - `FixedAsset`
+      - `Product`
+      - `ChartOfAccount`
+    </ResponseField>
+    <ResponseField name="name" type="string">
+      Nombre del tipo de ítem traducido.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="item" type="object">
+  Información del ítem asociado al detalle.
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del ítem.
+    </ResponseField>
+    <ResponseField name="name" type="string">
+      Nombre del ítem.
+    </ResponseField>
+    <ResponseField name="code" type="string">
+      Código del ítem (solo aplica para cuentas contables).
+    </ResponseField>
+    <ResponseField name="fastCode" type="string">
+      Código rápido (solo aplica para cargos).
+    </ResponseField>
+    <ResponseField name="isDescriptionFixed" type="boolean">
+      Indica si la descripción del cargo es fija.
+    </ResponseField>
+    <ResponseField name="hasFixedTax" type="boolean">
+      Indica si el cargo tiene un impuesto fijo.
+    </ResponseField>
+    <ResponseField name="isTransparent" type="boolean">
+      Indica si el cargo es transparente.
+    </ResponseField>
+    <ResponseField name="isTransparentProcessed" type="boolean">
+      Indica si la transparencia del cargo ha sido procesada.
+    </ResponseField>
+    <ResponseField name="type" type="object">
+      Tipo de cargo.
+      <Expandable title="Ver propiedades">
+        <ResponseField name="id" type="integer">Identificador del tipo de cargo.</ResponseField>
+        <ResponseField name="name" type="string">Nombre del tipo de cargo.</ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="taxPercent" type="decimal">
+  Porcentaje de impuesto aplicado.
+</ResponseField>
+
+<ResponseField name="acquiredWarranty" type="string">
+  Fecha de adquisición de la garantía en formato ISO 8601 (solo aplica para activos fijos).
+</ResponseField>
+
+<ResponseField name="description" type="string">
+  Descripción del detalle.
+</ResponseField>
+
+<ResponseField name="calculationType" type="object">
+  Tipo de cálculo.
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del tipo de cálculo.
+    </ResponseField>
+    <ResponseField name="name" type="string">
+      Nombre del tipo de cálculo.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="quantity" type="decimal">
+  Cantidad del ítem.
+</ResponseField>
+
+<ResponseField name="productPackaging" type="object">
+  Empaque del producto.
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del empaque.
+    </ResponseField>
+    <ResponseField name="name" type="string">
+      Nombre del empaque.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="packagingQuantity" type="decimal">
+  Cantidad de empaques.
+</ResponseField>
+
+<ResponseField name="unitReceived" type="decimal">
+  Unidades recibidas.
+</ResponseField>
+
+<ResponseField name="price" type="decimal">
+  Precio unitario.
+</ResponseField>
+
+<ResponseField name="discount" type="decimal">
+  Descuento aplicado.
+</ResponseField>
+
+<ResponseField name="subTotalAmount" type="decimal">
+  Monto subtotal calculado.
+</ResponseField>
+
+<ResponseField name="taxAmount" type="decimal">
+  Monto total de impuestos calculados.
+</ResponseField>
+
+<ResponseField name="totalAmount" type="decimal">
+  Monto total calculado (Subtotal - Descuento + Impuestos).
+</ResponseField>
+
+<ResponseField name="goodServiceApplicability" type="object">
+  Aplicabilidad de bienes y servicios.
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="string">
+      Identificador de la aplicabilidad.
+
+      Valores posibles:
+      - `NotApplicable`
+      - `Product`
+      - `Service`
+    </ResponseField>
+    <ResponseField name="name" type="string">Nombre traducido.</ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="operation" type="object">
+  Operación logística asociada (Shipment, CustomManagement, Additional o InlandFreight).
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador de la operación.
+    </ResponseField>
+    <ResponseField name="category" type="string">
+      Categoría de la operación logística.
+
+      Valores posibles:
+
+      - `Shipment`
+      - `CustomManagement`
+      - `Additional`
+      - `InlandFreight`
+    </ResponseField>
+    <ResponseField name="transactionNumber" type="integer">
+      Número de transacción de la operación.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="department" type="object">
+  Departamento asignado (Dimensión).
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="integer">Identificador del departamento.</ResponseField>
+    <ResponseField name="name" type="string">Nombre del departamento.</ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="costCenter" type="object">
+  Centro de costo asignado (Dimensión).
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="integer">Identificador del centro de costo.</ResponseField>
+    <ResponseField name="name" type="string">Nombre del centro de costo.</ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="project" type="object">
+  Proyecto asignado (Dimensión).
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="integer">Identificador del proyecto.</ResponseField>
+    <ResponseField name="name" type="string">Nombre del proyecto.</ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="useDepartment" type="object">
+  Opción de uso para el departamento según la cuenta configurada.
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="string">
+      Identificador de la opción de uso.
+
+      Valores aceptados:
+      - `Mandatory`
+      - `Optional`
+      - `Disabled`
+    </ResponseField>
+    <ResponseField name="name" type="string">Nombre de la opción de uso traducido.</ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="useCostCenter" type="object">
+  Opción de uso para el centro de costo según la cuenta configurada.
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="string">
+      Identificador de la opción de uso.
+      
+      Valores aceptados:
+      - `Mandatory`
+      - `Optional`
+      - `Disabled`
+    </ResponseField>
+    <ResponseField name="name" type="string">Nombre de la opción de uso traducido.</ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="useProject" type="object">
+  Opción de uso para el proyecto según la cuenta configurada.
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="string">
+      Identificador de la opción de uso.
+    
+      Valores aceptados:
+      - `Mandatory`
+      - `Optional`
+      - `Disabled`
+    </ResponseField>
+    <ResponseField name="name" type="string">Nombre de la opción de uso traducido.</ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="estimate" type="object">
+  Estimado de gasto (Service Expense) asociado.
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del estimado.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="totalToPay" type="decimal">
+  Total a pagar.
+</ResponseField>
+
+<ResponseField name="insertedBy" type="string">
+  Usuario que creó el registro.
+</ResponseField>
+
+<ResponseField name="insertedDate" type="string">
+  Fecha de creación en formato ISO 8601.
+</ResponseField>
+
+<ResponseField name="updatedBy" type="string">
+  Usuario que actualizó el registro por última vez.
+</ResponseField>
+
+<ResponseField name="updatedDate" type="string">
+  Fecha de la última actualización en formato ISO 8601.
+</ResponseField>
+
+<RequestExample>
+
+```json Ejemplo de Respuesta
+{
+  "id": 1,
+  "itemType": {
+    "id": "Charge",
+    "name": "Cargo"
+  },
+  "item": {
+    "id": 5,
+    "name": "Ocean Freight",
+    "fastCode": "OFR",
+    "isDescriptionFixed": false,
+    "hasFixedTax": true,
+    "isTransparent": false,
+    "isTransparentProcessed": false,
+    "type": {
+      "id": 2,
+      "name": "Freight"
+    }
+  },
+  "taxPercent": 18.00,
+  "acquiredWarranty": null,
+  "description": "Flete marítimo principal",
+  "calculationType": {
+    "id": "BLS",
+    "name": "Bill of Lading"
+  },
+  "quantity": 1.00,
+  "productPackaging": {
+    "id": 10,
+    "name": "Container"
+  },
+  "packagingQuantity": 1.00,
+  "unitReceived": null,
+  "price": 1500.00,
+  "discount": 0.00,
+  "subTotalAmount": 1500.00,
+  "taxAmount": 270.00,
+  "totalAmount": 1770.00,
+  "goodServiceApplicability": {
+    "id": "Goods",
+    "name": "Bienes"
+  },
+  "operation": {
+    "id": 5321,
+    "category": "Shipment",
+    "transactionNumber": 10245
+  },
+  "department": {
+    "id": 3,
+    "name": "Logistics"
+  },
+  "costCenter": {
+    "id": 5,
+    "name": "Operations"
+  },
+  "project": null,
+  "useDepartment": {
+    "id": "Optional",
+    "name": "Opcional"
+  },
+  "useCostCenter": {
+    "id": "Required",
+    "name": "Requerido"
+  },
+  "useProject": {
+    "id": "Hidden",
+    "name": "Oculto"
+  },
+  "estimate": {
+    "id": 450
+  },
+  "totalToPay": 1770.00,
+  "insertedBy": "jdoe",
+  "insertedDate": "2026-07-13T10:00:00Z",
+  "updatedBy": "mlopez",
+  "updatedDate": "2026-07-13T11:30:00Z"
+}
+```
+
+</RequestExample>
