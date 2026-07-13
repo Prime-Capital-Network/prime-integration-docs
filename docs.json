@@ -119,7 +119,10 @@
                   "api-reference/purchase-invoices/actualizar-parcial-facturas",
                   "api-reference/purchase-invoices/listar-detalles",
                   "api-reference/purchase-invoices/extraer-detalle-por-id",
-                  "api-reference/purchase-invoices/crear-detalle"
+                  "api-reference/purchase-invoices/crear-detalle",
+                  "api-reference/purchase-invoices/actualizar-detalle",
+                  "api-reference/purchase-invoices/actualizar-parcial-detalle",
+                  "api-reference/purchase-invoices/eliminar-detalle"
                 ]
               }
             ]
