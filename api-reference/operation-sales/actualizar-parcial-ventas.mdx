@@ -6,7 +6,7 @@ sidebarTitle: "Actualizar Parcial"
 Actualiza los datos parcialmente de un estimado de venta (operation sale) en la empresa.
 
 ```http
-PATCH /operation-sales
+PATCH /operation-sales/{id}
 ```
 
 <Note>
@@ -89,7 +89,7 @@ PATCH /operation-sales
 
 <CodeGroup>
 
-```parcialmente bash
+```bash
 curl --request PATCH \
   --url "https://api.primenetcloud.com/v1/operation-sales" \
   --header "X-Api-Key: YOUR_API_KEY" \
@@ -174,7 +174,7 @@ Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
 ### Errores
 
 <ResponseField name="404 Not Found" type="error">
-  No existe ningún house con el `id` especificado en la URL.
+  No existe ningúna operación con el `id` especificado en la URL.
 </ResponseField>
 
 <ResponseField name="403 Forbidden" type="error">

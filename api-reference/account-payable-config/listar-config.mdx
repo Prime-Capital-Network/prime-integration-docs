@@ -1,0 +1,145 @@
+---
+title: "Obtener Configuración"
+---
+
+Obtiene la configuración de cuentas por pagar de la empresa.
+
+```http
+GET /account-payable-configuration
+```
+
+<Note>
+  Este endpoint requiere el scope **`AccountPayableConfiguration.Read`**.
+</Note>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/account-payable-configuration" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: application/json"
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/account-payable-configuration", {
+  method: "GET",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+    "Content-Type": "application/json",
+  },
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/account-payable-configuration",
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Response fields
+
+<ResponseField name="duplicatedNumbers" type="string">
+  Indica el comportamiento del sistema ante números de factura duplicados.
+
+  Valores:
+
+  - `Continue`: El sistema continua el proceso.
+  - `Notify`: El sistema notifica al usuario.
+  - `Deny`: El sistema bloquea el proceso.
+</ResponseField>
+
+<ResponseField name="duplicatedNCF" type="string">
+  Indica el comportamiento del sistema ante números de comprobante fiscal (NCF) duplicados.
+
+  Valores:
+
+  - `Continue`: El sistema continua el proceso.
+  - `Notify`: El sistema notifica al usuario.
+  - `Deny`: El sistema bloquea el proceso.
+</ResponseField>
+
+<ResponseField name="isChargeTransparencyEnabled" type="boolean">
+  Indica si la transparencia de cargos está habilitada.
+</ResponseField>
+
+<ResponseField name="quantityDecimals" type="integer">
+  Cantidad de decimales permitidos para el registro de cantidades (Quantity).
+</ResponseField>
+
+<ResponseField name="priceDecimals" type="integer">
+  Cantidad de decimales permitidos para el registro de precios (Price).
+</ResponseField>
+
+<ResponseField name="advancePaymentAccount" type="object">
+  Cuenta contable configurada para los pagos anticipados.
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador único de la cuenta contable.
+    </ResponseField>
+    <ResponseField name="name" type="string">
+      Nombre descriptivo de la cuenta contable.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="reimbursementAccount" type="object">
+  Cuenta contable configurada para los reembolsos.
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador único de la cuenta contable.
+    </ResponseField>
+    <ResponseField name="name" type="string">
+      Nombre descriptivo de la cuenta contable.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="updatedBy" type="string">
+  Nombre del usuario que realizó la última modificación en la configuración.
+</ResponseField>
+
+<ResponseField name="updatedDate" type="string">
+  Fecha y hora de la última modificación en formato ISO 8601.
+</ResponseField>
+
+<RequestExample>
+
+```json
+{
+  "duplicatedNumbers": "Warn",
+  "duplicatedNCF": "Block",
+  "isChargeTransparencyEnabled": true,
+  "quantityDecimals": 2,
+  "priceDecimals": 4,
+  "advancePaymentAccount": {
+    "id": 105,
+    "name": "Cuentas por Pagar - Anticipos"
+  },
+  "reimbursementAccount": {
+    "id": 210,
+    "name": "Cuentas por Pagar - Reembolsos"
+  },
+  "updatedBy": "jdoe",
+  "updatedDate": "2026-07-13T11:30:00Z"
+}
+```
+
+</RequestExample>

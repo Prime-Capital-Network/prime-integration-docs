@@ -3,70 +3,54 @@ title: "Actualizar"
 sidebarTitle: "Actualizar Parcial"
 ---
 
-Actualiza los datos parcialmente de un estimado de venta (operation sale) en la empresa.
+Actualiza los datos parcialmente de una factura de compra en la empresa.
 
 ```http
-PATCH /operation-sales
+PATCH /purchase-invoices/{id}
 ```
 
 <Note>
-  Este endpoint requiere el scope **`OperationSales.Write`**.
+  Este endpoint requiere el scope **`PurchaseInvoices.Write`**.
 </Note>
 
 ### Path parameters
 
 <ParamField path="id" type="integer" required>
-  Identificador único del estimado a actualizar.
+  Identificador único de la factura a actualizar.
 </ParamField>
 
 ### Body parameters
 
-<ParamField body="chargeId" type="integer">
-  Identificador del cargo asociado a la venta.
+<ParamField body="number" type="string">
+  Número de la factura. Máximo 30 caracteres.
+
+  - Si la [configuración de CxP](/api-reference/account-payable-config/listar-config) tiene el campo `duplicatedNumbers` como `Deny`, y el número ya existe, la solicitud será rechazada con un error `400 Bad Request`.
 </ParamField>
 
-<ParamField body="chargeDescription" type="string">
-  Descripción del cargo. Máximo 120 caracteres.
+<ParamField body="date" type="date">
+  Fecha de la factura en formato `YYYY-MM-DD`.
+  
+  - Debe ser menor o igual a la fecha de hoy.
+  - Debe pertenecer a un período fiscal activo.
 </ParamField>
 
-<ParamField body="chargeDetail" type="string">
-  Detalle adicional del cargo. Máximo 250 caracteres.
+<ParamField body="vendorId" type="integer">
+  Identificador del proveedor (Vendor).
+
+  - Debe ser un asociado con el campo `IsVendor` como true.
+  - Debe tener el campo `VendorAccountGroup` asignado.
 </ParamField>
 
-<ParamField body="quotationGroupId" type="integer">
-  Identificador del grupo de cotización asociado.
+<ParamField body="identityDocumentId" type="integer">
+  Identificador del tipo de documento de identidad.
 </ParamField>
 
-<ParamField body="calculationTypeId" type="string">
-  Identificador del tipo de cálculo.
-</ParamField>
-
-<ParamField body="currencyId" type="string">
-  Identificador de la moneda.
-</ParamField>
-
-<ParamField body="quantity" type="decimal">
-  Cantidad. Debe ser mayor que cero, y menor o igual a 9,999,999.
-</ParamField>
-
-<ParamField body="price" type="decimal">
-  Precio unitario. Debe ser mayor que cero, y menor o igual a 99,999,999.
-</ParamField>
-
-<ParamField body="taxPercent" type="decimal">
-  Porcentaje de impuesto. Debe ser mayor o igual a cero.
-</ParamField>
-
-<ParamField body="discount" type="decimal">
-  Descuento aplicado. Debe ser mayor o igual a cero, y menor o igual a 99,999,999.
-</ParamField>
-
-<ParamField body="operationId" type="integer">
-  Identificador de la operación logística asociada, según el campo `operationCategory`.
+<ParamField body="identityDocumentNumber" type="string">
+  Número de documento de identidad. Máximo 24 caracteres.
 </ParamField>
 
 <ParamField body="operationCategory" type="string">
-  Categoría de la operación logística asociada. Valores aceptados:
+  Categoría de la operación logística asociada. Requerido si `operationId` está presente. Valores aceptados:
 
   - `Shipment` (Embarque)
   - `CustomManagement` (Aduanas)
@@ -74,44 +58,127 @@ PATCH /operation-sales
   - `InlandFreight` (Transporte Terrestre)
 </ParamField>
 
-<ParamField body="forUseOn" type="string">
-  Indica el uso del cargo. Valores aceptados:
-
-  - `Invoice`
-  - `Reimbursement`
+<ParamField body="operationId" type="integer">
+  Identificador de la operación logística asociada. Requerido si `operationCategory` está presente.
 </ParamField>
 
-<ParamField body="containerTypeId" type="string">
-  Identificador del tipo de contenedor asociado.
+<ParamField body="masterId" type="integer">
+  Identificador del registro maestro (Master).
+</ParamField>
+
+<ParamField body="paymentTermId" type="integer">
+  Identificador del término de pago.
+</ParamField>
+
+<ParamField body="reference" type="string">
+  Referencia de la factura. Máximo 250 caracteres.
+</ParamField>
+
+<ParamField body="description" type="string">
+  Descripción general de la factura de compra. Máximo 4000 caracteres.
+</ParamField>
+
+<ParamField body="currencyId" type="string">
+  Identificador de la moneda.
+</ParamField>
+
+<ParamField body="exchangeRate" type="decimal">
+  Tasa de cambio aplicada. Debe ser mayor que cero. Precisión de hasta 8 decimales.
+  
+  Si el campo es `null`:
+  - Si `currencyId` es distinto a la moneda de la empresa, el sistema asignará automáticamente la tasa de cambio vigente.
+  - Si `currencyId` es igual a la moneda de la empresa, se asignará por defecto el valor `1`.
+</ParamField>
+
+<ParamField body="fiscalDocumentId" type="string">
+  Identificador del documento fiscal.
+
+  - Debe ser un documento fiscal con el campo `AppliedToPayables` como `true`.
+
+  Valores aceptados:
+
+  - `FC`:	Factura de Credito Fiscal
+  - `FI`:	Factura Internacional
+  - `FN`:	Factura sin Comprobante Fiscal
+  - `GM`:	Registro de Gasto Menor
+  - `PE`:	Pago al Extranjero
+  - `PI`:	Registro de Proveedores Informales
+</ParamField>
+
+<ParamField body="ncf" type="string">
+  Número de Comprobante Fiscal (NCF). Máximo 19 caracteres.
+
+  - Si el campo es `null`, y el campo `fiscalDocumentId` es `FC` (Factura de Credito Fiscal), la solicitud será rechazada con un error `400 Bad Request`.
+  - Si el campo no es `null`:
+    - Si el campo `fiscalDocumentId` no es `FC`, la solicitud será rechazada con un error `400 Bad Request`.
+    - Si la [configuración de CxP](/api-reference/account-payable-config/listar-config) tiene el campo `duplicatedNCF` como `Deny`, y el NCF ya existe, la solicitud será rechazada con un error `400 Bad Request`.
+</ParamField>
+
+<ParamField body="salesTaxRetentionId" type="integer">
+  Identificador de la retención de impuestos sobre las ventas.
+</ParamField>
+
+<ParamField body="incomeTaxRetentionId" type="integer">
+  Identificador de la retención de impuestos sobre la renta.
+</ParamField>
+
+<ParamField body="dgiiServiceId" type="string">
+  Identificador del servicio de la DGII.
+</ParamField>
+
+<ParamField body="retentionType606Id" type="integer">
+  Identificador del tipo de retención para el formato 606.
+</ParamField>
+
+<ParamField body="retentionTypeIR17Id" type="integer">
+  Identificador del tipo de retención para el formato IR-17.
+</ParamField>
+
+<ParamField body="purchaseOrderId" type="integer">
+  Identificador de la orden de compra asociada.
+</ParamField>
+
+<ParamField body="dgiiService609DetailId" type="integer">
+  Identificador del detalle del servicio DGII 609.
+</ParamField>
+
+<ParamField body="status" type="string">
+  Estatus de la factura.
+
+  Valores aceptados:
+
+  - `New`
+  - `Posted`
+  - `Cancelled`
+  - `Deleted`
 </ParamField>
 
 ### Example request
 
 <CodeGroup>
 
-```parcialmente bash
+```bash curl
 curl --request PATCH \
-  --url "https://api.primenetcloud.com/v1/operation-sales" \
+  --url "https://api.primenetcloud.com/v1/purchase-invoices" \
   --header "X-Api-Key: YOUR_API_KEY" \
   --header "X-Tenant-Id: TENANT_ID" \
   --header "Content-Type: application/merge-patch+json" \
   --data '{
-    "chargeId": 5,
-    "chargeDescription": "Ocean Freight",
-    "quotationGroupId": 3,
-    "currencyId": "USD",
-    "quantity": 1,
-    "price": 1500,
-    "taxPercent": 0,
-    "discount": 0,
+    "number": "INV-00123",
+    "date": "2026-07-13",
+    "vendorId": 142,
+    "paymentTermId": 2,
+    "currencyId": "DOP",
+    "exchangeRate": 58.50,
+    "fiscalDocumentId": "FC",
+    "ncf": "B0100000001",
     "operationId": 5321,
-    "operationCategory": "Shipment",
-    "forUseOn": "Invoice"
+    "operationCategory": "Shipment"
   }'
 ```
 
 ```javascript JavaScript
-const response = await fetch("https://api.primenetcloud.com/v1/operation-sales", {
+const response = await fetch("https://api.primenetcloud.com/v1/purchase-invoices", {
   method: "PATCH",
   headers: {
     "X-Api-Key": "YOUR_API_KEY",
@@ -119,17 +186,16 @@ const response = await fetch("https://api.primenetcloud.com/v1/operation-sales",
     "Content-Type": "application/merge-patch+json",
   },
   body: JSON.stringify({
-    chargeId: 5,
-    chargeDescription: "Ocean Freight",
-    quotationGroupId: 3,
-    currencyId: "USD",
-    quantity: 1,
-    price: 1500,
-    taxPercent: 0,
-    discount: 0,
+    number: "INV-00123",
+    date: "2026-07-13",
+    vendorId: 142,
+    paymentTermId: 2,
+    currencyId: "DOP",
+    exchangeRate: 58.50,
+    fiscalDocumentId: "B01",
+    ncf: "B0100000001",
     operationId: 5321,
-    operationCategory: "Shipment",
-    forUseOn: "Invoice",
+    operationCategory: "Shipment"
   }),
 });
 
@@ -141,19 +207,18 @@ console.log(data);
 import requests
 
 response = requests.patch(
-    "https://api.primenetcloud.com/v1/operation-sales",
+    "https://api.primenetcloud.com/v1/purchase-invoices",
     json={
-        "chargeId": 5,
-        "chargeDescription": "Ocean Freight",
-        "quotationGroupId": 3,
-        "currencyId": "USD",
-        "quantity": 1,
-        "price": 1500,
-        "taxPercent": 0,
-        "discount": 0,
+        "number": "INV-00123",
+        "date": "2026-07-13",
+        "vendorId": 142,
+        "paymentTermId": 2,
+        "currencyId": "DOP",
+        "exchangeRate": 58.50,
+        "fiscalDocumentId": "FC",
+        "ncf": "B0100000001",
         "operationId": 5321,
-        "operationCategory": "Shipment",
-        "forUseOn": "Invoice",
+        "operationCategory": "Shipment"
     },
     headers={
         "X-Api-Key": "YOUR_API_KEY",
@@ -174,31 +239,39 @@ Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
 ### Errores
 
 <ResponseField name="404 Not Found" type="error">
-  No existe ningún house con el `id` especificado en la URL.
+  No existe ningúna factura con el `id` especificado en la URL.
 </ResponseField>
 
 <ResponseField name="403 Forbidden" type="error">
-  El API Key no tiene el scope `Houses.Write` requerido.
+  El API Key no tiene el scope `PurchaseInvoicse.Write` requerido.
 </ResponseField>
 
 <RequestExample>
 
 ```json
 {
-  "chargeId": 5,
-  "chargeDescription": "Ocean Freight",
-  "chargeDetail": "string",
-  "quotationGroupId": 3,
-  "calculationTypeId": "BLS",
-  "currencyId": "USD",
-  "quantity": 1,
-  "price": 1500,
-  "taxPercent": 0,
-  "discount": 0,
-  "operationId": 5321,
+  "number": "INV-00123",
+  "date": "2026-07-13",
+  "vendorId": 142,
+  "identityDocumentId": 1,
+  "identityDocumentNumber": "123456789",
   "operationCategory": "Shipment",
-  "forUseOn": "Invoice",
-  "containerTypeId": "12TR"
+  "operationId": 5321,
+  "masterId": 890,
+  "paymentTermId": 2,
+  "reference": "Ref-987",
+  "description": "Factura por servicios de flete marítimo",
+  "currencyId": "DOP",
+  "exchangeRate": 58.50,
+  "fiscalDocumentId": "FC",
+  "ncf": "B0100000001",
+  "salesTaxRetentionId": 3,
+  "incomeTaxRetentionId": 1,
+  "dgiiServiceId": "01",
+  "retentionType606Id": 2,
+  "retentionTypeIR17Id": 4,
+  "purchaseOrderId": 776,
+  "dgiiService609DetailId": 5
 }
 ```
 

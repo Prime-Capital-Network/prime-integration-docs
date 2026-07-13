@@ -16,14 +16,22 @@ POST /purchase-invoices
 
 <ParamField body="number" type="string">
   Número de la factura. Máximo 30 caracteres.
+
+  - Si la [configuración de CxP](/api-reference/account-payable-config/listar-config) tiene el campo `duplicatedNumbers` como `Deny`, y el número ya existe, la solicitud será rechazada con un error `400 Bad Request`.
 </ParamField>
 
 <ParamField body="date" type="date" required>
   Fecha de la factura en formato `YYYY-MM-DD`.
+  
+  - Debe ser menor o igual a la fecha de hoy.
+  - Debe pertenecer a un período fiscal activo.
 </ParamField>
 
 <ParamField body="vendorId" type="integer" required>
   Identificador del proveedor (Vendor).
+
+  - Debe ser un asociado con el campo `IsVendor` como true.
+  - Debe tener el campo `VendorAccountGroup` asignado.
 </ParamField>
 
 <ParamField body="identityDocumentId" type="integer">
@@ -69,14 +77,34 @@ POST /purchase-invoices
 
 <ParamField body="exchangeRate" type="decimal">
   Tasa de cambio aplicada. Debe ser mayor que cero. Precisión de hasta 8 decimales.
+  
+  Si el campo es `null`:
+  - Si `currencyId` es distinto a la moneda de la empresa, el sistema asignará automáticamente la tasa de cambio vigente.
+  - Si `currencyId` es igual a la moneda de la empresa, se asignará por defecto el valor `1`.
 </ParamField>
 
 <ParamField body="fiscalDocumentId" type="string" required>
   Identificador del documento fiscal.
+
+  - Debe ser un documento fiscal con el campo `AppliedToPayables` como `true`.
+
+  Valores aceptados:
+
+  - `FC`:	Factura de Credito Fiscal
+  - `FI`:	Factura Internacional
+  - `FN`:	Factura sin Comprobante Fiscal
+  - `GM`:	Registro de Gasto Menor
+  - `PE`:	Pago al Extranjero
+  - `PI`:	Registro de Proveedores Informales
 </ParamField>
 
 <ParamField body="ncf" type="string">
   Número de Comprobante Fiscal (NCF). Máximo 19 caracteres.
+
+  - Si el campo es `null`, y el campo `fiscalDocumentId` es `FC` (Factura de Credito Fiscal), la solicitud será rechazada con un error `400 Bad Request`.
+  - Si el campo no es `null`:
+    - Si el campo `fiscalDocumentId` no es `FC`, la solicitud será rechazada con un error `400 Bad Request`.
+    - Si la [configuración de CxP](/api-reference/account-payable-config/listar-config) tiene el campo `duplicatedNCF` como `Deny`, y el NCF ya existe, la solicitud será rechazada con un error `400 Bad Request`.
 </ParamField>
 
 <ParamField body="salesTaxRetentionId" type="integer">
@@ -128,7 +156,7 @@ curl --request POST \
     "paymentTermId": 2,
     "currencyId": "DOP",
     "exchangeRate": 58.50,
-    "fiscalDocumentId": "B01",
+    "fiscalDocumentId": "FC",
     "ncf": "B0100000001",
     "operationId": 5321,
     "operationCategory": "Shipment",
@@ -175,7 +203,7 @@ response = requests.post(
         "paymentTermId": 2,
         "currencyId": "DOP",
         "exchangeRate": 58.50,
-        "fiscalDocumentId": "B01",
+        "fiscalDocumentId": "FC",
         "ncf": "B0100000001",
         "operationId": 5321,
         "operationCategory": "Shipment",
@@ -223,7 +251,7 @@ print(response.json())
   "description": "Factura por servicios de flete marítimo",
   "currencyId": "DOP",
   "exchangeRate": 58.50,
-  "fiscalDocumentId": "B01",
+  "fiscalDocumentId": "FC",
   "ncf": "B0100000001",
   "salesTaxRetentionId": 3,
   "incomeTaxRetentionId": 1,

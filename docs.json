@@ -32,6 +32,12 @@
             "pages": [
               "api-reference/filtros-avanzados",
               {
+                "group": "Configuracion CxP",
+                "pages": [
+                  "api-reference/account-payable-config/listar-config"
+                ]
+              },
+              {
                 "group": "Asociados",
                 "pages": [
                   "api-reference/associates/listar-asociados",
