@@ -124,6 +124,22 @@
                   "api-reference/purchase-invoices/actualizar-parcial-detalle",
                   "api-reference/purchase-invoices/eliminar-detalle"
                 ]
+              },
+              {
+                "group": "Reembolsos por Pagar",
+                "pages": [
+                  "api-reference/reimbursement-liabilities/listar-reembolsos",
+                  "api-reference/reimbursement-liabilities/extraer-reembolso-por-id",
+                  "api-reference/reimbursement-liabilities/crear-reembolsos",
+                  "api-reference/reimbursement-liabilities/actualizar-reembolsos",
+                  "api-reference/reimbursement-liabilities/actualizar-parcial-reembolsos",
+                  "api-reference/reimbursement-liabilities/listar-detalles",
+                  "api-reference/reimbursement-liabilities/extraer-detalle-por-id",
+                  "api-reference/reimbursement-liabilities/crear-detalle",
+                  "api-reference/reimbursement-liabilities/actualizar-detalle",
+                  "api-reference/reimbursement-liabilities/actualizar-parcial-detalle",
+                  "api-reference/reimbursement-liabilities/eliminar-detalle"
+                ]
               }
             ]
           }
