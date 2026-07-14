@@ -135,9 +135,15 @@ POST /purchase-invoices
   Identificador del detalle del servicio DGII 609.
 </ParamField>
 
-<ParamField body="details" type="array">
+import DetailFields from './snippets/purchase-invoice-detail-fields.mdx'
+
+<ParamField body="details" type="array" required>
   Lista de detalles de la factura de compra.
+  <Expandable title="detalle">
+    <DetailFields />
+  </Expandable>
 </ParamField>
+
 
 ### Example request
 
