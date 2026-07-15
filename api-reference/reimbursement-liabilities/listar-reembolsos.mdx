@@ -2,7 +2,7 @@
 title: "Listar"
 ---
 
-Obtén una lista paginada de reembolsos (cuentas por pagar) en la empresa.
+Obtén una lista paginada de reembolsos por pagar en la empresa.
 
 ```http
 GET /reimbursement-liabilities
@@ -56,11 +56,11 @@ GET /reimbursement-liabilities
   Filtra los reembolsos según el estatus de su comprobante contable.
 
   Valores aceptados:
-  - Active
-  - New
-  - Posted
-  - Cancelled
-  - Deleted
+  - `Active`
+  - `New`
+  - `Posted`
+  - `Cancelled`
+  - `Deleted`
 </ParamField>
 
 <ParamField query="Number" type="StringSearchFilter">

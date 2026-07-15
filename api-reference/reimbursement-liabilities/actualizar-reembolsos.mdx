@@ -3,7 +3,7 @@ title: "Actualizar"
 sidebarTitle: "Actualizar"
 ---
 
-Actualiza los datos de un reembolso en la empresa.
+Actualiza los datos de un reembolso por pagar en la empresa.
 
 ```http
 PUT /reimbursement-liabilities/{id}
@@ -14,7 +14,7 @@ PUT /reimbursement-liabilities/{id}
 </Note>
 
 <Warning>
-  Este es un reemplazo completo del recurso (PUT). Todos los campos enviados en el body sobrescribirán el estado actual del reembolso. Para cambios parciales, verificar la sección [Actualizar Parcial Reimbolso](/api-reference/reimbursement-liabilities/actualizar-parcial-reembolsos).
+  Este es un reemplazo completo del recurso (PUT). Todos los campos enviados en el body sobrescribirán el estado actual del reembolso. Para cambios parciales, verificar la sección [Actualizar Parcial Reembolso](/api-reference/reimbursement-liabilities/actualizar-parcial-reembolsos).
 </Warning>
 
 ### Path parameters
@@ -119,7 +119,7 @@ curl --request PUT \
     "date": "2026-07-13",
     "vendorId": 142,
     "paymentTermId": 2,
-    "currencyId": "DOP",
+    "currencyId": "USD",
     "exchangeRate": 58.50,
     "operationId": 5321,
     "operationCategory": "Shipment"
@@ -139,7 +139,7 @@ const response = await fetch("https://api.primenetcloud.com/v1/reimbursement-lia
     date: "2026-07-13",
     vendorId: 142,
     paymentTermId: 2,
-    currencyId: "DOP",
+    currencyId: "USD",
     exchangeRate: 58.50,
     operationId: 5321,
     operationCategory: "Shipment"
@@ -160,7 +160,7 @@ response = requests.put(
         "date": "2026-07-13",
         "vendorId": 142,
         "paymentTermId": 2,
-        "currencyId": "DOP",
+        "currencyId": "USD",
         "exchangeRate": 58.50,
         "operationId": 5321,
         "operationCategory": "Shipment"
@@ -204,8 +204,8 @@ Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
   "masterId": 890,
   "paymentTermId": 2,
   "reference": "Ref-987",
-  "description": "Reimbolso por gastos de flete marítimo",
-  "currencyId": "DOP",
+  "description": "Reembolso por gastos de flete marítimo",
+  "currencyId": "USD",
   "exchangeRate": 58.50,
   "status": "New"
 }

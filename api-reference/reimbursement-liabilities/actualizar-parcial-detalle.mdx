@@ -1,0 +1,191 @@
+---
+title: "Actualizar Parcial Detalle"
+---
+
+Actualiza un detalle para un reembolso específico.
+
+```http
+PATCH /reimbursement-liabilities/{id}/details/{detailId}
+```
+
+<Note>
+  Este endpoint requiere el scope **`ReimbursementLiabilities.Write`**.
+</Note>
+
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único del reembolso al que pertenece el detalle.
+</ParamField>
+
+<ParamField path="detailId" type="integer" required>
+  Identificador único del detalle a actualizar.
+</ParamField>
+
+### Body parameters
+
+<ParamField body="chargeId" type="integer">
+  Identificador del cargo.
+</ParamField>
+
+<ParamField body="chargeTypeId" type="integer">
+  Identificador del tipo de cargo.
+
+  - Si la factura tiene asignado el campo `masterId`, y el master tiene el campo `transportType` igual a `Rail`, este campo no puede ser igual a `1` (Prorrateo Por Peso (WM)).
+
+  Valores aceptados:
+  - `1`	(Prorrateo Por Peso (WM))
+  - `2`	(Ganancias Agentes)
+  - `3`	(Distribucion En Montos Equitativos)
+  - `4`	(Impuestos)
+  - `5`	(Prorrateo Por Peso Fisico)
+  - `6`	(Prorrateo Por Volumen)
+</ParamField>
+
+<ParamField body="description" type="string">
+  Descripción del detalle. Máximo 250 caracteres.
+</ParamField>
+
+<ParamField body="quantity" type="decimal">
+  Cantidad. Debe ser mayor que cero.
+</ParamField>
+
+<ParamField body="price" type="decimal">
+  Precio unitario. Debe ser mayor que cero.
+</ParamField>
+
+<ParamField body="operationCategory" type="string">
+  Categoría de la operación logística asociada. Requerido si `operationId` está presente. Valores aceptados:
+
+  - `Shipment` (Embarque)
+  - `CustomManagement` (Aduanas)
+  - `Additional` (Misceláneos)
+  - `InlandFreight` (Transporte Terrestre)
+</ParamField>
+
+<ParamField body="operationId" type="integer">
+  Identificador de la operación logística asociada. Requerido si `operationCategory` está presente.
+</ParamField>
+
+<ParamField body="departmentId" type="integer">
+  Identificador del departamento asignado (Dimensión).
+
+  - Debe ser una dimensión con el campo `typeId` igual a `1` (Department).
+</ParamField>
+
+<ParamField body="costCenterId" type="integer">
+  Identificador del centro de costo asignado (Dimensión).
+
+  - Debe ser una dimensión con el campo `typeId` igual a `2` (CostCenter).
+</ParamField>
+
+<ParamField body="projectId" type="integer">
+  Identificador del proyecto asignado (Dimensión).
+
+  - Debe ser una dimensión con el campo `typeId` igual a `3` (Project).
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request PATCH \
+  --url "https://api.primenetcloud.com/v1/reimbursement-liabilities/1054/details/1" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: application/merge-patch+json" \
+  --data '{
+    "chargeId": 5,
+    "description": "Flete marítimo principal",
+    "quantity": 1,
+    "price": 1500,
+    "operationId": 5321,
+    "operationCategory": "Shipment"
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/reimbursement-liabilities/1054/details/1", {
+  method: "PATCH",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+    "Content-Type": "application/merge-patch+json",
+  },
+  body: JSON.stringify({
+    chargeId: 5,
+    description: "Flete marítimo principal",
+    quantity: 1,
+    price: 1500,
+    operationId: 5321,
+    operationCategory: "Shipment"
+  }),
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.patch(
+    "https://api.primenetcloud.com/v1/reimbursement-liabilities/1054/details/1",
+    json={
+        "chargeId": 5,
+        "description": "Flete marítimo principal",
+        "quantity": 1,
+        "price": 1500,
+        "operationId": 5321,
+        "operationCategory": "Shipment"
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+        "Content-Type": "application/merge-patch+json"
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Response
+
+Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
+
+### Errores
+
+<ResponseField name="404 Not Found">
+  No existe ningún reembolso o detalle con el `id`/`detailId` especificado en la URL.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `ReimbursementLiabilities.Write` requerido.
+</ResponseField>
+
+<ResponseField name="415 Unsupported Media Type">
+  La solicitud no incluye el header `Content-Type` como `application/merge-patch+json`.
+</ResponseField>
+
+<RequestExample>
+
+```json
+{
+  "chargeId": 5,
+  "chargeTypeId": 2,
+  "description": "Flete marítimo principal",
+  "quantity": 1.0000,
+  "price": 1500.0000,
+  "operationCategory": "Shipment",
+  "operationId": 5321,
+  "departmentId": 3,
+  "costCenterId": 5,
+  "projectId": null
+}
+```
+
+</RequestExample>
