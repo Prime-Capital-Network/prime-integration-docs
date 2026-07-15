@@ -1,0 +1,197 @@
+---
+title: "Obtener Detalle por ID"
+---
+
+Obtén un detalle específico asociado a un reembolso.
+
+```http
+GET /reimbursement-liabilities/{id}/details/{detailId}
+```
+
+<Note>
+  Este endpoint requiere el scope **`ReimbursementLiabilities.Read`**.
+</Note>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único del reembolso.
+</ParamField>
+
+<ParamField path="detailId" type="integer" required>
+  Identificador único del detalle a consultar.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/reimbursement-liabilities/1054/details/1" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: application/json"
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/reimbursement-liabilities/1054/details/1", {
+  method: "GET",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+    "Content-Type": "application/json",
+  },
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/reimbursement-liabilities/1054/details/1",
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único del detalle.
+</ResponseField>
+
+<ResponseField name="charge" type="object">
+  Cargo (charge) asociado al detalle.
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del cargo.
+    </ResponseField>
+    <ResponseField name="name" type="string">
+      Nombre del cargo.
+    </ResponseField>
+    <ResponseField name="fastCode" type="string">
+      Código rápido del cargo.
+    </ResponseField>
+    <ResponseField name="isDescriptionFixed" type="boolean">
+      Indica si la descripción del cargo es fija.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="description" type="string">
+  Descripción del detalle.
+</ResponseField>
+
+<ResponseField name="quantity" type="decimal">
+  Cantidad del ítem.
+</ResponseField>
+
+<ResponseField name="price" type="decimal">
+  Precio unitario.
+</ResponseField>
+
+<ResponseField name="totalAmount" type="decimal">
+  Monto total del detalle.
+</ResponseField>
+
+<ResponseField name="operation" type="object">
+  Operación logística asociada (Shipment, CustomManagement, Additional o InlandFreight). `null` si el detalle no está asociado a ninguna operación.
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador de la operación.
+    </ResponseField>
+    <ResponseField name="category" type="string">
+      Categoría de la operación logística.
+
+      Valores posibles:
+
+      - `Shipment`
+      - `CustomManagement`
+      - `Additional`
+      - `InlandFreight`
+    </ResponseField>
+    <ResponseField name="transactionNumber" type="integer">
+      Número de transacción de la operación.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="department" type="object">
+  Departamento asignado (Dimensión).
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="integer">Identificador del departamento.</ResponseField>
+    <ResponseField name="name" type="string">Nombre del departamento.</ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="costCenter" type="object">
+  Centro de costo asignado (Dimensión).
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="integer">Identificador del centro de costo.</ResponseField>
+    <ResponseField name="name" type="string">Nombre del centro de costo.</ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="project" type="object">
+  Proyecto asignado (Dimensión).
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="integer">Identificador del proyecto.</ResponseField>
+    <ResponseField name="name" type="string">Nombre del proyecto.</ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="estimate" type="object">
+  Estimado de gasto asociado.
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del estimado.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+
+```json Ejemplo de Respuesta
+{
+  "id": 1,
+  "charge": {
+    "id": 5,
+    "name": "Ocean Freight",
+    "fastCode": "OFR",
+    "isDescriptionFixed": false
+  },
+  "description": "Flete marítimo principal",
+  "quantity": 1.00,
+  "price": 1500.00,
+  "totalAmount": 1500.00,
+  "operation": {
+    "id": 5321,
+    "category": "Shipment",
+    "transactionNumber": 10245
+  },
+  "department": {
+    "id": 3,
+    "name": "Logistics"
+  },
+  "costCenter": {
+    "id": 5,
+    "name": "Operations"
+  },
+  "project": null,
+  "estimate": {
+    "id": 450
+  }
+}
+```
+
+</RequestExample>

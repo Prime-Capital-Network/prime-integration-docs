@@ -479,6 +479,11 @@ print(response.json())
   Indica si el reembolso fue generado automáticamente por el sistema.
 </ResponseField>
 
-<ResponseField name="details" type="array">
+import ListFields from './snippets/list-reimbursement-details.mdx'
+
+<ParamField body="details" type="array">
   Detalles (líneas) del reembolso. Solo se incluye si se solicita mediante `include=Details`.
-</ResponseField>
+  <Expandable title="detalle">
+    <ListFields />
+  </Expandable>
+</ParamField>

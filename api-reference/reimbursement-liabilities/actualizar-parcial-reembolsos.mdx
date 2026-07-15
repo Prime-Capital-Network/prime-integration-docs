@@ -1,16 +1,22 @@
 ---
-title: "Crear"
+title: "Actualizar Parcial"
 ---
 
-Crea un nuevo reembolso (cuenta por pagar) en la empresa.
+Actualiza los datos de un reembolso en la empresa.
 
 ```http
-POST /reimbursement-liabilities
+PATCH /reimbursement-liabilities/{id}
 ```
 
 <Note>
   Este endpoint requiere el scope **`ReimbursementLiabilities.Write`**.
 </Note>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único del reembolso a actualizar.
+</ParamField>
 
 ### Body parameters
 
@@ -20,14 +26,14 @@ POST /reimbursement-liabilities
   - Si la [configuración de CxP](/api-reference/account-payable-config/listar-config) tiene el campo `duplicatedNumbers` como `Deny`, y el número ya existe, la solicitud será rechazada con un error `400 Bad Request`.
 </ParamField>
 
-<ParamField body="date" type="date" required>
+<ParamField body="date" type="date">
   Fecha del reembolso en formato `YYYY-MM-DD`.
-  
+
   - Debe ser menor o igual a la fecha de hoy.
   - Debe pertenecer a un período fiscal activo.
 </ParamField>
 
-<ParamField body="vendorId" type="integer" required>
+<ParamField body="vendorId" type="integer">
   Identificador del proveedor (Vendor).
 
   - Debe ser un asociado con el campo `IsVendor` como true.
@@ -58,7 +64,7 @@ POST /reimbursement-liabilities
   Identificador del registro maestro (Master).
 </ParamField>
 
-<ParamField body="paymentTermId" type="integer" required>
+<ParamField body="paymentTermId" type="integer">
   Identificador del término de pago.
 </ParamField>
 
@@ -70,7 +76,7 @@ POST /reimbursement-liabilities
   Descripción general del reembolso. Máximo 4000 caracteres.
 </ParamField>
 
-<ParamField body="currencyId" type="string" required>
+<ParamField body="currencyId" type="string">
   Identificador de la moneda.
 </ParamField>
 
@@ -82,12 +88,15 @@ POST /reimbursement-liabilities
   - Si `currencyId` es igual a la moneda de la empresa, se asignará por defecto el valor `1`.
 </ParamField>
 
-<ParamField body="details" type="array">
-  Lista de detalles del reembolso.
-</ParamField>
+<ParamField body="status" type="string">
+  Estatus del reembolso.
 
-<ParamField body="accounts" type="array">
-  Lista de distribución contable adicional del reembolso.
+  Valores aceptados:
+
+  - `New`
+  - `Posted`
+  - `Cancelled`
+  - `Deleted`
 </ParamField>
 
 ### Example request
@@ -95,11 +104,11 @@ POST /reimbursement-liabilities
 <CodeGroup>
 
 ```bash curl
-curl --request POST \
-  --url "https://api.primenetcloud.com/v1/reimbursement-liabilities" \
+curl --request PATCH \
+  --url "https://api.primenetcloud.com/v1/reimbursement-liabilities/1054" \
   --header "X-Api-Key: YOUR_API_KEY" \
   --header "X-Tenant-Id: TENANT_ID" \
-  --header "Content-Type: application/json" \
+  --header "Content-Type: application/merge-patch+json" \
   --data '{
     "number": "REI-00123",
     "date": "2026-07-13",
@@ -108,19 +117,17 @@ curl --request POST \
     "currencyId": "DOP",
     "exchangeRate": 58.50,
     "operationId": 5321,
-    "operationCategory": "Shipment",
-    "details": [],
-    "accounts": []
+    "operationCategory": "Shipment"
   }'
 ```
 
 ```javascript JavaScript
-const response = await fetch("https://api.primenetcloud.com/v1/reimbursement-liabilities", {
-  method: "POST",
+const response = await fetch("https://api.primenetcloud.com/v1/reimbursement-liabilities/1054", {
+  method: "PATCH",
   headers: {
     "X-Api-Key": "YOUR_API_KEY",
     "X-Tenant-Id": "TENANT_ID",
-    "Content-Type": "application/json",
+    "Content-Type": "application/merge-patch+json",
   },
   body: JSON.stringify({
     number: "REI-00123",
@@ -130,9 +137,7 @@ const response = await fetch("https://api.primenetcloud.com/v1/reimbursement-lia
     currencyId: "DOP",
     exchangeRate: 58.50,
     operationId: 5321,
-    operationCategory: "Shipment",
-    details: [],
-    accounts: []
+    operationCategory: "Shipment"
   }),
 });
 
@@ -143,8 +148,8 @@ console.log(data);
 ```python Python
 import requests
 
-response = requests.post(
-    "https://api.primenetcloud.com/v1/reimbursement-liabilities",
+response = requests.patch(
+    "https://api.primenetcloud.com/v1/reimbursement-liabilities/1054",
     json={
         "number": "REI-00123",
         "date": "2026-07-13",
@@ -153,13 +158,12 @@ response = requests.post(
         "currencyId": "DOP",
         "exchangeRate": 58.50,
         "operationId": 5321,
-        "operationCategory": "Shipment",
-        "details": [],
-        "accounts": []
+        "operationCategory": "Shipment"
     },
     headers={
         "X-Api-Key": "YOUR_API_KEY",
         "X-Tenant-Id": "TENANT_ID",
+        "Content-Type": "application/merge-patch+json"
     },
 )
 
@@ -168,24 +172,22 @@ print(response.json())
 
 </CodeGroup>
 
-### Example response
+### Response
 
-```json
-{
-  "id": 1054
-}
-```
-
-### Response fields
-
-<ResponseField name="id" type="integer">
-  Identificador único del reembolso creado.
-</ResponseField>
+Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
 
 ### Errores
 
+<ResponseField name="404 Not Found">
+  No existe ningún reembolso con el `id` especificado en la URL.
+</ResponseField>
+
 <ResponseField name="403 Forbidden">
   El API Key no tiene el scope `ReimbursementLiabilities.Write` requerido.
+</ResponseField>
+
+<ResponseField name="415 Unsupported Media Type">
+  La solicitud no incluye el header `Content-Type` como `application/merge-patch+json`.
 </ResponseField>
 
 <RequestExample>
@@ -205,8 +207,7 @@ print(response.json())
   "description": "Reimbolso por gastos de flete marítimo",
   "currencyId": "DOP",
   "exchangeRate": 58.50,
-  "details": [],
-  "accounts": []
+  "status": "New"
 }
 ```
 

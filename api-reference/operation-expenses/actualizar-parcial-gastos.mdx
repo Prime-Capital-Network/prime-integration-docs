@@ -203,6 +203,10 @@ Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
   El API Key no tiene el scope `OperationExpenses.Write` requerido.
 </ResponseField>
 
+<ResponseField name="415 Unsupported Media Type">
+  La solicitud no incluye el header `Content-Type` como `application/merge-patch+json`.
+</ResponseField>
+
 <RequestExample>
 
 ```json

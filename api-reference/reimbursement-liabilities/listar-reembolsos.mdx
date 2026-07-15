@@ -2,7 +2,7 @@
 title: "Listar"
 ---
 
-Obtén una lista paginada de reimbolsos (cuentas por pagar) en la empresa.
+Obtén una lista paginada de reembolsos (cuentas por pagar) en la empresa.
 
 ```http
 GET /reimbursement-liabilities
@@ -53,7 +53,7 @@ GET /reimbursement-liabilities
 </ParamField>
 
 <ParamField query="Criteria" type="string">
-  Filtra los reimbolsos según el estatus de su comprobante contable.
+  Filtra los reembolsos según el estatus de su comprobante contable.
 
   Valores aceptados:
   - Active
@@ -64,15 +64,15 @@ GET /reimbursement-liabilities
 </ParamField>
 
 <ParamField query="Number" type="StringSearchFilter">
-  Filtra por el número del reimbolso.
+  Filtra por el número del reembolso.
 </ParamField>
 
 <ParamField query="JournalNumber" type="RangeSearchFilter<integer>">
-  Filtra por el número de comprobante contable del reimbolso.
+  Filtra por el número de comprobante contable del reembolso.
 </ParamField>
 
 <ParamField query="TransactionNumber" type="RangeSearchFilter<integer>">
-  Filtra por el número de transacción del reimbolso.
+  Filtra por el número de transacción del reembolso.
 </ParamField>
 
 <ParamField query="Vendor.Name" type="StringSearchFilter">
@@ -88,7 +88,7 @@ GET /reimbursement-liabilities
 </ParamField>
 
 <ParamField query="Reference" type="StringSearchFilter">
-  Filtra por la referencia del reimbolso.
+  Filtra por la referencia del reembolso.
 </ParamField>
 
 <ParamField query="Currency.Id" type="StringSearchFilter">
@@ -121,19 +121,19 @@ GET /reimbursement-liabilities
 </ParamField>
 
 <ParamField query="TotalDebit" type="RangeSearchFilter<decimal>">
-  Filtra por el total del débito del reimbolso.
+  Filtra por el total del débito del reembolso.
 </ParamField>
 
 <ParamField query="TotalCredit" type="RangeSearchFilter<decimal>">
-  Filtra por el total del crédito del reimbolso.
+  Filtra por el total del crédito del reembolso.
 </ParamField>
 
 <ParamField query="TotalAmount" type="RangeSearchFilter<decimal>">
-  Filtra por el monto total del reimbolso.
+  Filtra por el monto total del reembolso.
 </ParamField>
 
 <ParamField query="InsertedBy" type="StringSearchFilter">
-  Filtra por el usuario que creó el reimbolso.
+  Filtra por el usuario que creó el reembolso.
 </ParamField>
 
 ### Example request
@@ -244,27 +244,27 @@ print(response.json())
 
   <Expandable title="ReimbursementLiability">
     <ResponseField name="id" type="integer">
-      Identificador único del reimbolso.
+      Identificador único del reembolso.
     </ResponseField>
 
     <ResponseField name="number" type="string">
-      Número del reimbolso.
+      Número del reembolso.
     </ResponseField>
 
     <ResponseField name="journalNumber" type="integer">
-      Número de comprobante contable del reimbolso.
+      Número de comprobante contable del reembolso.
     </ResponseField>
 
     <ResponseField name="transactionNumber" type="integer">
-      Número de transacción del reimbolso.
+      Número de transacción del reembolso.
     </ResponseField>
 
     <ResponseField name="date" type="date">
-      Fecha del reimbolso.
+      Fecha del reembolso.
     </ResponseField>
 
     <ResponseField name="vendor" type="object">
-      Vendor asociado al reimbolso.
+      Vendor asociado al reembolso.
 
       <Expandable title="vendor">
         <ResponseField name="name" type="string">
@@ -288,11 +288,11 @@ print(response.json())
     </ResponseField>
 
     <ResponseField name="reference" type="string">
-      Referencia del reimbolso.
+      Referencia del reembolso.
     </ResponseField>
 
     <ResponseField name="currency" type="object">
-      Moneda del reimbolso.
+      Moneda del reembolso.
 
       <Expandable title="currency">
         <ResponseField name="id" type="string">
@@ -302,7 +302,7 @@ print(response.json())
     </ResponseField>
 
     <ResponseField name="operation" type="object">
-      Operación logística asociada al reimbolso. `null` si el reimbolso está asociado a un master en su lugar.
+      Operación logística asociada al reembolso. `null` si el reembolso está asociado a un master en su lugar.
 
       <Expandable title="operation">
         <ResponseField name="id" type="integer">
@@ -330,7 +330,7 @@ print(response.json())
     </ResponseField>
 
     <ResponseField name="master" type="object">
-      Master asociado al reimbolso.
+      Master asociado al reembolso.
 
       <Expandable title="master">
         <ResponseField name="id" type="integer">
@@ -352,15 +352,15 @@ print(response.json())
     </ResponseField>
 
     <ResponseField name="totalAmount" type="decimal">
-      Monto total del reimbolso.
+      Monto total del reembolso.
     </ResponseField>
 
     <ResponseField name="insertedBy" type="string">
-      Usuario que creó el reimbolso.
+      Usuario que creó el reembolso.
     </ResponseField>
 
     <ResponseField name="status" type="object">
-      Estatus del comprobante contable del reimbolso.
+      Estatus del comprobante contable del reembolso.
 
       <Expandable title="status">
         <ResponseField name="id" type="integer">
