@@ -1,0 +1,201 @@
+---
+title: "Listar"
+---
+
+Obtén una lista paginada de adjuntos en la empresa.
+
+```http
+GET /attachments
+```
+
+<Note>
+  Este endpoint requiere el scope **`Attachments.Read`**.
+</Note>
+
+### Query parameters
+
+<ParamField query="skip" default="20" type="integer">
+  Número de registros a omitir desde el inicio de los resultados. Utilízado junto con `take` para paginar los resultados.
+</ParamField>
+
+<ParamField query="take" type="integer">
+  Número de registros a retornar. Por defecto `20`, máximo `100`.
+</ParamField>
+
+<ParamField query="MenuId" type="string">
+  Filtra por el identificador del menú (módulo) al cual pertenece el registro asociado.
+</ParamField>
+
+<ParamField query="RecordId" type="string">
+  Filtra por el identificador del registro asociado.
+</ParamField>
+
+<ParamField query="TrackingId" type="integer">
+  Filtra por el identificador de seguimiento (tracking) asociado.
+</ParamField>
+
+<ParamField query="Name" type="StringSearchFilter">
+  Filtra por el nombre del adjunto.
+</ParamField>
+
+<ParamField query="Description" type="StringSearchFilter">
+  Filtra por la descripción del adjunto.
+</ParamField>
+
+<ParamField query="Category.Name" type="StringSearchFilter">
+  Filtra por el nombre de la categoría del adjunto.
+</ParamField>
+
+<ParamField query="InsertedBy" type="StringSearchFilter">
+  Filtra por el usuario que creó el adjunto.
+</ParamField>
+
+<ParamField query="InsertedDate" type="RangeSearchFilter<datetime>">
+  Filtra por la fecha de creación del adjunto.
+</ParamField>
+
+<ParamField query="IsActive" type="BooleanSearchFilter">
+  Filtra por si el adjunto está activo.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/attachments?MenuId=REIMBURSEMENT_LIABILITY&RecordId=1054&skip=0&take=20" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/attachments?MenuId=REIMBURSEMENT_LIABILITY&RecordId=1054&skip=0&take=20",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID"
+    },
+  }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/attachments",
+    params={
+        "MenuId": "REIMBURSEMENT_LIABILITY",
+        "RecordId": "1054",
+        "skip": 0,
+        "take": 20,
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID"
+    }
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "totalCount": 0,
+  "data": [
+    {
+      "id": 501,
+      "name": "Factura escaneada",
+      "description": "Copia escaneada de la factura original",
+      "category": {
+        "id": 2,
+        "name": "Soportes"
+      },
+      "menuId": "Houses",
+      "recordId": "1054",
+      "trackingId": 0,
+      "insertedBy": "John Doe",
+      "insertedDate": "2026-07-13T10:00:00.000Z",
+      "isActive": true
+    }
+  ]
+}
+```
+
+### Response fields
+
+<ResponseField name="totalCount" type="integer">
+  Total de registros.
+</ResponseField>
+
+<ResponseField name="data" type="array">
+  Lista de objetos Attachment.
+
+  <Expandable title="Attachment">
+    <ResponseField name="id" type="integer">
+      Identificador único del adjunto.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del adjunto.
+    </ResponseField>
+
+    <ResponseField name="description" type="string">
+      Descripción del adjunto.
+    </ResponseField>
+
+    <ResponseField name="category" type="object">
+      Categoría del adjunto.
+
+      <Expandable title="category">
+        <ResponseField name="id" type="integer">
+          Identificador de la categoría.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre de la categoría.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="menuId" type="string">
+      Identificador del menú (módulo) al cual pertenece el registro asociado.
+    </ResponseField>
+
+    <ResponseField name="recordId" type="string">
+      Identificador del registro al cual está asociado el adjunto.
+    </ResponseField>
+
+    <ResponseField name="trackingId" type="integer">
+      Identificador de seguimiento (tracking) asociado al adjunto.
+    </ResponseField>
+
+    <ResponseField name="insertedBy" type="string">
+      Usuario que creó el adjunto.
+    </ResponseField>
+
+    <ResponseField name="insertedDate" type="string">
+      Fecha y hora de creación del adjunto, en formato ISO 8601.
+    </ResponseField>
+
+    <ResponseField name="isActive" type="boolean">
+      Indica si el adjunto está activo.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Errores
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `Attachments.Read` requerido.
+</ResponseField>

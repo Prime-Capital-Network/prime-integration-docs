@@ -48,6 +48,16 @@
                 ]
               },
               {
+                "group": "Anexos",
+                "pages": [
+                  "api-reference/attachments/listar-anexos",
+                  "api-reference/attachments/extraer-anexo-por-id",
+                  "api-reference/attachments/crear-anexo",
+                  "api-reference/attachments/eliminar-anexo",
+                  "api-reference/attachments/descargar-anexo"
+                ]
+              },
+              {
                 "group": "Representates de Negocios",
                 "pages": [
                   "api-reference/business-representatives/listar-representantes"

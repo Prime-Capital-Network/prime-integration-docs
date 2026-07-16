@@ -1,0 +1,83 @@
+---
+title: "Descargar"
+---
+
+Genera una URL temporal para descargar el archivo de un adjunto específico.
+
+```http
+POST /attachments/{id}/download
+```
+
+<Note>
+  Este endpoint requiere el scope **`Attachments.Download`**.
+</Note>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único del adjunto a descargar.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request POST \
+  --url "https://api.primenetcloud.com/v1/attachments/501/download" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/attachments/501/download", {
+  method: "POST",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID"
+  },
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.post(
+    "https://api.primenetcloud.com/v1/attachments/501/download",
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID"
+    }
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "url": "https://primenetstorage.blob.core.windows.net/attachments/501/factura_1054.pdf?sv=..."
+}
+```
+
+### Response fields
+
+<ResponseField name="url" type="string">
+  URL temporal para descargar el archivo.
+</ResponseField>
+
+### Errores
+
+<ResponseField name="404 Not Found">
+  No existe ningún adjunto con el `id` especificado en la URL.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `Attachments.Download` requerido.
+</ResponseField>

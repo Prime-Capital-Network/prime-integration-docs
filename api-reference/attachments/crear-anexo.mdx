@@ -1,0 +1,168 @@
+---
+title: "Crear"
+---
+
+Sube un nuevo adjunto (attachment) y lo asocia a un registro específico del sistema.
+
+```http
+POST /attachments
+```
+
+<Note>
+  Este endpoint requiere el scope **`Attachments.Write`**.
+</Note>
+
+<Note>
+  Los parámetros de este endpoint (a excepción del archivo) se envían como **query parameters**. El archivo se envía en el body como `multipart/form-data`.
+</Note>
+
+### Query parameters
+
+<ParamField query="name" type="string" required>
+  Nombre del adjunto. Máximo 80 caracteres.
+</ParamField>
+
+<ParamField query="description" type="string" required>
+  Descripción del adjunto. Máximo 255 caracteres.
+</ParamField>
+
+<ParamField query="menuId" type="string" required>
+  Identificador del menú (módulo) al cual pertenece el registro asociado.
+</ParamField>
+
+<ParamField query="recordId" type="string" required>
+  Identificador del registro al cual se asocia el adjunto.
+</ParamField>
+
+<ParamField query="tracking_id" type="integer">
+  Identificador de seguimiento (tracking) al cual asociar el adjunto.
+</ParamField>
+
+<ParamField query="categoryId" type="integer">
+  Identificador de la categoría del adjunto.
+</ParamField>
+
+### Body parameters
+
+<ParamField body="file" type="file" required>
+  Archivo a adjuntar.
+  
+  - Tamaño máximo permitido: 10 MB.
+  
+  Extensiones permitidas: 
+
+  - `jpg`
+  - `jpeg`
+  - `jpe`
+  - `jfif`
+  - `pjpeg`
+  - `pjp`
+  - `png`
+  - `pdf`
+  - `doc`
+  - `docx`
+  - `cvs`
+  - `txt`
+  - `xml`
+  - `msg`
+  - `xls`
+  - `xlsx`
+  - `ppt`
+  - `pptx`
+  - `pps`
+  - `bmp`
+  - `htm`
+  - `tiff`
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request POST \
+  --url "https://api.primenetcloud.com/v1/attachments?name=Factura%20escaneada&description=Copia%20escaneada%20de%20la%20factura%20original&menuid=houses&recordid=1054&categoryid=2" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: multipart/form-data" \
+  --form "file=@/path/to/file.pdf"
+```
+
+```javascript JavaScript
+const params = new URLSearchParams({
+  name: "Factura escaneada",
+  description: "Copia escaneada de la factura original",
+  menuId: "houses",
+  recordId: "1054",
+  category_id: "2",
+});
+
+const formData = new FormData();
+formData.append("file", fileInput.files[0]);
+
+const response = await fetch(`https://api.primenetcloud.com/v1/attachments?${params}`, {
+  method: "POST",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+  },
+  body: formData,
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+files = {
+    "file": open("/path/to/file.pdf"
+rb")
+}
+params = {
+    "name": "Factura escaneada",
+    "description": "Copia escaneada de la factura original",
+    "menuId": "houses",
+    "recordId": "1054",
+    "category_id": 2,
+}
+
+response = requests.post(
+    "https://api.primenetcloud.com/v1/attachments",
+    params=params,
+    files=files,
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "id": 501
+}
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único del adjunto creado.
+</ResponseField>
+
+### Errores
+
+<ResponseField name="400 Bad Request">
+  El archivo excede el tamaño máximo permitido (10 MB), o el tenant ha excedido la cuota de almacenamiento.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `Attachments.Write` requerido.
+</ResponseField>
