@@ -1,0 +1,104 @@
+---
+title: "Cancelar"
+---
+
+Cancela un vehículo en la empresa.
+
+```http
+POST /vehicles/{id}/cancel
+```
+
+<Note>
+  Este endpoint requiere el scope **`Vehicles.Write`**.
+</Note>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único del vehículo a actualizar.
+</ParamField>
+
+### Body parameters
+
+<ParamField body="reason" type="string">
+  Razón de la cancelación
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request POST \
+  --url "https://api.primenetcloud.com/v1/vehicles/123/cancel" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "reason": "Vendido"
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/vehicles/123/cancel", {
+  method: "POST",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    "reason": "Vendido"
+  }),
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.post(
+    "https://api.primenetcloud.com/v1/vehicles/123/cancel",
+    json={
+        "reason": "Vendido"
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Response
+
+Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
+
+### Errores
+
+<ResponseField name="400 Bad Request">
+  El vehículo ya ha sido cancelado.
+</ResponseField>
+
+<ResponseField name="404 Not Found">
+  No existe ningún vehículo con el `id` especificado en la URL.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `Vehicles.Write` requerido.
+</ResponseField>
+
+<RequestExample>
+
+```json
+{
+  "reason": "Vendido"
+}
+```
+
+</RequestExample>

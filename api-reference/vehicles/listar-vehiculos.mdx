@@ -1,0 +1,354 @@
+---
+title: "Listar"
+---
+
+Obtén una lista paginada de vehículos en la empresa.
+
+```http
+GET /vehicles
+```
+
+<Note>
+  Este endpoint requiere el scope **`Vehicles.Read`**.
+</Note>
+
+### Query parameters
+
+<ParamField query="sort_by" type="string">
+  Campo por el cual ordenar los resultados. Valores aceptados:
+
+  - `Id`
+  - `Description`
+  - `Year`
+  - `VIN`
+  - `Plate`
+  - `ActualMileage`
+  - `Driver.Id`
+  - `Driver.Name`
+  - `Brand.Name`
+  - `Model.Name`
+  - `VehicleType.Name`
+  - `Vendor.Id`
+  - `Vendor.Name`
+  - `InsertedBy`
+</ParamField>
+
+<ParamField query="skip" default="20" type="integer">
+  Número de registros a omitir desde el inicio de los resultados. Utilízado junto con `take` para paginar los resultados.
+</ParamField>
+
+<ParamField query="take" type="integer">
+  Número de registros a retornar. Por defecto `20`, máximo `100`.
+</ParamField>
+
+<ParamField query="Description" type="StringSearchFilter">
+  Filtra por la descripción del vehículo.
+</ParamField>
+
+<ParamField query="Driver.Name" type="StringSearchFilter">
+  Filtra por el nombre del conductor asignado.
+</ParamField>
+
+<ParamField query="Year" type="RangeSearchFilter<integer>">
+  Filtra por el año del vehículo.
+</ParamField>
+
+<ParamField query="Brand.Name" type="StringSearchFilter">
+  Filtra por el nombre de la marca.
+</ParamField>
+
+<ParamField query="Model.Name" type="StringSearchFilter">
+  Filtra por el nombre del modelo.
+</ParamField>
+
+<ParamField query="VehicleType.Name" type="StringSearchFilter">
+  Filtra por el nombre del tipo de vehículo.
+</ParamField>
+
+<ParamField query="VIN" type="StringSearchFilter">
+  Filtra por el número de identificación vehicular (VIN).
+</ParamField>
+
+<ParamField query="Plate" type="StringSearchFilter">
+  Filtra por la placa del vehículo.
+</ParamField>
+
+<ParamField query="ActualMileage" type="RangeSearchFilter<integer>">
+  Filtra por el kilometraje/millaje actual del vehículo.
+</ParamField>
+
+<ParamField query="MileageUnit.Id" type="EnumSearchFilter">
+  Filtra por la unidad de medida del millaje.
+  
+  Valores aceptados:
+
+  - `Miles`
+  - `Kilometers`
+</ParamField>
+
+<ParamField query="VehicleOwnership.Id" type="EnumSearchFilter">
+  Filtra por el tipo de propiedad del vehículo.
+  
+  Valores aceptados:
+
+  - `Owned`
+  - `Affiliate`
+</ParamField>
+
+<ParamField query="Vendor.Name" type="StringSearchFilter">
+  Filtra por el nombre del vendor (proveedor) asociado.
+</ParamField>
+
+<ParamField query="Status.Id" type="EnumSearchFilter">
+  Filtra por el estatus del vehículo.
+  
+  Valores aceptados:
+
+  - `Active`
+  - `UnderMaintenance`
+  - `UnderRepair`
+  - `OutOfService`
+  - `Retired`
+  - `Deleted`
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/vehicles?skip=0&take=20" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/vehicles?skip=0&take=20",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID"
+    },
+  }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/vehicles",
+    params={
+        "skip": 0,
+        "take": 20,
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID"
+    }
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "totalCount": 0,
+  "data": [
+    {
+      "id": 0,
+      "description": "string",
+      "driver": {
+        "id": 0,
+        "name": "string"
+      },
+      "year": 0,
+      "color": "string",
+      "brand": {
+        "name": "string"
+      },
+      "model": {
+        "name": "string"
+      },
+      "vehicleType": {
+        "name": "string"
+      },
+      "vin": "string",
+      "plate": "string",
+      "actualMileage": 0,
+      "mileageUnit": {
+        "id": 0,
+        "name": "string"
+      },
+      "vehicleOwnership": {
+        "id": 0,
+        "name": "string"
+      },
+      "vendor": {
+        "id": 0,
+        "name": "string"
+      },
+      "status": {
+        "id": 0,
+        "name": "string"
+      }
+    }
+  ]
+}
+```
+
+### Response fields
+
+<ResponseField name="totalCount" type="integer">
+  Total de registros.
+</ResponseField>
+
+<ResponseField name="data" type="array">
+  Lista de objetos Vehicle.
+
+  <Expandable title="Vehicle">
+    <ResponseField name="id" type="integer">
+      Identificador único del vehículo.
+    </ResponseField>
+
+    <ResponseField name="description" type="string">
+      Descripción del vehículo.
+    </ResponseField>
+
+    <ResponseField name="driver" type="object">
+      Conductor asignado al vehículo.
+
+      <Expandable title="driver">
+        <ResponseField name="id" type="integer">
+          Identificador del conductor.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del conductor.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="year" type="integer">
+      Año del vehículo.
+    </ResponseField>
+
+    <ResponseField name="color" type="string">
+      Color del vehículo.
+    </ResponseField>
+
+    <ResponseField name="brand" type="object">
+      Marca del vehículo.
+
+      <Expandable title="brand">
+        <ResponseField name="name" type="string">
+          Nombre de la marca.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="model" type="object">
+      Modelo del vehículo.
+
+      <Expandable title="model">
+        <ResponseField name="name" type="string">
+          Nombre del modelo.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="vehicleType" type="object">
+      Tipo de vehículo.
+
+      <Expandable title="vehicleType">
+        <ResponseField name="name" type="string">
+          Nombre del tipo de vehículo.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="vin" type="string">
+      Número de identificación vehicular (VIN).
+    </ResponseField>
+
+    <ResponseField name="plate" type="string">
+      Placa del vehículo.
+    </ResponseField>
+
+    <ResponseField name="actualMileage" type="integer">
+      Kilometraje/millaje actual del vehículo.
+    </ResponseField>
+
+    <ResponseField name="mileageUnit" type="object">
+      Unidad de medida del millaje.
+
+      <Expandable title="mileageUnit">
+        <ResponseField name="id" type="integer">
+          Identificador de la unidad de millaje.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido de la unidad de millaje.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="vehicleOwnership" type="object">
+      Tipo de propiedad del vehículo.
+
+      <Expandable title="vehicleOwnership">
+        <ResponseField name="id" type="integer">
+          Identificador del tipo de propiedad.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido del tipo de propiedad.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="vendor" type="object">
+      Vendor (proveedor) asociado al vehículo.
+
+      <Expandable title="vendor">
+        <ResponseField name="id" type="integer">
+          Identificador del vendor.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del vendor.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="status" type="object">
+      Estatus del vehículo.
+
+      <Expandable title="status">
+        <ResponseField name="id" type="integer">
+          Identificador del estatus.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido del estatus.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Errores
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `Vehicles.Read` requerido.
+</ResponseField>

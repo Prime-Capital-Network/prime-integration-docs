@@ -150,6 +150,17 @@
                   "api-reference/reimbursement-liabilities/actualizar-parcial-detalle",
                   "api-reference/reimbursement-liabilities/eliminar-detalle"
                 ]
+              },
+               {
+                "group": "Vehículos",
+                "pages": [
+                  "api-reference/vehicles/listar-vehiculos",
+                  "api-reference/vehicles/extraer-vehiculo-por-id",
+                  "api-reference/vehicles/crear-vehiculos",
+                  "api-reference/vehicles/actualizar-vehiculos",
+                  "api-reference/vehicles/actualizar-parcial-vehiculos",
+                  "api-reference/vehicles/cancelar-vehiculo"
+                ]
               }
             ]
           }

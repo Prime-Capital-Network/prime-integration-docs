@@ -1,0 +1,344 @@
+---
+title: "Actualizar Parcial"
+---
+
+Actualiza los datos de un vehículo en la empresa.
+
+```http
+PATCH /vehicles/{id}
+```
+
+<Note>
+  Este endpoint requiere el scope **`Vehicles.Write`**.
+</Note>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único del vehículo a actualizar.
+</ParamField>
+
+### Body parameters
+
+<ParamField body="description" type="string">
+  Descripción del vehículo. Máximo 80 caracteres.
+</ParamField>
+
+<ParamField body="vehicleTypeId" type="integer">
+  Identificador del tipo de vehículo.
+</ParamField>
+
+<ParamField body="brandId" type="integer">
+  Identificador de la marca del vehículo.
+</ParamField>
+
+<ParamField body="modelId" type="integer">
+  Identificador del modelo del vehículo.
+</ParamField>
+
+<ParamField body="year" type="integer">
+  Año del vehículo.
+
+  - Debe ser mayor o igual a 1886.
+  - Debe ser menor o igual al próximo año.
+</ParamField>
+
+<ParamField body="color" type="string">
+  Color del vehículo. Máximo 15 caracteres.
+</ParamField>
+
+<ParamField body="plate" type="string">
+  Placa del vehículo. Máximo 12 caracteres.
+</ParamField>
+
+<ParamField body="vin" type="string">
+  Número de identificación vehicular (VIN). Máximo 20 caracteres.
+</ParamField>
+
+<ParamField body="motor" type="string">
+  Número de motor. Máximo 20 caracteres.
+</ParamField>
+
+<ParamField body="tons" type="integer">
+  Capacidad de carga en toneladas.
+</ParamField>
+
+<ParamField body="passengers" type="integer">
+  Capacidad de pasajeros.
+</ParamField>
+
+<ParamField body="capacityValue" type="integer">
+  Valor de la capacidad del vehículo.
+</ParamField>
+
+<ParamField body="capacityUnit" type="string">
+  Unidad de medida de la capacidad (peso). Valores aceptados:
+
+  - `Kilograms`
+  - `Tons`
+  - `Pounds`
+</ParamField>
+
+<ParamField body="acquiredMileage" type="integer">
+  Millaje/kilometraje con el que fue adquirido el vehículo.
+</ParamField>
+
+<ParamField body="actualMileage" type="integer">
+  Millaje/kilometraje actual del vehículo.
+</ParamField>
+
+<ParamField body="mileageUnit" type="string">
+  Unidad de medida del millaje. Valores aceptados:
+
+  - `Miles`
+  - `Kilometers`
+</ParamField>
+
+<ParamField body="fuelTypeId" type="integer">
+  Identificador del tipo de combustible.
+</ParamField>
+
+<ParamField body="fuelCapacity" type="integer">
+  Capacidad del tanque de combustible.
+</ParamField>
+
+<ParamField body="fuelCapacityUnit" type="string">
+  Unidad de medida de la capacidad de combustible. Valores aceptados:
+
+  - `Gallon`
+  - `Liter`
+</ParamField>
+
+<ParamField body="horsePower" type="integer">
+  Potencia del motor en caballos de fuerza (HP).
+</ParamField>
+
+<ParamField body="vehicleOwnership" type="string">
+  Tipo de propiedad del vehículo. Valores aceptados:
+
+  - `Owned`
+  - `Leased`
+  - `Rented`
+</ParamField>
+
+<ParamField body="vendorId" type="integer">
+  Identificador del vendor (proveedor) asociado, aplica si el vehículo es alquilado/leaseado.
+</ParamField>
+
+<ParamField body="driverId" type="integer">
+  Identificador del conductor asignado al vehículo.
+</ParamField>
+
+<ParamField body="insuranceId" type="integer">
+  Identificador de la aseguradora.
+</ParamField>
+
+<ParamField body="insuraceExpiration" type="date">
+  Fecha de vencimiento del seguro, en formato `YYYY-MM-DD`.
+</ParamField>
+
+<ParamField body="policy" type="string">
+  Número de póliza de seguro. Máximo 20 caracteres.
+</ParamField>
+
+<ParamField body="front" type="decimal">
+  Ancho del vehículo. Debe ser mayor que cero. Precisión de hasta 2 decimales.
+</ParamField>
+
+<ParamField body="length" type="decimal">
+  Largo del vehículo. Debe ser mayor que cero. Precisión de hasta 2 decimales.
+</ParamField>
+
+<ParamField body="height" type="decimal">
+  Alto del vehículo. Debe ser mayor que cero. Precisión de hasta 2 decimales.
+</ParamField>
+
+<ParamField body="dimensionUnit" type="string">
+  Unidad de medida de las dimensiones del vehículo. Valores aceptados:
+
+  - `CubicMeters`
+  - `CubicFeet`
+</ParamField>
+
+<ParamField body="cargoFront" type="decimal">
+  Ancho del área de carga. Debe ser mayor que cero. Precisión de hasta 2 decimales.
+</ParamField>
+
+<ParamField body="cargoLength" type="decimal">
+  Largo del área de carga. Debe ser mayor que cero. Precisión de hasta 2 decimales.
+</ParamField>
+
+<ParamField body="cargoHeight" type="decimal">
+  Alto del área de carga. Debe ser mayor que cero. Precisión de hasta 2 decimales.
+</ParamField>
+
+<ParamField body="cargoDimensionUnit" type="string">
+  Unidad de medida de las dimensiones del área de carga. Valores aceptados:
+
+  - `CubicMeters`
+  - `CubicFeet`
+</ParamField>
+
+<ParamField body="doors" type="integer">
+  Cantidad de puertas del vehículo.
+</ParamField>
+
+<ParamField body="combinedCapacity" type="integer">
+  Capacidad combinada del vehículo. Debe ser mayor o igual a cero.
+</ParamField>
+
+<ParamField body="emptyWeight" type="integer">
+  Peso vacío del vehículo. Debe ser mayor o igual a cero.
+</ParamField>
+
+<ParamField body="status" type="string">
+  Estatus del vehículo. Valores aceptados:
+
+  - `Active`
+  - `OutOfService`
+  - `Retired`
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request PATCH \
+  --url "https://api.primenetcloud.com/v1/vehicles/87" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: application/merge-patch+json" \
+  --data '{
+    "description": "Camión de reparto 01",
+    "vehicleTypeId": 3,
+    "brandId": 12,
+    "modelId": 45,
+    "year": 2022,
+    "plate": "A123456",
+    "vin": "1HGCM82633A004352",
+    "mileageUnit": "Kilometers",
+    "vehicleOwnership": "Owned",
+    "status": "Active"
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/vehicles/87", {
+  method: "PATCH",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+    "Content-Type": "application/merge-patch+json",
+  },
+  body: JSON.stringify({
+    description: "Camión de reparto 01",
+    vehicleTypeId: 3,
+    brandId: 12,
+    modelId: 45,
+    year: 2022,
+    plate: "A123456",
+    vin: "1HGCM82633A004352",
+    mileageUnit: "Kilometers",
+    vehicleOwnership: "Owned",
+    status: "Active"
+  }),
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.patch(
+    "https://api.primenetcloud.com/v1/vehicles/87",
+    json={
+        "description": "Camión de reparto 01",
+        "vehicleTypeId": 3,
+        "brandId": 12,
+        "modelId": 45,
+        "year": 2022,
+        "plate": "A123456",
+        "vin": "1HGCM82633A004352",
+        "mileageUnit": "Kilometers",
+        "vehicleOwnership": "Owned",
+        "status": "Active"
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+        "Content-Type": "application/merge-patch+json"
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Response
+
+Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
+
+### Errores
+
+<ResponseField name="404 Not Found">
+  No existe ningún vehículo con el `id` especificado en la URL.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `Vehicles.Write` requerido.
+</ResponseField>
+
+<ResponseField name="415 Unsupported Media Type">
+  La solicitud no incluye el header `Content-Type` como `application/merge-patch+json`.
+</ResponseField>
+
+<RequestExample>
+
+```json
+{
+  "description": "Camión de reparto 01",
+  "vehicleTypeId": 3,
+  "brandId": 12,
+  "modelId": 45,
+  "year": 2022,
+  "color": "Blanco",
+  "plate": "A123456",
+  "vin": "1HGCM82633A004352",
+  "motor": "MTR-998877",
+  "tons": 5,
+  "passengers": 2,
+  "capacityValue": 3000,
+  "capacityUnit": "Kilograms",
+  "acquiredMileage": 0,
+  "actualMileage": 15000,
+  "mileageUnit": "Kilometers",
+  "fuelTypeId": 1,
+  "fuelCapacity": 60,
+  "fuelCapacityUnit": "Gallon",
+  "horsePower": 250,
+  "vehicleOwnership": "Owned",
+  "vendorId": null,
+  "driverId": 22,
+  "insuranceId": 4,
+  "insuraceExpiration": "2027-01-15",
+  "policy": "POL-445566",
+  "front": 2.10,
+  "length": 6.50,
+  "height": 2.80,
+  "dimensionUnit": "CubicMeters",
+  "cargoFront": 2.00,
+  "cargoLength": 5.80,
+  "cargoHeight": 2.50,
+  "cargoDimensionUnit": "CubicMeters",
+  "doors": 2,
+  "combinedCapacity": 8000,
+  "emptyWeight": 3200,
+  "status": "Active"
+}
+```
+
+</RequestExample>
