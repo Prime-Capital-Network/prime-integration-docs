@@ -1,0 +1,177 @@
+<ResponseField name="id" type="integer">
+  Identificador único del despacho.
+</ResponseField>
+
+<ResponseField name="number" type="integer">
+  Número consecutivo del despacho dentro del transporte.
+</ResponseField>
+
+<ResponseField name="physicalNumber" type="string">
+  Número físico del despacho. `null` si no aplica.
+</ResponseField>
+
+<ResponseField name="vehicle" type="object">
+  Vehículo asignado al despacho.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador único del vehículo.
+    </ResponseField>
+
+    <ResponseField name="description" type="string">
+      Descripción del vehículo.
+    </ResponseField>
+
+    <ResponseField name="vehicleType" type="object">
+      <Expandable title="propiedades">
+        <ResponseField name="name" type="string">
+          Nombre del tipo de vehículo.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="brand" type="object">
+      <Expandable title="propiedades">
+        <ResponseField name="name" type="string">
+          Nombre de la marca del vehículo.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="model" type="object">
+      <Expandable title="propiedades">
+        <ResponseField name="name" type="string">
+          Nombre del modelo del vehículo.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="year" type="integer">
+      Año del vehículo.
+    </ResponseField>
+
+    <ResponseField name="plate" type="string">
+      Placa del vehículo.
+    </ResponseField>
+
+    <ResponseField name="capacityValue" type="integer">
+      Valor de la capacidad del vehículo.
+    </ResponseField>
+
+    <ResponseField name="capacityUnit" type="object">
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="string">
+          Identificador de la unidad. Valores posibles: `Kilograms`, `Tons`, `Pounds`.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido de la unidad.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="vehicleOwnership" type="object">
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="string">
+          Identificador del tipo de propiedad. Valores posibles: `Owned`, `Affiliate`.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido del tipo de propiedad.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="vendor" type="object">
+      Vendor del vehículo. `null` si `vehicleOwnership` es `Owned`.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador del vendor.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del vendor.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="driver" type="object">
+  Conductor asignado al despacho. `null` si no aplica.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del conductor.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del conductor.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="staffs" type="array">
+  Personal adicional asignado al despacho.
+
+  <Expandable title="propiedades">
+    <ResponseField name="staff" type="object">
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador del personal.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del personal.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="type" type="object">
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador del tipo de personal.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del tipo de personal.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="loadingDate" type="datetime">
+  Fecha de carga del despacho.
+</ResponseField>
+
+<ResponseField name="dispatchDate" type="datetime">
+  Fecha de salida del despacho.
+</ResponseField>
+
+<ResponseField name="arrivalDate" type="datetime">
+  Fecha de llegada del despacho.
+</ResponseField>
+
+<ResponseField name="receivedDate" type="datetime">
+  Fecha de recepción del despacho.
+</ResponseField>
+
+<ResponseField name="returnedDate" type="datetime">
+  Fecha de retorno del vehículo.
+</ResponseField>
+
+<ResponseField name="status" type="object">
+  Estatus del despacho.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del estatus. Valores posibles: `Cancelled`, `Dispatched`, `Arrived`, `Received`, `IncidentReported`, `Started`, `InCoordination`, `Delivered`, `Returned`.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido del estatus.
+    </ResponseField>
+  </Expandable>
+</ResponseField>

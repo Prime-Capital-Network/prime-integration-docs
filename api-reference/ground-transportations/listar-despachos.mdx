@@ -1,0 +1,147 @@
+---
+title: "Listar Despachos"
+description: "Permite manejar los despachos de un transporte terrestre mediante REST API"
+api: "GET /ground-transportations/{id}/dispatches"
+---
+
+Obtén la lista completa de despachos de un transporte terrestre. Este endpoint no pagina resultados.
+
+<Note>
+  Este endpoint requiere el scope **`GroundTransportations.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único del transporte terrestre.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/ground-transportations/5321/dispatches" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/ground-transportations/5321/dispatches",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID"
+    },
+  }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/ground-transportations/5321/dispatches",
+    headers={
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID"
+    }
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+[
+  {
+    "id": 901,
+    "number": 1,
+    "physicalNumber": "string",
+    "vehicle": {
+      "id": 45,
+      "description": "Camión de reparto 01",
+      "vehicleType": {
+        "name": "string"
+      },
+      "brand": {
+        "name": "string"
+      },
+      "model": {
+        "name": "string"
+      },
+      "year": 2022,
+      "plate": "A123456",
+      "capacityValue": 5,
+      "capacityUnit": {
+        "id": 0,
+        "name": "string"
+      },
+      "vehicleOwnership": {
+        "id": 0,
+        "name": "string"
+      },
+      "vendor": {
+        "id": 200,
+        "name": "string"
+      }
+    },
+    "driver": {
+      "id": 12,
+      "name": "string"
+    },
+    "staffs": [
+      {
+        "staff": {
+          "id": 8,
+          "name": "string"
+        },
+        "type": {
+          "id": 1,
+          "name": "string"
+        }
+      }
+    ],
+    "loadingDate": "2026-07-10T08:00:00Z",
+    "dispatchDate": "2026-07-10T09:00:00Z",
+    "arrivalDate": "2026-07-10T14:00:00Z",
+    "receivedDate": null,
+    "returnedDate": null,
+    "status": {
+      "id": 0,
+      "name": "string"
+    }
+  }
+]
+```
+
+### Response fields
+
+import DispatchFields from './snippets/dispatch-response-fields.mdx'
+
+<DispatchFields />
+
+### Errores
+
+<ResponseField name="404 Not Found">
+  No existe ningún transporte terrestre con el `id` especificado en la URL.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `GroundTransportations.Read` requerido.
+</ResponseField>

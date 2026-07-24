@@ -1,0 +1,211 @@
+---
+title: "Obtener Chasis Por ID"
+description: "Permite extraer un chasis en específico de un despacho mediante REST API"
+api: "GET /ground-transportations/{id}/dispatches/{dispatchId}/chassis/{chassisId}"
+---
+
+Obtén un registro de chasis por ID dentro de un despacho.
+
+<Note>
+  Este endpoint requiere el scope **`GroundTransportations.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único del transporte terrestre.
+</ParamField>
+
+<ParamField path="dispatchId" type="integer" required>
+  Identificador único del despacho.
+</ParamField>
+
+<ParamField path="chassisId" type="integer" required>
+  Identificador único del registro de chasis.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/ground-transportations/5321/dispatches/901/chassis/77" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/ground-transportations/5321/dispatches/901/chassis/77",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID"
+    },
+  }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/ground-transportations/5321/dispatches/901/chassis/77",
+    headers={
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID"
+    }
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "id": 77,
+  "chassis": {
+    "id": 88
+  },
+  "chassisType": {
+    "id": 0,
+    "name": "string"
+  },
+  "vendor": {
+    "id": 200,
+    "name": "string"
+  },
+  "plate": "CH-4021",
+  "container": {
+    "id": 342,
+    "number": "MSCU1234567",
+    "type": {
+      "id": "string",
+      "name": "string"
+    },
+    "seals": ["SL001234"]
+  },
+  "insertedBy": "string",
+  "insertedDate": "2026-07-01T08:00:00.000Z",
+  "updatedBy": "string",
+  "updatedDate": "2026-07-03T11:00:00.000Z"
+}
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único del registro de chasis.
+</ResponseField>
+
+<ResponseField name="chassis" type="object">
+  Vehículo tipo chasis referenciado. `null` si el chasis fue registrado con `chassisType`/`vendor` en lugar de una referencia.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador único del vehículo tipo chasis.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="chassisType" type="object">
+  Tipo de chasis, cuando no se referencia un vehículo mediante `chassis`. `null` en caso contrario.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del tipo de chasis. Valores posibles: `TwentyFeet`, `FortyFeet`, `FortyFiveFeet`, `FortyEightFeet`.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido del tipo de chasis.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="vendor" type="object">
+  Vendor (proveedor) del chasis, cuando no se referencia un vehículo mediante `chassis`. `null` en caso contrario.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del vendor.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del vendor.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="plate" type="string">
+  Placa del chasis.
+</ResponseField>
+
+<ResponseField name="container" type="object">
+  Contenedor montado sobre el chasis. `null` si no aplica.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador único del contenedor.
+    </ResponseField>
+
+    <ResponseField name="number" type="string">
+      Número del contenedor.
+    </ResponseField>
+
+    <ResponseField name="type" type="object">
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="string">
+          Identificador del tipo de contenedor.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del tipo de contenedor.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="seals" type="string[]">
+      Sellos del contenedor.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="insertedBy" type="string">
+  Usuario que creó el registro.
+</ResponseField>
+
+<ResponseField name="insertedDate" type="string">
+  Fecha y hora de creación del registro, en formato ISO 8601.
+</ResponseField>
+
+<ResponseField name="updatedBy" type="string">
+  Usuario que realizó la última actualización del registro.
+</ResponseField>
+
+<ResponseField name="updatedDate" type="string">
+  Fecha y hora de la última actualización, en formato ISO 8601.
+</ResponseField>
+
+### Errores
+
+<ResponseField name="404 Not Found">
+  No existe ningún registro de chasis con el `chassisId` especificado dentro de ese despacho.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `GroundTransportations.Read` requerido.
+</ResponseField>

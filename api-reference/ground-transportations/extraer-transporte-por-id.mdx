@@ -1,0 +1,583 @@
+---
+title: "Obtener Transporte Por ID"
+sidebarTitle: "Obtener por ID"
+description: "Permite extraer un registro de transporte terrestre en específico mediante REST API"
+api: "GET /ground-transportations/{id}"
+---
+
+Obtén un registro de transporte terrestre por ID en la empresa.
+
+<Note>
+  Este endpoint requiere el scope **`GroundTransportations.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único del transporte terrestre.
+</ParamField>
+
+### Query parameters
+
+<ParamField query="include" type="string">
+  Permite incluir relaciones adicionales en la respuesta. Valor aceptado:
+
+  - `Dispatches` — incluye el arreglo `dispatches` con los despachos del transporte.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/ground-transportations/5321?include=Dispatches" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/ground-transportations/5321?include=Dispatches",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID"
+    },
+  }
+);
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/ground-transportations/5321",
+    params={"include": "Dispatches"},
+    headers={
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID"
+    }
+)
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "id": 5321,
+  "transactionNumber": 100543,
+  "house": {
+    "id": 8214
+  },
+  "trackingNumber": 50021,
+  "quotation": {
+    "id": 412,
+    "number": 412
+  },
+  "workOrder": {
+    "number": 90112,
+    "date": "2026-07-01"
+  },
+  "customer": {
+    "id": 1024,
+    "name": "Importaciones del Caribe, SRL"
+  },
+  "billTo": {
+    "id": 1024,
+    "name": "Importaciones del Caribe, SRL"
+  },
+  "salesPerson": {
+    "id": 15,
+    "name": "string"
+  },
+  "serviceLevel": {
+    "id": 1,
+    "name": "string"
+  },
+  "loading": {
+    "date": "2026-07-10T08:00:00Z",
+    "country": {
+      "id": "DO",
+      "name": "República Dominicana"
+    },
+    "city": {
+      "id": "DOSDQ",
+      "name": "Santo Domingo"
+    },
+    "zone": {
+      "id": 1,
+      "name": "string"
+    },
+    "address": "Av. Winston Churchill 500",
+    "deposit": "string",
+    "door": "string",
+    "contactName": "string",
+    "phone": "809-123-1234"
+  },
+  "unloading": {
+    "date": "2026-07-10T14:00:00Z",
+    "country": {
+      "id": "DO",
+      "name": "República Dominicana"
+    },
+    "city": {
+      "id": "DOSDQ",
+      "name": "Santo Domingo"
+    },
+    "zone": {
+      "id": 2,
+      "name": "string"
+    },
+    "address": "Zona Franca Las Américas",
+    "deposit": "string",
+    "door": "string",
+    "contactName": "string",
+    "phone": "809-123-1234"
+  },
+  "houseBL": "string",
+  "jobNumber": "string",
+  "reference": "string",
+  "assignedTo": {
+    "id": "a1b2c3d4-e5f6-7890",
+    "fullName": "string"
+  },
+  "assignedDate": "2026-07-03T11:28:55.000Z",
+  "movementType": {
+    "id": 0,
+    "name": "string"
+  },
+  "containerType": {
+    "id": 0,
+    "name": "string"
+  },
+  "goods": "string",
+  "weightUnit": {
+    "id": 0,
+    "name": "string"
+  },
+  "kilograms": 0,
+  "tons": 0,
+  "pounds": 0,
+  "volumeUnit": {
+    "id": 0,
+    "name": "string"
+  },
+  "cubicMeters": 0,
+  "cubicFeet": 0,
+  "pieces": 0,
+  "packingType": {
+    "id": 1,
+    "name": "string"
+  },
+  "instructions": "string",
+  "insertedBy": "string",
+  "insertedDate": "2026-07-01T08:00:00.000Z",
+  "updatedBy": "string",
+  "updatedDate": "2026-07-03T11:00:00.000Z",
+  "cancelledBy": {
+    "id": "string",
+    "fullName": "string"
+  },
+  "cancelledDate": null,
+  "cancelledReason": null,
+  "status": {
+    "id": 0,
+    "name": "string"
+  },
+  "dispatches": []
+}
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único del transporte.
+</ResponseField>
+
+<ResponseField name="transactionNumber" type="integer">
+  Número de transacción del transporte.
+</ResponseField>
+
+<ResponseField name="house" type="object">
+  House asociado al transporte. `null` si no aplica.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador único del house.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="trackingNumber" type="integer">
+  Número de tracking del transporte.
+</ResponseField>
+
+<ResponseField name="quotation" type="object">
+  Cotización origen del transporte. `null` si no aplica.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador único de la cotización.
+    </ResponseField>
+
+    <ResponseField name="number" type="integer">
+      Número de la cotización.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="workOrder" type="object">
+  Orden de trabajo generada para el transporte. `null` si aún no se ha generado.
+
+  <Expandable title="propiedades">
+    <ResponseField name="number" type="integer">
+      Número de la orden de trabajo.
+    </ResponseField>
+
+    <ResponseField name="date" type="date">
+      Fecha de la orden de trabajo.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="customer" type="object">
+  Cliente del transporte. `null` si aún no ha sido asignado (estatus `Quoted`).
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador único del cliente.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del cliente.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="billTo" type="object">
+  Asociado a quien se factura el transporte.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador único del asociado.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del asociado.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="salesPerson" type="object">
+  Vendedor asignado. `null` si no aplica.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del vendedor.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del vendedor.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="serviceLevel" type="object">
+  Nivel de servicio contratado. `null` si no aplica.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del nivel de servicio.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del nivel de servicio.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="loading" type="object">
+  Información del punto de carga.
+
+  <Expandable title="propiedades">
+    <ResponseField name="date" type="datetime">
+      Fecha de carga.
+    </ResponseField>
+
+    <ResponseField name="country" type="object">
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="string">
+          Identificador del país de carga.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del país de carga.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="city" type="object">
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="string">
+          Identificador de la ciudad de carga.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre de la ciudad de carga.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="zone" type="object">
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador de la zona de carga.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre de la zona de carga.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="address" type="string">
+      Dirección del punto de carga.
+    </ResponseField>
+
+    <ResponseField name="deposit" type="string">
+      Depósito o almacén de carga.
+    </ResponseField>
+
+    <ResponseField name="door" type="string">
+      Puerta de carga.
+    </ResponseField>
+
+    <ResponseField name="contactName" type="string">
+      Nombre del contacto en el punto de carga.
+    </ResponseField>
+
+    <ResponseField name="phone" type="string">
+      Teléfono del contacto en el punto de carga.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="unloading" type="object">
+  Información del punto de descarga. Mismas propiedades que `loading`.
+</ResponseField>
+
+<ResponseField name="houseBL" type="string">
+  Número de BL del house asociado.
+</ResponseField>
+
+<ResponseField name="jobNumber" type="string">
+  Número de JOB/PO.
+</ResponseField>
+
+<ResponseField name="reference" type="string">
+  Referencia externa del transporte.
+</ResponseField>
+
+<ResponseField name="assignedTo" type="object">
+  Usuario asignado al transporte. `null` si no ha sido asignado.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador único del usuario asignado.
+    </ResponseField>
+
+    <ResponseField name="fullName" type="string">
+      Nombre completo del usuario asignado.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="assignedDate" type="string">
+  Fecha de asignación, en formato ISO 8601. `null` si no ha sido asignado.
+</ResponseField>
+
+<ResponseField name="movementType" type="object">
+  Tipo de movimiento logístico.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del tipo de movimiento. Valores posibles: `Import`, `Export`, `Transshipment`, `Crosstrade`, `Transit`.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido del tipo de movimiento.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="containerType" type="object">
+  Tipo de contenedor de la carga.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del tipo de contenedor. Valores posibles: `FCL`, `LCL`, `BreakBulk`, `Air`.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido del tipo de contenedor.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="goods" type="string">
+  Descripción de la mercancía transportada.
+</ResponseField>
+
+<ResponseField name="weightUnit" type="object">
+  Unidad de medida del peso.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador de la unidad. Valores posibles: `Kilograms`, `Tons`, `Pounds`.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido de la unidad.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="kilograms" type="decimal">
+  Peso en kilogramos.
+</ResponseField>
+
+<ResponseField name="tons" type="decimal">
+  Peso en toneladas.
+</ResponseField>
+
+<ResponseField name="pounds" type="decimal">
+  Peso en libras.
+</ResponseField>
+
+<ResponseField name="volumeUnit" type="object">
+  Unidad de medida del volumen.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador de la unidad. Valores posibles: `CubicMeters`, `CubicFeet`.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido de la unidad.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="cubicMeters" type="decimal">
+  Volumen en metros cúbicos.
+</ResponseField>
+
+<ResponseField name="cubicFeet" type="decimal">
+  Volumen en pies cúbicos.
+</ResponseField>
+
+<ResponseField name="pieces" type="integer">
+  Cantidad de piezas.
+</ResponseField>
+
+<ResponseField name="packingType" type="object">
+  Tipo de empaque de la carga. `null` si no aplica.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del tipo de empaque.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del tipo de empaque.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="instructions" type="string">
+  Instrucciones especiales para el transporte.
+</ResponseField>
+
+<ResponseField name="insertedBy" type="string">
+  Usuario que creó el registro.
+</ResponseField>
+
+<ResponseField name="insertedDate" type="string">
+  Fecha y hora de creación del registro, en formato ISO 8601.
+</ResponseField>
+
+<ResponseField name="updatedBy" type="string">
+  Usuario que realizó la última actualización del registro.
+</ResponseField>
+
+<ResponseField name="updatedDate" type="string">
+  Fecha y hora de la última actualización, en formato ISO 8601.
+</ResponseField>
+
+<ResponseField name="cancelledBy" type="object">
+  Usuario que canceló el transporte. `null` si no ha sido cancelado.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador único del usuario.
+    </ResponseField>
+
+    <ResponseField name="fullName" type="string">
+      Nombre completo del usuario.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="cancelledDate" type="string">
+  Fecha y hora de cancelación, en formato ISO 8601. `null` si no ha sido cancelado.
+</ResponseField>
+
+<ResponseField name="cancelledReason" type="string">
+  Razón de la cancelación. `null` si no ha sido cancelado.
+</ResponseField>
+
+<ResponseField name="status" type="object">
+  Estatus general del transporte.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del estatus. Valores posibles: `Cancelled`, `Quoted`, `Unassigned`, `InCoordination`, `Completed`, `InProcess`, `Declined`, `Dispatched`, `Delivered`.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido del estatus.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+import DispatchFields from './snippets/dispatch-response-fields.mdx'
+
+<ResponseField name="dispatches" type="array">
+  Despachos del transporte. Solo se incluye cuando `include=Dispatches`.
+  <Expandable title="despacho">
+    <DispatchFields />
+  </Expandable>
+</ResponseField>
+
+### Errores
+
+<ResponseField name="404 Not Found">
+  No existe ningún transporte terrestre con el `id` especificado en la URL.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `GroundTransportations.Read` requerido.
+</ResponseField>

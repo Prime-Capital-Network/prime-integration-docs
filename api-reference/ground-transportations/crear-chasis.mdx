@@ -1,0 +1,123 @@
+---
+title: "Crear Chasis"
+description: "Este endpoint permite agregar un chasis a un despacho existente."
+api: "POST /ground-transportations/{id}/dispatches/{dispatchId}/chassis"
+---
+
+<Note>
+  Este endpoint requiere el scope **`GroundTransportations.Write`**.
+</Note>
+
+<Warning>
+  No es posible agregar chasis a un despacho de un transporte que ya haya sido cancelado.
+</Warning>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único del transporte terrestre.
+</ParamField>
+
+<ParamField path="dispatchId" type="integer" required>
+  Identificador único del despacho.
+</ParamField>
+
+### Body parameters
+
+import ChassisFields from './snippets/chassis-body-fields.mdx'
+
+<ChassisFields />
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request POST \
+  --url "https://api.primenetcloud.com/v1/ground-transportations/5321/dispatches/901/chassis" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "chassisType": "FortyFeet",
+    "vendorId": 200,
+    "plate": "CH-4021"
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/ground-transportations/5321/dispatches/901/chassis", {
+  method: "POST",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    chassisType: "FortyFeet",
+    vendorId: 200,
+    plate: "CH-4021",
+  }),
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.post(
+    "https://api.primenetcloud.com/v1/ground-transportations/5321/dispatches/901/chassis",
+    json={
+        "chassisType": "FortyFeet",
+        "vendorId": 200,
+        "plate": "CH-4021",
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Response
+
+Si la creación es exitosa, el endpoint retorna `201 Created` sin body, con el header `Location` apuntando al nuevo registro de chasis.
+
+### Errores
+
+<ResponseField name="400 Bad Request">
+  El despacho pertenece a un transporte ya cancelado, se enviaron `chassisId` junto con `chassisType`/`vendorId`/`plate`, falta `chassisType` o `vendorId` cuando `chassisId` no fue enviado, o el `vendorId` no corresponde a un asociado vendor activo.
+</ResponseField>
+
+<ResponseField name="404 Not Found">
+  No existe ningún transporte terrestre con el `id` especificado, o ningún despacho con el `dispatchId` especificado.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `GroundTransportations.Write` requerido.
+</ResponseField>
+
+<RequestExample>
+
+```json
+{
+  "chassisType": "FortyFeet",
+  "vendorId": 200,
+  "plate": "CH-4021",
+  "containerId": 342
+}
+```
+
+</RequestExample>

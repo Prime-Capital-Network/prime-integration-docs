@@ -1,0 +1,70 @@
+import ChassisFields from './chassis-body-fields.mdx'
+
+<ParamField body="physicalNumber" type="string">
+  Número físico del despacho. Máximo 10 caracteres.
+</ParamField>
+
+<ParamField body="vehicleId" type="integer" required>
+  Identificador del vehículo asignado al despacho.
+</ParamField>
+
+<ParamField body="driverId" type="integer">
+  Identificador del conductor asignado.
+
+  - No puede repetirse entre `driverId` y los `staffs.staffId` del mismo despacho.
+</ParamField>
+
+<ParamField body="staffs" type="object[]">
+  Personal adicional asignado al despacho. Máximo 5 elementos.
+</ParamField>
+
+<ParamField body="staffs.staffId" type="integer" required>
+  Identificador del personal.
+
+  - No puede repetirse entre sí ni con `driverId`.
+</ParamField>
+
+<ParamField body="staffs.typeId" type="integer" required>
+  Identificador del tipo de personal.
+</ParamField>
+
+<ParamField body="loadingDate" type="datetime">
+  Fecha de carga del despacho.
+</ParamField>
+
+<ParamField body="dispatchDate" type="datetime">
+  Fecha de salida del despacho.
+</ParamField>
+
+<ParamField body="arrivalDate" type="datetime">
+  Fecha de llegada del despacho.
+</ParamField>
+
+<ParamField body="receivedDate" type="datetime">
+  Fecha de recepción del despacho.
+</ParamField>
+
+<ParamField body="returnedDate" type="datetime">
+  Fecha de retorno del vehículo.
+</ParamField>
+
+<ParamField body="status" type="string" required>
+  Estatus del despacho. Valores aceptados:
+
+  - `Cancelled`
+  - `Dispatched`
+  - `Arrived`
+  - `Received`
+  - `IncidentReported`
+  - `Started`
+  - `InCoordination`
+  - `Delivered`
+  - `Returned`
+</ParamField>
+
+<ParamField body="chassis" type="object[]">
+  Lista opcional de chasis a crear junto con el despacho.
+  <Expandable title="chasis">
+    <ChassisFields />
+  </Expandable>
+</ParamField>

@@ -170,6 +170,27 @@
                   "api-reference/vehicles/actualizar-parcial-vehiculos",
                   "api-reference/vehicles/cancelar-vehiculo"
                 ]
+              },
+              {
+                "group": "Transporte Terrestre",
+                "pages": [
+                  "api-reference/ground-transportations/listar-transportes",
+                  "api-reference/ground-transportations/extraer-transporte-por-id",
+                  "api-reference/ground-transportations/crear-transporte",
+                  "api-reference/ground-transportations/actualizar-transporte",
+                  "api-reference/ground-transportations/cancelar-transporte",
+                  "api-reference/ground-transportations/listar-despachos",
+                  "api-reference/ground-transportations/extraer-despacho-por-id",
+                  "api-reference/ground-transportations/crear-despacho",
+                  "api-reference/ground-transportations/actualizar-despacho",
+                  "api-reference/ground-transportations/eliminar-despacho",
+                  "api-reference/ground-transportations/listar-chasis",
+                  "api-reference/ground-transportations/extraer-chasis-por-id",
+                  "api-reference/ground-transportations/crear-chasis",
+                  "api-reference/ground-transportations/actualizar-chasis",
+                  "api-reference/ground-transportations/eliminar-chasis",
+                  "api-reference/ground-transportations/listar-contenedores"
+                ]
               }
             ]
           }

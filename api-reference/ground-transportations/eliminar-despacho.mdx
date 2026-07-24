@@ -1,0 +1,87 @@
+---
+title: "Eliminar Despacho"
+api: "DELETE /ground-transportations/{id}/dispatches/{dispatchId}"
+---
+
+Elimina un despacho específico de un transporte terrestre.
+
+<Note>
+  Este endpoint requiere el scope **`GroundTransportations.Write`**.
+</Note>
+
+<Warning>
+  No es posible eliminar despachos de un transporte que ya haya sido cancelado.
+</Warning>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único del transporte terrestre.
+</ParamField>
+
+<ParamField path="dispatchId" type="integer" required>
+  Identificador único del despacho a eliminar.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request DELETE \
+  --url "https://api.primenetcloud.com/v1/ground-transportations/5321/dispatches/901" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/ground-transportations/5321/dispatches/901", {
+  method: "DELETE",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+  },
+});
+
+console.log(response.status); // 204
+```
+
+```python Python
+import requests
+
+response = requests.delete(
+    "https://api.primenetcloud.com/v1/ground-transportations/5321/dispatches/901",
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.status_code)
+```
+
+</CodeGroup>
+
+### Response
+
+Si la eliminación es exitosa, el endpoint retorna `204 No Content` sin body.
+
+### Errores
+
+<ResponseField name="400 Bad Request">
+  El transporte ya ha sido cancelado.
+</ResponseField>
+
+<ResponseField name="404 Not Found">
+  No existe ningún transporte terrestre con el `id` especificado, o ningún despacho con el `dispatchId` especificado.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `GroundTransportations.Write` requerido.
+</ResponseField>

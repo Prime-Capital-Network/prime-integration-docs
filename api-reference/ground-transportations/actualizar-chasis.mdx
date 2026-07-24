@@ -1,0 +1,154 @@
+---
+title: "Actualizar Chasis"
+api: "PUT /ground-transportations/{id}/dispatches/{dispatchId}/chassis/{chassisId}"
+---
+
+Este endpoint permite actualizar los datos de un registro de chasis existente en un despacho.
+
+<Note>
+  Este endpoint requiere el scope **`GroundTransportations.Write`**.
+</Note>
+
+<Warning>
+  Este es un reemplazo completo del recurso (PUT). Todos los campos enviados en el body sobrescribirán el estado actual del chasis. No es posible actualizar chasis de un transporte que ya haya sido cancelado.
+</Warning>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único del transporte terrestre.
+</ParamField>
+
+<ParamField path="dispatchId" type="integer" required>
+  Identificador único del despacho.
+</ParamField>
+
+<ParamField path="chassisId" type="integer" required>
+  Identificador único del registro de chasis a actualizar.
+</ParamField>
+
+### Body parameters
+
+<ParamField body="chassisId" type="integer">
+  Identificador de un vehículo tipo chasis ya registrado en la flota.
+
+  - Es mutuamente excluyente con `chassisType`, `vendorId` y `plate`: si se envía `chassisId`, esos tres campos deben omitirse.
+</ParamField>
+
+<ParamField body="vendorId" type="integer">
+  Identificador del vendor (proveedor) del chasis.
+
+  - Requerido si `chassisId` no fue enviado.
+  - Debe ser un asociado con el campo `isVendor` como `true`, y su `status.id` debe ser `2` (Activo).
+</ParamField>
+
+<ParamField body="chassisType" type="string">
+  Tipo de chasis. Requerido si `chassisId` no fue enviado. Valores aceptados:
+
+  - `TwentyFeet`
+  - `FortyFeet`
+  - `FortyFiveFeet`
+  - `FortyEightFeet`
+</ParamField>
+
+<ParamField body="plate" type="string">
+  Placa del chasis. Máximo 12 caracteres. Solo aplica si `chassisId` no fue enviado.
+</ParamField>
+
+<ParamField body="containerId" type="integer">
+  Identificador del contenedor montado sobre el chasis.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request PUT \
+  --url "https://api.primenetcloud.com/v1/ground-transportations/5321/dispatches/901/chassis/77" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "chassisType": "FortyFeet",
+    "vendorId": 200,
+    "plate": "CH-4021"
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/ground-transportations/5321/dispatches/901/chassis/77", {
+  method: "PUT",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    chassisType: "FortyFeet",
+    vendorId: 200,
+    plate: "CH-4021",
+  }),
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.put(
+    "https://api.primenetcloud.com/v1/ground-transportations/5321/dispatches/901/chassis/77",
+    json={
+        "chassisType": "FortyFeet",
+        "vendorId": 200,
+        "plate": "CH-4021",
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Response
+
+Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
+
+### Errores
+
+<ResponseField name="400 Bad Request">
+  El despacho pertenece a un transporte ya cancelado, se enviaron `chassisId` junto con `chassisType`/`vendorId`/`plate`, falta `chassisType` o `vendorId` cuando `chassisId` no fue enviado, o el `vendorId` no corresponde a un asociado vendor activo.
+</ResponseField>
+
+<ResponseField name="404 Not Found">
+  No existe ningún transporte terrestre con el `id` especificado, ningún despacho con el `dispatchId` especificado, o ningún registro de chasis con el `chassisId` especificado.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `GroundTransportations.Write` requerido.
+</ResponseField>
+
+<RequestExample>
+
+```json
+{
+  "chassisType": "FortyFeet",
+  "vendorId": 200,
+  "plate": "CH-4021",
+  "containerId": 342
+}
+```
+
+</RequestExample>

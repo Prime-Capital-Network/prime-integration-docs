@@ -1,0 +1,316 @@
+---
+title: "Obtener Despacho Por ID"
+description: "Permite extraer un despacho en específico de un transporte terrestre mediante REST API"
+api: "GET /ground-transportations/{id}/dispatches/{dispatchId}"
+---
+
+Obtén un despacho por ID dentro de un transporte terrestre.
+
+<Note>
+  Este endpoint requiere el scope **`GroundTransportations.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único del transporte terrestre.
+</ParamField>
+
+<ParamField path="dispatchId" type="integer" required>
+  Identificador único del despacho.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/ground-transportations/5321/dispatches/901" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/ground-transportations/5321/dispatches/901",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID"
+    },
+  }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/ground-transportations/5321/dispatches/901",
+    headers={
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID"
+    }
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "id": 901,
+  "number": 1,
+  "physicalNumber": "string",
+  "vehicle": {
+    "id": 45,
+    "description": "Camión de reparto 01",
+    "vehicleType": {
+      "name": "string"
+    },
+    "plate": "A123456",
+    "capacityValue": 5,
+    "capacityUnit": {
+      "id": 0,
+      "name": "string"
+    },
+    "vehicleOwnership": {
+      "id": 0,
+      "name": "string"
+    },
+    "vendor": {
+      "id": 200,
+      "name": "string"
+    }
+  },
+  "driver": {
+    "id": 12,
+    "name": "string"
+  },
+  "staffs": [
+    {
+      "staff": {
+        "id": 8,
+        "name": "string"
+      },
+      "type": {
+        "id": 1,
+        "name": "string"
+      }
+    }
+  ],
+  "loadingDate": "2026-07-10T08:00:00Z",
+  "dispatchDate": "2026-07-10T09:00:00Z",
+  "arrivalDate": "2026-07-10T14:00:00Z",
+  "receivedDate": null,
+  "returnedDate": null,
+  "insertedBy": "string",
+  "insertedDate": "2026-07-01T08:00:00.000Z",
+  "updatedBy": "string",
+  "updatedDate": "2026-07-03T11:00:00.000Z",
+  "status": {
+    "id": 0,
+    "name": "string"
+  }
+}
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único del despacho.
+</ResponseField>
+
+<ResponseField name="number" type="integer">
+  Número consecutivo del despacho dentro del transporte.
+</ResponseField>
+
+<ResponseField name="physicalNumber" type="string">
+  Número físico del despacho. `null` si no aplica.
+</ResponseField>
+
+<ResponseField name="vehicle" type="object">
+  Vehículo asignado al despacho.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador único del vehículo.
+    </ResponseField>
+
+    <ResponseField name="description" type="string">
+      Descripción del vehículo.
+    </ResponseField>
+
+    <ResponseField name="vehicleType" type="object">
+      <Expandable title="propiedades">
+        <ResponseField name="name" type="string">
+          Nombre del tipo de vehículo.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="plate" type="string">
+      Placa del vehículo.
+    </ResponseField>
+
+    <ResponseField name="capacityValue" type="integer">
+      Valor de la capacidad del vehículo.
+    </ResponseField>
+
+    <ResponseField name="capacityUnit" type="object">
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="string">
+          Identificador de la unidad. Valores posibles: `Kilograms`, `Tons`, `Pounds`.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido de la unidad.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="vehicleOwnership" type="object">
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="string">
+          Identificador del tipo de propiedad. Valores posibles: `Owned`, `Affiliate`.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido del tipo de propiedad.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="vendor" type="object">
+      Vendor del vehículo. `null` si `vehicleOwnership` es `Owned`.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador del vendor.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del vendor.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="driver" type="object">
+  Conductor asignado al despacho. `null` si no aplica.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del conductor.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del conductor.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="staffs" type="array">
+  Personal adicional asignado al despacho.
+
+  <Expandable title="propiedades">
+    <ResponseField name="staff" type="object">
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador del personal.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del personal.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="type" type="object">
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador del tipo de personal.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del tipo de personal.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="loadingDate" type="datetime">
+  Fecha de carga del despacho.
+</ResponseField>
+
+<ResponseField name="dispatchDate" type="datetime">
+  Fecha de salida del despacho.
+</ResponseField>
+
+<ResponseField name="arrivalDate" type="datetime">
+  Fecha de llegada del despacho.
+</ResponseField>
+
+<ResponseField name="receivedDate" type="datetime">
+  Fecha de recepción del despacho.
+</ResponseField>
+
+<ResponseField name="returnedDate" type="datetime">
+  Fecha de retorno del vehículo.
+</ResponseField>
+
+<ResponseField name="insertedBy" type="string">
+  Usuario que creó el registro.
+</ResponseField>
+
+<ResponseField name="insertedDate" type="string">
+  Fecha y hora de creación del registro, en formato ISO 8601.
+</ResponseField>
+
+<ResponseField name="updatedBy" type="string">
+  Usuario que realizó la última actualización del registro.
+</ResponseField>
+
+<ResponseField name="updatedDate" type="string">
+  Fecha y hora de la última actualización, en formato ISO 8601.
+</ResponseField>
+
+<ResponseField name="status" type="object">
+  Estatus del despacho.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del estatus. Valores posibles: `Cancelled`, `Dispatched`, `Arrived`, `Received`, `IncidentReported`, `Started`, `InCoordination`, `Delivered`, `Returned`.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido del estatus.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Errores
+
+<ResponseField name="404 Not Found">
+  No existe ningún despacho con el `dispatchId` especificado dentro de ese transporte terrestre.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `GroundTransportations.Read` requerido.
+</ResponseField>

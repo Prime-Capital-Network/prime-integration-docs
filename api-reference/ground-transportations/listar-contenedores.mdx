@@ -1,0 +1,258 @@
+---
+title: "Listar Contenedores"
+sidebarTitle: "Contenedores"
+description: "Permite extraer los contenedores asociados a un transporte terrestre mediante REST API"
+api: "GET /ground-transportations/{id}/containers"
+---
+
+Obtén la lista completa de contenedores asociados a un transporte terrestre (a través de los chasis de sus despachos). Este endpoint no pagina resultados.
+
+<Note>
+  Este endpoint requiere el scope **`GroundTransportations.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único del transporte terrestre.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/ground-transportations/5321/containers" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/ground-transportations/5321/containers",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID"
+    },
+  }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/ground-transportations/5321/containers",
+    headers={
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID"
+    }
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+[
+  {
+    "id": 342,
+    "type": {
+      "id": "string",
+      "name": "string",
+      "kilogramMaxCapacity": 28000,
+      "poundMaxCapacity": 61729.4,
+      "cubicMeterMaxCapacity": 76.4,
+      "cubicFootMaxCapacity": 2700.5
+    },
+    "number": "MSCU1234567",
+    "seals": ["SL001234"],
+    "marks": ["FRAGILE"],
+    "weightUnit": {
+      "id": 0,
+      "name": "string"
+    },
+    "kilograms": 21500,
+    "pounds": 47399.4,
+    "volumeUnit": {
+      "id": 0,
+      "name": "string"
+    },
+    "cubicMeters": 60.2,
+    "cubicFeet": 2126,
+    "packingType": {
+      "id": 1,
+      "name": "string"
+    },
+    "pieces": 10,
+    "length": 1219,
+    "width": 244,
+    "height": 259,
+    "dimensionUnit": {
+      "id": 0,
+      "name": "string"
+    }
+  }
+]
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único del contenedor.
+</ResponseField>
+
+<ResponseField name="type" type="object">
+  Tipo de contenedor.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del tipo de contenedor.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del tipo de contenedor.
+    </ResponseField>
+
+    <ResponseField name="kilogramMaxCapacity" type="integer">
+      Capacidad máxima en kilogramos.
+    </ResponseField>
+
+    <ResponseField name="poundMaxCapacity" type="decimal">
+      Capacidad máxima en libras.
+    </ResponseField>
+
+    <ResponseField name="cubicMeterMaxCapacity" type="decimal">
+      Capacidad máxima en metros cúbicos.
+    </ResponseField>
+
+    <ResponseField name="cubicFootMaxCapacity" type="decimal">
+      Capacidad máxima en pies cúbicos.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="number" type="string">
+  Número del contenedor.
+</ResponseField>
+
+<ResponseField name="seals" type="string[]">
+  Sellos del contenedor.
+</ResponseField>
+
+<ResponseField name="marks" type="string[]">
+  Marcas del contenedor.
+</ResponseField>
+
+<ResponseField name="weightUnit" type="object">
+  Unidad de medida del peso.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador de la unidad. Valores posibles: `Kilograms`, `Tons`, `Pounds`.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido de la unidad.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="kilograms" type="decimal">
+  Peso en kilogramos.
+</ResponseField>
+
+<ResponseField name="pounds" type="decimal">
+  Peso en libras.
+</ResponseField>
+
+<ResponseField name="volumeUnit" type="object">
+  Unidad de medida del volumen.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador de la unidad. Valores posibles: `CubicMeters`, `CubicFeet`.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido de la unidad.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="cubicMeters" type="decimal">
+  Volumen en metros cúbicos.
+</ResponseField>
+
+<ResponseField name="cubicFeet" type="decimal">
+  Volumen en pies cúbicos.
+</ResponseField>
+
+<ResponseField name="packingType" type="object">
+  Tipo de empaque de la carga. `null` si no aplica.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del tipo de empaque.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del tipo de empaque.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="pieces" type="integer">
+  Cantidad de piezas dentro del contenedor.
+</ResponseField>
+
+<ResponseField name="length" type="integer">
+  Largo del contenedor.
+</ResponseField>
+
+<ResponseField name="width" type="integer">
+  Ancho del contenedor.
+</ResponseField>
+
+<ResponseField name="height" type="integer">
+  Alto del contenedor.
+</ResponseField>
+
+<ResponseField name="dimensionUnit" type="object">
+  Unidad de medida de las dimensiones.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador de la unidad. Valores posibles: `Meters`, `Inches`, `Centimeters`, `Milimeters`.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido de la unidad.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Errores
+
+<ResponseField name="404 Not Found">
+  No existe ningún transporte terrestre con el `id` especificado en la URL.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `GroundTransportations.Read` requerido.
+</ResponseField>

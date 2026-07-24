@@ -1,0 +1,29 @@
+<ParamField body="chassisId" type="integer">
+  Identificador de un vehículo tipo chasis ya registrado en la flota.
+
+  - Es mutuamente excluyente con `chassisType`, `vendorId` y `plate`: si se envía `chassisId`, esos tres campos deben omitirse.
+</ParamField>
+
+<ParamField body="vendorId" type="integer">
+  Identificador del vendor (proveedor) del chasis.
+
+  - Requerido si `chassisId` no fue enviado.
+  - Debe ser un asociado con el campo `isVendor` como `true`, y su `status.id` debe ser `2` (Activo).
+</ParamField>
+
+<ParamField body="chassisType" type="string">
+  Tipo de chasis. Requerido si `chassisId` no fue enviado. Valores aceptados:
+
+  - `TwentyFeet`
+  - `FortyFeet`
+  - `FortyFiveFeet`
+  - `FortyEightFeet`
+</ParamField>
+
+<ParamField body="plate" type="string">
+  Placa del chasis. Máximo 12 caracteres. Solo aplica si `chassisId` no fue enviado.
+</ParamField>
+
+<ParamField body="containerId" type="integer">
+  Identificador del contenedor montado sobre el chasis.
+</ParamField>

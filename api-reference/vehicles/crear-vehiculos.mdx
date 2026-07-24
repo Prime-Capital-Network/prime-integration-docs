@@ -114,12 +114,11 @@ Crea un nuevo vehículo en la empresa.
   Tipo de propiedad del vehículo. Valores aceptados:
 
   - `Owned`
-  - `Leased`
-  - `Rented`
+  - `Affiliate`
 </ParamField>
 
 <ParamField body="vendorId" type="integer">
-  Identificador del vendor (proveedor) asociado, aplica si el vehículo es alquilado/leaseado.
+  Identificador del vendor (proveedor) asociado, aplica si el vehículo tiene `vehicleOwnership` como `Affiliate`.
 </ParamField>
 
 <ParamField body="driverId" type="integer">
