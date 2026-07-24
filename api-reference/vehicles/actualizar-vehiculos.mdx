@@ -1,13 +1,10 @@
 ---
 title: "Actualizar"
 sidebarTitle: "Actualizar"
+api: "PUT /vehicles/{id}"
 ---
 
 Actualiza los datos de un vehículo en la empresa.
-
-```http
-PUT /vehicles/{id}
-```
 
 <Note>
   Este endpoint requiere el scope **`Vehicles.Write`**.
@@ -16,6 +13,12 @@ PUT /vehicles/{id}
 <Warning>
   Este es un reemplazo completo del recurso (PUT). Todos los campos enviados en el body sobrescribirán el estado actual del vehículo. Para cambios parciales, verificar la sección [Actualizar Parcial Vehículo](/api-reference/vehicles/actualizar-parcial-vehiculos).
 </Warning>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Path parameters
 

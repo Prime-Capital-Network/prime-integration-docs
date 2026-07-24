@@ -1,16 +1,19 @@
 ---
 title: "Obtener Detalle por ID"
+api: "GET /reimbursement-liabilities/{id}/details/{detailId}"
 ---
 
 Obtén un detalle específico asociado a un reembolso.
 
-```http
-GET /reimbursement-liabilities/{id}/details/{detailId}
-```
-
 <Note>
   Este endpoint requiere el scope **`ReimbursementLiabilities.Read`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Path parameters
 

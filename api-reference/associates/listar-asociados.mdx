@@ -2,17 +2,20 @@
 title: "Listar"
 sidebarTitle: "Listar"
 description: "Permite manejar asociados mediante REST API"
+api: "GET /associates"
 ---
 
 Obtén una lista paginada de asociados en la empresa.
 
-```http
-GET /associates
-```
-
 <Note>
   Este endpoint requiere el scope **`Associates.Read`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Query parameters
 
@@ -114,7 +117,7 @@ GET /associates
   Filtra por el nombre del gestor de cobros asignado.
 </ParamField>
 
-<ParamField query="businessTypeName" type="StringSearchFilter">
+<ParamField query="customerBusinessTypeName" type="StringSearchFilter">
   Filtra por el nombre del tipo de negocio.
 </ParamField>
 

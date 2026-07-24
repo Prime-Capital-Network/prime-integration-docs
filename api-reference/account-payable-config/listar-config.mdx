@@ -1,16 +1,19 @@
 ---
 title: "Obtener Configuración"
+api: "GET /account-payable-configuration"
 ---
 
 Obtiene la configuración de cuentas por pagar de la empresa.
 
-```http
-GET /account-payable-configuration
-```
-
 <Note>
   Este endpoint requiere el scope **`AccountPayableConfiguration.Read`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Example request
 
@@ -124,8 +127,8 @@ print(response.json())
 
 ```json
 {
-  "duplicatedNumbers": "Warn",
-  "duplicatedNCF": "Block",
+  "duplicatedNumbers": "Notify",
+  "duplicatedNCF": "Deny",
   "isChargeTransparencyEnabled": true,
   "quantityDecimals": 2,
   "priceDecimals": 4,

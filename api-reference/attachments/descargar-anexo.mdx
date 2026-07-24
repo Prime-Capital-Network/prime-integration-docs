@@ -1,16 +1,19 @@
 ---
 title: "Descargar"
+api: "POST /attachments/{id}/download"
 ---
 
 Genera una URL temporal para descargar el archivo de un adjunto específico.
 
-```http
-POST /attachments/{id}/download
-```
-
 <Note>
   Este endpoint requiere el scope **`Attachments.Download`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Path parameters
 

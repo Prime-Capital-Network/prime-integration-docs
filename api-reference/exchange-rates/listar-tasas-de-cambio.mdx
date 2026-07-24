@@ -2,17 +2,20 @@
 title: "Listar"
 sidebarTitle: "Listar"
 description: "Permite listar las tasas de Cambio mediante REST API"
+api: "GET /currencies/rates"
 ---
 
 Obtén una lista limitada de tasas de cambio de 2 monedas.
 
-```http
-GET /currencies/rates
-```
-
 <Note>
   Este endpoint requiere el scope **`ExchangeRates.Read`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Query parameters
 
@@ -20,7 +23,7 @@ GET /currencies/rates
   ID de la moneda base.
 </ParamField>
 
-<ParamField query="ConvertId" type="BooleanSearchFilter" required>
+<ParamField query="ConvertId" type="string" required>
   ID de la moneda convertida.
 </ParamField>
 
@@ -85,43 +88,22 @@ print(response.json())
 ```json
 [
   {
-    "id": 0,
-    "name": "string",
-    "isSalesPerson": true,
-    "isExecutiveAccount": true,
-    "isCustomerService": true,
-    "isDebtCollector": true,
-    "isActive": true
+    "date": "2026-07-24",
+    "rate": 58.75
+  },
+  {
+    "date": "2026-07-23",
+    "rate": 58.7
   }
 ]
 ```
 
 ### Response fields
 
-<ResponseField name="id" type="integer">
-  Identificador único del representante.
+<ResponseField name="date" type="datetimeoffset">
+  Fecha correspondiente a la tasa de cambio.
 </ResponseField>
 
-<ResponseField name="name" type="string">
-  Nombre completo del representante.
-</ResponseField>
-
-<ResponseField name="isSalesPerson" type="boolean">
-  Indica si el representante es un vendedor.
-</ResponseField>
-
-<ResponseField name="isExecutiveAccount" type="boolean">
-  Indica si el representante es un ejecutivo de cuentas.
-</ResponseField>
-
-<ResponseField name="isCustomerService" type="boolean">
-  Indica si el representante pertenece al área de servicio al cliente.
-</ResponseField>
-
-<ResponseField name="isDebtCollector" type="boolean">
-  Indica si el representante es un gestor de cobros o cobrador.
-</ResponseField>
-
-<ResponseField name="isActive" type="boolean">
-  Indica si el representante está actualmente activo en el sistema.
+<ResponseField name="rate" type="decimal">
+  Tasa de cambio entre la moneda base (`BaseId`) y la moneda convertida (`ConvertId`) en la fecha indicada.
 </ResponseField>

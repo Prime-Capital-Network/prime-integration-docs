@@ -2,15 +2,18 @@
 title: "Crear Asociado"
 sidebarTitle: "Crear"
 description: "Este endpoint permite registrar un nuevo asociado a la empresa."
+api: "POST /associates"
 ---
-
-```http
-POST /associates
-```
 
 <Note>
   Este endpoint requiere el scope **`Associates.Write`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Body parameters
 
@@ -515,7 +518,15 @@ print(response.json())
 
 </CodeGroup>
 
-### Response
+### Example response
+
+```json
+{
+  "id": 4521
+}
+```
+
+### Response fields
 
 <ResponseField name="id" type="integer">
   Identificador único del asociado recién creado.

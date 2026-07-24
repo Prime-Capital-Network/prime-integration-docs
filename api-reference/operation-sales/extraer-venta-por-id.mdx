@@ -2,17 +2,20 @@
 title: "Obtener Estimado de Venta Por ID"
 sidebarTitle: "Obtener por ID"
 description: "Permite extraer un estimado de venta (operation sale) en específico mediante REST API"
+api: "GET /operation-sales/{id}"
 ---
 
 Obtén un estimado de venta por ID en la empresa.
 
-```http
-GET /operation-sales/{id}
-```
-
 <Note>
   Este endpoint requiere el scope **`OperationSales.Read`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Path parameters
 

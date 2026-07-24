@@ -1,17 +1,19 @@
 ---
 title: "Actualizar Parcial Detalle"
+api: "PATCH /reimbursement-liabilities/{id}/details/{detailId}"
 ---
 
 Actualiza un detalle para un reembolso específico.
-
-```http
-PATCH /reimbursement-liabilities/{id}/details/{detailId}
-```
 
 <Note>
   Este endpoint requiere el scope **`ReimbursementLiabilities.Write`**.
 </Note>
 
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Path parameters
 
@@ -32,7 +34,7 @@ PATCH /reimbursement-liabilities/{id}/details/{detailId}
 <ParamField body="chargeTypeId" type="integer">
   Identificador del tipo de cargo.
 
-  - Si la factura tiene asignado el campo `masterId`, y el master tiene el campo `transportType` igual a `Rail`, este campo no puede ser igual a `1` (Prorrateo Por Peso (WM)).
+  - Si el reembolso tiene asignado el campo `masterId`, y el master tiene el campo `transportType` igual a `Rail`, este campo no puede ser igual a `1` (Prorrateo Por Peso (WM)).
 
   Valores aceptados:
   - `1`	(Prorrateo Por Peso (WM))

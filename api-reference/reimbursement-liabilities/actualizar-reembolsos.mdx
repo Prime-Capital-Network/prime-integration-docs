@@ -1,13 +1,10 @@
 ---
 title: "Actualizar"
 sidebarTitle: "Actualizar"
+api: "PUT /reimbursement-liabilities/{id}"
 ---
 
 Actualiza los datos de un reembolso por pagar en la empresa.
-
-```http
-PUT /reimbursement-liabilities/{id}
-```
 
 <Note>
   Este endpoint requiere el scope **`ReimbursementLiabilities.Write`**.
@@ -16,6 +13,12 @@ PUT /reimbursement-liabilities/{id}
 <Warning>
   Este es un reemplazo completo del recurso (PUT). Todos los campos enviados en el body sobrescribirán el estado actual del reembolso. Para cambios parciales, verificar la sección [Actualizar Parcial Reembolso](/api-reference/reimbursement-liabilities/actualizar-parcial-reembolsos).
 </Warning>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Path parameters
 

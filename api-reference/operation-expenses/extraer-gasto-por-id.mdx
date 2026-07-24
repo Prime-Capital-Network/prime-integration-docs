@@ -2,17 +2,20 @@
 title: "Obtener Estimado de Gasto Por ID"
 sidebarTitle: "Obtener por ID"
 description: "Permite extraer un estimado de gasto (operation expense) en específico mediante REST API"
+api: "GET /operation-expenses/{id}"
 ---
 
 Obtén un estimado de gasto por ID en la empresa.
 
-```http
-GET /operation-expenses/{id}
-```
-
 <Note>
   Este endpoint requiere el scope **`OperationExpenses.Read`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Path parameters
 

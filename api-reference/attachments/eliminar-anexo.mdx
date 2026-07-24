@@ -1,5 +1,6 @@
 ---
 title: "Eliminar"
+api: "DELETE /attachments/{id}"
 ---
 
 Elimina un archivo adjunto específico.
@@ -7,6 +8,12 @@ Elimina un archivo adjunto específico.
 <Note>
   Este endpoint requiere el scope **`Attachments.Write`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Path parameters
 
@@ -26,7 +33,7 @@ curl --request DELETE \
 ```
 
 ```javascript JavaScript
-const response = await fetch("[https://api.primenetcloud.com/v1/attachments/2045", {
+const response = await fetch("https://api.primenetcloud.com/v1/attachments/2045", {
   method: "DELETE",
   headers: {
     "X-Api-Key": "YOUR_API_KEY",

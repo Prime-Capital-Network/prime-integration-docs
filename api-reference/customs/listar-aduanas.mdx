@@ -1,16 +1,19 @@
 ---
 title: "Listar"
+api: "GET /customs"
 ---
 
 Obtén una lista paginada de despachos aduanales en la empresa.
 
-```http
-GET /customs
-```
-
 <Note>
   Este endpoint requiere el scope **`Customs.Read`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Query parameters
 

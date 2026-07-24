@@ -2,17 +2,20 @@
 title: "Obtener House Por ID"
 sidebarTitle: "Obtener por ID"
 description: "Permite extraer un house en específico mediante REST API"
+api: "GET /houses/{id}"
 ---
 
 Obtén un house por ID en la empresa.
 
-```http
-GET /houses/{id}
-```
-
 <Note>
   Este endpoint requiere el scope **`Houses.Read`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Path parameters
 
@@ -302,7 +305,7 @@ print(response.json())
     "id": 0,
     "name": "string"
   },
-  "packings": {},
+  "packings": [],
   "vehicles": [],
   "routes": [],
   "events": [],
@@ -1156,8 +1159,8 @@ print(response.json())
   </Expandable>
 </ResponseField>
 
-<ResponseField name="packings" type="object">
-  Empaques del house. Solo se incluye si se envía `include=Packings`; de lo contrario retorna `null`.
+<ResponseField name="packings" type="object[]">
+  Empaques del house. Solo se incluye si se envía `include=Packings`; de lo contrario retorna un array vacío.
 </ResponseField>
 
 <ResponseField name="vehicles" type="object[]">

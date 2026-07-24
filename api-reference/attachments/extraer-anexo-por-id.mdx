@@ -1,17 +1,20 @@
 ---
 title: "Obtener Adjunto por ID"
 sidebarTitle: "Obtener por ID"
+api: "GET /attachments/{id}"
 ---
 
 Obtén un adjunto por ID en la empresa.
 
-```http
-GET /attachments/{id}
-```
-
 <Note>
   Este endpoint requiere el scope **`Attachments.Read`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Path parameters
 

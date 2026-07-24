@@ -1,29 +1,32 @@
 ---
 title: "Actualizar Detalle"
+api: "PUT /purchase-invoices/{id}/details/{detailId}"
 ---
 
 Actualiza un detalle para una factura de compra específica.
-
-```http
-PUT /purchase-invoices/{id}/details/{detailId}
-```
 
 <Note>
   Este endpoint requiere el scope **`PurchaseInvoices.Write`**.
 </Note>
 
 <Warning>
-  Este es un reemplazo completo del recurso (PUT). Todos los campos enviados en el body sobrescribirán el estado actual del asociado. Para cambios parciales, verificar la sección [Actualizar Parcial Detalle](/api-reference/purchase-invoices/actualizar-parcial-detalle).
+  Este es un reemplazo completo del recurso (PUT). Todos los campos enviados en el body sobrescribirán el estado actual del detalle. Para cambios parciales, verificar la sección [Actualizar Parcial Detalle](/api-reference/purchase-invoices/actualizar-parcial-detalle).
 </Warning>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Path parameters
 
 <ParamField path="id" type="integer" required>
-  Identificador único de la factura de compra a la que se agregará el detalle.
+  Identificador único de la factura de compra a la que pertenece el detalle.
 </ParamField>
 
 <ParamField path="detailId" type="integer" required>
-  Identificador único del detalle a consultar.
+  Identificador único del detalle a actualizar.
 </ParamField>
 
 ### Body parameters
@@ -54,9 +57,9 @@ PUT /purchase-invoices/{id}/details/{detailId}
   Valores aceptados:
   - `1`	(Prorrateo Por Peso (WM))
   - `2`	(Ganancias Agentes)
-  - `3`	(Distribucion En Montos Equitativos)
+  - `3`	(Distribución En Montos Equitativos)
   - `4`	(Impuestos)
-  - `5`	(Prorrateo Por Peso Fisico)
+  - `5`	(Prorrateo Por Peso Físico)
   - `6`	(Prorrateo Por Volumen)
 </ParamField>
 
@@ -131,6 +134,10 @@ PUT /purchase-invoices/{id}/details/{detailId}
   - Debe ser una dimensión con el campo `typeId` igual a `3` (Project).
 </ParamField>
 
+<ParamField body="estimateId" type="integer">
+  Identificador del estimado de gasto (Service Expense) asociado.
+</ParamField>
+
 <ParamField body="acquiredWarranty" type="string">
   Fecha de adquisición de la garantía en formato ISO 8601.
 
@@ -144,7 +151,7 @@ PUT /purchase-invoices/{id}/details/{detailId}
 
 ```bash curl
 curl --request PUT \
-  --url "https://api.primenetcloud.com/v1/purchase-invoices/1054/details" \
+  --url "https://api.primenetcloud.com/v1/purchase-invoices/1054/details/1" \
   --header "X-Api-Key: YOUR_API_KEY" \
   --header "X-Tenant-Id: TENANT_ID" \
   --header "Content-Type: application/json" \
@@ -165,7 +172,7 @@ curl --request PUT \
 ```
 
 ```javascript JavaScript
-const response = await fetch("https://api.primenetcloud.com/v1/purchase-invoices/1054/details", {
+const response = await fetch("https://api.primenetcloud.com/v1/purchase-invoices/1054/details/1", {
   method: "PUT",
   headers: {
     "X-Api-Key": "YOUR_API_KEY",
@@ -196,7 +203,7 @@ console.log(data);
 import requests
 
 response = requests.put(
-    "https://api.primenetcloud.com/v1/purchase-invoices/1054/details",
+    "https://api.primenetcloud.com/v1/purchase-invoices/1054/details/1",
     json={
         "itemType": "Charge",
         "itemId": 5,
@@ -258,6 +265,7 @@ Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
   "departmentId": 3,
   "costCenterId": 5,
   "projectId": null,
+  "estimateId": 450,
   "acquiredWarranty": null
 }
 ```

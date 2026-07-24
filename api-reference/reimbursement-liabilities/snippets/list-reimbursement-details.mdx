@@ -1,0 +1,156 @@
+<ResponseField name="id" type="integer">
+  Identificador único del detalle.
+</ResponseField>
+
+<ResponseField name="charge" type="object">
+  Cargo asociado al detalle.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del cargo.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del cargo.
+    </ResponseField>
+
+    <ResponseField name="fastCode" type="string">
+      Código rápido del cargo.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="description" type="string">
+  Descripción del detalle.
+</ResponseField>
+
+<ResponseField name="quantity" type="decimal">
+  Cantidad.
+</ResponseField>
+
+<ResponseField name="price" type="decimal">
+  Precio unitario.
+</ResponseField>
+
+<ResponseField name="totalAmount" type="decimal">
+  Monto total del detalle.
+</ResponseField>
+
+<ResponseField name="operation" type="object">
+  Operación logística asociada al detalle. `null` si el detalle no está asociado a ninguna operación.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador de la operación logística.
+    </ResponseField>
+
+    <ResponseField name="transactionNumber" type="integer">
+      Número de transacción de la operación logística.
+    </ResponseField>
+
+    <ResponseField name="category" type="string">
+      Categoría de la operación logística. Valores posibles:
+
+      - `Shipment`
+      - `CustomManagement`
+      - `Additional`
+      - `InlandFreight`
+    </ResponseField>
+
+    <ResponseField name="movementType" type="object">
+      Tipo de movimiento del house asociado. Solo presente si `category` es `Shipment`.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador del tipo de movimiento.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido del tipo de movimiento.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="transportType" type="object">
+      Tipo de transporte del house asociado. Solo presente si `category` es `Shipment`.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador del tipo de transporte.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido del tipo de transporte.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="bl" type="string">
+      Número de BL del house asociado. Solo presente si `category` es `Shipment`.
+    </ResponseField>
+
+    <ResponseField name="customer" type="object">
+      Cliente del house asociado. Solo presente si `category` es `Shipment`.
+
+      <Expandable title="propiedades">
+        <ResponseField name="name" type="string">
+          Nombre del cliente.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="master" type="object">
+      Master del house asociado. Solo presente si `category` es `Shipment`.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador del master.
+        </ResponseField>
+
+        <ResponseField name="transactionNumber" type="integer">
+          Número de transacción del master.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="department" type="object">
+  Departamento asociado al detalle.
+
+  <Expandable title="propiedades">
+    <ResponseField name="name" type="string">
+      Nombre del departamento.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="costCenter" type="object">
+  Centro de costo asociado al detalle.
+
+  <Expandable title="propiedades">
+    <ResponseField name="name" type="string">
+      Nombre del centro de costo.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="project" type="object">
+  Proyecto asociado al detalle.
+
+  <Expandable title="propiedades">
+    <ResponseField name="name" type="string">
+      Nombre del proyecto.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="estimate" type="object">
+  Estimado (gasto de servicio) asociado al detalle.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del estimado.
+    </ResponseField>
+  </Expandable>
+</ResponseField>

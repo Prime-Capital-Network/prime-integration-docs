@@ -1,20 +1,23 @@
 ---
 title: "Actualizar"
+api: "PUT /operation-expenses/{id}"
 ---
 
 Actualiza un estimado de gasto (operation expense) en la empresa.
-
-```http
-PUT /operation-expenses/{id}
-```
 
 <Note>
   Este endpoint requiere el scope **`OperationExpenses.Write`**.
 </Note>
 
 <Warning>
-  Este es un reemplazo completo del recurso (PUT). Todos los campos enviados en el body sobrescribirán el estado actual del asociado. Para cambios parciales, verificar la sección [Actualizar Parcial Gasto](/api-reference/operation-expenses/actualizar-parcial-gastos).
+  Este es un reemplazo completo del recurso (PUT). Todos los campos enviados en el body sobrescribirán el estado actual del estimado de gasto. Para cambios parciales, verificar la sección [Actualizar Parcial Gasto](/api-reference/operation-expenses/actualizar-parcial-gastos).
 </Warning>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Path parameters
 
@@ -111,7 +114,7 @@ PUT /operation-expenses/{id}
 
 ```bash curl
 curl --request PUT \
-  --url "https://api.primenetcloud.com/v1/operation-expenses" \
+  --url "https://api.primenetcloud.com/v1/operation-expenses/731" \
   --header "X-Api-Key: YOUR_API_KEY" \
   --header "X-Tenant-Id: TENANT_ID" \
   --header "Content-Type: application/json" \
@@ -133,7 +136,7 @@ curl --request PUT \
 ```
 
 ```javascript JavaScript
-const response = await fetch("https://api.primenetcloud.com/v1/operation-expenses", {
+const response = await fetch("https://api.primenetcloud.com/v1/operation-expenses/731", {
   method: "PUT",
   headers: {
     "X-Api-Key": "YOUR_API_KEY",
@@ -165,7 +168,7 @@ console.log(data);
 import requests
 
 response = requests.put(
-    "https://api.primenetcloud.com/v1/operation-expenses",
+    "https://api.primenetcloud.com/v1/operation-expenses/731",
     json={
         "chargeId": 5,
         "chargeDescription": "Ocean Freight",
@@ -199,7 +202,7 @@ Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
 ### Errores
 
 <ResponseField name="404 Not Found">
-  No existe ningúna operación con el `id` especificado en la URL.
+  No existe ningún estimado de gasto con el `id` especificado en la URL.
 </ResponseField>
 
 <ResponseField name="403 Forbidden">

@@ -1,16 +1,19 @@
 ---
 title: "Listar"
+api: "GET /reimbursement-liabilities"
 ---
 
 Obtén una lista paginada de reembolsos por pagar en la empresa.
 
-```http
-GET /reimbursement-liabilities
-```
-
 <Note>
   Este endpoint requiere el scope **`ReimbursementLiabilities.Read`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Query parameters
 
@@ -44,11 +47,11 @@ GET /reimbursement-liabilities
   - `Status`
 </ParamField>
 
-<ParamField query="skip" default="20" type="integer">
+<ParamField query="skip" default="0" type="integer">
   Número de registros a omitir desde el inicio de los resultados. Utilízado junto con `take` para paginar los resultados.
 </ParamField>
 
-<ParamField query="take" type="integer">
+<ParamField query="take" default="20" type="integer">
   Número de registros a retornar. Por defecto `20`, máximo `100`.
 </ParamField>
 

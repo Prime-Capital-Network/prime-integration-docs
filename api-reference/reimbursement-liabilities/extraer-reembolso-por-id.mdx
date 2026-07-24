@@ -2,17 +2,20 @@
 title: "Obtener reembolso Por ID"
 sidebarTitle: "Obtener por ID"
 description: "Permite extraer un reembolso (cuenta por pagar) en específico mediante REST API"
+api: "GET /reimbursement-liabilities/{id}"
 ---
 
 Obtén un reembolso por ID en la empresa.
 
-```http
-GET /reimbursement-liabilities/{id}
-```
-
 <Note>
   Este endpoint requiere el scope **`ReimbursementLiabilities.Read`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Path parameters
 
@@ -481,9 +484,13 @@ print(response.json())
 
 import ListFields from './snippets/list-reimbursement-details.mdx'
 
-<ParamField body="details" type="array">
+<ResponseField name="details" type="array">
   Detalles (líneas) del reembolso. Solo se incluye si se solicita mediante `include=Details`.
   <Expandable title="detalle">
     <ListFields />
   </Expandable>
-</ParamField>
+</ResponseField>
+
+<ResponseField name="accounts" type="array">
+  Distribución contable adicional del reembolso.
+</ResponseField>

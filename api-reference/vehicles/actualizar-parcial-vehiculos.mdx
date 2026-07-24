@@ -1,16 +1,19 @@
 ---
 title: "Actualizar Parcial"
+api: "PATCH /vehicles/{id}"
 ---
 
 Actualiza los datos de un vehículo en la empresa.
 
-```http
-PATCH /vehicles/{id}
-```
-
 <Note>
   Este endpoint requiere el scope **`Vehicles.Write`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Path parameters
 

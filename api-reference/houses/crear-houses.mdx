@@ -1,16 +1,19 @@
 ---
 title: "Crear"
+api: "POST /houses"
 ---
 
 Crea un nuevo house (embarque) en la empresa.
 
-```http
-POST /houses
-```
-
 <Note>
   Este endpoint requiere el scope **`Houses.Write`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Body parameters
 
@@ -166,7 +169,7 @@ POST /houses
   Identificador del shipper.
 
   - Requerido si `shipperType` no es null.
-  - Si `IsShipperCustomer` es `true`, este campo debe ser igual a `customerId`.
+  - Si `isShipperCustomer` es `true`, este campo debe ser igual a `customerId`.
   - Si `shipperType` es `Associate`, debe ser un asociado con el `status.id` como `2` (Activo).
   - Si `shipperType` es `CustomerAssociate`, debe ser un cliente de asociado con el campo `IsActive` como true.
 </ParamField>
@@ -546,6 +549,7 @@ print(response.json())
 
 ```json
 {
+  "trackingNumber": 5321,
   "quotationId": 1,
   "transportType": "Sea",
   "movementType": "Import",
@@ -629,6 +633,7 @@ print(response.json())
   "weeklyDepartures": [],
   "monthlyDepartures": [],
   "transitDays": 0,
+  "transitDaysTo": 0,
   "parentId": null,
   "cargoCurrencyId": "USD",
   "exWorks": 0,

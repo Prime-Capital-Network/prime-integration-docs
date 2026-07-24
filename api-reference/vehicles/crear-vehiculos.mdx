@@ -1,16 +1,19 @@
 ---
 title: "Crear"
+api: "POST /vehicles"
 ---
 
 Crea un nuevo vehículo en la empresa.
 
-```http
-POST /vehicles
-```
-
 <Note>
   Este endpoint requiere el scope **`Vehicles.Write`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Body parameters
 
@@ -302,7 +305,7 @@ print(response.json())
   "mileageUnit": "Kilometers",
   "fuelTypeId": 1,
   "fuelCapacity": 60,
-  "fuelCapacityUnit": "Gallons",
+  "fuelCapacityUnit": "Gallon",
   "horsePower": 250,
   "vehicleOwnership": "Owned",
   "vendorId": null,

@@ -2,17 +2,20 @@
 title: "Obtener Container Por ID"
 sidebarTitle: "Obtener por ID"
 description: "Permite extraer un container en específico mediante REST API"
+api: "GET /containers/{id}"
 ---
 
 Obtén un container por ID en la empresa.
 
-```http
-GET /containers/{id}
-```
-
 <Note>
   Este endpoint requiere el scope **`Containers.Read`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Path parameters
 
@@ -355,4 +358,14 @@ print(response.json())
 
 <ResponseField name="isActive" type="boolean">
   Indica si el contenedor está activo.
+</ResponseField>
+
+### Errores
+
+<ResponseField name="404 Not Found">
+  No existe ningún container con el `id` especificado en la URL.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `Containers.Read` requerido.
 </ResponseField>

@@ -2,17 +2,20 @@
 title: "Obtener Factura de Compra Por ID"
 sidebarTitle: "Obtener por ID"
 description: "Permite extraer una factura de compra en específico mediante REST API"
+api: "GET /purchase-invoices/{id}"
 ---
 
 Obtén una factura de compra por ID en la empresa.
 
-```http
-GET /purchase-invoices/{id}
-```
-
 <Note>
   Este endpoint requiere el scope **`PurchaseInvoices.Read`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Path parameters
 
@@ -826,9 +829,13 @@ print(response.json())
 
 import ListFields from './snippets/list-purchase-invoide-details.mdx'
 
-<ParamField body="details" type="array">
+<ResponseField name="details" type="array">
   Detalles (líneas) de la factura. Solo se incluye si se solicita mediante `include=Details`.
   <Expandable title="detalle">
     <ListFields />
   </Expandable>
-</ParamField>
+</ResponseField>
+
+<ResponseField name="accounts" type="array">
+  Cuentas contables generadas por la factura.
+</ResponseField>

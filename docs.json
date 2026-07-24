@@ -8,6 +8,15 @@
     "dark": "#4fa1ab"
   },
   "favicon": "/favicon.svg",
+  "api": {
+    "mdx": {
+      "server": "https://api.primenetcloud.com/v1",
+      "auth": {
+        "method": "key",
+        "name": "X-Api-Key"
+      }
+    }
+  },
   "navigation": {
     "tabs": [
       {
@@ -58,7 +67,7 @@
                 ]
               },
               {
-                "group": "Representates de Negocios",
+                "group": "Representantes de Negocios",
                 "pages": [
                   "api-reference/business-representatives/listar-representantes"
                 ]

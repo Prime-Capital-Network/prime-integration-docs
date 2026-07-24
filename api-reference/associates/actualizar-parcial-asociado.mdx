@@ -2,15 +2,18 @@
 title: "Actualizar Parcial Asociado"
 sidebarTitle: "Actualizar Parcial"
 description: "Este endpoint permite actualizar los datos parcialmente de un asociado existente en la empresa."
+api: "PATCH /associates/{id}"
 ---
-
-```http
-PATCH /associates/{id}
-```
 
 <Note>
   Este endpoint requiere el scope **`Associates.Write`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Path parameters
 
@@ -286,7 +289,7 @@ PATCH /associates/{id}
 
 ```bash curl
 curl --request PATCH \
-  --url "https://api.primenetcloud.com/v1/associates" \
+  --url "https://api.primenetcloud.com/v1/associates/1023" \
   --header "X-Api-Key: YOUR_API_KEY" \
   --header "X-Tenant-Id: TENANT_ID" \
   --header "Content-Type: application/merge-patch+json" \
@@ -360,7 +363,7 @@ curl --request PATCH \
 ```
 
 ```javascript JavaScript
-const response = await fetch("https://api.primenetcloud.com/v1/associates", {
+const response = await fetch("https://api.primenetcloud.com/v1/associates/1023", {
   method: "PATCH",
   headers: {
     "X-Api-Key": "YOUR_API_KEY",
@@ -443,7 +446,7 @@ console.log(data);
 import requests
 
 response = requests.patch(
-    "https://api.primenetcloud.com/v1/associates",
+    "https://api.primenetcloud.com/v1/associates/1023",
     headers={
         "X-Api-Key": "YOUR_API_KEY",
         "X-Tenant-Id": "e3d5e6af-3ec2-49c1-92bd-9632171e9a66",

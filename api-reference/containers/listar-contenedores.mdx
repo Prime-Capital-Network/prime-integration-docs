@@ -1,16 +1,19 @@
 ---
 title: "Listar"
+api: "GET /containers"
 ---
 
 Obtén una lista paginada de containers en la empresa.
 
-```http
-GET /containers
-```
-
 <Note>
   Este endpoint requiere el scope **`Containers.Read`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Query parameters
 

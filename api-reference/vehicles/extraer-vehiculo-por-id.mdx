@@ -2,17 +2,20 @@
 title: "Obtener Vehículo Por ID"
 sidebarTitle: "Obtener por ID"
 description: "Permite extraer un vehículo en específico mediante REST API"
+api: "GET /vehicles/{id}"
 ---
 
 Obtén un vehículo por ID en la empresa.
 
-```http
-GET /vehicles/{id}
-```
-
 <Note>
   Este endpoint requiere el scope **`Vehicles.Read`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Path parameters
 

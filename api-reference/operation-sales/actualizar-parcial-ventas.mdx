@@ -1,17 +1,20 @@
 ---
-title: "Actualizar"
+title: "Actualizar Parcial"
 sidebarTitle: "Actualizar Parcial"
+api: "PATCH /operation-sales/{id}"
 ---
 
 Actualiza los datos parcialmente de un estimado de venta (operation sale) en la empresa.
 
-```http
-PATCH /operation-sales/{id}
-```
-
 <Note>
   Este endpoint requiere el scope **`OperationSales.Write`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Path parameters
 
@@ -89,9 +92,9 @@ PATCH /operation-sales/{id}
 
 <CodeGroup>
 
-```bash
+```bash curl
 curl --request PATCH \
-  --url "https://api.primenetcloud.com/v1/operation-sales" \
+  --url "https://api.primenetcloud.com/v1/operation-sales/901" \
   --header "X-Api-Key: YOUR_API_KEY" \
   --header "X-Tenant-Id: TENANT_ID" \
   --header "Content-Type: application/merge-patch+json" \
@@ -111,7 +114,7 @@ curl --request PATCH \
 ```
 
 ```javascript JavaScript
-const response = await fetch("https://api.primenetcloud.com/v1/operation-sales", {
+const response = await fetch("https://api.primenetcloud.com/v1/operation-sales/901", {
   method: "PATCH",
   headers: {
     "X-Api-Key": "YOUR_API_KEY",
@@ -141,7 +144,7 @@ console.log(data);
 import requests
 
 response = requests.patch(
-    "https://api.primenetcloud.com/v1/operation-sales",
+    "https://api.primenetcloud.com/v1/operation-sales/901",
     json={
         "chargeId": 5,
         "chargeDescription": "Ocean Freight",
@@ -174,11 +177,11 @@ Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
 ### Errores
 
 <ResponseField name="404 Not Found">
-  No existe ningúna operación con el `id` especificado en la URL.
+  No existe ningún estimado de venta con el `id` especificado en la URL.
 </ResponseField>
 
 <ResponseField name="403 Forbidden">
-  El API Key no tiene el scope `Houses.Write` requerido.
+  El API Key no tiene el scope `OperationSales.Write` requerido.
 </ResponseField>
 
 <ResponseField name="415 Unsupported Media Type">

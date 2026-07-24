@@ -1,16 +1,19 @@
 ---
 title: "Eliminar Detalle"
+api: "DELETE /reimbursement-liabilities/{id}/details/{detailId}"
 ---
 
 Elimina un detalle específico asociado a un reembolso.
 
-```http
-DELETE /reimbursement-liabilities/{id}/details/{detailId}
-```
-
 <Note>
   Este endpoint requiere el scope **`ReimbursementLiabilities.Write`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Path parameters
 
@@ -68,7 +71,7 @@ Si la eliminación es exitosa, el endpoint retorna `204 No Content` sin body.
 ### Errores
 
 <ResponseField name="400 Bad Request">
-  La solicitud será rechazada si el reembolso ya ha sido posteada (campo `status` como `Posted`). el reembolso no puede ser modificada en este estado.
+  La solicitud será rechazada si el reembolso ya ha sido posteado (campo `status` como `Posted`). El reembolso no puede ser modificado en este estado.
 </ResponseField>
 
 <ResponseField name="403 Forbidden">
@@ -76,5 +79,5 @@ Si la eliminación es exitosa, el endpoint retorna `204 No Content` sin body.
 </ResponseField>
 
 <ResponseField name="404 Not Found">
-  No existe ningun reembolso con el `id` especificado, o el `detailId` no pertenece a el reembolso.
+  No existe ningún reembolso con el `id` especificado, o el `detailId` no pertenece al reembolso.
 </ResponseField>

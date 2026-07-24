@@ -1,16 +1,19 @@
 ---
 title: "Crear"
+api: "POST /purchase-invoices"
 ---
 
 Crea una nueva factura de compra (purchase invoice) en la empresa.
 
-```http
-POST /purchase-invoices
-```
-
 <Note>
   Este endpoint requiere el scope **`PurchaseInvoices.Write`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Body parameters
 
@@ -151,7 +154,7 @@ import DetailFields from './snippets/purchase-invoice-detail-fields.mdx'
 
 ```bash curl
 curl --request POST \
-  --url https://api.primenetcloud.com/v1/purchase-invoices" \
+  --url "https://api.primenetcloud.com/v1/purchase-invoices" \
   --header "X-Api-Key: YOUR_API_KEY" \
   --header "X-Tenant-Id: TENANT_ID" \
   --header "Content-Type: application/json" \
@@ -185,7 +188,7 @@ const response = await fetch("https://api.primenetcloud.com/v1/purchase-invoices
     paymentTermId: 2,
     currencyId: "DOP",
     exchangeRate: 58.50,
-    fiscalDocumentId: "B01",
+    fiscalDocumentId: "FC",
     ncf: "B0100000001",
     operationId: 5321,
     operationCategory: "Shipment",
@@ -274,9 +277,10 @@ print(response.json())
   "dgiiService609DetailId": 5,
   "details": [
     {
-      "chargeId": 10,
-      "price": 500.00,
-      "quantity": 1
+      "itemType": "Charge",
+      "itemId": 10,
+      "quantity": 1,
+      "price": 500.00
     }
   ]
 }

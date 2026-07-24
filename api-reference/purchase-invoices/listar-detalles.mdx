@@ -1,16 +1,19 @@
 ---
 title: "Listar Detalles"
+api: "GET /purchase-invoices/{id}/details"
 ---
 
 Obtén la lista de todos los detalles asociados a una factura de compra específica.
 
-```http
-GET /purchase-invoices/{id}/details
-```
-
 <Note>
   Este endpoint requiere el scope **`PurchaseInvoices.Read`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Path parameters
 

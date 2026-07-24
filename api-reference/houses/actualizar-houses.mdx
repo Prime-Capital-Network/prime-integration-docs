@@ -1,12 +1,9 @@
 ---
 title: "Actualizar"
+api: "PUT /houses/{id}"
 ---
 
 Actualiza los datos de un house existente en la empresa.
-
-```http
-PUT /houses/{id}
-```
 
 <Note>
   Este endpoint requiere el scope **`Houses.Write`**.
@@ -15,6 +12,12 @@ PUT /houses/{id}
 <Warning>
   Este es un reemplazo completo del recurso (PUT). Todos los campos enviados en el body sobrescribirán el estado actual del house. Para cambios parciales, verificar la sección [Actualizar Parcial House](/api-reference/houses/actualizar-parcial-house).
 </Warning>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Path parameters
 
@@ -160,7 +163,7 @@ PUT /houses/{id}
   Identificador del shipper.
 
   - Requerido si `shipperType` no es null.
-  - Si `IsShipperCustomer` es `true`, este campo debe ser igual a `customerId`.
+  - Si `isShipperCustomer` es `true`, este campo debe ser igual a `customerId`.
   - Si `shipperType` es `Associate`, debe ser un asociado con el `status.id` como `2` (Activo).
   - Si `shipperType` es `CustomerAssociate`, debe ser un cliente de asociado con el campo `IsActive` como true.
 </ParamField>
@@ -609,6 +612,7 @@ Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
   "weeklyDepartures": [],
   "monthlyDepartures": [],
   "transitDays": 0,
+  "transitDaysTo": 0,
   "parentId": null,
   "cargoCurrencyId": "USD",
   "exWorks": 0

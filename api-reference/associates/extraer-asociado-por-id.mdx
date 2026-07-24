@@ -1,18 +1,21 @@
 ---
 title: "Obtener Asociado Por ID"
 sidebarTitle: "Obtener por ID"
-description: "Permite extrar un asociado en específico mediante REST API"
+description: "Permite extraer un asociado en específico mediante REST API"
+api: "GET /associates/{id}"
 ---
 
 Obtén un asociado por ID en la empresa.
 
-```http
-GET /associates/{id}
-```
-
 <Note>
   Este endpoint requiere el scope **`Associates.Read`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Path parameters
 
@@ -881,7 +884,7 @@ print(response.json())
       Valores posibles: 
       
       - `Personal`
-      - `Corporate`
+      - `Business`
     </ResponseField>
 
     <ResponseField name="name" type="string">

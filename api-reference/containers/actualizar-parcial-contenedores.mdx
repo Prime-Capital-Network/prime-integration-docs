@@ -1,16 +1,19 @@
 ---
 title: "Actualizar Parcial"
+api: "PATCH /containers/{id}"
 ---
 
 Este endpoint permite actualizar los datos parcialmente de un container existente en la empresa.
 
-```http
-PATCH /containers/{id}
-```
-
 <Note>
   Este endpoint requiere el scope **`Containers.Write`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Path parameters
 
@@ -194,7 +197,7 @@ response = requests.patch(
     headers={
         "X-Api-Key": "YOUR_API_KEY",
         "X-Tenant-Id": "TENANT_ID",
-        "X-Tenant-Id": "application/merge-patch+json",
+        "Content-Type": "application/merge-patch+json",
     },
 )
 

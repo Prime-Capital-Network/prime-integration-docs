@@ -2,17 +2,20 @@
 title: "Obtener Aduana Por ID"
 sidebarTitle: "Obtener por ID"
 description: "Permite extraer un registro de aduana en específico mediante REST API"
+api: "GET /customs/{id}"
 ---
 
 Obtén un registro de aduana por ID en la empresa.
 
-```http
-GET /customs/{id}
-```
-
 <Note>
   Este endpoint requiere el scope **`Customs.Read`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Path parameters
 

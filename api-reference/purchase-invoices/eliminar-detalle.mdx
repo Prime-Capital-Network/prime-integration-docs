@@ -1,16 +1,19 @@
 ---
 title: "Eliminar Detalle"
+api: "DELETE /purchase-invoices/{id}/details/{detailId}"
 ---
 
 Elimina un detalle específico asociado a una factura de compra (purchase invoice).
 
-```http
-DELETE /purchase-invoices/{id}/details/{detailId}
-```
-
 <Note>
   Este endpoint requiere el scope **`PurchaseInvoices.Write`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Path parameters
 

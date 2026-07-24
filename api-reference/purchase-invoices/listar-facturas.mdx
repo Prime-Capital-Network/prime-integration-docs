@@ -1,16 +1,19 @@
 ---
 title: "Listar"
+api: "GET /purchase-invoices"
 ---
 
 Obtén una lista paginada de facturas de compra en la empresa.
 
-```http
-GET /purchase-invoices
-```
-
 <Note>
   Este endpoint requiere el scope **`PurchaseInvoices.Read`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Query parameters
 
@@ -49,11 +52,11 @@ GET /purchase-invoices
   - `InsertedBy`
 </ParamField>
 
-<ParamField query="skip" default="20" type="integer">
+<ParamField query="skip" default="0" type="integer">
   Número de registros a omitir desde el inicio de los resultados. Utilízado junto con `take` para paginar los resultados.
 </ParamField>
 
-<ParamField query="take" type="integer">
+<ParamField query="take" default="20" type="integer">
   Número de registros a retornar. Por defecto `20`, máximo `100`.
 </ParamField>
 

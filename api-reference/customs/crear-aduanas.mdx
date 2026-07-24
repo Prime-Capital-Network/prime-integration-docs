@@ -1,16 +1,19 @@
 ---
 title: "Crear"
+api: "POST /customs"
 ---
 
 Crea un nuevo despacho aduanal en la empresa.
 
-```http
-POST /customs
-```
-
 <Note>
   Este endpoint requiere el scope **`Customs.Write`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Body parameters
 

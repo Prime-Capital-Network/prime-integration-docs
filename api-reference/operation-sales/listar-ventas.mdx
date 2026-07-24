@@ -1,16 +1,19 @@
 ---
 title: "Listar"
+api: "GET /operation-sales"
 ---
 
 Obtén la lista de estimados de venta (operation sales) asociados a una operación logística específica en la empresa.
 
-```http
-GET /operation-sales
-```
-
 <Note>
   Este endpoint requiere el scope **`OperationSales.Read`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Query parameters
 

@@ -1,16 +1,19 @@
 ---
 title: "Listar"
+api: "GET /vehicles"
 ---
 
 Obtén una lista paginada de vehículos en la empresa.
 
-```http
-GET /vehicles
-```
-
 <Note>
   Este endpoint requiere el scope **`Vehicles.Read`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Query parameters
 
@@ -33,11 +36,11 @@ GET /vehicles
   - `InsertedBy`
 </ParamField>
 
-<ParamField query="skip" default="20" type="integer">
+<ParamField query="skip" default="0" type="integer">
   Número de registros a omitir desde el inicio de los resultados. Utilízado junto con `take` para paginar los resultados.
 </ParamField>
 
-<ParamField query="take" type="integer">
+<ParamField query="take" default="20" type="integer">
   Número de registros a retornar. Por defecto `20`, máximo `100`.
 </ParamField>
 
@@ -92,7 +95,8 @@ GET /vehicles
   Valores aceptados:
 
   - `Owned`
-  - `Affiliate`
+  - `Leased`
+  - `Rented`
 </ParamField>
 
 <ParamField query="Vendor.Name" type="StringSearchFilter">

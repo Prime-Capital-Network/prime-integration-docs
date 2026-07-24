@@ -2,17 +2,20 @@
 title: "Listar"
 sidebarTitle: "Listar"
 description: "Permite manejar houses mediante REST API"
+api: "GET /houses"
 ---
 
 Obtén una lista paginada de houses en la empresa.
 
-```http
-GET /houses
-```
-
 <Note>
   Este endpoint requiere el scope **`Houses.Read`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Query parameters
 
@@ -170,14 +173,14 @@ GET /houses
 
 ```bash curl
 curl --request GET \
-  --url "https://api.primeerp.com/v1/houses?Status.Id=InCoordination&skip=20&take=20" \
+  --url "https://api.primenetcloud.com/v1/houses?Status.Id=InCoordination&skip=20&take=20" \
   --header "X-Api-Key: YOUR_API_KEY" \
   --header "X-Tenant-Id: TENANT_ID"
 ```
 
 ```javascript JavaScript
 const response = await fetch(
-  "https://api.primeerp.com/v1/houses?Status.Id=InCoordination&skip=20&take=20",
+  "https://api.primenetcloud.com/v1/houses?Status.Id=InCoordination&skip=20&take=20",
   {
     method: "GET",
     headers: {
@@ -195,7 +198,7 @@ console.log(data);
 import requests
 
 response = requests.get(
-    "https://api.primeerp.com/v1/houses",
+    "https://api.primenetcloud.com/v1/houses",
     params={
         "Status.Id": "InCoordination",
         "skip": 20,

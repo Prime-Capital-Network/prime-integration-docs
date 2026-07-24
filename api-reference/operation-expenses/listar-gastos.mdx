@@ -1,16 +1,19 @@
 ---
 title: "Listar"
+api: "GET /operation-expenses"
 ---
 
 Obtén la lista de estimados de gasto (operation expenses) asociados a una operación logística específica en la empresa.
 
-```http
-GET /operation-expenses
-```
-
 <Note>
   Este endpoint requiere el scope **`OperationExpenses.Read`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Query parameters
 

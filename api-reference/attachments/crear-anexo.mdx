@@ -1,12 +1,9 @@
 ---
 title: "Crear"
+api: "POST /attachments"
 ---
 
 Sube un nuevo adjunto (attachment) y lo asocia a un registro específico del sistema.
-
-```http
-POST /attachments
-```
 
 <Note>
   Este endpoint requiere el scope **`Attachments.Write`**.
@@ -15,6 +12,12 @@ POST /attachments
 <Note>
   Los parámetros de este endpoint (a excepción del archivo) se envían como **query parameters**. El archivo se envía en el body como `multipart/form-data`.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Query parameters
 
@@ -34,7 +37,7 @@ POST /attachments
   Identificador del registro al cual se asocia el adjunto.
 </ParamField>
 
-<ParamField query="tracking_id" type="integer">
+<ParamField query="trackingId" type="integer">
   Identificador de seguimiento (tracking) al cual asociar el adjunto.
 </ParamField>
 
@@ -81,7 +84,7 @@ POST /attachments
 
 ```bash curl
 curl --request POST \
-  --url "https://api.primenetcloud.com/v1/attachments?name=Factura%20escaneada&description=Copia%20escaneada%20de%20la%20factura%20original&menuid=houses&recordid=1054&categoryid=2" \
+  --url "https://api.primenetcloud.com/v1/attachments?name=Factura%20escaneada&description=Copia%20escaneada%20de%20la%20factura%20original&menuId=houses&recordId=1054&categoryId=2" \
   --header "X-Api-Key: YOUR_API_KEY" \
   --header "X-Tenant-Id: TENANT_ID" \
   --header "Content-Type: multipart/form-data" \
@@ -94,7 +97,7 @@ const params = new URLSearchParams({
   description: "Copia escaneada de la factura original",
   menuId: "houses",
   recordId: "1054",
-  category_id: "2",
+  categoryId: "2",
 });
 
 const formData = new FormData();
@@ -117,15 +120,14 @@ console.log(data);
 import requests
 
 files = {
-    "file": open("/path/to/file.pdf"
-rb")
+    "file": open("/path/to/file.pdf", "rb")
 }
 params = {
     "name": "Factura escaneada",
     "description": "Copia escaneada de la factura original",
     "menuId": "houses",
     "recordId": "1054",
-    "category_id": 2,
+    "categoryId": 2,
 }
 
 response = requests.post(

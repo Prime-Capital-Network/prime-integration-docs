@@ -1,16 +1,19 @@
 ---
 title: "Actualizar Parcial"
+api: "PATCH /customs/{id}"
 ---
 
 Este endpoint permite actualizar los datos parcialmente de una aduana existente en la empresa.
 
-```http
-PATCH /customs/{id}
-```
-
 <Note>
   Este endpoint requiere el scope **`Customs.Write`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Path parameters
 

@@ -1,12 +1,9 @@
 ---
 title: "Actualizar Detalle"
+api: "PUT /reimbursement-liabilities/{id}/details/{detailId}"
 ---
 
 Actualiza un detalle para un reembolso específico.
-
-```http
-PUT /reimbursement-liabilities/{id}/details/{detailId}
-```
 
 <Note>
   Este endpoint requiere el scope **`ReimbursementLiabilities.Write`**.
@@ -15,6 +12,12 @@ PUT /reimbursement-liabilities/{id}/details/{detailId}
 <Warning>
   Este es un reemplazo completo del recurso (PUT). Todos los campos enviados en el body sobrescribirán el estado actual del detalle. Para cambios parciales, verificar la sección [Actualizar Parcial Detalle](/api-reference/reimbursement-liabilities/actualizar-parcial-detalle).
 </Warning>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Path parameters
 
@@ -35,7 +38,7 @@ PUT /reimbursement-liabilities/{id}/details/{detailId}
 <ParamField body="chargeTypeId" type="integer">
   Identificador del tipo de cargo.
 
-  - Si la factura tiene asignado el campo `masterId`, y el master tiene el campo `transportType` igual a `Rail`, este campo no puede ser igual a `1` (Prorrateo Por Peso (WM)).
+  - Si el reembolso tiene asignado el campo `masterId`, y el master tiene el campo `transportType` igual a `Rail`, este campo no puede ser igual a `1` (Prorrateo Por Peso (WM)).
 
   Valores aceptados:
   - `1`	(Prorrateo Por Peso (WM))

@@ -1,16 +1,19 @@
 ---
 title: "Crear Detalle"
+api: "POST /purchase-invoices/{id}/details"
 ---
 
 Crea un nuevo detalle para una factura de compra específica.
 
-```http
-POST /purchase-invoices/{id}/details
-```
-
 <Note>
   Este endpoint requiere el scope **`PurchaseInvoices.Write`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Path parameters
 

@@ -1,20 +1,23 @@
 ---
 title: "Actualizar"
+api: "PUT /containers/{id}"
 ---
 
 Este endpoint permite actualizar los datos de un container existente en la empresa.
-
-```http
-PUT /containers/{id}
-```
 
 <Note>
   Este endpoint requiere el scope **`Containers.Write`**.
 </Note>
 
 <Warning>
-  Este es un reemplazo completo del recurso (PUT). Todos los campos enviados en el body sobrescribirán el estado actual del container. Para cambios parciales, verificar la sección [Actualizar Parcial Contenedor](/api-reference/containers/actualizar-parcial-contenedores).
+  Este es un reemplazo completo del recurso (PUT). Todos los campos enviados en el body sobrescribirán el estado actual del container. Para cambios parciales, verificar la sección [Actualizar Parcial Contenedores](/api-reference/containers/actualizar-parcial-contenedores).
 </Warning>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Path parameters
 

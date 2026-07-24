@@ -1,16 +1,19 @@
 ---
 title: "Actualizar Parcial"
+api: "PATCH /reimbursement-liabilities/{id}"
 ---
 
 Actualiza los datos de un reembolso por pagar en la empresa.
 
-```http
-PATCH /reimbursement-liabilities/{id}
-```
-
 <Note>
   Este endpoint requiere el scope **`ReimbursementLiabilities.Write`**.
 </Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
 
 ### Path parameters
 
