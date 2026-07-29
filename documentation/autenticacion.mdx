@@ -50,6 +50,10 @@ Cada solicitud debe incluir dos encabezados:
   El encabezado `X-Api-Key` es lo que determina que la solicitud se autentique como una integración de terceros.
 </Note>
 
+<Tip>
+  Puedes obtener tu `X-Tenant-Id` desde **Configuración → Integración de Terceros**, donde se muestra como un componente copiable junto a los datos del API Key.
+</Tip>
+
 <Warning>
   Si `X-Tenant-Id` no corresponde al tenant asociado al API Key, la solicitud será rechazada con `401 Unauthorized`.
 </Warning>
