@@ -1,0 +1,126 @@
+---
+title: "Listar"
+sidebarTitle: "Listar"
+description: "Permite listar los países mediante REST API"
+api: "GET /countries"
+---
+
+Obtén una lista de países.
+
+<Note>
+  Este endpoint requiere el scope **`Countries.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Query parameters
+
+<ParamField query="filter_by" type="string" default="Active">
+  Valores aceptados:
+
+  - `Active`
+</ParamField>
+
+<ParamField query="continent_id" type="string">
+  Filtra los países pertenecientes a un continente específico.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/countries?continent_id=AM" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/countries?continent_id=AM",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID",
+    },
+  }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/countries",
+    params={
+        "continent_id": "AM",
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+[
+  {
+    "id": "DO",
+    "name": "República Dominicana",
+    "iso31661": "DO",
+    "iso3166A3": "DOM",
+    "continent": {
+      "name": "América"
+    }
+  }
+]
+```
+
+### Response fields
+
+<ResponseField name="id" type="string">
+  Identificador único del país (código ISO 3166-1 alfa-2).
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  Nombre del país.
+</ResponseField>
+
+<ResponseField name="iso31661" type="string">
+  Código ISO 3166-1 alfa-2 del país.
+</ResponseField>
+
+<ResponseField name="iso3166A3" type="string">
+  Código ISO 3166-1 alfa-3 del país.
+</ResponseField>
+
+<ResponseField name="continent" type="object">
+  Continente al cual pertenece el país.
+
+  <Expandable title="propiedades">
+    <ResponseField name="name" type="string">
+      Nombre del continente.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Errores
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `Countries.Read` requerido.
+</ResponseField>

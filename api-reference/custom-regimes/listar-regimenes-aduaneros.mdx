@@ -1,0 +1,104 @@
+---
+title: "Listar"
+sidebarTitle: "Listar"
+description: "Permite listar los regímenes aduaneros mediante REST API"
+api: "GET /custom-regimes"
+---
+
+Obtén una lista de regímenes aduaneros en la empresa.
+
+<Note>
+  Este endpoint requiere el scope **`CustomRegimes.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Query parameters
+
+<ParamField query="filter_by" type="string">
+  Valores aceptados:
+
+  - `Active`
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/custom-regimes?filter_by=Active" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/custom-regimes?filter_by=Active",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID",
+    },
+  }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/custom-regimes",
+    params={
+        "filter_by": "Active",
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Importación Definitiva",
+    "isActive": true
+  }
+]
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único del régimen aduanero.
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  Nombre del régimen aduanero.
+</ResponseField>
+
+<ResponseField name="isActive" type="boolean">
+  Indica si el régimen aduanero está activo.
+</ResponseField>
+
+### Errores
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `CustomRegimes.Read` requerido.
+</ResponseField>

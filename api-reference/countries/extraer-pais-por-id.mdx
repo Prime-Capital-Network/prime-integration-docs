@@ -1,0 +1,193 @@
+---
+title: "Obtener País Por ID"
+sidebarTitle: "Obtener por ID"
+description: "Permite extraer un país en específico mediante REST API"
+api: "GET /countries/{id}"
+---
+
+Obtén un país por ID.
+
+<Note>
+  Este endpoint requiere el scope **`Countries.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="string" required>
+  Identificador único del país (código ISO 3166-1 alfa-2).
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/countries/DO" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/countries/DO",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID",
+    },
+  }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/countries/DO",
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "id": "DO",
+  "name": "República Dominicana",
+  "iso31661": "DO",
+  "iso3166A3": "DOM",
+  "currency": {
+    "id": "DOP",
+    "name": "Peso Dominicano"
+  },
+  "odometerType": {
+    "id": "Kilometers",
+    "name": "Kilómetros"
+  },
+  "continent": {
+    "id": "AM",
+    "name": "América"
+  },
+  "taxPayerIdentityDocument": {
+    "id": 1,
+    "name": "RNC"
+  },
+  "updatedBy": "string",
+  "updatedDate": "2026-07-03T11:00:00.000Z",
+  "isActive": true
+}
+```
+
+### Response fields
+
+<ResponseField name="id" type="string">
+  Identificador único del país (código ISO 3166-1 alfa-2).
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  Nombre del país.
+</ResponseField>
+
+<ResponseField name="iso31661" type="string">
+  Código ISO 3166-1 alfa-2 del país.
+</ResponseField>
+
+<ResponseField name="iso3166A3" type="string">
+  Código ISO 3166-1 alfa-3 del país.
+</ResponseField>
+
+<ResponseField name="currency" type="object">
+  Moneda oficial del país.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador de la moneda.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre de la moneda.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="odometerType" type="object">
+  Unidad de odómetro utilizada en el país.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador de la unidad. Valores posibles: `Miles`, `Kilometers`.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido de la unidad.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="continent" type="object">
+  Continente al cual pertenece el país.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del continente.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del continente.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="taxPayerIdentityDocument" type="object">
+  Documento de identidad utilizado para identificar contribuyentes en este país.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del documento de identidad.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del documento de identidad.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="updatedBy" type="string">
+  Usuario que realizó la última actualización del registro.
+</ResponseField>
+
+<ResponseField name="updatedDate" type="string">
+  Fecha y hora de la última actualización, en formato ISO 8601.
+</ResponseField>
+
+<ResponseField name="isActive" type="boolean">
+  Indica si el país está activo.
+</ResponseField>
+
+### Errores
+
+<ResponseField name="404 Not Found">
+  No existe ningún país con el `id` especificado en la URL.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `Countries.Read` requerido.
+</ResponseField>

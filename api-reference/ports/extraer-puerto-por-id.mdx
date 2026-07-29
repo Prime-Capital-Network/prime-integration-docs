@@ -1,0 +1,179 @@
+---
+title: "Obtener Puerto Por ID"
+sidebarTitle: "Obtener por ID"
+description: "Permite extraer un puerto en específico mediante REST API"
+api: "GET /ports/{id}"
+---
+
+Obtén un puerto por ID.
+
+<Note>
+  Este endpoint requiere el scope **`Ports.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="string" required>
+  Identificador único del puerto.
+</ParamField>
+
+### Query parameters
+
+<ParamField query="type" type="string" required>
+  Tipo de puerto. Valores aceptados:
+
+  - `Sea`
+  - `Air`
+  - `Rail`
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/ports/DOCAU?type=Sea" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/ports/DOCAU?type=Sea",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID",
+    },
+  }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/ports/DOCAU",
+    params={
+        "type": "Sea",
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "id": "DOCAU",
+  "name": "Puerto Caucedo",
+  "type": {
+    "id": "Sea",
+    "name": "Marítimo"
+  },
+  "country": {
+    "id": "DO",
+    "name": "República Dominicana"
+  },
+  "iataCode": "string",
+  "insertedBy": "string",
+  "insertedDate": "2026-07-01T08:00:00.000Z",
+  "updatedBy": "string",
+  "updatedDate": "2026-07-03T11:00:00.000Z",
+  "isActive": true
+}
+```
+
+### Response fields
+
+<ResponseField name="id" type="string">
+  Identificador único del puerto.
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  Nombre del puerto.
+</ResponseField>
+
+<ResponseField name="type" type="object">
+  Tipo de puerto.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del tipo. Valores posibles: `Sea`, `Air`, `Rail`.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido del tipo.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="country" type="object">
+  País al cual pertenece el puerto.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del país.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del país.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="iataCode" type="string">
+  Código IATA del puerto, cuando aplica (por ejemplo, puertos aéreos).
+</ResponseField>
+
+<ResponseField name="insertedBy" type="string">
+  Usuario que creó el registro.
+</ResponseField>
+
+<ResponseField name="insertedDate" type="string">
+  Fecha y hora de creación del registro, en formato ISO 8601.
+</ResponseField>
+
+<ResponseField name="updatedBy" type="string">
+  Usuario que realizó la última actualización del registro.
+</ResponseField>
+
+<ResponseField name="updatedDate" type="string">
+  Fecha y hora de la última actualización, en formato ISO 8601.
+</ResponseField>
+
+<ResponseField name="isActive" type="boolean">
+  Indica si el puerto está activo.
+</ResponseField>
+
+### Errores
+
+<ResponseField name="400 Bad Request">
+  Falta el parámetro `type`.
+</ResponseField>
+
+<ResponseField name="404 Not Found">
+  No existe ningún puerto con el `id` y `type` especificados.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `Ports.Read` requerido.
+</ResponseField>

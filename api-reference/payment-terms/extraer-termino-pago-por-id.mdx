@@ -1,0 +1,149 @@
+---
+title: "Obtener Término de Pago Por ID"
+sidebarTitle: "Obtener por ID"
+description: "Permite extraer un término de pago en específico mediante REST API"
+api: "GET /payment-terms/{id}"
+---
+
+Obtén un término de pago por ID en la empresa.
+
+<Note>
+  Este endpoint requiere el scope **`PaymentTerms.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único del término de pago.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/payment-terms/1" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/payment-terms/1",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID",
+    },
+  }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/payment-terms/1",
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "id": 1,
+  "spanishName": "Crédito 30 días",
+  "englishName": "30-Day Credit",
+  "type": {
+    "id": "Credit",
+    "name": "Crédito"
+  },
+  "expirationDays": 30,
+  "insertedBy": "string",
+  "insertedDate": "2026-07-01T08:00:00.000Z",
+  "updatedBy": "string",
+  "updatedDate": "2026-07-03T11:00:00.000Z",
+  "isActive": true
+}
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único del término de pago.
+</ResponseField>
+
+<ResponseField name="spanishName" type="string">
+  Nombre del término de pago en español.
+</ResponseField>
+
+<ResponseField name="englishName" type="string">
+  Nombre del término de pago en inglés.
+</ResponseField>
+
+<ResponseField name="type" type="object">
+  Tipo del término de pago.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del tipo. Valores posibles: `Credit`, `Cashdown`.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido del tipo.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="expirationDays" type="integer">
+  Cantidad de días de vencimiento del término de pago.
+</ResponseField>
+
+<ResponseField name="insertedBy" type="string">
+  Usuario que creó el registro.
+</ResponseField>
+
+<ResponseField name="insertedDate" type="string">
+  Fecha y hora de creación del registro, en formato ISO 8601.
+</ResponseField>
+
+<ResponseField name="updatedBy" type="string">
+  Usuario que realizó la última actualización del registro.
+</ResponseField>
+
+<ResponseField name="updatedDate" type="string">
+  Fecha y hora de la última actualización, en formato ISO 8601.
+</ResponseField>
+
+<ResponseField name="isActive" type="boolean">
+  Indica si el término de pago está activo.
+</ResponseField>
+
+### Errores
+
+<ResponseField name="404 Not Found">
+  No existe ningún término de pago con el `id` especificado en la URL.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `PaymentTerms.Read` requerido.
+</ResponseField>

@@ -1,0 +1,135 @@
+---
+title: "Listar"
+sidebarTitle: "Listar"
+description: "Permite listar las monedas mediante REST API"
+api: "GET /currencies"
+---
+
+Obtén una lista de monedas en la empresa.
+
+<Note>
+  Este endpoint requiere el scope **`Currencies.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Query parameters
+
+<ParamField query="filter_by" type="string">
+  Valores aceptados:
+
+  - `HasDenominations`
+</ParamField>
+
+<ParamField query="erate_currency" type="string">
+  Identificador de una moneda. Si se especifica, la tasa de cambio (`exchangeRate`) de cada moneda retornada se calcula contra esta moneda. Debe ser un identificador de moneda válido, de lo contrario retorna `400 Bad Request`.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/currencies?erate_currency=USD" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/currencies?erate_currency=USD",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID",
+    },
+  }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/currencies",
+    params={
+        "erate_currency": "USD",
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+[
+  {
+    "id": "DOP",
+    "name": "Peso Dominicano",
+    "shortName": "RD$",
+    "mask": "RD$ #,##0.00",
+    "exchangeRate": "58.75",
+    "isActive": true
+  },
+  {
+    "id": "USD",
+    "name": "Dólar Estadounidense",
+    "shortName": "US$",
+    "mask": "US$ #,##0.00",
+    "exchangeRate": "1.00",
+    "isActive": true
+  }
+]
+```
+
+### Response fields
+
+<ResponseField name="id" type="string">
+  Identificador único de la moneda (código ISO).
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  Nombre de la moneda.
+</ResponseField>
+
+<ResponseField name="shortName" type="string">
+  Símbolo corto de la moneda.
+</ResponseField>
+
+<ResponseField name="mask" type="string">
+  Máscara de formato utilizada para mostrar montos en esta moneda.
+</ResponseField>
+
+<ResponseField name="exchangeRate" type="string">
+  Tasa de cambio de la moneda contra `erate_currency`, si fue especificada.
+</ResponseField>
+
+<ResponseField name="isActive" type="boolean">
+  Indica si la moneda está activa.
+</ResponseField>
+
+### Errores
+
+<ResponseField name="400 Bad Request">
+  El valor de `erate_currency` no corresponde a una moneda válida.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `Currencies.Read` requerido.
+</ResponseField>

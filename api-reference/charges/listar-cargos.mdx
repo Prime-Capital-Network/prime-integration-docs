@@ -1,0 +1,465 @@
+---
+title: "Listar"
+sidebarTitle: "Listar"
+description: "Permite listar los cargos mediante REST API"
+api: "GET /charges"
+---
+
+Obtén una lista paginada de cargos en la empresa.
+
+<Note>
+  Este endpoint requiere el scope **`Charges.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Query parameters
+
+<ParamField query="filter_by" type="string">
+  Valores aceptados:
+
+  - `Active`
+</ParamField>
+
+<ParamField query="skip" default="0" type="integer">
+  Número de registros a omitir desde el inicio de los resultados. Utilízado junto con `take` para paginar los resultados.
+</ParamField>
+
+<ParamField query="take" default="20" type="integer">
+  Número de registros a retornar. Por defecto `20`, máximo `100`.
+</ParamField>
+
+<ParamField query="Name" type="StringSearchFilter">
+  Filtra por el nombre del cargo.
+</ParamField>
+
+<ParamField query="FastCode" type="StringSearchFilter">
+  Filtra por el código rápido del cargo.
+</ParamField>
+
+<ParamField query="TypeName" type="StringSearchFilter">
+  Filtra por el nombre del tipo de cargo.
+</ParamField>
+
+<ParamField query="CalculationId" type="StringSearchFilter">
+  Filtra por el identificador del tipo de cálculo del cargo.
+</ParamField>
+
+<ParamField query="IsUsedForSales" type="BooleanSearchFilter">
+  Filtra por si el cargo se utiliza en ventas.
+</ParamField>
+
+<ParamField query="IsUsedForCosts" type="BooleanSearchFilter">
+  Filtra por si el cargo se utiliza en costos.
+</ParamField>
+
+<ParamField query="IsUsedForBankingCharges" type="BooleanSearchFilter">
+  Filtra por si el cargo se utiliza en cargos bancarios.
+</ParamField>
+
+<ParamField query="IsDescriptionFixed" type="BooleanSearchFilter">
+  Filtra por si la descripción del cargo es fija.
+</ParamField>
+
+<ParamField query="TaxRate" type="RangeSearchFilter<decimal>">
+  Filtra por la tasa de impuesto del cargo.
+</ParamField>
+
+<ParamField query="AppliesForOceanImport" type="BooleanSearchFilter">
+  Filtra por si el cargo aplica para importación marítima.
+</ParamField>
+
+<ParamField query="AppliesForOceanExport" type="BooleanSearchFilter">
+  Filtra por si el cargo aplica para exportación marítima.
+</ParamField>
+
+<ParamField query="AppliesForAirImport" type="BooleanSearchFilter">
+  Filtra por si el cargo aplica para importación aérea.
+</ParamField>
+
+<ParamField query="AppliesForAirExport" type="BooleanSearchFilter">
+  Filtra por si el cargo aplica para exportación aérea.
+</ParamField>
+
+<ParamField query="AppliesForInlandImport" type="BooleanSearchFilter">
+  Filtra por si el cargo aplica para importación terrestre.
+</ParamField>
+
+<ParamField query="AppliesForInlandExport" type="BooleanSearchFilter">
+  Filtra por si el cargo aplica para exportación terrestre.
+</ParamField>
+
+<ParamField query="AppliesForRailImport" type="BooleanSearchFilter">
+  Filtra por si el cargo aplica para importación ferroviaria.
+</ParamField>
+
+<ParamField query="AppliesForRailExport" type="BooleanSearchFilter">
+  Filtra por si el cargo aplica para exportación ferroviaria.
+</ParamField>
+
+<ParamField query="AppliesForCustom" type="BooleanSearchFilter">
+  Filtra por si el cargo aplica para aduanas.
+</ParamField>
+
+<ParamField query="AppliesForReimbursement" type="BooleanSearchFilter">
+  Filtra por si el cargo aplica para reembolsos.
+</ParamField>
+
+<ParamField query="IncomeAccount.Id" type="RangeSearchFilter<integer>">
+  Filtra por el identificador de la cuenta contable de ingreso asociada.
+</ParamField>
+
+<ParamField query="IncomeAccount.Code" type="StringSearchFilter">
+  Filtra por el código de la cuenta contable de ingreso asociada.
+</ParamField>
+
+<ParamField query="IncomeAccount.Name" type="StringSearchFilter">
+  Filtra por el nombre de la cuenta contable de ingreso asociada.
+</ParamField>
+
+<ParamField query="ExpenseAccount.Id" type="RangeSearchFilter<integer>">
+  Filtra por el identificador de la cuenta contable de gasto asociada.
+</ParamField>
+
+<ParamField query="ExpenseAccount.Code" type="StringSearchFilter">
+  Filtra por el código de la cuenta contable de gasto asociada.
+</ParamField>
+
+<ParamField query="ExpenseAccount.Name" type="StringSearchFilter">
+  Filtra por el nombre de la cuenta contable de gasto asociada.
+</ParamField>
+
+<ParamField query="ReimbursementReceivableAccount.Id" type="RangeSearchFilter<integer>">
+  Filtra por el identificador de la cuenta contable de reembolso por cobrar asociada.
+</ParamField>
+
+<ParamField query="ReimbursementReceivableAccount.Code" type="StringSearchFilter">
+  Filtra por el código de la cuenta contable de reembolso por cobrar asociada.
+</ParamField>
+
+<ParamField query="ReimbursementReceivableAccount.Name" type="StringSearchFilter">
+  Filtra por el nombre de la cuenta contable de reembolso por cobrar asociada.
+</ParamField>
+
+<ParamField query="ReimbursementPayableAccount.Id" type="RangeSearchFilter<integer>">
+  Filtra por el identificador de la cuenta contable de reembolso por pagar asociada.
+</ParamField>
+
+<ParamField query="ReimbursementPayableAccount.Code" type="StringSearchFilter">
+  Filtra por el código de la cuenta contable de reembolso por pagar asociada.
+</ParamField>
+
+<ParamField query="ReimbursementPayableAccount.Name" type="StringSearchFilter">
+  Filtra por el nombre de la cuenta contable de reembolso por pagar asociada.
+</ParamField>
+
+<ParamField query="BankingChargesAccount.Id" type="RangeSearchFilter<integer>">
+  Filtra por el identificador de la cuenta contable de cargos bancarios asociada.
+</ParamField>
+
+<ParamField query="BankingChargesAccount.Code" type="StringSearchFilter">
+  Filtra por el código de la cuenta contable de cargos bancarios asociada.
+</ParamField>
+
+<ParamField query="BankingChargesAccount.Name" type="StringSearchFilter">
+  Filtra por el nombre de la cuenta contable de cargos bancarios asociada.
+</ParamField>
+
+<ParamField query="IsActive" type="BooleanSearchFilter">
+  Filtra por si el cargo está activo.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/charges?filter_by=Active&take=20" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/charges?filter_by=Active&take=20",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID",
+    },
+  }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/charges",
+    params={
+        "filter_by": "Active",
+        "take": 20,
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "totalCount": 1,
+  "data": [
+    {
+      "id": 12,
+      "name": "Flete Marítimo",
+      "fastCode": "FLM",
+      "typeName": "Flete",
+      "calculationId": "FLAT",
+      "isUsedForSales": true,
+      "isUsedForCosts": true,
+      "isUsedForBankingCharges": false,
+      "isDescriptionFixed": false,
+      "taxRate": 18,
+      "appliesForOceanImport": true,
+      "appliesForOceanExport": false,
+      "appliesForAirImport": false,
+      "appliesForAirExport": false,
+      "appliesForInlandImport": false,
+      "appliesForInlandExport": false,
+      "appliesForRailImport": false,
+      "appliesForRailExport": false,
+      "appliesForCustom": false,
+      "appliesForReimbursement": false,
+      "incomeAccount": {
+        "id": 401,
+        "code": "4-01-001",
+        "name": "Ingresos por Flete"
+      },
+      "expenseAccount": {
+        "id": 501,
+        "code": "5-01-001",
+        "name": "Gastos de Flete"
+      },
+      "reimbursementReceivableAccount": {
+        "id": 102,
+        "code": "1-02-001",
+        "name": "Reembolsos por Cobrar"
+      },
+      "reimbursementPayableAccount": {
+        "id": 201,
+        "code": "2-01-001",
+        "name": "Reembolsos por Pagar"
+      },
+      "bankingChargesAccount": {
+        "id": 502,
+        "code": "5-02-001",
+        "name": "Cargos Bancarios"
+      },
+      "isActive": true
+    }
+  ]
+}
+```
+
+### Response fields
+
+<ResponseField name="totalCount" type="integer">
+  Total de registros.
+</ResponseField>
+
+<ResponseField name="data" type="array">
+  Lista de objetos Charge.
+
+  <Expandable title="Charge">
+    <ResponseField name="id" type="integer">
+      Identificador único del cargo.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del cargo.
+    </ResponseField>
+
+    <ResponseField name="fastCode" type="string">
+      Código rápido del cargo.
+    </ResponseField>
+
+    <ResponseField name="typeName" type="string">
+      Nombre del tipo de cargo.
+    </ResponseField>
+
+    <ResponseField name="calculationId" type="string">
+      Identificador del tipo de cálculo del cargo.
+    </ResponseField>
+
+    <ResponseField name="isUsedForSales" type="boolean">
+      Indica si el cargo se utiliza en ventas.
+    </ResponseField>
+
+    <ResponseField name="isUsedForCosts" type="boolean">
+      Indica si el cargo se utiliza en costos.
+    </ResponseField>
+
+    <ResponseField name="isUsedForBankingCharges" type="boolean">
+      Indica si el cargo se utiliza en cargos bancarios.
+    </ResponseField>
+
+    <ResponseField name="isDescriptionFixed" type="boolean">
+      Indica si la descripción del cargo es fija.
+    </ResponseField>
+
+    <ResponseField name="taxRate" type="decimal">
+      Tasa de impuesto del cargo.
+    </ResponseField>
+
+    <ResponseField name="appliesForOceanImport" type="boolean">
+      Indica si el cargo aplica para importación marítima.
+    </ResponseField>
+
+    <ResponseField name="appliesForOceanExport" type="boolean">
+      Indica si el cargo aplica para exportación marítima.
+    </ResponseField>
+
+    <ResponseField name="appliesForAirImport" type="boolean">
+      Indica si el cargo aplica para importación aérea.
+    </ResponseField>
+
+    <ResponseField name="appliesForAirExport" type="boolean">
+      Indica si el cargo aplica para exportación aérea.
+    </ResponseField>
+
+    <ResponseField name="appliesForInlandImport" type="boolean">
+      Indica si el cargo aplica para importación terrestre.
+    </ResponseField>
+
+    <ResponseField name="appliesForInlandExport" type="boolean">
+      Indica si el cargo aplica para exportación terrestre.
+    </ResponseField>
+
+    <ResponseField name="appliesForRailImport" type="boolean">
+      Indica si el cargo aplica para importación ferroviaria.
+    </ResponseField>
+
+    <ResponseField name="appliesForRailExport" type="boolean">
+      Indica si el cargo aplica para exportación ferroviaria.
+    </ResponseField>
+
+    <ResponseField name="appliesForCustom" type="boolean">
+      Indica si el cargo aplica para aduanas.
+    </ResponseField>
+
+    <ResponseField name="appliesForReimbursement" type="boolean">
+      Indica si el cargo aplica para reembolsos.
+    </ResponseField>
+
+    <ResponseField name="incomeAccount" type="object">
+      Cuenta contable de ingreso asociada al cargo.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador de la cuenta contable.
+        </ResponseField>
+
+        <ResponseField name="code" type="string">
+          Código de la cuenta contable.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre de la cuenta contable.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="expenseAccount" type="object">
+      Cuenta contable de gasto asociada al cargo.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador de la cuenta contable.
+        </ResponseField>
+
+        <ResponseField name="code" type="string">
+          Código de la cuenta contable.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre de la cuenta contable.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="reimbursementReceivableAccount" type="object">
+      Cuenta contable de reembolso por cobrar asociada al cargo.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador de la cuenta contable.
+        </ResponseField>
+
+        <ResponseField name="code" type="string">
+          Código de la cuenta contable.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre de la cuenta contable.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="reimbursementPayableAccount" type="object">
+      Cuenta contable de reembolso por pagar asociada al cargo.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador de la cuenta contable.
+        </ResponseField>
+
+        <ResponseField name="code" type="string">
+          Código de la cuenta contable.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre de la cuenta contable.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="bankingChargesAccount" type="object">
+      Cuenta contable de cargos bancarios asociada al cargo.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador de la cuenta contable.
+        </ResponseField>
+
+        <ResponseField name="code" type="string">
+          Código de la cuenta contable.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre de la cuenta contable.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="isActive" type="boolean">
+      Indica si el cargo está activo.
+    </ResponseField>
+  </Expandable>
+</ResponseField>

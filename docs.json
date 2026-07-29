@@ -194,6 +194,84 @@
                   "api-reference/ground-transportations/eliminar-chasis",
                   "api-reference/ground-transportations/listar-contenedores"
                 ]
+              },
+              {
+                "group": "Cargos",
+                "pages": [
+                  "api-reference/charges/listar-cargos",
+                  "api-reference/charges/extraer-cargo-por-id",
+                  "api-reference/charges/buscar-tipos-cargo"
+                ]
+              },
+              {
+                "group": "Monedas",
+                "pages": [
+                  "api-reference/currencies/listar-monedas"
+                ]
+              },
+              {
+                "group": "Términos de Pago",
+                "pages": [
+                  "api-reference/payment-terms/listar-terminos-pago",
+                  "api-reference/payment-terms/extraer-termino-pago-por-id"
+                ]
+              },
+              {
+                "group": "Países",
+                "pages": [
+                  "api-reference/countries/listar-paises",
+                  "api-reference/countries/extraer-pais-por-id"
+                ]
+              },
+              {
+                "group": "Documentos de Identidad",
+                "pages": [
+                  "api-reference/identity-documents/listar-documentos-identidad",
+                  "api-reference/identity-documents/extraer-documento-identidad-por-id"
+                ]
+              },
+              {
+                "group": "Tipos de Empaque",
+                "pages": [
+                  "api-reference/packing-types/listar-tipos-empaque",
+                  "api-reference/packing-types/extraer-tipo-empaque-por-id"
+                ]
+              },
+              {
+                "group": "Tipos de Contenedor",
+                "pages": [
+                  "api-reference/container-types/listar-tipos-contenedor",
+                  "api-reference/container-types/extraer-tipo-contenedor-por-id"
+                ]
+              },
+              {
+                "group": "Regímenes Aduaneros",
+                "pages": [
+                  "api-reference/custom-regimes/listar-regimenes-aduaneros",
+                  "api-reference/custom-regimes/extraer-regimen-aduanero-por-id"
+                ]
+              },
+              {
+                "group": "Estatus Aduaneros",
+                "pages": [
+                  "api-reference/custom-statuses/listar-estatus-aduaneros",
+                  "api-reference/custom-statuses/extraer-estatus-aduanero-por-id"
+                ]
+              },
+              {
+                "group": "Incoterms",
+                "pages": [
+                  "api-reference/incoterms/listar-incoterms",
+                  "api-reference/incoterms/extraer-incoterm-por-id",
+                  "api-reference/incoterms/buscar-incoterms"
+                ]
+              },
+              {
+                "group": "Puertos",
+                "pages": [
+                  "api-reference/ports/listar-puertos",
+                  "api-reference/ports/extraer-puerto-por-id"
+                ]
               }
             ]
           }
