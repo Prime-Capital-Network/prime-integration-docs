@@ -167,6 +167,18 @@ Obtén una lista paginada de houses en la empresa.
   Filtra por el estatus del house.
 </ParamField>
 
+<ParamField query="UpdatedBy" type="StringSearchFilter">
+  Filtra por el usuario que actualizó por última vez el house.
+</ParamField>
+
+<ParamField query="UpdatedDate" type="RangeSearchFilter<datetime>">
+  Filtra por la fecha de última actualización del house.
+</ParamField>
+
+<ParamField query="IsActive" type="BooleanSearchFilter">
+  Filtra por si el house está activo.
+</ParamField>
+
 ### Example request
 
 <CodeGroup>
@@ -288,7 +300,10 @@ print(response.json())
       "assignedTo": {
         "id": "string"
       },
+      "insertedBy": "string",
       "insertedDate": "2026-07-10T00:00:00Z",
+      "updatedBy": "string",
+      "updatedDate": "2026-07-12T00:00:00Z",
       "status": {
         "id": "string",
         "name": "string"
@@ -544,8 +559,20 @@ print(response.json())
       </Expandable>
     </ResponseField>
 
+    <ResponseField name="insertedBy" type="string">
+      Usuario que creó el house.
+    </ResponseField>
+
     <ResponseField name="insertedDate" type="datetime">
       Fecha de creación del house.
+    </ResponseField>
+
+    <ResponseField name="updatedBy" type="string">
+      Usuario que actualizó por última vez el house. `null` si no ha sido actualizado.
+    </ResponseField>
+
+    <ResponseField name="updatedDate" type="datetime">
+      Fecha y hora de la última actualización del house. `null` si no ha sido actualizado.
     </ResponseField>
 
     <ResponseField name="status" type="object">

@@ -57,6 +57,14 @@ Obtén una lista paginada de adjuntos en la empresa.
   Filtra por la fecha de creación del adjunto.
 </ParamField>
 
+<ParamField query="UpdatedBy" type="StringSearchFilter">
+  Filtra por el usuario que actualizó por última vez el adjunto.
+</ParamField>
+
+<ParamField query="UpdatedDate" type="RangeSearchFilter<datetime>">
+  Filtra por la fecha de última actualización del adjunto.
+</ParamField>
+
 <ParamField query="IsActive" type="BooleanSearchFilter">
   Filtra por si el adjunto está activo.
 </ParamField>
@@ -129,6 +137,8 @@ print(response.json())
       "trackingId": 0,
       "insertedBy": "John Doe",
       "insertedDate": "2026-07-13T10:00:00.000Z",
+      "updatedBy": "John Doe",
+      "updatedDate": "2026-07-14T09:30:00.000Z",
       "isActive": true
     }
   ]
@@ -189,6 +199,14 @@ print(response.json())
 
     <ResponseField name="insertedDate" type="string">
       Fecha y hora de creación del adjunto, en formato ISO 8601.
+    </ResponseField>
+
+    <ResponseField name="updatedBy" type="string">
+      Usuario que actualizó por última vez el adjunto. `null` si no ha sido actualizado.
+    </ResponseField>
+
+    <ResponseField name="updatedDate" type="string">
+      Fecha y hora de la última actualización del adjunto, en formato ISO 8601. `null` si no ha sido actualizado.
     </ResponseField>
 
     <ResponseField name="isActive" type="boolean">

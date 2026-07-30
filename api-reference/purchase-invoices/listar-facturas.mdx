@@ -161,6 +161,22 @@ Obtén una lista paginada de facturas de compra en la empresa.
   Filtra por el usuario que creó la factura.
 </ParamField>
 
+<ParamField query="InsertedDate" type="RangeSearchFilter<datetime>">
+  Filtra por la fecha de creación de la factura.
+</ParamField>
+
+<ParamField query="UpdatedBy" type="StringSearchFilter">
+  Filtra por el usuario que actualizó por última vez la factura.
+</ParamField>
+
+<ParamField query="UpdatedDate" type="RangeSearchFilter<datetime>">
+  Filtra por la fecha de última actualización de la factura.
+</ParamField>
+
+<ParamField query="IsActive" type="BooleanSearchFilter">
+  Filtra por si la factura está activa.
+</ParamField>
+
 ### Example request
 
 <CodeGroup>
@@ -261,7 +277,10 @@ print(response.json())
         "id": 0,
         "name": "string"
       },
-      "insertedBy": "string"
+      "insertedBy": "string",
+      "insertedDate": "2026-07-01T10:00:00.000Z",
+      "updatedBy": "string",
+      "updatedDate": "2026-07-05T14:30:00.000Z"
     }
   ]
 }
@@ -439,6 +458,18 @@ print(response.json())
 
     <ResponseField name="insertedBy" type="string">
       Usuario que creó la factura.
+    </ResponseField>
+
+    <ResponseField name="insertedDate" type="datetime">
+      Fecha y hora de creación de la factura.
+    </ResponseField>
+
+    <ResponseField name="updatedBy" type="string">
+      Usuario que actualizó por última vez la factura. `null` si no ha sido actualizada.
+    </ResponseField>
+
+    <ResponseField name="updatedDate" type="datetime">
+      Fecha y hora de la última actualización de la factura. `null` si no ha sido actualizada.
     </ResponseField>
   </Expandable>
 </ResponseField>

@@ -139,6 +139,22 @@ Obtén una lista paginada de reembolsos por pagar en la empresa.
   Filtra por el usuario que creó el reembolso.
 </ParamField>
 
+<ParamField query="InsertedDate" type="RangeSearchFilter<datetime>">
+  Filtra por la fecha de creación del reembolso.
+</ParamField>
+
+<ParamField query="UpdatedBy" type="StringSearchFilter">
+  Filtra por el usuario que actualizó por última vez el reembolso.
+</ParamField>
+
+<ParamField query="UpdatedDate" type="RangeSearchFilter<datetime>">
+  Filtra por la fecha de última actualización del reembolso.
+</ParamField>
+
+<ParamField query="IsActive" type="BooleanSearchFilter">
+  Filtra por si el reembolso está activo.
+</ParamField>
+
 ### Example request
 
 <CodeGroup>
@@ -230,7 +246,10 @@ print(response.json())
       "status": {
         "id": 0,
         "name": "string"
-      }
+      },
+      "insertedDate": "2026-07-01T10:00:00.000Z",
+      "updatedBy": "string",
+      "updatedDate": "2026-07-05T14:30:00.000Z"
     }
   ]
 }
@@ -358,10 +377,6 @@ print(response.json())
       Monto total del reembolso.
     </ResponseField>
 
-    <ResponseField name="insertedBy" type="string">
-      Usuario que creó el reembolso.
-    </ResponseField>
-
     <ResponseField name="status" type="object">
       Estatus del comprobante contable del reembolso.
 
@@ -374,6 +389,22 @@ print(response.json())
           Nombre traducido del estatus.
         </ResponseField>
       </Expandable>
+    </ResponseField>
+
+    <ResponseField name="insertedBy" type="string">
+      Usuario que creó el reembolso.
+    </ResponseField>
+
+    <ResponseField name="insertedDate" type="datetime">
+      Fecha y hora de creación del reembolso.
+    </ResponseField>
+
+    <ResponseField name="updatedBy" type="string">
+      Usuario que actualizó por última vez el reembolso. `null` si no ha sido actualizado.
+    </ResponseField>
+
+    <ResponseField name="updatedDate" type="datetime">
+      Fecha y hora de la última actualización del reembolso. `null` si no ha sido actualizado.
     </ResponseField>
   </Expandable>
 </ResponseField>

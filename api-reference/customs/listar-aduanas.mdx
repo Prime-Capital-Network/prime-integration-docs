@@ -138,6 +138,18 @@ Obtén una lista paginada de despachos aduanales en la empresa.
   Filtra por la fecha de creación del despacho.
 </ParamField>
 
+<ParamField query="UpdatedBy" type="StringSearchFilter">
+  Filtra por el usuario que actualizó por última vez el despacho.
+</ParamField>
+
+<ParamField query="UpdatedDate" type="RangeSearchFilter<datetime>">
+  Filtra por la fecha de última actualización del despacho.
+</ParamField>
+
+<ParamField query="IsActive" type="BooleanSearchFilter">
+  Filtra por si el despacho está activo.
+</ParamField>
+
 ### Example request
 
 <CodeGroup>
@@ -236,7 +248,10 @@ print(response.json())
         "id": 0,
         "name": "string"
       },
-      "insertedDate": "2026-07-01T22:58:21.588Z"
+      "insertedBy": "string",
+      "insertedDate": "2026-07-01T22:58:21.588Z",
+      "updatedBy": "string",
+      "updatedDate": "2026-07-05T10:15:00.000Z"
     }
   ]
 }
@@ -402,8 +417,20 @@ print(response.json())
       </Expandable>
     </ResponseField>
 
+    <ResponseField name="insertedBy" type="string">
+      Usuario que creó el despacho.
+    </ResponseField>
+
     <ResponseField name="insertedDate" type="datetime">
       Fecha de creación del despacho.
+    </ResponseField>
+
+    <ResponseField name="updatedBy" type="string">
+      Usuario que actualizó por última vez el despacho. `null` si no ha sido actualizado.
+    </ResponseField>
+
+    <ResponseField name="updatedDate" type="datetime">
+      Fecha y hora de la última actualización del despacho. `null` si no ha sido actualizado.
     </ResponseField>
   </Expandable>
 </ResponseField>

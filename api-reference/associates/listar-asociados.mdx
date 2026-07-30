@@ -141,6 +141,22 @@ Obtén una lista paginada de asociados en la empresa.
   Filtra por el nombre del estado del asociado.
 </ParamField>
 
+<ParamField query="InsertedDate" type="RangeSearchFilter<datetime>">
+  Filtra por la fecha de creación del asociado.
+</ParamField>
+
+<ParamField query="UpdatedBy" type="StringSearchFilter">
+  Filtra por el usuario que actualizó por última vez el asociado.
+</ParamField>
+
+<ParamField query="UpdatedDate" type="RangeSearchFilter<datetime>">
+  Filtra por la fecha de última actualización del asociado.
+</ParamField>
+
+<ParamField query="IsActive" type="BooleanSearchFilter">
+  Filtra por si el asociado está activo.
+</ParamField>
+
 ### Example request
 
 <CodeGroup>
@@ -228,7 +244,11 @@ print(response.json())
       },
       "commercialActivityName": "string",
       "hasPassedDueDiligence": true,
-      "statusName": "string"
+      "statusName": "string",
+      "insertedBy": "string",
+      "insertedDate": "2026-07-01T10:00:00.000Z",
+      "updatedBy": "string",
+      "updatedDate": "2026-07-05T14:30:00.000Z"
     }
   ]
 }
@@ -368,6 +388,22 @@ print(response.json())
 
     <ResponseField name="statusName" type="string">
       Estado actual del asociado (ej. `Activo`, `Inactivo`).
+    </ResponseField>
+
+    <ResponseField name="insertedBy" type="string">
+      Usuario que creó el asociado.
+    </ResponseField>
+
+    <ResponseField name="insertedDate" type="datetime">
+      Fecha y hora de creación del asociado.
+    </ResponseField>
+
+    <ResponseField name="updatedBy" type="string">
+      Usuario que actualizó por última vez el asociado. `null` si no ha sido actualizado.
+    </ResponseField>
+
+    <ResponseField name="updatedDate" type="datetime">
+      Fecha y hora de la última actualización del asociado. `null` si no ha sido actualizado.
     </ResponseField>
   </Expandable>
 </ResponseField>

@@ -94,6 +94,22 @@ Obtén una lista paginada de containers en la empresa.
   Filtra por el nombre del tipo de empaque.
 </ParamField>
 
+<ParamField query="InsertedDate" type="RangeSearchFilter<datetime>">
+  Filtra por la fecha de creación del contenedor.
+</ParamField>
+
+<ParamField query="UpdatedBy" type="StringSearchFilter">
+  Filtra por el usuario que actualizó por última vez el contenedor.
+</ParamField>
+
+<ParamField query="UpdatedDate" type="RangeSearchFilter<datetime>">
+  Filtra por la fecha de última actualización del contenedor.
+</ParamField>
+
+<ParamField query="IsActive" type="BooleanSearchFilter">
+  Filtra por si el contenedor está activo.
+</ParamField>
+
 ### Example request
 
 <CodeGroup>
@@ -185,7 +201,11 @@ print(response.json())
       "packingType": {
         "id": 0,
         "name": "string"
-      }
+      },
+      "insertedBy": "string",
+      "insertedDate": "2026-07-01T10:00:00.000Z",
+      "updatedBy": "string",
+      "updatedDate": "2026-07-05T14:30:00.000Z"
     }
   ]
 }
@@ -337,6 +357,22 @@ print(response.json())
           Nombre del tipo de empaque.
         </ResponseField>
       </Expandable>
+    </ResponseField>
+
+    <ResponseField name="insertedBy" type="string">
+      Usuario que creó el contenedor.
+    </ResponseField>
+
+    <ResponseField name="insertedDate" type="datetime">
+      Fecha y hora de creación del contenedor.
+    </ResponseField>
+
+    <ResponseField name="updatedBy" type="string">
+      Usuario que actualizó por última vez el contenedor. `null` si no ha sido actualizado.
+    </ResponseField>
+
+    <ResponseField name="updatedDate" type="datetime">
+      Fecha y hora de la última actualización del contenedor. `null` si no ha sido actualizado.
     </ResponseField>
   </Expandable>
 </ResponseField>

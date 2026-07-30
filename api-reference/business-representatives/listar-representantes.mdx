@@ -49,6 +49,18 @@ Obtén una lista paginada de representantes en la empresa.
   Filtrar por si está activo o no.
 </ParamField>
 
+<ParamField query="InsertedDate" type="RangeSearchFilter<datetime>">
+  Filtra por la fecha de creación del representante.
+</ParamField>
+
+<ParamField query="UpdatedBy" type="StringSearchFilter">
+  Filtra por el usuario que actualizó por última vez el representante.
+</ParamField>
+
+<ParamField query="UpdatedDate" type="RangeSearchFilter<datetime>">
+  Filtra por la fecha de última actualización del representante.
+</ParamField>
+
 ### Example request
 
 <CodeGroup>
@@ -107,7 +119,11 @@ print(response.json())
     "isExecutiveAccount": true,
     "isCustomerService": true,
     "isDebtCollector": true,
-    "isActive": true
+    "isActive": true,
+    "insertedBy": "string",
+    "insertedDate": "2026-07-01T10:00:00.000Z",
+    "updatedBy": "string",
+    "updatedDate": "2026-07-05T14:30:00.000Z"
   }
 ]
 ```
@@ -140,4 +156,20 @@ print(response.json())
 
 <ResponseField name="isActive" type="boolean">
   Indica si el representante está actualmente activo en el sistema.
+</ResponseField>
+
+<ResponseField name="insertedBy" type="string">
+  Usuario que creó el representante.
+</ResponseField>
+
+<ResponseField name="insertedDate" type="datetime">
+  Fecha y hora de creación del representante.
+</ResponseField>
+
+<ResponseField name="updatedBy" type="string">
+  Usuario que actualizó por última vez el representante. `null` si no ha sido actualizado.
+</ResponseField>
+
+<ResponseField name="updatedDate" type="datetime">
+  Fecha y hora de la última actualización del representante. `null` si no ha sido actualizado.
 </ResponseField>
