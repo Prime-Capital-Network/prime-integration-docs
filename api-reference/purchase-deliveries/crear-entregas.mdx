@@ -1,0 +1,186 @@
+---
+title: "Crear"
+api: "POST /purchase-deliveries"
+---
+
+Crea una nueva entrega de compra en la empresa.
+
+<Note>
+  Este endpoint requiere el scope **`PurchaseDeliveries.Write`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Body parameters
+
+<ParamField body="requestId" type="integer">
+  Identificador de la solicitud de compra contra la cual se entrega la mercancía.
+</ParamField>
+
+<ParamField body="date" type="date" required>
+  Fecha de la entrega de compra en formato `YYYY-MM-DD`.
+</ParamField>
+
+<ParamField body="requestedBy" type="string">
+  Identificador del usuario solicitante.
+</ParamField>
+
+<ParamField body="handedTo" type="string" required>
+  A quién le será entregada la mercancía. Valores aceptados:
+
+  - `Requester`
+  - `ThirdPerson`
+</ParamField>
+
+<ParamField body="receiverId" type="integer">
+  Identificador del receptor (tercero) que recibe la mercancía.
+
+  - Requerido cuando `handedTo` es `ThirdPerson`.
+  - No puede especificarse cuando `handedTo` es `Requester`.
+</ParamField>
+
+import DetailFields from './snippets/purchase-delivery-detail-fields.mdx'
+
+<ParamField body="details" type="array">
+  Lista de detalles de la entrega de compra.
+  <Expandable title="detalle">
+    <DetailFields />
+  </Expandable>
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request POST \
+  --url "https://api.primenetcloud.com/v1/purchase-deliveries" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "requestId": 214,
+    "date": "2026-07-15",
+    "requestedBy": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "handedTo": "ThirdPerson",
+    "receiverId": 12,
+    "details": [
+      {
+        "productId": 88,
+        "quantity": 50,
+        "observations": "Entrega parcial para el proyecto Los Almendros",
+        "requestDetailId": 34
+      }
+    ]
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/purchase-deliveries", {
+  method: "POST",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    requestId: 214,
+    date: "2026-07-15",
+    requestedBy: "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    handedTo: "ThirdPerson",
+    receiverId: 12,
+    details: [
+      {
+        productId: 88,
+        quantity: 50,
+        observations: "Entrega parcial para el proyecto Los Almendros",
+        requestDetailId: 34
+      }
+    ]
+  }),
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.post(
+    "https://api.primenetcloud.com/v1/purchase-deliveries",
+    json={
+        "requestId": 214,
+        "date": "2026-07-15",
+        "requestedBy": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+        "handedTo": "ThirdPerson",
+        "receiverId": 12,
+        "details": [
+            {
+                "productId": 88,
+                "quantity": 50,
+                "observations": "Entrega parcial para el proyecto Los Almendros",
+                "requestDetailId": 34
+            }
+        ]
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "id": 318
+}
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único de la entrega de compra creada.
+</ResponseField>
+
+### Errores
+
+<ResponseField name="400 Bad Request">
+  Alguno de los identificadores especificados (`requestId`, `requestedBy`, `receiverId`, `productId`, `requestDetailId`) no es válido, o la combinación de `handedTo`/`receiverId` es inconsistente.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `PurchaseDeliveries.Write` requerido.
+</ResponseField>
+
+<RequestExample>
+
+```json
+{
+  "requestId": 214,
+  "date": "2026-07-15",
+  "requestedBy": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "handedTo": "ThirdPerson",
+  "receiverId": 12,
+  "details": [
+    {
+      "productId": 88,
+      "quantity": 50.0000,
+      "observations": "Entrega parcial para el proyecto Los Almendros",
+      "requestDetailId": 34
+    }
+  ]
+}
+```
+
+</RequestExample>

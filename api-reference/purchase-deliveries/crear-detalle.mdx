@@ -1,0 +1,129 @@
+---
+title: "Crear Detalle"
+api: "POST /purchase-deliveries/{id}/details"
+---
+
+Crea un nuevo detalle para una entrega de compra específica.
+
+<Note>
+  Este endpoint requiere el scope **`PurchaseDeliveries.Write`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único de la entrega de compra a la que se agregará el detalle.
+</ParamField>
+
+### Body parameters
+
+import DetailFields from './snippets/purchase-delivery-detail-fields.mdx'
+
+<DetailFields />
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request POST \
+  --url "https://api.primenetcloud.com/v1/purchase-deliveries/318/details" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "productId": 88,
+    "quantity": 50,
+    "observations": "Entrega parcial para el proyecto Los Almendros",
+    "requestDetailId": 34
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/purchase-deliveries/318/details", {
+  method: "POST",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    productId: 88,
+    quantity: 50,
+    observations: "Entrega parcial para el proyecto Los Almendros",
+    requestDetailId: 34
+  }),
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.post(
+    "https://api.primenetcloud.com/v1/purchase-deliveries/318/details",
+    json={
+        "productId": 88,
+        "quantity": 50,
+        "observations": "Entrega parcial para el proyecto Los Almendros",
+        "requestDetailId": 34
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "id": 1
+}
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único del detalle de entrega de compra creado.
+</ResponseField>
+
+### Errores
+
+<ResponseField name="400 Bad Request">
+  La entrega de compra ya ha sido cancelada y no admite nuevos detalles, o alguno de los identificadores especificados (`productId`, `requestDetailId`) no es válido.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `PurchaseDeliveries.Write` requerido.
+</ResponseField>
+
+<ResponseField name="404 Not Found">
+  No existe ninguna entrega de compra con el `id` especificado en la URL.
+</ResponseField>
+
+<RequestExample>
+
+```json
+{
+  "productId": 88,
+  "quantity": 50.0000,
+  "observations": "Entrega parcial para el proyecto Los Almendros",
+  "requestDetailId": 34
+}
+```
+
+</RequestExample>

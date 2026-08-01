@@ -1,0 +1,195 @@
+---
+title: "Listar"
+api: "GET /purchase-deliveries"
+---
+
+Obtén una lista paginada de entregas de compra en la empresa.
+
+<Note>
+  Este endpoint requiere el scope **`PurchaseDeliveries.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Query parameters
+
+<ParamField query="start" type="datetime" required>
+  Fecha de inicio del rango de búsqueda.
+</ParamField>
+
+<ParamField query="end" type="datetime" required>
+  Fecha de fin del rango de búsqueda.
+</ParamField>
+
+<ParamField query="sort_by" type="string">
+  Campo por el cual ordenar los resultados. Valores aceptados:
+
+  - `Id`
+  - `Number`
+  - `Date`
+  - `PurchaseRequest.Id`
+  - `PurchaseRequest.Number`
+  - `PurchaseRequest.Date`
+  - `RequestedBy.Name`
+</ParamField>
+
+<ParamField query="skip" default="0" type="integer">
+  Número de registros a omitir desde el inicio de los resultados. Utilízado junto con `take` para paginar los resultados.
+</ParamField>
+
+<ParamField query="take" default="20" type="integer">
+  Número de registros a retornar. Por defecto `20`, máximo `100`.
+</ParamField>
+
+<ParamField query="Number" type="RangeSearchFilter<integer>">
+  Filtra por el número de la entrega de compra.
+</ParamField>
+
+<ParamField query="PurchaseRequest.Number" type="RangeSearchFilter<integer>">
+  Filtra por el número de la solicitud de compra asociada.
+</ParamField>
+
+<ParamField query="PurchaseRequest.Date" type="RangeSearchFilter<date>">
+  Filtra por la fecha de la solicitud de compra asociada.
+</ParamField>
+
+<ParamField query="RequestedBy.Name" type="StringSearchFilter">
+  Filtra por el nombre del usuario solicitante.
+</ParamField>
+
+<ParamField query="IsConfirmed" type="BooleanSearchFilter">
+  Filtra por si la entrega de compra ha sido confirmada.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/purchase-deliveries?start=2026-07-01T00:00:00Z&end=2026-07-31T23:59:59Z&skip=0&take=20" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/purchase-deliveries?start=2026-07-01T00:00:00Z&end=2026-07-31T23:59:59Z&skip=0&take=20",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID"
+    },
+  }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/purchase-deliveries",
+    params={
+        "start": "2026-07-01T00:00:00Z",
+        "end": "2026-07-31T23:59:59Z",
+        "skip": 0,
+        "take": 20,
+    },
+   headers={
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID"
+    }
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "totalCount": 1,
+  "data": [
+    {
+      "id": 318,
+      "number": 318,
+      "date": "2026-07-15",
+      "purchaseRequest": {
+        "id": 214,
+        "number": 214,
+        "date": "2026-07-10"
+      },
+      "requestedBy": {
+        "name": "Carlos Martínez"
+      },
+      "isConfirmed": true
+    }
+  ]
+}
+```
+
+### Response fields
+
+<ResponseField name="totalCount" type="integer">
+  Total de registros.
+</ResponseField>
+
+<ResponseField name="data" type="array">
+  Lista de objetos PurchaseDelivery.
+
+  <Expandable title="PurchaseDelivery">
+    <ResponseField name="id" type="integer">
+      Identificador único de la entrega de compra.
+    </ResponseField>
+
+    <ResponseField name="number" type="integer">
+      Número de la entrega de compra.
+    </ResponseField>
+
+    <ResponseField name="date" type="date">
+      Fecha de la entrega de compra.
+    </ResponseField>
+
+    <ResponseField name="purchaseRequest" type="object">
+      Solicitud de compra asociada a la entrega. `null` si no está asociada a ninguna solicitud.
+
+      <Expandable title="purchaseRequest">
+        <ResponseField name="id" type="integer">
+          Identificador de la solicitud de compra.
+        </ResponseField>
+
+        <ResponseField name="number" type="integer">
+          Número de la solicitud de compra.
+        </ResponseField>
+
+        <ResponseField name="date" type="date">
+          Fecha de la solicitud de compra.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="requestedBy" type="object">
+      Usuario solicitante de la entrega.
+
+      <Expandable title="requestedBy">
+        <ResponseField name="name" type="string">
+          Nombre del usuario solicitante.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="isConfirmed" type="boolean">
+      Indica si la entrega de compra ha sido confirmada.
+    </ResponseField>
+  </Expandable>
+</ResponseField>

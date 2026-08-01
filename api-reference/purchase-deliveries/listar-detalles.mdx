@@ -1,0 +1,146 @@
+---
+title: "Listar Detalles"
+api: "GET /purchase-deliveries/{id}/details"
+---
+
+Obtén la lista de todos los detalles asociados a una entrega de compra específica.
+
+<Note>
+  Este endpoint requiere el scope **`PurchaseDeliveries.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único de la entrega de compra.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/purchase-deliveries/318/details" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: application/json"
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/purchase-deliveries/318/details", {
+  method: "GET",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+    "Content-Type": "application/json",
+  },
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/purchase-deliveries/318/details",
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único del detalle.
+</ResponseField>
+
+<ResponseField name="product" type="object">
+  Producto entregado.
+
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del producto.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del producto.
+    </ResponseField>
+
+    <ResponseField name="category" type="object">
+      Categoría del producto.
+
+      <Expandable title="Ver propiedades">
+        <ResponseField name="name" type="string">
+          Nombre de la categoría del producto.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="quantity" type="decimal">
+  Cantidad de unidades entregadas.
+</ResponseField>
+
+<ResponseField name="observations" type="string">
+  Observaciones del detalle. `null` si no fue especificado.
+</ResponseField>
+
+<ResponseField name="purchaseRequestDetail" type="object">
+  Detalle de la solicitud de compra contra el cual se entregó el producto. `null` si el detalle no está asociado a una solicitud de compra.
+
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del detalle de la solicitud de compra.
+    </ResponseField>
+
+    <ResponseField name="quantity" type="decimal">
+      Cantidad total solicitada en el detalle de la solicitud de compra.
+    </ResponseField>
+
+    <ResponseField name="handedOver" type="decimal">
+      Unidades ya entregadas mediante entregas de compra, incluyendo esta.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+
+```json Ejemplo de Respuesta
+[
+  {
+    "id": 1,
+    "product": {
+      "id": 88,
+      "name": "Cemento Gris 42.5kg",
+      "category": {
+        "name": "Materiales de Construcción"
+      }
+    },
+    "quantity": 50,
+    "observations": "Entrega parcial para el proyecto Los Almendros",
+    "purchaseRequestDetail": {
+      "id": 34,
+      "quantity": 100,
+      "handedOver": 50
+    }
+  }
+]
+```
+
+</RequestExample>

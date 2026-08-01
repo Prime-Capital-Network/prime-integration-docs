@@ -1,0 +1,155 @@
+---
+title: "Actualizar Parcial"
+sidebarTitle: "Actualizar Parcial"
+api: "PATCH /purchase-deliveries/{id}"
+---
+
+Actualiza los datos parcialmente de una entrega de compra en la empresa.
+
+<Note>
+  Este endpoint requiere el scope **`PurchaseDeliveries.Write`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único de la entrega de compra a actualizar.
+</ParamField>
+
+### Body parameters
+
+<ParamField body="requestId" type="integer">
+  Identificador de la solicitud de compra contra la cual se entrega la mercancía.
+
+  - No puede cambiarse si la entrega ya tiene detalles vinculados a una solicitud de compra.
+</ParamField>
+
+<ParamField body="date" type="date">
+  Fecha de la entrega de compra en formato `YYYY-MM-DD`.
+</ParamField>
+
+<ParamField body="requestedBy" type="string">
+  Identificador del usuario solicitante.
+</ParamField>
+
+<ParamField body="confirmedBy" type="string">
+  Identificador del usuario que confirma la entrega.
+
+  - Al especificarse por primera vez, se registra automáticamente la fecha de confirmación (`confirmationDate`) con la fecha y hora actuales.
+</ParamField>
+
+<ParamField body="handedTo" type="string">
+  A quién le será entregada la mercancía. Valores aceptados:
+
+  - `Requester`
+  - `ThirdPerson`
+</ParamField>
+
+<ParamField body="receiverId" type="integer">
+  Identificador del receptor (tercero) que recibe la mercancía.
+
+  - Requerido cuando `handedTo` es `ThirdPerson`.
+  - No puede especificarse cuando `handedTo` es `Requester`.
+</ParamField>
+
+<ParamField body="status" type="string">
+  Estatus de la entrega de compra. Valores aceptados:
+
+  - `New`
+  - `Confirmed`
+  - `Deleted`
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request PATCH \
+  --url "https://api.primenetcloud.com/v1/purchase-deliveries/318" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: application/merge-patch+json" \
+  --data '{
+    "confirmedBy": "b2c3d4e5-f6a7-8901-bcde-f21345678901",
+    "status": "Confirmed"
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/purchase-deliveries/318", {
+  method: "PATCH",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+    "Content-Type": "application/merge-patch+json",
+  },
+  body: JSON.stringify({
+    confirmedBy: "b2c3d4e5-f6a7-8901-bcde-f21345678901",
+    status: "Confirmed"
+  }),
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.patch(
+    "https://api.primenetcloud.com/v1/purchase-deliveries/318",
+    json={
+        "confirmedBy": "b2c3d4e5-f6a7-8901-bcde-f21345678901",
+        "status": "Confirmed"
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+        "Content-Type": "application/merge-patch+json"
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Response
+
+Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
+
+### Errores
+
+<ResponseField name="400 Bad Request">
+  La entrega de compra ya ha sido cancelada y no puede actualizarse, alguno de los identificadores especificados no es válido, la combinación de `handedTo`/`receiverId` es inconsistente, o se intentó cambiar `requestId` teniendo detalles vinculados a una solicitud de compra.
+</ResponseField>
+
+<ResponseField name="404 Not Found">
+  No existe ninguna entrega de compra con el `id` especificado en la URL.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `PurchaseDeliveries.Write` requerido.
+</ResponseField>
+
+<ResponseField name="415 Unsupported Media Type">
+  La solicitud no incluye el header `Content-Type` como `application/merge-patch+json`.
+</ResponseField>
+
+<RequestExample>
+
+```json
+{
+  "confirmedBy": "b2c3d4e5-f6a7-8901-bcde-f21345678901",
+  "status": "Confirmed"
+}
+```
+
+</RequestExample>

@@ -162,6 +162,23 @@
                 ]
               },
               {
+                "group": "Entregas de Compra",
+                "pages": [
+                  "api-reference/purchase-deliveries/listar-entregas",
+                  "api-reference/purchase-deliveries/extraer-entrega-por-id",
+                  "api-reference/purchase-deliveries/crear-entregas",
+                  "api-reference/purchase-deliveries/actualizar-entregas",
+                  "api-reference/purchase-deliveries/actualizar-parcial-entregas",
+                  "api-reference/purchase-deliveries/cancelar-entrega",
+                  "api-reference/purchase-deliveries/listar-detalles",
+                  "api-reference/purchase-deliveries/extraer-detalle-por-id",
+                  "api-reference/purchase-deliveries/crear-detalle",
+                  "api-reference/purchase-deliveries/actualizar-detalle",
+                  "api-reference/purchase-deliveries/actualizar-parcial-detalle",
+                  "api-reference/purchase-deliveries/eliminar-detalle"
+                ]
+              },
+              {
                 "group": "Facturas por Pagar",
                 "pages": [
                   "api-reference/purchase-invoices/listar-facturas",

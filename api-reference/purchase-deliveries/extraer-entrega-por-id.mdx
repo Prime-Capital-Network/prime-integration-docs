@@ -1,0 +1,355 @@
+---
+title: "Obtener Entrega de Compra Por ID"
+sidebarTitle: "Obtener por ID"
+description: "Permite extraer una entrega de compra en específico mediante REST API"
+api: "GET /purchase-deliveries/{id}"
+---
+
+Obtén una entrega de compra por ID en la empresa.
+
+<Note>
+  Este endpoint requiere el scope **`PurchaseDeliveries.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único de la entrega de compra.
+</ParamField>
+
+### Query parameters
+
+<ParamField query="include" type="string[]">
+  Secciones adicionales a incluir en la respuesta. Valores aceptados:
+
+  - `Details`
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/purchase-deliveries/318?include=Details" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/purchase-deliveries/318?include=Details",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID"
+    },
+  }
+);
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/purchase-deliveries/318?include=Details",
+    headers={
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID"
+    }
+)
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "id": 318,
+  "number": 318,
+  "date": "2026-07-15",
+  "purchaseRequest": {
+    "id": 214,
+    "number": 214,
+    "date": "2026-07-10"
+  },
+  "handedTo": {
+    "id": 1,
+    "name": "Tercero"
+  },
+  "receiver": {
+    "id": 12,
+    "name": "Juan Pérez"
+  },
+  "requestedBy": {
+    "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "name": "Carlos Martínez"
+  },
+  "confirmedBy": {
+    "id": "b2c3d4e5-f6a7-8901-bcde-f21345678901",
+    "name": "María Rodríguez"
+  },
+  "confirmationDate": "2026-07-15T14:20:00.000Z",
+  "insertedBy": "jdoe",
+  "insertedDate": "2026-07-15T09:30:00.000Z",
+  "updatedBy": null,
+  "updatedDate": null,
+  "cancelledBy": null,
+  "cancelledDate": null,
+  "cancelledReason": null,
+  "status": {
+    "id": 1,
+    "name": "Confirmada"
+  },
+  "details": [
+    {
+      "id": 1,
+      "product": {
+        "id": 88,
+        "name": "Cemento Gris 42.5kg"
+      },
+      "quantity": 50,
+      "observations": "Entrega parcial para el proyecto Los Almendros",
+      "purchaseRequestDetail": {
+        "id": 34,
+        "quantity": 100,
+        "handedOver": 50
+      },
+      "insertedBy": "jdoe",
+      "insertedDate": "2026-07-15T09:30:00.000Z",
+      "updatedBy": null,
+      "updatedDate": null
+    }
+  ]
+}
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único de la entrega de compra.
+</ResponseField>
+
+<ResponseField name="number" type="integer">
+  Número de la entrega de compra.
+</ResponseField>
+
+<ResponseField name="date" type="date">
+  Fecha de la entrega de compra.
+</ResponseField>
+
+<ResponseField name="purchaseRequest" type="object">
+  Solicitud de compra asociada a la entrega. `null` si no está asociada a ninguna solicitud.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador de la solicitud de compra.
+    </ResponseField>
+
+    <ResponseField name="number" type="integer">
+      Número de la solicitud de compra.
+    </ResponseField>
+
+    <ResponseField name="date" type="date">
+      Fecha de la solicitud de compra.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="handedTo" type="object">
+  A quién le fue entregada la mercancía.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador de la opción.
+
+      Valores posibles:
+      - `Requester`
+      - `ThirdPerson`
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido de la opción.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="receiver" type="object">
+  Receptor (tercero) que recibió la mercancía. `null` cuando `handedTo` es `Requester`.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del receptor.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del receptor.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="requestedBy" type="object">
+  Usuario solicitante de la entrega. `null` si no fue especificado.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del usuario solicitante.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del usuario solicitante.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="confirmedBy" type="object">
+  Usuario que confirmó la entrega. `null` si no ha sido confirmada.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del usuario que confirmó la entrega.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del usuario que confirmó la entrega.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="confirmationDate" type="string">
+  Fecha y hora de confirmación, en formato ISO 8601. `null` si no ha sido confirmada.
+</ResponseField>
+
+<ResponseField name="insertedBy" type="string">
+  Usuario que creó el registro.
+</ResponseField>
+
+<ResponseField name="insertedDate" type="string">
+  Fecha y hora de creación del registro, en formato ISO 8601.
+</ResponseField>
+
+<ResponseField name="updatedBy" type="string">
+  Usuario que realizó la última actualización del registro. `null` si no ha sido actualizado.
+</ResponseField>
+
+<ResponseField name="updatedDate" type="string">
+  Fecha y hora de la última actualización, en formato ISO 8601. `null` si no ha sido actualizado.
+</ResponseField>
+
+<ResponseField name="cancelledBy" type="string">
+  Usuario que canceló la entrega de compra. `null` si no ha sido cancelada.
+</ResponseField>
+
+<ResponseField name="cancelledDate" type="string">
+  Fecha y hora de cancelación, en formato ISO 8601. `null` si no ha sido cancelada.
+</ResponseField>
+
+<ResponseField name="cancelledReason" type="string">
+  Razón de la cancelación. `null` si no ha sido cancelada.
+</ResponseField>
+
+<ResponseField name="status" type="object">
+  Estatus de la entrega de compra.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del estatus.
+
+      Valores posibles:
+      - `New`
+      - `Confirmed`
+      - `Deleted`
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido del estatus.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="details" type="array">
+  Detalles (líneas) de la entrega de compra. Solo se incluye si se solicita mediante `include=Details`.
+
+  <Expandable title="detalle">
+    <ResponseField name="id" type="integer">
+      Identificador único del detalle.
+    </ResponseField>
+
+    <ResponseField name="product" type="object">
+      Producto entregado.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador del producto.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del producto.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="quantity" type="decimal">
+      Cantidad de unidades entregadas.
+    </ResponseField>
+
+    <ResponseField name="observations" type="string">
+      Observaciones del detalle. `null` si no fue especificado.
+    </ResponseField>
+
+    <ResponseField name="purchaseRequestDetail" type="object">
+      Detalle de la solicitud de compra contra el cual se entregó el producto. `null` si el detalle no está asociado a una solicitud de compra.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador del detalle de la solicitud de compra.
+        </ResponseField>
+
+        <ResponseField name="quantity" type="decimal">
+          Cantidad total solicitada en el detalle de la solicitud de compra.
+        </ResponseField>
+
+        <ResponseField name="handedOver" type="decimal">
+          Unidades ya entregadas mediante entregas de compra, incluyendo esta.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="insertedBy" type="string">
+      Usuario que creó el registro.
+    </ResponseField>
+
+    <ResponseField name="insertedDate" type="string">
+      Fecha de creación en formato ISO 8601.
+    </ResponseField>
+
+    <ResponseField name="updatedBy" type="string">
+      Usuario que actualizó el registro por última vez. `null` si no ha sido actualizado.
+    </ResponseField>
+
+    <ResponseField name="updatedDate" type="string">
+      Fecha de la última actualización en formato ISO 8601. `null` si no ha sido actualizado.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Errores
+
+<ResponseField name="404 Not Found">
+  No existe ninguna entrega de compra con el `id` especificado en la URL.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `PurchaseDeliveries.Read` requerido.
+</ResponseField>

@@ -1,0 +1,18 @@
+<ParamField body="productId" type="integer" required>
+  Identificador del producto entregado.
+</ParamField>
+
+<ParamField body="quantity" type="decimal" required>
+  Cantidad de unidades entregadas. Debe ser mayor que cero.
+</ParamField>
+
+<ParamField body="observations" type="string">
+  Observaciones del detalle. Máximo 250 caracteres.
+</ParamField>
+
+<ParamField body="requestDetailId" type="integer">
+  Identificador del detalle de la solicitud de compra contra el cual se entrega el producto.
+
+  - Solo puede especificarse si la entrega de compra tiene una solicitud de compra (`requestId`) asociada.
+  - Debe pertenecer a la solicitud de compra asociada a la entrega.
+</ParamField>

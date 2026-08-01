@@ -1,0 +1,142 @@
+---
+title: "Actualizar Detalle"
+api: "PUT /purchase-deliveries/{id}/details/{detailId}"
+---
+
+Actualiza un detalle para una entrega de compra específica.
+
+<Note>
+  Este endpoint requiere el scope **`PurchaseDeliveries.Write`**.
+</Note>
+
+<Warning>
+  Este es un reemplazo completo del recurso (PUT). Todos los campos enviados en el body sobrescribirán el estado actual del detalle. Para cambios parciales, verificar la sección [Actualizar Parcial Detalle](/api-reference/purchase-deliveries/actualizar-parcial-detalle).
+</Warning>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único de la entrega de compra a la que pertenece el detalle.
+</ParamField>
+
+<ParamField path="detailId" type="integer" required>
+  Identificador único del detalle a actualizar.
+</ParamField>
+
+### Body parameters
+
+<ParamField body="productId" type="integer" required>
+  Identificador del producto entregado.
+</ParamField>
+
+<ParamField body="quantity" type="decimal" required>
+  Cantidad de unidades entregadas. Debe ser mayor que cero.
+</ParamField>
+
+<ParamField body="observations" type="string">
+  Observaciones del detalle. Máximo 250 caracteres.
+</ParamField>
+
+<ParamField body="requestDetailId" type="integer">
+  Identificador del detalle de la solicitud de compra contra el cual se entrega el producto.
+
+  - Solo puede especificarse si la entrega de compra tiene una solicitud de compra (`requestId`) asociada.
+  - Debe pertenecer a la solicitud de compra asociada a la entrega.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request PUT \
+  --url "https://api.primenetcloud.com/v1/purchase-deliveries/318/details/1" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "productId": 88,
+    "quantity": 45,
+    "observations": "Entrega ajustada tras conteo físico",
+    "requestDetailId": 34
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/purchase-deliveries/318/details/1", {
+  method: "PUT",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    productId: 88,
+    quantity: 45,
+    observations: "Entrega ajustada tras conteo físico",
+    requestDetailId: 34
+  }),
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.put(
+    "https://api.primenetcloud.com/v1/purchase-deliveries/318/details/1",
+    json={
+        "productId": 88,
+        "quantity": 45,
+        "observations": "Entrega ajustada tras conteo físico",
+        "requestDetailId": 34
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Response
+
+Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
+
+### Errores
+
+<ResponseField name="400 Bad Request">
+  La entrega de compra ya ha sido cancelada y no puede actualizarse, o alguno de los identificadores especificados (`productId`, `requestDetailId`) no es válido.
+</ResponseField>
+
+<ResponseField name="404 Not Found">
+  No existe ninguna entrega de compra con el `id` especificado, o el `detailId` no pertenece a la entrega.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `PurchaseDeliveries.Write` requerido.
+</ResponseField>
+
+<RequestExample>
+
+```json
+{
+  "productId": 88,
+  "quantity": 45.0000,
+  "observations": "Entrega ajustada tras conteo físico",
+  "requestDetailId": 34
+}
+```
+
+</RequestExample>
