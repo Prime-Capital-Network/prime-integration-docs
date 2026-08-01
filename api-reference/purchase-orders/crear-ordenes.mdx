@@ -1,0 +1,234 @@
+---
+title: "Crear"
+api: "POST /purchase-orders"
+---
+
+Crea una nueva orden de compra (purchase order) en la empresa.
+
+<Note>
+  Este endpoint requiere el scope **`PurchaseOrders.Write`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Body parameters
+
+<ParamField body="date" type="date">
+  Fecha de la orden de compra en formato `YYYY-MM-DD`.
+</ParamField>
+
+<ParamField body="vendorId" type="integer" required>
+  Identificador del proveedor (Vendor).
+
+  - Debe ser un asociado con el campo `IsVendor` como true.
+</ParamField>
+
+<ParamField body="billingPurpose" type="string" required>
+  Propósito de facturación de la orden. Valores aceptados:
+
+  - `SupplierInvoice`
+  - `Reimbursement`
+  - `CustomerReimbursement`
+</ParamField>
+
+<ParamField body="identityDocumentId" type="integer">
+  Identificador del tipo de documento de identidad.
+</ParamField>
+
+<ParamField body="identityDocumentNumber" type="string">
+  Número de documento de identidad. Máximo 24 caracteres.
+</ParamField>
+
+<ParamField body="paymentTermId" type="integer">
+  Identificador del término de pago.
+</ParamField>
+
+<ParamField body="reference" type="string">
+  Referencia de la orden de compra. Máximo 250 caracteres.
+</ParamField>
+
+<ParamField body="description" type="string">
+  Descripción general de la orden de compra. Máximo 4000 caracteres.
+</ParamField>
+
+<ParamField body="operationCategory" type="string">
+  Categoría de la operación logística asociada. Requerido si `operationId` está presente. Valores aceptados:
+
+  - `Shipment` (Embarque)
+  - `CustomManagement` (Aduanas)
+  - `Additional` (Misceláneos)
+  - `InlandFreight` (Transporte Terrestre)
+</ParamField>
+
+<ParamField body="operationId" type="integer">
+  Identificador de la operación logística asociada. Requerido si `operationCategory` está presente.
+</ParamField>
+
+<ParamField body="masterId" type="integer">
+  Identificador del registro maestro (Master).
+</ParamField>
+
+<ParamField body="currencyId" type="string" required>
+  Identificador de la moneda.
+</ParamField>
+
+<ParamField body="exchangeRate" type="decimal">
+  Tasa de cambio aplicada. Debe ser mayor que cero. Precisión de hasta 8 decimales.
+
+  Si el campo es `null`:
+  - Si `currencyId` es distinto a la moneda de la empresa, el sistema asignará automáticamente la tasa de cambio vigente.
+  - Si `currencyId` es igual a la moneda de la empresa, se asignará por defecto el valor `1`.
+</ParamField>
+
+<ParamField body="dgiiServiceId" type="string">
+  Identificador del servicio de la DGII.
+</ParamField>
+
+<ParamField body="purchaseRequestId" type="integer">
+  Identificador de la solicitud de compra (Purchase Request) de origen.
+</ParamField>
+
+<ParamField body="status" type="string" default="New">
+  Estatus de la orden de compra. Valores aceptados:
+
+  - `New`
+  - `Cancelled`
+  - `Deleted`
+</ParamField>
+
+import DetailFields from './snippets/purchase-order-detail-fields.mdx'
+
+<ParamField body="details" type="array">
+  Lista de detalles de la orden de compra.
+  <Expandable title="detalle">
+    <DetailFields />
+  </Expandable>
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request POST \
+  --url "https://api.primenetcloud.com/v1/purchase-orders" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "date": "2026-06-20",
+    "vendorId": 142,
+    "billingPurpose": "SupplierInvoice",
+    "currencyId": "DOP",
+    "exchangeRate": 58.50,
+    "operationId": 5321,
+    "operationCategory": "Shipment",
+    "details": []
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/purchase-orders", {
+  method: "POST",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    date: "2026-06-20",
+    vendorId: 142,
+    billingPurpose: "SupplierInvoice",
+    currencyId: "DOP",
+    exchangeRate: 58.50,
+    operationId: 5321,
+    operationCategory: "Shipment",
+    details: []
+  }),
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.post(
+    "https://api.primenetcloud.com/v1/purchase-orders",
+    json={
+        "date": "2026-06-20",
+        "vendorId": 142,
+        "billingPurpose": "SupplierInvoice",
+        "currencyId": "DOP",
+        "exchangeRate": 58.50,
+        "operationId": 5321,
+        "operationCategory": "Shipment",
+        "details": []
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "id": 776
+}
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único de la orden de compra creada.
+</ResponseField>
+
+### Errores
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `PurchaseOrders.Write` requerido.
+</ResponseField>
+
+<RequestExample>
+
+```json
+{
+  "date": "2026-06-20",
+  "vendorId": 142,
+  "billingPurpose": "SupplierInvoice",
+  "identityDocumentId": 1,
+  "identityDocumentNumber": "123456789",
+  "paymentTermId": 2,
+  "reference": "Ref-887",
+  "description": "Orden de compra por servicios de flete marítimo",
+  "operationCategory": "Shipment",
+  "operationId": 5321,
+  "masterId": 890,
+  "currencyId": "DOP",
+  "exchangeRate": 58.50,
+  "dgiiServiceId": "01",
+  "purchaseRequestId": 320,
+  "details": [
+    {
+      "itemType": "Charge",
+      "itemId": 10,
+      "quantity": 1,
+      "price": 500.00
+    }
+  ]
+}
+```
+
+</RequestExample>

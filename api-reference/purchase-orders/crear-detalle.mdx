@@ -1,0 +1,163 @@
+---
+title: "Crear Detalle"
+api: "POST /purchase-orders/{id}/details"
+---
+
+Crea un nuevo detalle para una orden de compra específica.
+
+<Note>
+  Este endpoint requiere el scope **`PurchaseOrders.Write`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único de la orden de compra a la que se agregará el detalle.
+</ParamField>
+
+### Body parameters
+
+import DetailFields from './snippets/purchase-order-detail-fields.mdx'
+
+<DetailFields />
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request POST \
+  --url "https://api.primenetcloud.com/v1/purchase-orders/776/details" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "itemType": "Charge",
+    "itemId": 5,
+    "chargeTypeId": 2,
+    "isTransparent": false,
+    "taxPercent": 18.00,
+    "description": "Flete marítimo principal",
+    "calculationTypeId": "BLS",
+    "quantity": 1,
+    "price": 1500,
+    "discount": 0,
+    "operationId": 5321,
+    "operationCategory": "Shipment"
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/purchase-orders/776/details", {
+  method: "POST",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    itemType: "Charge",
+    itemId: 5,
+    chargeTypeId: 2,
+    isTransparent: false,
+    taxPercent: 18.00,
+    description: "Flete marítimo principal",
+    calculationTypeId: "BLS",
+    quantity: 1,
+    price: 1500,
+    discount: 0,
+    operationId: 5321,
+    operationCategory: "Shipment"
+  }),
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.post(
+    "https://api.primenetcloud.com/v1/purchase-orders/776/details",
+    json={
+        "itemType": "Charge",
+        "itemId": 5,
+        "chargeTypeId": 2,
+        "isTransparent": False,
+        "taxPercent": 18.00,
+        "description": "Flete marítimo principal",
+        "calculationTypeId": "BLS",
+        "quantity": 1,
+        "price": 1500,
+        "discount": 0,
+        "operationId": 5321,
+        "operationCategory": "Shipment"
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "id": 1
+}
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único del detalle de orden de compra creado.
+</ResponseField>
+
+### Errores
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `PurchaseOrders.Write` requerido.
+</ResponseField>
+
+<ResponseField name="404 Not Found">
+  No existe ninguna orden de compra con el `id` especificado en la URL.
+</ResponseField>
+
+<RequestExample>
+
+```json
+{
+  "itemType": "Charge",
+  "itemId": 5,
+  "chargeTypeId": 2,
+  "isTransparent": false,
+  "taxPercent": 18.00,
+  "description": "Flete marítimo principal",
+  "calculationTypeId": "BLS",
+  "quantity": 1.0000,
+  "productPackagingId": 10,
+  "packagingQuantity": 1.0000,
+  "price": 1500.0000,
+  "discount": 0.00,
+  "goodServiceApplicability": "Service",
+  "operationCategory": "Shipment",
+  "operationId": 5321,
+  "departmentId": 3,
+  "costCenterId": 5,
+  "projectId": null
+}
+```
+
+</RequestExample>

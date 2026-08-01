@@ -1,0 +1,378 @@
+---
+title: "Listar"
+api: "GET /purchase-orders"
+---
+
+Obtén una lista paginada de órdenes de compra en la empresa.
+
+<Note>
+  Este endpoint requiere el scope **`PurchaseOrders.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Query parameters
+
+<ParamField query="start" type="datetime" required>
+  Fecha de inicio del rango de búsqueda.
+</ParamField>
+
+<ParamField query="end" type="datetime" required>
+  Fecha de fin del rango de búsqueda.
+</ParamField>
+
+<ParamField query="sort_by" type="string">
+  Campo por el cual ordenar los resultados. Valores aceptados:
+
+  - `Id`
+  - `Number`
+  - `Date`
+  - `Vendor.Name`
+  - `IdentityDocument.Mask`
+  - `IdentityDocumentNumber`
+  - `Reference`
+  - `Operation.Id`
+  - `Operation.TransactionNumber`
+  - `Master.Id`
+  - `Master.TransactionNumber`
+  - `Currency.Id`
+  - `BilledAmount`
+  - `TaxAmount`
+  - `Status`
+  - `InsertedBy`
+</ParamField>
+
+<ParamField query="skip" default="0" type="integer">
+  Número de registros a omitir desde el inicio de los resultados. Utilízado junto con `take` para paginar los resultados.
+</ParamField>
+
+<ParamField query="take" default="20" type="integer">
+  Número de registros a retornar. Por defecto `20`, máximo `100`.
+</ParamField>
+
+<ParamField query="JournalNumber" type="RangeSearchFilter<integer>">
+  Filtra por el número de comprobante contable de la orden de compra.
+</ParamField>
+
+<ParamField query="Vendor.Name" type="StringSearchFilter">
+  Filtra por el nombre del vendor.
+</ParamField>
+
+<ParamField query="BillingPurpose.Id" type="EnumSearchFilter">
+  Filtra por el propósito de facturación (`BillingPurpose`) de la orden. Valores aceptados:
+
+  - `SupplierInvoice`
+  - `Reimbursement`
+  - `CustomerReimbursement`
+</ParamField>
+
+<ParamField query="IdentityDocument.Mask" type="StringSearchFilter">
+  Filtra por la máscara del documento de identidad del vendor.
+</ParamField>
+
+<ParamField query="IdentityDocumentNumber" type="StringSearchFilter">
+  Filtra por el número del documento de identidad del vendor.
+</ParamField>
+
+<ParamField query="Reference" type="StringSearchFilter">
+  Filtra por la referencia de la orden de compra.
+</ParamField>
+
+<ParamField query="Operation.Id" type="RangeSearchFilter<integer>">
+  Filtra por el identificador de la operación logística asociada.
+</ParamField>
+
+<ParamField query="Operation.TransactionNumber" type="RangeSearchFilter<integer>">
+  Filtra por el número de transacción de la operación logística asociada.
+</ParamField>
+
+<ParamField query="Operation.Category" type="EnumSearchFilter">
+  Filtra por la categoría de la operación logística asociada. Valores aceptados:
+
+  - `Shipment`
+  - `CustomManagement`
+  - `Additional`
+  - `InlandFreight`
+</ParamField>
+
+<ParamField query="Master.Id" type="RangeSearchFilter<integer>">
+  Filtra por el identificador del master asociado.
+</ParamField>
+
+<ParamField query="Master.TransactionNumber" type="RangeSearchFilter<integer>">
+  Filtra por el número de transacción del master asociado.
+</ParamField>
+
+<ParamField query="Currency.Id" type="StringSearchFilter">
+  Filtra por el identificador de la moneda.
+</ParamField>
+
+<ParamField query="BilledAmount" type="RangeSearchFilter<decimal>">
+  Filtra por el monto facturado.
+</ParamField>
+
+<ParamField query="TaxAmount" type="RangeSearchFilter<decimal>">
+  Filtra por el monto del impuesto.
+</ParamField>
+
+<ParamField query="TotalAmount" type="RangeSearchFilter<decimal>">
+  Filtra por el monto total de la orden de compra.
+</ParamField>
+
+<ParamField query="InsertedBy" type="StringSearchFilter">
+  Filtra por el usuario que creó la orden de compra.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/purchase-orders?start=2026-07-01T00:00:00Z&end=2026-07-31T23:59:59Z&skip=20&take=20" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/purchase-orders?start=2026-07-01T00:00:00Z&end=2026-07-31T23:59:59Z&skip=20&take=20",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID"
+    },
+  }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/purchase-orders",
+    params={
+        "start": "2026-07-01T00:00:00Z",
+        "end": "2026-07-31T23:59:59Z",
+        "skip": 20,
+        "take": 20,
+    },
+   headers={
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID"
+    }
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "totalCount": 0,
+  "data": [
+    {
+      "id": 0,
+      "journalNumber": 0,
+      "date": "2026-07-01",
+      "vendor": {
+        "name": "string"
+      },
+      "billingPurpose": {
+        "id": 0,
+        "name": "string"
+      },
+      "identityDocument": {
+        "mask": "string"
+      },
+      "identityDocumentNumber": "string",
+      "reference": "string",
+      "operation": {
+        "id": 0,
+        "transactionNumber": 0,
+        "category": 0
+      },
+      "master": {
+        "id": 0,
+        "transactionNumber": 0
+      },
+      "currency": {
+        "id": "string"
+      },
+      "billedAmount": 0,
+      "taxAmount": 0,
+      "totalAmount": 0,
+      "insertedBy": "string",
+      "status": {
+        "id": 0,
+        "name": "string"
+      }
+    }
+  ]
+}
+```
+
+### Response fields
+
+<ResponseField name="totalCount" type="integer">
+  Total de registros.
+</ResponseField>
+
+<ResponseField name="data" type="array">
+  Lista de objetos PurchaseOrder.
+
+  <Expandable title="PurchaseOrder">
+    <ResponseField name="id" type="integer">
+      Identificador único de la orden de compra.
+    </ResponseField>
+
+    <ResponseField name="journalNumber" type="integer">
+      Número de comprobante contable de la orden de compra.
+    </ResponseField>
+
+    <ResponseField name="date" type="date">
+      Fecha de la orden de compra.
+    </ResponseField>
+
+    <ResponseField name="vendor" type="object">
+      Vendor asociado a la orden de compra.
+
+      <Expandable title="vendor">
+        <ResponseField name="name" type="string">
+          Nombre del vendor.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="billingPurpose" type="object">
+      Propósito de facturación de la orden.
+
+      <Expandable title="billingPurpose">
+        <ResponseField name="id" type="integer">
+          Identificador del propósito de facturación.
+
+          Valores posibles:
+          - `SupplierInvoice`
+          - `Reimbursement`
+          - `CustomerReimbursement`
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido del propósito de facturación.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="identityDocument" type="object">
+      Documento de identidad del vendor.
+
+      <Expandable title="identityDocument">
+        <ResponseField name="mask" type="string">
+          Máscara del documento de identidad.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="identityDocumentNumber" type="string">
+      Número del documento de identidad del vendor.
+    </ResponseField>
+
+    <ResponseField name="reference" type="string">
+      Referencia de la orden de compra.
+    </ResponseField>
+
+    <ResponseField name="operation" type="object">
+      Operación logística asociada a la orden de compra. `null` si la orden está asociada a un master en su lugar.
+
+      <Expandable title="operation">
+        <ResponseField name="id" type="integer">
+          Identificador de la operación logística.
+        </ResponseField>
+
+        <ResponseField name="transactionNumber" type="integer">
+          Número de transacción de la operación logística.
+        </ResponseField>
+
+        <ResponseField name="category" type="string">
+          Categoría de la operación logística.
+
+          Valores posibles:
+          - `Shipment`
+          - `CustomManagement`
+          - `Additional`
+          - `InlandFreight`
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="master" type="object">
+      Master asociado a la orden de compra.
+
+      <Expandable title="master">
+        <ResponseField name="id" type="integer">
+          Identificador del master.
+        </ResponseField>
+
+        <ResponseField name="transactionNumber" type="integer">
+          Número de transacción del master.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="currency" type="object">
+      Moneda de la orden de compra.
+
+      <Expandable title="currency">
+        <ResponseField name="id" type="string">
+          Identificador de la moneda.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="billedAmount" type="decimal">
+      Monto facturado.
+    </ResponseField>
+
+    <ResponseField name="taxAmount" type="decimal">
+      Monto del impuesto.
+    </ResponseField>
+
+    <ResponseField name="totalAmount" type="decimal">
+      Monto total de la orden de compra.
+    </ResponseField>
+
+    <ResponseField name="insertedBy" type="string">
+      Usuario que creó la orden de compra.
+    </ResponseField>
+
+    <ResponseField name="status" type="object">
+      Estatus de la orden de compra.
+
+      <Expandable title="status">
+        <ResponseField name="id" type="integer">
+          Identificador del estatus.
+
+          Valores posibles:
+          - `New`
+          - `Cancelled`
+          - `Deleted`
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido del estatus.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>

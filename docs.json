@@ -129,6 +129,22 @@
                 ]
               },
               {
+                "group": "Órdenes de Compra",
+                "pages": [
+                  "api-reference/purchase-orders/listar-ordenes",
+                  "api-reference/purchase-orders/extraer-orden-por-id",
+                  "api-reference/purchase-orders/crear-ordenes",
+                  "api-reference/purchase-orders/actualizar-ordenes",
+                  "api-reference/purchase-orders/actualizar-parcial-ordenes",
+                  "api-reference/purchase-orders/listar-detalles",
+                  "api-reference/purchase-orders/extraer-detalle-por-id",
+                  "api-reference/purchase-orders/crear-detalle",
+                  "api-reference/purchase-orders/actualizar-detalle",
+                  "api-reference/purchase-orders/actualizar-parcial-detalle",
+                  "api-reference/purchase-orders/eliminar-detalle"
+                ]
+              },
+              {
                 "group": "Facturas por Pagar",
                 "pages": [
                   "api-reference/purchase-invoices/listar-facturas",
