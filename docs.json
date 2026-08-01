@@ -145,6 +145,23 @@
                 ]
               },
               {
+                "group": "Recepciones de Compra",
+                "pages": [
+                  "api-reference/purchase-receptions/listar-recepciones",
+                  "api-reference/purchase-receptions/extraer-recepcion-por-id",
+                  "api-reference/purchase-receptions/crear-recepciones",
+                  "api-reference/purchase-receptions/actualizar-recepciones",
+                  "api-reference/purchase-receptions/actualizar-parcial-recepciones",
+                  "api-reference/purchase-receptions/cancelar-recepcion",
+                  "api-reference/purchase-receptions/listar-detalles",
+                  "api-reference/purchase-receptions/extraer-detalle-por-id",
+                  "api-reference/purchase-receptions/crear-detalle",
+                  "api-reference/purchase-receptions/actualizar-detalle",
+                  "api-reference/purchase-receptions/actualizar-parcial-detalle",
+                  "api-reference/purchase-receptions/eliminar-detalle"
+                ]
+              },
+              {
                 "group": "Facturas por Pagar",
                 "pages": [
                   "api-reference/purchase-invoices/listar-facturas",

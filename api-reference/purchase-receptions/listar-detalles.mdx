@@ -1,0 +1,164 @@
+---
+title: "Listar Detalles"
+api: "GET /purchase-receptions/{id}/details"
+---
+
+Obtén la lista de todos los detalles asociados a una recepción de compra específica.
+
+<Note>
+  Este endpoint requiere el scope **`PurchaseReceptions.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único de la recepción de compra.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/purchase-receptions/512/details" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: application/json"
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/purchase-receptions/512/details", {
+  method: "GET",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+    "Content-Type": "application/json",
+  },
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/purchase-receptions/512/details",
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único del detalle.
+</ResponseField>
+
+<ResponseField name="product" type="object">
+  Producto recibido.
+
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del producto.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del producto.
+    </ResponseField>
+
+    <ResponseField name="category" type="object">
+      Categoría del producto.
+
+      <Expandable title="Ver propiedades">
+        <ResponseField name="name" type="string">
+          Nombre de la categoría del producto.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="quantity" type="decimal">
+  Cantidad de unidades recibidas.
+</ResponseField>
+
+<ResponseField name="productPackaging" type="object">
+  Empaque del producto. `null` si no fue especificado.
+
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del empaque.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del empaque.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="purchaseOrderDetail" type="object">
+  Detalle de la orden de compra contra el cual se recibió el producto. `null` si la recepción no está asociada a una orden de compra.
+
+  <Expandable title="Ver propiedades">
+    <ResponseField name="quantity" type="decimal">
+      Cantidad total solicitada en el detalle de la orden de compra.
+    </ResponseField>
+
+    <ResponseField name="unitReceived" type="decimal">
+      Unidades ya recibidas mediante recepciones de compra, incluyendo esta.
+    </ResponseField>
+
+    <ResponseField name="packagingQuantity" type="decimal">
+      Cantidad de empaques solicitados en el detalle de la orden de compra.
+    </ResponseField>
+
+    <ResponseField name="pendingUnits" type="decimal">
+      Unidades pendientes por recibir.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+
+```json Ejemplo de Respuesta
+[
+  {
+    "id": 1,
+    "product": {
+      "id": 88,
+      "name": "Cemento Gris 42.5kg",
+      "category": {
+        "name": "Materiales de Construcción"
+      }
+    },
+    "quantity": 800,
+    "productPackaging": {
+      "id": 10,
+      "name": "Paleta"
+    },
+    "purchaseOrderDetail": {
+      "quantity": 1000,
+      "unitReceived": 800,
+      "packagingQuantity": 25,
+      "pendingUnits": 200
+    }
+  }
+]
+```
+
+</RequestExample>

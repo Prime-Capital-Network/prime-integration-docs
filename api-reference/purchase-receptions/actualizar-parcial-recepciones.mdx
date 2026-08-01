@@ -1,0 +1,127 @@
+---
+title: "Actualizar Parcial"
+sidebarTitle: "Actualizar Parcial"
+api: "PATCH /purchase-receptions/{id}"
+---
+
+Actualiza los datos parcialmente de una recepción de compra en la empresa.
+
+<Note>
+  Este endpoint requiere el scope **`PurchaseReceptions.Write`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único de la recepción de compra a actualizar.
+</ParamField>
+
+### Body parameters
+
+<ParamField body="purchaseOrderId" type="integer">
+  Identificador de la orden de compra contra la cual se recibe la mercancía.
+</ParamField>
+
+<ParamField body="date" type="date">
+  Fecha de la recepción de compra en formato `YYYY-MM-DD`.
+</ParamField>
+
+<ParamField body="vendorId" type="integer">
+  Identificador del proveedor (Vendor).
+
+  - Debe ser un asociado con el campo `IsVendor` como true.
+</ParamField>
+
+<ParamField body="observations" type="string">
+  Observaciones de la recepción de compra. Máximo 250 caracteres.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request PATCH \
+  --url "https://api.primenetcloud.com/v1/purchase-receptions/512" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: application/merge-patch+json" \
+  --data '{
+    "observations": "Recepción completa del contenedor MSCU1234567"
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/purchase-receptions/512", {
+  method: "PATCH",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+    "Content-Type": "application/merge-patch+json",
+  },
+  body: JSON.stringify({
+    observations: "Recepción completa del contenedor MSCU1234567"
+  }),
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.patch(
+    "https://api.primenetcloud.com/v1/purchase-receptions/512",
+    json={
+        "observations": "Recepción completa del contenedor MSCU1234567"
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+        "Content-Type": "application/merge-patch+json"
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Response
+
+Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
+
+### Errores
+
+<ResponseField name="400 Bad Request">
+  La recepción de compra ya ha sido cancelada y no puede actualizarse.
+</ResponseField>
+
+<ResponseField name="404 Not Found">
+  No existe ninguna recepción de compra con el `id` especificado en la URL.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `PurchaseReceptions.Write` requerido.
+</ResponseField>
+
+<ResponseField name="415 Unsupported Media Type">
+  La solicitud no incluye el header `Content-Type` como `application/merge-patch+json`.
+</ResponseField>
+
+<RequestExample>
+
+```json
+{
+  "observations": "Recepción completa del contenedor MSCU1234567"
+}
+```
+
+</RequestExample>

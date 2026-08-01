@@ -1,0 +1,19 @@
+<ParamField body="productId" type="integer" required>
+  Identificador del producto recibido.
+</ParamField>
+
+<ParamField body="quantity" type="decimal" required>
+  Cantidad de unidades recibidas.
+</ParamField>
+
+<ParamField body="purchaseOrderDetailId" type="integer">
+  Identificador del detalle de la orden de compra contra el cual se recibe el producto.
+</ParamField>
+
+<ParamField body="productPackagingId" type="integer">
+  Identificador del empaque del producto.
+</ParamField>
+
+<ParamField body="packagingQuantity" type="decimal" required>
+  Cantidad de empaques recibidos. Debe ser mayor que cero.
+</ParamField>

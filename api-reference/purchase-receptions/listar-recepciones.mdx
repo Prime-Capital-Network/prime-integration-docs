@@ -1,0 +1,219 @@
+---
+title: "Listar"
+api: "GET /purchase-receptions"
+---
+
+Obtén una lista paginada de recepciones de compra en la empresa.
+
+<Note>
+  Este endpoint requiere el scope **`PurchaseReceptions.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Query parameters
+
+<ParamField query="start" type="datetime" required>
+  Fecha de inicio del rango de búsqueda.
+</ParamField>
+
+<ParamField query="end" type="datetime" required>
+  Fecha de fin del rango de búsqueda.
+</ParamField>
+
+<ParamField query="sort_by" type="string">
+  Campo por el cual ordenar los resultados. Valores aceptados:
+
+  - `Id`
+  - `Number`
+  - `Date`
+  - `PurchaseOrder.Id`
+  - `PurchaseOrder.JournalNumber`
+  - `Vendor.Id`
+  - `Vendor.Name`
+</ParamField>
+
+<ParamField query="skip" default="0" type="integer">
+  Número de registros a omitir desde el inicio de los resultados. Utilízado junto con `take` para paginar los resultados.
+</ParamField>
+
+<ParamField query="take" default="20" type="integer">
+  Número de registros a retornar. Por defecto `20`, máximo `100`.
+</ParamField>
+
+<ParamField query="Number" type="RangeSearchFilter<integer>">
+  Filtra por el número de la recepción de compra.
+</ParamField>
+
+<ParamField query="PurchaseOrder.Id" type="RangeSearchFilter<integer>">
+  Filtra por el identificador de la orden de compra asociada.
+</ParamField>
+
+<ParamField query="PurchaseOrder.JournalNumber" type="RangeSearchFilter<integer>">
+  Filtra por el número de comprobante contable de la orden de compra asociada.
+</ParamField>
+
+<ParamField query="Vendor.Id" type="RangeSearchFilter<integer>">
+  Filtra por el identificador del vendor.
+</ParamField>
+
+<ParamField query="Vendor.Name" type="StringSearchFilter">
+  Filtra por el nombre del vendor.
+</ParamField>
+
+<ParamField query="Status.Id" type="EnumSearchFilter">
+  Filtra por el estatus de la recepción de compra. Valores aceptados:
+
+  - `New`
+  - `Deleted`
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/purchase-receptions?start=2026-07-01T00:00:00Z&end=2026-07-31T23:59:59Z&skip=0&take=20" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/purchase-receptions?start=2026-07-01T00:00:00Z&end=2026-07-31T23:59:59Z&skip=0&take=20",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID"
+    },
+  }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/purchase-receptions",
+    params={
+        "start": "2026-07-01T00:00:00Z",
+        "end": "2026-07-31T23:59:59Z",
+        "skip": 0,
+        "take": 20,
+    },
+   headers={
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID"
+    }
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "totalCount": 1,
+  "data": [
+    {
+      "id": 512,
+      "number": 512,
+      "date": "2026-07-15",
+      "purchaseOrder": {
+        "id": 776,
+        "journalNumber": 4001
+      },
+      "vendor": {
+        "id": 142,
+        "name": "Ferretería y Suministros del Caribe, SRL"
+      },
+      "status": {
+        "id": 0,
+        "name": "Nueva"
+      }
+    }
+  ]
+}
+```
+
+### Response fields
+
+<ResponseField name="totalCount" type="integer">
+  Total de registros.
+</ResponseField>
+
+<ResponseField name="data" type="array">
+  Lista de objetos PurchaseReception.
+
+  <Expandable title="PurchaseReception">
+    <ResponseField name="id" type="integer">
+      Identificador único de la recepción de compra.
+    </ResponseField>
+
+    <ResponseField name="number" type="integer">
+      Número de la recepción de compra.
+    </ResponseField>
+
+    <ResponseField name="date" type="date">
+      Fecha de la recepción de compra.
+    </ResponseField>
+
+    <ResponseField name="purchaseOrder" type="object">
+      Orden de compra asociada a la recepción. `null` si no está asociada a ninguna orden.
+
+      <Expandable title="purchaseOrder">
+        <ResponseField name="id" type="integer">
+          Identificador de la orden de compra.
+        </ResponseField>
+
+        <ResponseField name="journalNumber" type="integer">
+          Número de comprobante contable de la orden de compra.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="vendor" type="object">
+      Vendor asociado a la recepción de compra. `null` si no fue especificado.
+
+      <Expandable title="vendor">
+        <ResponseField name="id" type="integer">
+          Identificador del vendor.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del vendor.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="status" type="object">
+      Estatus de la recepción de compra.
+
+      <Expandable title="status">
+        <ResponseField name="id" type="integer">
+          Identificador del estatus.
+
+          Valores posibles:
+          - `New`
+          - `Deleted`
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido del estatus.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
