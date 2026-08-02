@@ -1,0 +1,237 @@
+---
+title: "Obtener Producto de Compra Por ID"
+sidebarTitle: "Obtener por ID"
+description: "Permite extraer un producto de compra en específico mediante REST API"
+api: "GET /purchase-products/{id}"
+---
+
+Obtén un producto de compra por ID en la empresa.
+
+<Note>
+  Este endpoint requiere el scope **`PurchaseProducts.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único del producto de compra.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/purchase-products/412" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/purchase-products/412",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID"
+    },
+  }
+);
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/purchase-products/412",
+    headers={
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID"
+    }
+)
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "id": 412,
+  "name": "Aceite Hidráulico ISO 68",
+  "goodServiceApplicability": {
+    "id": 1,
+    "name": "Producto"
+  },
+  "category": {
+    "id": 8,
+    "name": "Lubricantes",
+    "account": {
+      "id": 5120
+    }
+  },
+  "manufacturer": {
+    "id": 21,
+    "name": "Shell"
+  },
+  "brand": {
+    "id": 34,
+    "name": "Rimula"
+  },
+  "packaging": {
+    "id": 6,
+    "name": "Tambor 55 gal",
+    "quantity": 55
+  },
+  "taxRate": 18,
+  "insertedBy": "string",
+  "insertedDate": "2026-06-20T08:00:00.000Z",
+  "updatedBy": "string",
+  "updatedDate": "2026-06-21T11:00:00.000Z",
+  "isActive": true
+}
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único del producto de compra.
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  Nombre del producto de compra.
+</ResponseField>
+
+<ResponseField name="goodServiceApplicability" type="object">
+  Aplicabilidad del producto de compra.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador de la aplicabilidad.
+
+      Valores posibles:
+      - `NotApplicable`
+      - `Product`
+      - `Service`
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido de la aplicabilidad.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="category" type="object">
+  Categoría de bienes/servicios del producto de compra.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador de la categoría.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre de la categoría.
+    </ResponseField>
+
+    <ResponseField name="account" type="object">
+      Cuenta contable asociada a la categoría.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador de la cuenta contable.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="manufacturer" type="object">
+  Fabricante del producto de compra. `null` si no aplica.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del fabricante.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del fabricante.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="brand" type="object">
+  Marca del producto de compra. `null` si no aplica.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador de la marca.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre de la marca.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="packaging" type="object">
+  Empaque del producto de compra. `null` si no aplica.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del empaque.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del empaque.
+    </ResponseField>
+
+    <ResponseField name="quantity" type="integer">
+      Cantidad de unidades por empaque.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="taxRate" type="decimal">
+  Tasa de impuesto aplicada al producto de compra.
+</ResponseField>
+
+<ResponseField name="insertedBy" type="string">
+  Usuario que creó el registro.
+</ResponseField>
+
+<ResponseField name="insertedDate" type="string">
+  Fecha y hora de creación del registro, en formato ISO 8601.
+</ResponseField>
+
+<ResponseField name="updatedBy" type="string">
+  Usuario que realizó la última actualización del registro. `null` si no ha sido actualizado.
+</ResponseField>
+
+<ResponseField name="updatedDate" type="string">
+  Fecha y hora de la última actualización, en formato ISO 8601. `null` si no ha sido actualizado.
+</ResponseField>
+
+<ResponseField name="isActive" type="boolean">
+  Indica si el producto de compra está activo.
+</ResponseField>
+
+### Errores
+
+<ResponseField name="404 Not Found">
+  No existe ningún producto de compra con el `id` especificado en la URL.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `PurchaseProducts.Read` requerido.
+</ResponseField>

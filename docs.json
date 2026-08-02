@@ -129,6 +129,17 @@
                 ]
               },
               {
+                "group": "Productos de Compra",
+                "pages": [
+                  "api-reference/purchase-products/listar-productos-compra",
+                  "api-reference/purchase-products/extraer-producto-compra-por-id",
+                  "api-reference/purchase-products/crear-producto-compra",
+                  "api-reference/purchase-products/actualizar-producto-compra",
+                  "api-reference/purchase-products/actualizar-parcial-producto-compra",
+                  "api-reference/purchase-products/buscar-productos-compra"
+                ]
+              },
+              {
                 "group": "Órdenes de Compra",
                 "pages": [
                   "api-reference/purchase-orders/listar-ordenes",

@@ -1,0 +1,162 @@
+---
+title: "Crear"
+api: "POST /purchase-products"
+---
+
+Crea un nuevo producto de compra en la empresa.
+
+<Note>
+  Este endpoint requiere el scope **`PurchaseProducts.Write`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Body parameters
+
+<ParamField body="name" type="string" required>
+  Nombre del producto de compra. Máximo 200 caracteres.
+</ParamField>
+
+<ParamField body="goodServiceApplicability" type="string" required>
+  Aplicabilidad del producto de compra. Valores aceptados:
+
+  - `NotApplicable`
+  - `Product`
+  - `Service`
+</ParamField>
+
+<ParamField body="categoryId" type="integer" required>
+  Identificador de la categoría del producto de compra.
+</ParamField>
+
+<ParamField body="manufacturerId" type="integer">
+  Identificador del fabricante del producto de compra.
+
+  - Requerido si `brandId` está presente.
+</ParamField>
+
+<ParamField body="brandId" type="integer">
+  Identificador de la marca del producto de compra.
+</ParamField>
+
+<ParamField body="packagingId" type="integer">
+  Identificador del empaque del producto de compra.
+</ParamField>
+
+<ParamField body="taxRate" type="decimal" default="0">
+  Tasa de impuesto aplicada al producto de compra. Debe ser mayor o igual a cero.
+</ParamField>
+
+<ParamField body="isActive" type="boolean" default="true">
+  Indica si el producto de compra está activo.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request POST \
+  --url "https://api.primenetcloud.com/v1/purchase-products" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "name": "Aceite Hidráulico ISO 68",
+    "goodServiceApplicability": "Product",
+    "categoryId": 8,
+    "manufacturerId": 21,
+    "brandId": 34,
+    "packagingId": 6,
+    "taxRate": 18
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/purchase-products", {
+  method: "POST",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    name: "Aceite Hidráulico ISO 68",
+    goodServiceApplicability: "Product",
+    categoryId: 8,
+    manufacturerId: 21,
+    brandId: 34,
+    packagingId: 6,
+    taxRate: 18
+  }),
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.post(
+    "https://api.primenetcloud.com/v1/purchase-products",
+    json={
+        "name": "Aceite Hidráulico ISO 68",
+        "goodServiceApplicability": "Product",
+        "categoryId": 8,
+        "manufacturerId": 21,
+        "brandId": 34,
+        "packagingId": 6,
+        "taxRate": 18
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "id": 412
+}
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único del producto de compra creado.
+</ResponseField>
+
+### Errores
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `PurchaseProducts.Write` requerido.
+</ResponseField>
+
+<RequestExample>
+
+```json
+{
+  "name": "Aceite Hidráulico ISO 68",
+  "goodServiceApplicability": "Product",
+  "categoryId": 8,
+  "manufacturerId": 21,
+  "brandId": 34,
+  "packagingId": 6,
+  "taxRate": 18,
+  "isActive": true
+}
+```
+
+</RequestExample>
