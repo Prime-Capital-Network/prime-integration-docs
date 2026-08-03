@@ -1,0 +1,207 @@
+---
+title: "Webhooks"
+description: "Cómo recibir notificaciones en tiempo real cuando ocurren eventos en PrimeNet, y cómo verificar que provienen realmente de nosotros"
+---
+
+Los webhooks te permiten recibir una notificación HTTP `POST` automática hacia una URL de tu elección cada vez que ocurre un evento relevante en PrimeERP (por ejemplo, la creación de un producto de compra), en lugar de tener que sondear (*polling*) la API periódicamente para detectar cambios.
+
+<Note>
+  Temporalmente, las suscripciones a los webhooks **no son accesibles al público**.
+</Note>
+
+# Cómo crear una suscripción
+
+1. En la aplicación de PrimeNet, ve a **Configuración → Suscripciones de Webhooks**.
+2. Crea una nueva suscripción indicando uno o más **tipos de evento** (ver catálogo abajo) y la **URL** que recibirá las notificaciones. La URL debe ser una dirección **HTTPS pública** — no se aceptan URLs `localhost` ni direcciones de red privada/interna. Una misma suscripción puede escuchar varios tipos de evento a la vez.
+3. Al crear la suscripción, PrimeERP te muestra un **secreto** (`whsec_...`). Guárdalo de forma segura: se muestra **una sola vez**, en el momento de la creación, y se usa para verificar la autenticidad de cada notificación que recibas (ver más abajo). Si lo pierdes, puedes rotarlo (ver "Rotación del secreto" abajo).
+
+<Warning>
+  Trata el secreto del webhook como cualquier otra credencial: no lo incluyas en repositorios públicos ni en código del lado del cliente. Cualquiera que lo tenga puede falsificar notificaciones hacia tu endpoint.
+</Warning>
+
+# Catálogo de eventos
+
+| Evento | Descripción |
+| --- | --- |
+| `purchase_product.created` | Se creó un nuevo producto de compra. |
+
+<Tip>
+  Este catálogo se irá ampliando con nuevos eventos. Si necesitas notificaciones para un recurso que no está aquí, contáctanos.
+</Tip>
+
+# Formato de la notificación
+
+Cada notificación es una solicitud `POST` con cuerpo `application/json` y tres headers adicionales, siguiendo la convención [Standard Webhooks](https://github.com/standard-webhooks/standard-webhooks):
+
+| Header | Descripción |
+| --- | --- |
+| `webhook-id` | Identificador único de la **entrega** (no del recurso). Es estable entre reintentos: todos los intentos de la misma notificación comparten el mismo `webhook-id`. Úsalo como clave de idempotencia. |
+| `webhook-timestamp` | Marca de tiempo Unix (segundos) de cuándo se envió el intento. Cambia en cada reintento. |
+| `webhook-signature` | Una o más firmas HMAC-SHA256 de la notificación, separadas por espacio (ver abajo). |
+
+### Cuerpo de la notificación
+
+El cuerpo es un sobre (*envelope*) con metadatos del evento:
+
+```json
+{
+  "type": "purchase_product.created",
+  "timestamp": "2026-08-02T16:35:00Z",
+  "tenantId": "55dea78f-bbe3-4b04-97e3-26b33547bcf8",
+  "data": {
+    "id": 4821,
+    "name": "Resina epóxica 5L",
+    "categoryId": 12,
+    "manufacturerId": 7,
+    "brandId": 3,
+    "packagingId": 2,
+    "goodServiceApplicability": "Product",
+    "isActive": true
+  }
+}
+```
+
+| Campo | Descripción |
+| --- | --- |
+| `type` | El tipo de evento (igual al catálogo arriba). |
+| `timestamp` | Marca de tiempo ISO 8601 (UTC) de cuándo ocurrió el evento originalmente — se mantiene igual entre reintentos, a diferencia del header `webhook-timestamp`. |
+| `tenantId` | El identificador de la compañía/tenant donde ocurrió el evento. |
+| `data` | Los datos del recurso. |
+
+# Verificación de la firma
+
+Cada notificación se firma con **HMAC-SHA256** usando el secreto de tu suscripción, siguiendo la convención [Standard Webhooks](https://github.com/standard-webhooks/standard-webhooks/blob/main/spec/standard-webhooks.md). Esto te permite confirmar que la notificación realmente proviene de PrimeERP y no fue falsificada por un tercero.
+
+<Steps>
+  <Step title="Lee el cuerpo crudo y los headers">
+    Necesitas el cuerpo de la solicitud sin parsear, junto con `webhook-id`, `webhook-timestamp` y `webhook-signature`.
+  </Step>
+  <Step title="Deriva la clave HMAC a partir del secreto">
+    Quita el prefijo `whsec_` del secreto y decodifica el resto como **base64 URL-safe** — el resultado son los 32 bytes que se usan como clave HMAC (no uses la cadena `whsec_...` directamente como clave).
+  </Step>
+  <Step title="Recalcula la firma">
+    Calcula `HMAC-SHA256(clave, "{webhook-id}.{webhook-timestamp}.{cuerpo}")` sobre el **cuerpo crudo (raw)** de la solicitud — los bytes exactos recibidos, antes de que tu framework los parsee a un objeto. Volver a serializar el JSON antes de firmar puede cambiar el resultado y hará que la firma nunca coincida. Codifica el hash resultante en **base64** y antepón el esquema: `v1,<base64>`.
+  </Step>
+  <Step title="Compara contra cada firma del header">
+    `webhook-signature` puede traer **más de una firma separada por espacio** (`v1,firmaA v1,firmaB`) — esto ocurre durante la ventana de rotación de un secreto, cuando PrimeERP firma con el secreto anterior y el nuevo a la vez. Es válida si tu firma calculada coincide con **cualquiera** de ellas. Compara cada una en tiempo constante (no `===`/`==`), para evitar ataques de temporización (*timing attacks*).
+  </Step>
+  <Step title="Verifica que el timestamp sea reciente">
+    Rechaza la notificación si `webhook-timestamp` tiene una antigüedad mayor a la que consideres razonable (recomendamos 5 minutos). Esto evita que una notificación capturada en tránsito sea reenviada (*replay*) más adelante.
+  </Step>
+</Steps>
+
+<CodeGroup>
+
+```javascript Node.js
+const crypto = require("crypto");
+
+function decodeSecret(secret) {
+  const encoded = secret.startsWith("whsec_") ? secret.slice(6) : secret;
+  return Buffer.from(encoded.replace(/-/g, "+").replace(/_/g, "/"), "base64");
+}
+
+function isValidSignature(rawBody, idHeader, timestampHeader, signatureHeader, secret) {
+  const timestamp = parseInt(timestampHeader, 10);
+
+  // Paso 5: rechaza notificaciones con más de 5 minutos de antigüedad.
+  const ageInSeconds = Math.floor(Date.now() / 1000) - timestamp;
+  if (Math.abs(ageInSeconds) > 300) return false;
+
+  // Paso 3: recalcula la firma sobre "{id}.{timestamp}.{rawBody}".
+  const signedContent = `${idHeader}.${timestamp}.${rawBody}`;
+  const expectedSignature = crypto
+    .createHmac("sha256", decodeSecret(secret))
+    .update(signedContent)
+    .digest("base64");
+  const expected = `v1,${expectedSignature}`;
+
+  // Paso 4: puede haber varias firmas separadas por espacio; basta con que coincida una.
+  const received = signatureHeader.split(" ");
+  const expectedBuf = Buffer.from(expected, "utf8");
+
+  return received.some((sig) => {
+    const receivedBuf = Buffer.from(sig, "utf8");
+    return (
+      expectedBuf.length === receivedBuf.length &&
+      crypto.timingSafeEqual(expectedBuf, receivedBuf)
+    );
+  });
+}
+```
+
+```python Python
+import base64
+import hashlib
+import hmac
+import time
+
+
+def decode_secret(secret: str) -> bytes:
+    encoded = secret[len("whsec_"):] if secret.startswith("whsec_") else secret
+    padded = encoded + "=" * (-len(encoded) % 4)
+    return base64.urlsafe_b64decode(padded)
+
+
+def is_valid_signature(
+    raw_body: bytes, id_header: str, timestamp_header: str, signature_header: str, secret: str
+) -> bool:
+    timestamp = int(timestamp_header)
+
+    # Paso 5: rechaza notificaciones con más de 5 minutos de antigüedad.
+    if abs(int(time.time()) - timestamp) > 300:
+        return False
+
+    # Paso 3: recalcula la firma sobre "{id}.{timestamp}.{rawBody}".
+    signed_content = f"{id_header}.{timestamp}.".encode("utf-8") + raw_body
+    expected_signature = base64.b64encode(
+        hmac.new(decode_secret(secret), signed_content, hashlib.sha256).digest()
+    ).decode("utf-8")
+    expected = f"v1,{expected_signature}"
+
+    # Paso 4: puede haber varias firmas separadas por espacio; basta con que coincida una.
+    return any(hmac.compare_digest(expected, sig) for sig in signature_header.split(" "))
+```
+
+</CodeGroup>
+
+<Warning>
+  El secreto (`whsec_...`) es el mismo que se te mostró al crear la suscripción o en la última rotación. PrimeERP no lo vuelve a mostrar después de ese momento.
+</Warning>
+
+# Rotación del secreto
+
+Si necesitas rotar el secreto, puedes hacerlo desde la aplicación de PrimeERP. Al rotar:
+
+- Se genera un nuevo secreto y se muestra **una sola vez**, igual que al crear la suscripción.
+- Por defecto, el secreto anterior sigue siendo válido durante una **ventana de gracia de 24 horas**: en ese lapso, cada notificación se firma con **ambos** secretos (verás dos firmas en `webhook-signature`), para que puedas actualizar tu verificación sin perder entregas en tránsito.
+- Si la rotación es por un secreto comprometido, puedes solicitar que el secreto anterior se invalide **inmediatamente**, sin ventana de gracia.
+
+# Reintentos
+
+PrimeERP reintenta las notificaciones que no reciben una respuesta `2xx`, siguiendo backoff exponencial con jitter:
+
+- Los reintentos empiezan en **1 minuto** y se duplican en cada intento, hasta un tope de **6 horas** entre intentos, con un **±20% de jitter** aleatorio (para evitar que muchos endpoints fallidos reintenten exactamente al mismo tiempo). Si tu endpoint responde con un header `Retry-After`, PrimeERP lo respeta en lugar de calcular el backoff.
+- Los reintentos continúan durante hasta **3 días** desde el primer intento. Pasado ese plazo, la notificación se marca como fallida definitivamente y no se reintenta más.
+- Cualquier código de respuesta distinto de `2xx` (incluyendo timeouts o errores de conexión) se considera un fallo y activa un reintento.
+
+<Warning>
+  Si tu endpoint responde `410 Gone`, PrimeERP interpreta que ya no quieres recibir notificaciones y **desactiva la suscripción por completo** — no solo esa entrega — sin reintentar.
+</Warning>
+
+<Note>
+  Si tu endpoint responde `429`, `502` o `504`, PrimeERP asume que está sobrecargado y **pausa todas las entregas pendientes de esa suscripción** (no solo la que falló) hasta que pase la ventana de backoff.
+</Note>
+
+<Tip>
+  Responde `2xx` **inmediatamente** al recibir la notificación, y procesa la lógica de negocio de forma asíncrona (en una cola, un job en background, etc.). Si tu endpoint tarda demasiado en responder, PrimeERP lo interpretará como un fallo y reintentará innecesariamente.
+</Tip>
+
+# Historial de entregas
+
+Desde la aplicación de PrimeERP puedes consultar el historial de entregas de una suscripción: cada intento muestra su estado (`Pending`, `Delivered`, `Failed`), la cantidad de intentos realizados, el último código de respuesta HTTP recibido, y — mientras esté pendiente — la fecha del próximo reintento programado.
+
+# Buenas prácticas
+
+- **Verifica siempre la firma** antes de confiar en el contenido de una notificación — nunca proceses el cuerpo sin validar `webhook-signature` primero.
+- **Responde rápido**: idealmente en menos de unos pocos segundos. Devuelve `2xx` de inmediato y difiere el procesamiento pesado.
+- **Diseña tu endpoint para ser idempotente.** La entrega es *at-least-once*, no *exactly-once*: es posible (aunque raro) recibir la misma notificación más de una vez, por ejemplo si la respuesta `2xx` se pierde en tránsito después de que ya procesaste el evento con éxito. Usa el header `webhook-id` como clave de idempotencia — es estable entre reintentos de la misma entrega, a diferencia de `webhook-timestamp` o del contenido de `data`.

@@ -1,21 +1,21 @@
 ---
 title: "Autenticación"
-description: "Cómo autenticar tus solicitudes a la API de PrimeNet usando un API Key"
+description: "Cómo autenticar tus solicitudes a la API de PrimeERP usando un API Key"
 ---
 
-Todas las solicitudes a la API de PrimeNet deben autenticarse mediante un **API Key** y deben incluir el ID del tenant al cual pertenece el key. Si aún no tienes un API Key, consulta la guía [Generar un API Key](/documentation/generar-api-key).
+Todas las solicitudes a la API de PrimeERP deben autenticarse mediante un **API Key** y deben incluir el ID del tenant al cual pertenece el key. Si aún no tienes un API Key, consulta la guía [Generar un API Key](/documentation/generar-api-key).
 
 # API Key
 
 ## Formato del API Key
 
-Un API Key de PrimeNet tiene el siguiente formato:
+Un API Key de PrimeERP tiene el siguiente formato:
 
 ```text
 pnk_{keyId}.{secret}
 ```
 
-- **`pnk_`**: prefijo fijo que identifica el token como una llave de PrimeNet.
+- **`pnk_`**: prefijo fijo que identifica el token como una llave de PrimeERP.
 - **`keyId`**: identificador público de la llave, usado para localizarla.
 - **`secret`**: componente secreto usado para verificar la autenticidad de la solicitud.
 

@@ -28,7 +28,8 @@
               "documentation/Introduccion",
               "documentation/generar-api-key",
               "documentation/autenticacion",
-              "documentation/rate-limiting"
+              "documentation/rate-limiting",
+              "documentation/webhooks"
             ]
           }
         ]
