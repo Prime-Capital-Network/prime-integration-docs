@@ -53,6 +53,18 @@ Obtén una lista paginada de asociados en la empresa.
   Filtra por el número de documento de identidad.
 </ParamField>
 
+<ParamField query="Address.AddressLine" type="StringSearchFilter">
+  Filtra por la dirección del asociado.
+</ParamField>
+
+<ParamField query="phone" type="StringSearchFilter">
+  Filtra por el teléfono del asociado.
+</ParamField>
+
+<ParamField query="mail" type="StringSearchFilter">
+  Filtra por el correo electrónico del asociado.
+</ParamField>
+
 <ParamField query="countryId" type="StringSearchFilter">
   Filtra por el identificador del país del asociado.
 </ParamField>
@@ -137,10 +149,6 @@ Obtén una lista paginada de asociados en la empresa.
   Filtra asociados que completaron el proceso de debida diligencia.
 </ParamField>
 
-<ParamField query="statusName" type="StringSearchFilter">
-  Filtra por el nombre del estado del asociado.
-</ParamField>
-
 <ParamField query="InsertedBy" type="StringSearchFilter">
   Filtra por el usuario que creó el asociado.
 </ParamField>
@@ -155,10 +163,6 @@ Obtén una lista paginada de asociados en la empresa.
 
 <ParamField query="UpdatedDate" type="RangeSearchFilter<datetime>">
   Filtra por la fecha de última actualización del asociado.
-</ParamField>
-
-<ParamField query="IsActive" type="BooleanSearchFilter">
-  Filtra por si el asociado está activo.
 </ParamField>
 
 ### Example request
@@ -223,6 +227,11 @@ print(response.json())
         "mask": "string",
         "number": "string"
       },
+      "address": {
+        "addressLine": "string"
+      },
+      "phone": "string",
+      "mail": "string",
       "countryId": "string",
       "cityName": "string",
       "isCustomer": true,
@@ -236,6 +245,10 @@ print(response.json())
       "isBank": true,
       "isInsurance": true,
       "isEmployee": true,
+      "salesPerson": {
+        "id": 0,
+        "name": "string"
+      },
       "salesPersonName": "string",
       "accountExecutiveName": "string",
       "debtCollectorName": "string",
@@ -294,6 +307,24 @@ print(response.json())
       </Expandable>
     </ResponseField>
 
+    <ResponseField name="address" type="object">
+      Dirección del asociado.
+
+      <Expandable title="address">
+        <ResponseField name="addressLine" type="string">
+          Dirección del asociado.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="phone" type="string">
+      Teléfono del asociado.
+    </ResponseField>
+
+    <ResponseField name="mail" type="string">
+      Correo electrónico del asociado.
+    </ResponseField>
+
     <ResponseField name="countryId" type="string">
       Identificador único del país del asociado.
     </ResponseField>
@@ -344,6 +375,20 @@ print(response.json())
 
     <ResponseField name="isEmployee" type="boolean">
       Indica si el asociado es un empleado interno. Por defecto, `false`
+    </ResponseField>
+
+    <ResponseField name="salesPerson" type="object">
+      Vendedor asignado.
+
+      <Expandable title="salesPerson">
+        <ResponseField name="id" type="integer">
+          Identificador del vendedor. `null` si no aplica.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del vendedor. `null` si no aplica.
+        </ResponseField>
+      </Expandable>
     </ResponseField>
 
     <ResponseField name="salesPersonName" type="string">
