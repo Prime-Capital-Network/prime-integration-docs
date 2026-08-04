@@ -32,7 +32,6 @@ Obtén una lista paginada de despachos aduanales en la empresa.
   - `AssignedTo.FullName`
   - `DeclarationDate`
   - `IsCargoHeld`
-  - `Status`
   - `InsertedDate`
 </ParamField>
 
@@ -119,19 +118,6 @@ Obtén una lista paginada de despachos aduanales en la empresa.
   - `Expired`
   - `ToExpire`
   - `InProgress`
-</ParamField>
-
-<ParamField query="Status" type="EnumSearchFilter">
-  Filtra por el estatus del proceso aduanal. Valores aceptados:
-
-  - `Cancelled`
-  - `Quoted`
-  - `Unassigned`
-  - `InCoordination`
-  - `AtCustoms`
-  - `AvailableForDelivery`
-  - `Completed`
-  - `Declined`
 </ParamField>
 
 <ParamField query="InsertedBy" type="StringSearchFilter">
