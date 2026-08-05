@@ -120,6 +120,22 @@ Obtén una lista paginada de despachos aduanales en la empresa.
   - `InProgress`
 </ParamField>
 
+<ParamField query="InspectedDate" type="RangeSearchFilter<datetime>">
+  Filtra por la fecha en que se inspeccionó el despacho.
+</ParamField>
+
+<ParamField query="AppraisedDate" type="RangeSearchFilter<datetime>">
+  Filtra por la fecha en que se avaluó el despacho.
+</ParamField>
+
+<ParamField query="ClearanceApprovedDate" type="RangeSearchFilter<datetime>">
+  Filtra por la fecha en que se aprobó el levante del despacho.
+</ParamField>
+
+<ParamField query="ClearedDate" type="RangeSearchFilter<datetime>">
+  Filtra por la fecha en que se completó el despacho aduanal.
+</ParamField>
+
 <ParamField query="InsertedBy" type="StringSearchFilter">
   Filtra por el usuario que creó el despacho.
 </ParamField>
@@ -238,6 +254,10 @@ print(response.json())
         "id": 0,
         "name": "string"
       },
+      "inspectedDate": "2026-07-02T10:00:00.000Z",
+      "appraisedDate": "2026-07-03T10:00:00.000Z",
+      "clearanceApprovedDate": "2026-07-04T10:00:00.000Z",
+      "clearedDate": "2026-07-05T10:00:00.000Z",
       "insertedBy": "string",
       "insertedDate": "2026-07-01T22:58:21.588Z",
       "updatedBy": "string",
@@ -405,6 +425,22 @@ print(response.json())
           Nombre traducido del estatus de la declaración.
         </ResponseField>
       </Expandable>
+    </ResponseField>
+
+    <ResponseField name="inspectedDate" type="datetime">
+      Fecha y hora en que se inspeccionó el despacho.
+    </ResponseField>
+
+    <ResponseField name="appraisedDate" type="datetime">
+      Fecha y hora en que se avaluó el despacho.
+    </ResponseField>
+
+    <ResponseField name="clearanceApprovedDate" type="datetime">
+      Fecha y hora en que se aprobó el levante del despacho.
+    </ResponseField>
+
+    <ResponseField name="clearedDate" type="datetime">
+      Fecha y hora en que se completó el despacho aduanal.
     </ResponseField>
 
     <ResponseField name="insertedBy" type="string">

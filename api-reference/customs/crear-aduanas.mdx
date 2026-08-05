@@ -71,6 +71,9 @@ Crea un nuevo despacho aduanal en la empresa.
   - `AtCustoms`
   - `AvailableForDelivery`
   - `Completed`
+  - `Declared`
+  - `ClearanceApproved`
+  - `CustomsCleared`
 </ParamField>
 
 <ParamField body="blReceipt" type="string">
@@ -95,6 +98,22 @@ Crea un nuevo despacho aduanal en la empresa.
   Fecha y hora en que se recibió la factura.
 
   - Si el campo `invoiceReceipt` es `Copy` o `Original`, este campo es requerido.
+</ParamField>
+
+<ParamField body="inspectedDate" type="datetime">
+  Fecha y hora en que se inspeccionó el despacho.
+</ParamField>
+
+<ParamField body="appraisedDate" type="datetime">
+  Fecha y hora en que se avaluó el despacho.
+</ParamField>
+
+<ParamField body="clearanceApprovedDate" type="datetime">
+  Fecha y hora en que se aprobó el levante del despacho.
+</ParamField>
+
+<ParamField body="clearedDate" type="datetime">
+  Fecha y hora en que se completó el despacho aduanal.
 </ParamField>
 
 ### Example request
@@ -200,7 +219,11 @@ print(response.json())
   "blReceipt": "Pending",
   "blReceiptReceived": "2026-07-10T00:00:00Z",
   "invoiceReceipt": "Pending",
-  "invoiceReceiptReceived": "2026-07-10T00:00:00Z"
+  "invoiceReceiptReceived": "2026-07-10T00:00:00Z",
+  "inspectedDate": "2026-07-11T00:00:00Z",
+  "appraisedDate": "2026-07-12T00:00:00Z",
+  "clearanceApprovedDate": "2026-07-13T00:00:00Z",
+  "clearedDate": "2026-07-14T00:00:00Z"
 }
 ```
 

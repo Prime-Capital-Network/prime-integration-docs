@@ -116,6 +116,10 @@ print(response.json())
       "name": "string"
     }
   },
+  "inspectedDate": "2026-07-04T10:00:00.000Z",
+  "appraisedDate": "2026-07-05T10:00:00.000Z",
+  "clearanceApprovedDate": "2026-07-06T10:00:00.000Z",
+  "clearedDate": "2026-07-07T10:00:00.000Z",
   "insertedBy": "string",
   "insertedDate": "2026-07-01T08:00:00.000Z",
   "updatedBy": "string",
@@ -303,6 +307,22 @@ print(response.json())
       </Expandable>
     </ResponseField>
   </Expandable>
+</ResponseField>
+
+<ResponseField name="inspectedDate" type="string">
+  Fecha y hora en que se inspeccionó el despacho, en formato ISO 8601.
+</ResponseField>
+
+<ResponseField name="appraisedDate" type="string">
+  Fecha y hora en que se avaluó el despacho, en formato ISO 8601.
+</ResponseField>
+
+<ResponseField name="clearanceApprovedDate" type="string">
+  Fecha y hora en que se aprobó el levante del despacho, en formato ISO 8601.
+</ResponseField>
+
+<ResponseField name="clearedDate" type="string">
+  Fecha y hora en que se completó el despacho aduanal, en formato ISO 8601.
 </ResponseField>
 
 <ResponseField name="insertedBy" type="string">
