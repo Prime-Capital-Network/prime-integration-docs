@@ -124,19 +124,19 @@ api: "PUT /associates/{id}"
 </ParamField>
 
 <ParamField body="customerAccountGroupId" type="integer">
-  Identificador del grupo contable del cliente. Requerido si `isCustomer` es `true` . Su tipo de asociado `AssociateType` debe ser del tipo **Customer.**
+  Identificador del grupo contable del cliente. Requerido si `isCustomer` es `true`, y no debe enviarse si `isCustomer` es `false`. Su tipo de asociado `AssociateType` debe ser del tipo **Customer.**
 </ParamField>
 
 <ParamField body="customerPaymentTermId" type="integer">
-  Identificador del término de pago del cliente.  Requerido si `isCustomer` es `true` .
+  Identificador del término de pago del cliente. Requerido si `isCustomer` es `true`, y no debe enviarse si `isCustomer` es `false`.
 </ParamField>
 
 <ParamField body="businessTypeId" type="integer">
-  Identificador del tipo de negocio del cliente.  Requerido si `isCustomer` es `true` .
+  Identificador del tipo de negocio del cliente. Requerido si `isCustomer` es `true`, y no debe enviarse si `isCustomer` es `false`.
 </ParamField>
 
 <ParamField body="customerCurrencyId" type="string">
-  Código de la moneda del cliente (ej. `DOP`, `USD`).  Requerido si `isCustomer` es `true` .
+  Código de la moneda del cliente (ej. `DOP`, `USD`). Requerido si `isCustomer` es `true`, y no debe enviarse si `isCustomer` es `false`.
 </ParamField>
 
 <ParamField body="customerBillingCreditLimit" type="number">
@@ -148,23 +148,23 @@ api: "PUT /associates/{id}"
 </ParamField>
 
 <ParamField body="vendorAccountGroupId" type="integer">
-  Identificador del grupo contable del suplidor.  Requerido si `isVendor` es `true` . Su tipo de asociado `AssociateType` debe ser del tipo **Vendor.**
+  Identificador del grupo contable del suplidor. Requerido si `isVendor` es `true`, y no debe enviarse si `isVendor` es `false`. Su tipo de asociado `AssociateType` debe ser del tipo **Vendor.**
 </ParamField>
 
 <ParamField body="vendorPaymentTermId" type="integer">
-  Identificador del término de pago del suplidor.  Requerido si `isVendor` es `true` .
+  Identificador del término de pago del suplidor. Requerido si `isVendor` es `true`, y no debe enviarse si `isVendor` es `false`.
 </ParamField>
 
 <ParamField body="vendorCurrencyId" type="string">
-  Código de la moneda del suplidor (ej. `DOP`, `USD`).  Requerido si `isVendor` es `true` .
+  Código de la moneda del suplidor (ej. `DOP`, `USD`). Requerido si `isVendor` es `true`, y no debe enviarse si `isVendor` es `false`.
 </ParamField>
 
 <ParamField body="vendorGoodServiceId" type="string">
-  Identificador del bien o servicio principal del suplidor.
+  Identificador del bien o servicio principal del suplidor. No debe enviarse si `isVendor` es `false`.
 </ParamField>
 
 <ParamField body="vendorBusinessTypeId" type="integer">
-  Identificador del tipo de negocio del suplidor.
+  Identificador del tipo de negocio del suplidor. No debe enviarse si `isVendor` es `false`. Puede ser requerido si `isVendor` es `true`, según el método de NCF configurado para la empresa.
 </ParamField>
 
 <ParamField body="isVendorNCFRequired" type="boolean">
