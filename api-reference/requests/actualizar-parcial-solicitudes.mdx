@@ -1,0 +1,122 @@
+---
+title: "Actualizar Parcial"
+api: "PATCH /requests/{id}"
+---
+
+Actualiza los datos parcialmente de una solicitud existente en la empresa.
+
+<Note>
+  Este endpoint requiere el scope **`Requests.Write`**.
+</Note>
+
+Solo se pueden actualizar solicitudes con estatus `InProgress` (En Proceso).
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único de la solicitud a actualizar.
+</ParamField>
+
+### Body parameters
+
+<ParamField body="subject" type="string">
+  Asunto de la solicitud. Máximo 100 caracteres.
+</ParamField>
+
+<ParamField body="description" type="string">
+  Descripción de la solicitud. Máximo 250 caracteres.
+</ParamField>
+
+<ParamField body="amount" type="decimal">
+  Monto de la solicitud. Debe ser mayor a cero.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request PATCH \
+  --url "https://api.primenetcloud.com/v1/requests/152" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: application/merge-patch+json" \
+  --data '{
+    "description": "Solicitud de vale de caja chica por gastos de combustible y peaje"
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/requests/152", {
+  method: "PATCH",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+    "Content-Type": "application/merge-patch+json",
+  },
+  body: JSON.stringify({
+    description: "Solicitud de vale de caja chica por gastos de combustible y peaje",
+  }),
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.patch(
+    "https://api.primenetcloud.com/v1/requests/152",
+    json={
+        "description": "Solicitud de vale de caja chica por gastos de combustible y peaje",
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+        "Content-Type": "application/merge-patch+json",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Response
+
+Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
+
+### Errores
+
+<ResponseField name="400 Bad Request">
+  La solicitud no está en estatus `InProgress`.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `Requests.Write` requerido.
+</ResponseField>
+
+<ResponseField name="404 Not Found">
+  No existe ninguna solicitud con el `id` especificado en la URL.
+</ResponseField>
+
+<ResponseField name="415 Unsupported Media Type">
+  La solicitud no incluye el header `Content-Type` como `application/merge-patch+json`.
+</ResponseField>
+
+<RequestExample>
+
+```json
+{
+  "description": "Solicitud de vale de caja chica por gastos de combustible y peaje"
+}
+```
+
+</RequestExample>

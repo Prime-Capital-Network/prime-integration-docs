@@ -1,0 +1,152 @@
+---
+title: "Listar por Operación"
+sidebarTitle: "Listar"
+description: "Permite listar las solicitudes asociadas a una operación específica mediante REST API"
+api: "GET /requests"
+---
+
+Obtén el listado de solicitudes (requests) creadas sobre una operación específica, identificada por su menú y su identificador de operación.
+
+<Note>
+  Este endpoint requiere el scope **`Requests.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Query parameters
+
+<ParamField query="menu_id" type="string" required>
+  Identificador del menú de origen de la operación (ej. `PurchaseInvoices`).
+</ParamField>
+
+<ParamField query="operation_id" type="string" required>
+  Identificador de la operación dentro del menú indicado en `menu_id` (ej. el `id` de la factura por pagar).
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/requests?menu_id=PurchaseInvoices&operation_id=8410" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/requests?menu_id=PurchaseInvoices&operation_id=8410",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID",
+    },
+  }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/requests",
+    params={
+        "menu_id": "PurchaseInvoices",
+        "operation_id": 8410,
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+[
+  {
+    "id": 152,
+    "number": 152,
+    "date": "2026-07-01",
+    "subject": "Reembolso de factura DGV-002145",
+    "template": {
+      "name": "Vale de caja chica por factura"
+    },
+    "insertedBy": "string",
+    "status": {
+      "id": 0,
+      "name": "string"
+    }
+  }
+]
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único de la solicitud.
+</ResponseField>
+
+<ResponseField name="number" type="integer">
+  Número de la solicitud.
+</ResponseField>
+
+<ResponseField name="date" type="string">
+  Fecha de la solicitud.
+</ResponseField>
+
+<ResponseField name="subject" type="string">
+  Asunto de la solicitud.
+</ResponseField>
+
+<ResponseField name="template" type="object">
+  Plantilla utilizada por la solicitud.
+
+  <Expandable title="propiedades">
+    <ResponseField name="name" type="string">
+      Nombre de la plantilla.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="insertedBy" type="string">
+  Usuario o integración que creó la solicitud.
+</ResponseField>
+
+<ResponseField name="status" type="object">
+  Estatus actual de la solicitud.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del estatus. Valores posibles: `InProgress`, `Completed`, `Rejected`, `Deleted`.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido del estatus.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Errores
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `Requests.Read` requerido.
+</ResponseField>
+
+<ResponseField name="400 Bad Request">
+  No se envió el parámetro `menu_id` o `operation_id`.
+</ResponseField>

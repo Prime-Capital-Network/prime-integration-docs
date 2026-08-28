@@ -1,0 +1,126 @@
+---
+title: "Actualizar"
+api: "PUT /requests/{id}"
+---
+
+Actualiza los datos de una solicitud existente en la empresa.
+
+<Note>
+  Este endpoint requiere el scope **`Requests.Write`**.
+</Note>
+
+<Warning>
+  Este es un reemplazo completo del recurso (PUT). Todos los campos enviados en el body sobrescribirán el estado actual de la solicitud. Para cambios parciales, verificar la sección [Actualizar Parcial](/api-reference/requests/actualizar-parcial-solicitudes).
+</Warning>
+
+Solo se pueden actualizar solicitudes con estatus `InProgress` (En Proceso).
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único de la solicitud a actualizar.
+</ParamField>
+
+### Body parameters
+
+<ParamField body="subject" type="string" required>
+  Asunto de la solicitud. Máximo 100 caracteres.
+</ParamField>
+
+<ParamField body="description" type="string">
+  Descripción de la solicitud. Máximo 250 caracteres.
+</ParamField>
+
+<ParamField body="amount" type="decimal">
+  Monto de la solicitud. Debe ser mayor a cero.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request PUT \
+  --url "https://api.primenetcloud.com/v1/requests/152" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "subject": "Reembolso de factura DGV-002145",
+    "description": "Solicitud de vale de caja chica por gastos de combustible"
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/requests/152", {
+  method: "PUT",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    subject: "Reembolso de factura DGV-002145",
+    description: "Solicitud de vale de caja chica por gastos de combustible",
+  }),
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.put(
+    "https://api.primenetcloud.com/v1/requests/152",
+    json={
+        "subject": "Reembolso de factura DGV-002145",
+        "description": "Solicitud de vale de caja chica por gastos de combustible",
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Response
+
+Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
+
+### Errores
+
+<ResponseField name="400 Bad Request">
+  La solicitud no está en estatus `InProgress`.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `Requests.Write` requerido.
+</ResponseField>
+
+<ResponseField name="404 Not Found">
+  No existe ninguna solicitud con el `id` especificado en la URL.
+</ResponseField>
+
+<RequestExample>
+
+```json
+{
+  "subject": "Reembolso de factura DGV-002145",
+  "description": "Solicitud de vale de caja chica por gastos de combustible",
+  "amount": 5400.0
+}
+```
+
+</RequestExample>

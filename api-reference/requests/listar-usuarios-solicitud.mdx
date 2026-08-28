@@ -1,0 +1,169 @@
+---
+title: "Listar Usuarios"
+sidebarTitle: "Listar usuarios"
+description: "Permite listar los usuarios participantes de una solicitud mediante REST API"
+api: "GET /requests/{id}/users"
+---
+
+Obtén el listado de usuarios participantes (de autorización o de proceso) de una solicitud específica.
+
+<Note>
+  Este endpoint requiere el scope **`Requests.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único de la solicitud.
+</ParamField>
+
+### Query parameters
+
+<ParamField query="has_completed" type="boolean">
+  Filtra por usuarios que ya completaron (o no) su participación en la solicitud.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/requests/152/users?has_completed=false" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/requests/152/users?has_completed=false",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID",
+    },
+  }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/requests/152/users",
+    params={"has_completed": "false"},
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+[
+  {
+    "id": 301,
+    "user": {
+      "id": "string",
+      "fullName": "string"
+    },
+    "type": {
+      "id": 0,
+      "name": "string"
+    },
+    "isMandatory": true,
+    "response": {
+      "id": 0,
+      "name": "string"
+    },
+    "responseDate": null,
+    "isCompleted": false
+  }
+]
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único del participante.
+</ResponseField>
+
+<ResponseField name="user" type="object">
+  Usuario participante.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador único del usuario.
+    </ResponseField>
+
+    <ResponseField name="fullName" type="string">
+      Nombre completo del usuario.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="type" type="object">
+  Tipo de participación del usuario.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del tipo. Valores posibles: `Authorization`, `Process`.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido del tipo de participación.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="isMandatory" type="boolean">
+  Indica si la respuesta de este usuario es obligatoria para completar la etapa (aplica cuando el participante configurado en la plantilla es un grupo de usuarios).
+</ResponseField>
+
+<ResponseField name="response" type="object">
+  Respuesta del usuario.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador de la respuesta. Valores posibles: `InProcess`, `Approved`, `Rejected`, `Processed`.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido de la respuesta.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="responseDate" type="string">
+  Fecha y hora de la respuesta, en formato ISO 8601. `null` si aún no ha respondido.
+</ResponseField>
+
+<ResponseField name="isCompleted" type="boolean">
+  Indica si el usuario ya completó su participación.
+</ResponseField>
+
+### Errores
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `Requests.Read` requerido.
+</ResponseField>
+
+<ResponseField name="404 Not Found">
+  No existe ninguna solicitud con el `id` especificado.
+</ResponseField>

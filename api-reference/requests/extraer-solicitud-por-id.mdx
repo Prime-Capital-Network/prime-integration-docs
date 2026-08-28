@@ -1,0 +1,469 @@
+---
+title: "Obtener Solicitud Por ID"
+sidebarTitle: "Obtener por ID"
+description: "Permite extraer una solicitud en específico mediante REST API"
+api: "GET /requests/{id}"
+---
+
+Obtén una solicitud (request) por ID en la empresa.
+
+<Note>
+  Este endpoint requiere el scope **`Requests.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único de la solicitud.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/requests/152" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/requests/152", {
+  method: "GET",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+  },
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/requests/152",
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "id": 152,
+  "number": 152,
+  "date": "2026-07-01",
+  "template": {
+    "id": 4,
+    "name": "Vale de caja chica por factura",
+    "authorization": {
+      "id": 0,
+      "name": "string"
+    },
+    "authParticipant": {
+      "type": "User",
+      "id": "string"
+    },
+    "groupParticipantApproval": {
+      "id": 0,
+      "name": "string"
+    },
+    "processParticipant": {
+      "type": "User",
+      "id": "string"
+    }
+  },
+  "authResponse": {
+    "id": 0,
+    "name": "string"
+  },
+  "subject": "Reembolso de factura DGV-002145",
+  "description": "string",
+  "originMenu": {
+    "id": "PurchaseInvoices",
+    "name": "string",
+    "isRequestAmountRequired": true
+  },
+  "originOperationId": 8410,
+  "origin": {
+    "number": 0,
+    "date": "2026-07-01T00:00:00Z",
+    "documentType": {
+      "id": 0,
+      "name": "string"
+    },
+    "associate": {
+      "id": 0,
+      "name": "string"
+    },
+    "currency": {
+      "id": "string"
+    },
+    "amount": 0,
+    "retention": 0
+  },
+  "destinationMenu": {
+    "id": "PCashVouchers",
+    "name": "string"
+  },
+  "destinationOperationId": null,
+  "destination": {
+    "number": 0,
+    "date": "2026-07-01T00:00:00Z",
+    "associate": {
+      "name": "string"
+    },
+    "currency": {
+      "id": "string"
+    },
+    "amount": 0
+  },
+  "currency": {
+    "id": "string",
+    "name": "string"
+  },
+  "amount": 0,
+  "status": {
+    "id": 0,
+    "name": "string"
+  },
+  "insertedBy": "string",
+  "insertedDate": "2026-07-01T08:00:00.000Z",
+  "updatedBy": "string",
+  "updatedDate": "2026-07-01T08:00:00.000Z",
+  "cancelledBy": "string",
+  "cancelledDate": null,
+  "cancelledReason": null
+}
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único de la solicitud.
+</ResponseField>
+
+<ResponseField name="number" type="integer">
+  Número de la solicitud.
+</ResponseField>
+
+<ResponseField name="date" type="string">
+  Fecha de la solicitud.
+</ResponseField>
+
+<ResponseField name="template" type="object">
+  Plantilla utilizada por la solicitud.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador de la plantilla.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre de la plantilla.
+    </ResponseField>
+
+    <ResponseField name="authorization" type="object">
+      Tipo de autorización configurado en la plantilla.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador del tipo de autorización. Valores posibles: `NotApplicable`, `Basic`, `Range`.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido del tipo de autorización.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="authParticipant" type="object">
+      Participante encargado de autorizar la solicitud.
+
+      <Expandable title="propiedades">
+        <ResponseField name="type" type="string">
+          Tipo de participante. Valores posibles: `User`, `Group`.
+        </ResponseField>
+
+        <ResponseField name="id" type="string">
+          Identificador del participante.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="groupParticipantApproval" type="object">
+      Tipo de aprobación requerida cuando el participante es un grupo de usuarios.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador del tipo de aprobación. Valores posibles: `All`, `Any`.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido del tipo de aprobación.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="processParticipant" type="object">
+      Participante encargado de procesar la solicitud una vez autorizada.
+
+      <Expandable title="propiedades">
+        <ResponseField name="type" type="string">
+          Tipo de participante. Valores posibles: `User`, `Group`.
+        </ResponseField>
+
+        <ResponseField name="id" type="string">
+          Identificador del participante.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="authResponse" type="object">
+  Respuesta de autorización de la solicitud.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador de la respuesta. Valores posibles: `Unassigned`, `Approved`, `Rejected`.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido de la respuesta.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="subject" type="string">
+  Asunto de la solicitud.
+</ResponseField>
+
+<ResponseField name="description" type="string">
+  Descripción de la solicitud.
+</ResponseField>
+
+<ResponseField name="originMenu" type="object">
+  Menú de origen de la solicitud, heredado de la plantilla.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del menú de origen.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido del menú de origen.
+    </ResponseField>
+
+    <ResponseField name="isRequestAmountRequired" type="boolean">
+      Indica si el menú de origen requiere el cálculo de un monto (rangos de autorización).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="originOperationId" type="integer">
+  Identificador de la operación de origen.
+</ResponseField>
+
+<ResponseField name="origin" type="object">
+  Datos del documento de origen.
+
+  <Expandable title="propiedades">
+    <ResponseField name="number" type="integer">
+      Número del documento de origen.
+    </ResponseField>
+
+    <ResponseField name="date" type="string">
+      Fecha del documento de origen.
+    </ResponseField>
+
+    <ResponseField name="documentType" type="object">
+      Tipo de documento de origen.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador del tipo de documento. Valores posibles: `PurchaseInvoice`, `PurchaseCreditNote`, `ReimbursementLiability`.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido del tipo de documento.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="associate" type="object">
+      Asociado del documento de origen.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador del asociado.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del asociado.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="currency" type="object">
+      Moneda del documento de origen.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="string">
+          Identificador de la moneda.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="amount" type="number">
+      Monto del documento de origen.
+    </ResponseField>
+
+    <ResponseField name="retention" type="number">
+      Retención del documento de origen.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="destinationMenu" type="object">
+  Menú de destino de la solicitud, heredado de la plantilla.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del menú de destino.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido del menú de destino.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="destinationOperationId" type="integer">
+  Identificador de la operación de destino. `null` hasta que la solicitud sea procesada.
+</ResponseField>
+
+<ResponseField name="destination" type="object">
+  Datos del documento de destino, una vez generado.
+
+  <Expandable title="propiedades">
+    <ResponseField name="number" type="integer">
+      Número del documento de destino.
+    </ResponseField>
+
+    <ResponseField name="date" type="string">
+      Fecha del documento de destino.
+    </ResponseField>
+
+    <ResponseField name="associate" type="object">
+      Asociado del documento de destino.
+
+      <Expandable title="propiedades">
+        <ResponseField name="name" type="string">
+          Nombre del asociado.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="currency" type="object">
+      Moneda del documento de destino.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="string">
+          Identificador de la moneda.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="amount" type="number">
+      Monto del documento de destino.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="currency" type="object">
+  Moneda de la solicitud, determinada a partir del documento de origen.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador de la moneda.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre de la moneda.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="amount" type="number">
+  Monto de la solicitud.
+</ResponseField>
+
+<ResponseField name="status" type="object">
+  Estatus actual de la solicitud.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del estatus. Valores posibles: `InProgress`, `Completed`, `Rejected`, `Deleted`.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido del estatus.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="insertedBy" type="string">
+  Usuario o integración que creó la solicitud.
+</ResponseField>
+
+<ResponseField name="insertedDate" type="string">
+  Fecha y hora de creación, en formato ISO 8601.
+</ResponseField>
+
+<ResponseField name="updatedBy" type="string">
+  Usuario o integración que realizó la última actualización.
+</ResponseField>
+
+<ResponseField name="updatedDate" type="string">
+  Fecha y hora de la última actualización, en formato ISO 8601.
+</ResponseField>
+
+<ResponseField name="cancelledBy" type="string">
+  Usuario que canceló la solicitud.
+</ResponseField>
+
+<ResponseField name="cancelledDate" type="string">
+  Fecha y hora de cancelación, en formato ISO 8601.
+</ResponseField>
+
+<ResponseField name="cancelledReason" type="string">
+  Razón de la cancelación.
+</ResponseField>
+
+### Errores
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `Requests.Read` requerido.
+</ResponseField>
+
+<ResponseField name="404 Not Found">
+  No existe ninguna solicitud con el `id` especificado.
+</ResponseField>

@@ -222,6 +222,18 @@
                   "api-reference/reimbursement-liabilities/eliminar-detalle"
                 ]
               },
+              {
+                "group": "Solicitudes",
+                "pages": [
+                  "api-reference/requests/listar-solicitudes-por-operacion",
+                  "api-reference/requests/extraer-solicitud-por-id",
+                  "api-reference/requests/crear-solicitudes",
+                  "api-reference/requests/actualizar-solicitudes",
+                  "api-reference/requests/actualizar-parcial-solicitudes",
+                  "api-reference/requests/eliminar-solicitudes",
+                  "api-reference/requests/listar-usuarios-solicitud"
+                ]
+              },
                {
                 "group": "Vehículos",
                 "pages": [
