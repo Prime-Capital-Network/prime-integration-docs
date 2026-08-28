@@ -1,0 +1,166 @@
+---
+title: "Obtener Rango Por ID"
+sidebarTitle: "Obtener rango por ID"
+description: "Permite extraer un rango de autorización de una plantilla en específico mediante REST API"
+api: "GET /request-templates/{id}/ranges/{rangeId}"
+---
+
+Obtén un rango de autorización específico dentro de una plantilla de solicitud.
+
+<Note>
+  Este endpoint requiere el scope **`RequestTemplates.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único de la plantilla de solicitud.
+</ParamField>
+
+<ParamField path="rangeId" type="integer" required>
+  Identificador único del rango.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/request-templates/4/ranges/12" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/request-templates/4/ranges/12",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID",
+    },
+  }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/request-templates/4/ranges/12",
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "id": 12,
+  "participant": {
+    "type": "User",
+    "id": "string",
+    "name": "string"
+  },
+  "groupParticipantApproval": {
+    "id": 0,
+    "name": "string"
+  },
+  "amountFrom": 0,
+  "amountTo": 5000,
+  "insertedBy": "string",
+  "insertedDate": "2026-07-01T08:00:00.000Z",
+  "updatedBy": "string",
+  "updatedDate": "2026-07-01T08:00:00.000Z"
+}
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único del rango.
+</ResponseField>
+
+<ResponseField name="participant" type="object">
+  Participante encargado de autorizar las solicitudes cuyo monto caiga en este rango.
+
+  <Expandable title="propiedades">
+    <ResponseField name="type" type="string">
+      Tipo de participante. Valores posibles: `User`, `Group`.
+    </ResponseField>
+
+    <ResponseField name="id" type="string">
+      Identificador del participante.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del participante.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="groupParticipantApproval" type="object">
+  Tipo de aprobación requerida cuando `participant` es un grupo de usuarios.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del tipo de aprobación. Valores posibles: `All`, `Any`.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido del tipo de aprobación.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="amountFrom" type="number">
+  Monto mínimo del rango.
+</ResponseField>
+
+<ResponseField name="amountTo" type="number">
+  Monto máximo del rango.
+</ResponseField>
+
+<ResponseField name="insertedBy" type="string">
+  Usuario o integración que creó el rango.
+</ResponseField>
+
+<ResponseField name="insertedDate" type="string">
+  Fecha y hora de creación, en formato ISO 8601.
+</ResponseField>
+
+<ResponseField name="updatedBy" type="string">
+  Usuario o integración que realizó la última actualización.
+</ResponseField>
+
+<ResponseField name="updatedDate" type="string">
+  Fecha y hora de la última actualización, en formato ISO 8601.
+</ResponseField>
+
+### Errores
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `RequestTemplates.Read` requerido.
+</ResponseField>
+
+<ResponseField name="404 Not Found">
+  No existe ninguna plantilla o rango con los identificadores especificados.
+</ResponseField>

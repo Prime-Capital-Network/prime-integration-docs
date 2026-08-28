@@ -1,0 +1,287 @@
+---
+title: "Obtener Plantilla Por ID"
+sidebarTitle: "Obtener por ID"
+description: "Permite extraer una plantilla de solicitud en específico mediante REST API"
+api: "GET /request-templates/{id}"
+---
+
+Obtén una plantilla de solicitud por ID en la empresa.
+
+<Note>
+  Este endpoint requiere el scope **`RequestTemplates.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único de la plantilla de solicitud.
+</ParamField>
+
+### Query parameters
+
+<ParamField query="include" type="string">
+  Sección adicional a incluir en la respuesta. Valores aceptados:
+
+  - `Ranges`
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/request-templates/4?include=Ranges" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/request-templates/4?include=Ranges",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID",
+    },
+  }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/request-templates/4",
+    params={"include": "Ranges"},
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "id": 4,
+  "name": "Vale de caja chica por factura",
+  "originMenu": {
+    "id": "PurchaseInvoices",
+    "name": "string"
+  },
+  "destinationMenu": {
+    "id": "PCashVouchers",
+    "name": "string"
+  },
+  "subject": "Reembolso de factura DGV-002145",
+  "authorization": {
+    "id": 0,
+    "name": "string"
+  },
+  "authParticipant": {
+    "type": "User",
+    "id": "string",
+    "name": "string"
+  },
+  "groupParticipantApproval": {
+    "id": 0,
+    "name": "string"
+  },
+  "shouldSendAuthByEmail": true,
+  "processParticipant": {
+    "type": "User",
+    "id": "string",
+    "name": "string"
+  },
+  "shouldSendProcessByEmail": true,
+  "currency": {
+    "id": "string"
+  },
+  "insertedBy": "string",
+  "insertedDate": "2026-07-01T08:00:00.000Z",
+  "updatedBy": "string",
+  "updatedDate": "2026-07-01T08:00:00.000Z",
+  "isActive": true,
+  "ranges": []
+}
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único de la plantilla.
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  Nombre de la plantilla.
+</ResponseField>
+
+<ResponseField name="originMenu" type="object">
+  Menú de origen de la plantilla.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del menú de origen.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido del menú de origen.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="destinationMenu" type="object">
+  Menú de destino de la plantilla.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del menú de destino.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido del menú de destino.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="subject" type="string">
+  Asunto que se asignará a las solicitudes creadas a partir de esta plantilla.
+</ResponseField>
+
+<ResponseField name="authorization" type="object">
+  Tipo de autorización configurado en la plantilla.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del tipo de autorización. Valores posibles: `NotApplicable`, `Basic`, `Range`.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido del tipo de autorización.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="authParticipant" type="object">
+  Participante encargado de autorizar las solicitudes creadas a partir de esta plantilla.
+
+  <Expandable title="propiedades">
+    <ResponseField name="type" type="string">
+      Tipo de participante. Valores posibles: `User`, `Group`.
+    </ResponseField>
+
+    <ResponseField name="id" type="string">
+      Identificador del participante.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del participante.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="groupParticipantApproval" type="object">
+  Tipo de aprobación requerida cuando `authParticipant` es un grupo de usuarios.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del tipo de aprobación. Valores posibles: `All`, `Any`.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido del tipo de aprobación.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="shouldSendAuthByEmail" type="boolean">
+  Indica si se envía una notificación por correo cuando la solicitud requiere autorización.
+</ResponseField>
+
+<ResponseField name="processParticipant" type="object">
+  Participante encargado de procesar las solicitudes una vez autorizadas.
+
+  <Expandable title="propiedades">
+    <ResponseField name="type" type="string">
+      Tipo de participante. Valores posibles: `User`, `Group`.
+    </ResponseField>
+
+    <ResponseField name="id" type="string">
+      Identificador del participante.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del participante.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="shouldSendProcessByEmail" type="boolean">
+  Indica si se envía una notificación por correo cuando la solicitud debe ser procesada.
+</ResponseField>
+
+<ResponseField name="currency" type="object">
+  Moneda asociada a la plantilla, usada para evaluar los rangos de autorización.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador de la moneda.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="insertedBy" type="string">
+  Usuario o integración que creó la plantilla.
+</ResponseField>
+
+<ResponseField name="insertedDate" type="string">
+  Fecha y hora de creación, en formato ISO 8601.
+</ResponseField>
+
+<ResponseField name="updatedBy" type="string">
+  Usuario o integración que realizó la última actualización.
+</ResponseField>
+
+<ResponseField name="updatedDate" type="string">
+  Fecha y hora de la última actualización, en formato ISO 8601.
+</ResponseField>
+
+<ResponseField name="isActive" type="boolean">
+  Indica si la plantilla está activa.
+</ResponseField>
+
+import ListFields from './snippets/list-request-template-ranges.mdx'
+
+<ResponseField name="ranges" type="array">
+  Rangos de autorización de la plantilla. Solo se incluye si se solicita mediante `include=Ranges`.
+
+  <Expandable title="rango">
+    <ListFields />
+  </Expandable>
+</ResponseField>
+
+### Errores
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `RequestTemplates.Read` requerido.
+</ResponseField>
+
+<ResponseField name="404 Not Found">
+  No existe ninguna plantilla de solicitud con el `id` especificado.
+</ResponseField>

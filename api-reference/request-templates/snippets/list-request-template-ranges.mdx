@@ -1,0 +1,43 @@
+<ResponseField name="id" type="integer">
+  Identificador único del rango.
+</ResponseField>
+
+<ResponseField name="participant" type="object">
+  Participante encargado de autorizar las solicitudes cuyo monto caiga en este rango.
+
+  <Expandable title="propiedades">
+    <ResponseField name="type" type="string">
+      Tipo de participante. Valores posibles: `User`, `Group`.
+    </ResponseField>
+
+    <ResponseField name="id" type="string">
+      Identificador del participante.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del participante.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="groupParticipantApproval" type="object">
+  Tipo de aprobación requerida cuando `participant` es un grupo de usuarios.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del tipo de aprobación. Valores posibles: `All`, `Any`.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido del tipo de aprobación.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="amountFrom" type="number">
+  Monto mínimo del rango.
+</ResponseField>
+
+<ResponseField name="amountTo" type="number">
+  Monto máximo del rango.
+</ResponseField>

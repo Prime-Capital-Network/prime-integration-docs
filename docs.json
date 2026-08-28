@@ -234,6 +234,15 @@
                   "api-reference/requests/listar-usuarios-solicitud"
                 ]
               },
+              {
+                "group": "Plantillas de Solicitud",
+                "pages": [
+                  "api-reference/request-templates/listar-plantillas",
+                  "api-reference/request-templates/extraer-plantilla-por-id",
+                  "api-reference/request-templates/listar-rangos",
+                  "api-reference/request-templates/extraer-rango-por-id"
+                ]
+              },
                {
                 "group": "Vehículos",
                 "pages": [
