@@ -92,11 +92,15 @@ Actualiza un detalle para una factura de compra específica.
 </ParamField>
 
 <ParamField body="price" type="decimal" required>
-  Precio unitario. Debe ser mayor que cero. Precisión de hasta 4 decimales.
+  Precio unitario. Rango permitido: -99,999,999 a 99,999,999, sin incluir el cero. Precisión de hasta 4 decimales.
+
+  - Puede ser negativo, excepto cuando el campo `fiscalDocumentId` de la factura es `GM` (Registro de Gasto Menor) o `PI` (Registro de Proveedor Informal).
 </ParamField>
 
 <ParamField body="discount" type="decimal">
   Monto de descuento aplicado. Debe ser mayor o igual a cero.
+
+  - Este campo no puede tener un valor mayor a cero si el campo `price` es negativo.
 </ParamField>
 
 <ParamField body="goodServiceApplicability" type="string">
