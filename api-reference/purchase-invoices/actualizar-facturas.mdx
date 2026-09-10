@@ -160,6 +160,7 @@ Actualiza los datos de una factura de compra en la empresa.
   - `Deleted`
 
   - Si la factura ya se encuentra en estado `Posted` y este campo también se envía como `Posted`, la solicitud será rechazada con un error `400 Bad Request`. Una factura posteada no puede ser modificada.
+  - Si la factura ya se encuentra en estado `Posted`, es un e-CF (`isElectronicInvoice` es `true`) y este campo se envía como `New` (despostear), la solicitud será rechazada con un error `400 Bad Request` en caso de que el documento ya haya sido tomado para su envío a la DGII, o ya haya sido transmitido.
 </ParamField>
 
 ### Example request
@@ -248,6 +249,8 @@ Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
 
 <ResponseField name="400 Bad Request">
   La solicitud será rechazada si la factura ya ha sido posteada (campo `status` como `Posted`) y el body también envía `status` como `Posted`. La factura no puede ser modificada en este estado.
+
+  También será rechazada si la factura es un e-CF y se intenta despostear (`status` de `Posted` a `New`) mientras el documento ya fue tomado para su transmisión a la DGII, o ya se transmitió.
 </ResponseField>
 
 <ResponseField name="404 Not Found">
