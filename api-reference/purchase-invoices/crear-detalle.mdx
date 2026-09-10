@@ -127,6 +127,10 @@ print(response.json())
 
 ### Errores
 
+<ResponseField name="400 Bad Request">
+  La solicitud será rechazada si la factura ya ha sido posteada (campo `status` como `Posted`). La factura no puede ser modificada en este estado.
+</ResponseField>
+
 <ResponseField name="403 Forbidden">
   El API Key no tiene el scope `PurchaseInvoices.Write` requerido.
 </ResponseField>

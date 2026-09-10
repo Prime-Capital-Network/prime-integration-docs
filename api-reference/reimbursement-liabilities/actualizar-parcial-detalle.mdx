@@ -161,6 +161,10 @@ Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
 
 ### Errores
 
+<ResponseField name="400 Bad Request">
+  La solicitud será rechazada si el reembolso ya ha sido posteado (campo `status` como `Posted`). El reembolso no puede ser modificado en este estado.
+</ResponseField>
+
 <ResponseField name="404 Not Found">
   No existe ningún reembolso o detalle con el `id`/`detailId` especificado en la URL.
 </ResponseField>

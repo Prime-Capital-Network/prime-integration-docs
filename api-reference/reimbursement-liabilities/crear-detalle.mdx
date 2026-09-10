@@ -170,6 +170,10 @@ print(response.json())
 
 ### Errores
 
+<ResponseField name="400 Bad Request">
+  La solicitud será rechazada si el reembolso ya ha sido posteado (campo `status` como `Posted`). El reembolso no puede ser modificado en este estado.
+</ResponseField>
+
 <ResponseField name="403 Forbidden">
   El API Key no tiene el scope `ReimbursementLiabilities.Write` requerido.
 </ResponseField>
