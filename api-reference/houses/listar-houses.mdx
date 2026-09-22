@@ -168,7 +168,18 @@ Obtén una lista paginada de houses en la empresa.
 </ParamField>
 
 <ParamField query="Status.Id" type="EnumSearchFilter">
-  Filtra por el estatus del house.
+  Filtra por el estatus del house. Valores aceptados:
+
+  - `Cancelled`
+  - `Quoted`
+  - `InWarehouse`
+  - `Unassigned`
+  - `InCoordination`
+  - `InPlanning`
+  - `EnRoute`
+  - `Arrived`
+  - `Completed`
+  - `Declined`
 </ParamField>
 
 <ParamField query="UpdatedBy" type="StringSearchFilter">
