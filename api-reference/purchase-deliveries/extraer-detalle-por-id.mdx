@@ -113,6 +113,20 @@ print(response.json())
   </Expandable>
 </ResponseField>
 
+<ResponseField name="vehicle" type="object">
+  Vehículo utilizado para transportar el producto entregado. `null` si no se especificó un vehículo.
+
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del vehículo.
+    </ResponseField>
+
+    <ResponseField name="description" type="string">
+      Descripción del vehículo.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
 <ResponseField name="insertedBy" type="string">
   Usuario que creó el registro.
 </ResponseField>
@@ -154,6 +168,10 @@ print(response.json())
     "id": 34,
     "quantity": 100.0000,
     "handedOver": 50.0000
+  },
+  "vehicle": {
+    "id": 12,
+    "description": "Camión Freightliner M2 - Placa L123456"
   },
   "insertedBy": "jdoe",
   "insertedDate": "2026-07-15T09:30:00Z",

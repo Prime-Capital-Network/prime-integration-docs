@@ -119,6 +119,16 @@ print(response.json())
   </Expandable>
 </ResponseField>
 
+<ResponseField name="vehicle" type="object">
+  Vehículo utilizado para transportar el producto entregado. `null` si no se especificó un vehículo.
+
+  <Expandable title="Ver propiedades">
+    <ResponseField name="description" type="string">
+      Descripción del vehículo.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
 <RequestExample>
 
 ```json Ejemplo de Respuesta
@@ -138,6 +148,9 @@ print(response.json())
       "id": 34,
       "quantity": 100,
       "handedOver": 50
+    },
+    "vehicle": {
+      "description": "Camión Freightliner M2 - Placa L123456"
     }
   }
 ]

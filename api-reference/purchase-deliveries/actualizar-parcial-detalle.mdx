@@ -47,6 +47,10 @@ Actualiza un detalle parcialmente para una entrega de compra específica.
   - Debe pertenecer a la solicitud de compra asociada a la entrega.
 </ParamField>
 
+<ParamField body="vehicleId" type="integer">
+  Identificador del vehículo utilizado para transportar el producto entregado.
+</ParamField>
+
 ### Example request
 
 <CodeGroup>
@@ -109,7 +113,7 @@ Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
 ### Errores
 
 <ResponseField name="400 Bad Request">
-  La entrega de compra ya ha sido cancelada y no puede actualizarse, o alguno de los identificadores especificados (`productId`, `requestDetailId`) no es válido.
+  La entrega de compra ya ha sido cancelada y no puede actualizarse, o alguno de los identificadores especificados (`productId`, `requestDetailId`, `vehicleId`) no es válido.
 </ResponseField>
 
 <ResponseField name="404 Not Found">
