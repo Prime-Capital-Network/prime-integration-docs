@@ -1,0 +1,152 @@
+---
+title: "Crear Localización"
+sidebarTitle: "Crear localización"
+description: "Permite manejar las localizaciones de un almacén de inventario mediante REST API"
+api: "POST /storerooms/{id}/locations"
+---
+
+Crea una nueva localización dentro de un almacén de inventario.
+
+<Note>
+  Este endpoint requiere el scope **`Storerooms.Write`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único del almacén de inventario al que se agregará la localización.
+</ParamField>
+
+### Body parameters
+
+<ParamField body="code" type="string" required>
+  Código de la localización. Máximo 20 caracteres. Debe ser único dentro del almacén indicado (puede repetirse entre almacenes distintos).
+</ParamField>
+
+<ParamField body="aisle" type="string">
+  Pasillo. Máximo 20 caracteres.
+</ParamField>
+
+<ParamField body="row" type="string">
+  Fila. Máximo 20 caracteres.
+</ParamField>
+
+<ParamField body="bin" type="string">
+  Bin / casilla. Máximo 20 caracteres.
+</ParamField>
+
+<ParamField body="description" type="string">
+  Descripción de la localización. Máximo 100 caracteres.
+</ParamField>
+
+<ParamField body="isActive" type="boolean" default="true">
+  Indica si la localización queda activa al crearse.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request POST \
+  --url "https://api.primenetcloud.com/v1/storerooms/3/locations" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "code": "A-01-03",
+    "aisle": "A",
+    "row": "01",
+    "bin": "03",
+    "description": "Repisa de electrónicos"
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/storerooms/3/locations", {
+  method: "POST",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    code: "A-01-03",
+    aisle: "A",
+    row: "01",
+    bin: "03",
+    description: "Repisa de electrónicos",
+  }),
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.post(
+    "https://api.primenetcloud.com/v1/storerooms/3/locations",
+    json={
+        "code": "A-01-03",
+        "aisle": "A",
+        "row": "01",
+        "bin": "03",
+        "description": "Repisa de electrónicos",
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "id": 12
+}
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único de la localización creada.
+</ResponseField>
+
+### Errores
+
+<ResponseField name="404 Not Found">
+  No existe ningún almacén de inventario con el `id` especificado en la URL.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `Storerooms.Write` requerido.
+</ResponseField>
+
+<RequestExample>
+
+```json
+{
+  "code": "A-01-03",
+  "aisle": "A",
+  "row": "01",
+  "bin": "03",
+  "description": "Repisa de electrónicos",
+  "isActive": true
+}
+```
+
+</RequestExample>

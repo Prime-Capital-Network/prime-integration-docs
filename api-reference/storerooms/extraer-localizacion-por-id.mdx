@@ -1,0 +1,142 @@
+---
+title: "Obtener Localización por ID"
+sidebarTitle: "Obtener localización"
+description: "Permite manejar las localizaciones de un almacén de inventario mediante REST API"
+api: "GET /storerooms/{id}/locations/{locationId}"
+---
+
+Obtén todos los datos de una localización específica de un almacén de inventario.
+
+<Note>
+  Este endpoint requiere el scope **`Storerooms.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único del almacén de inventario al que pertenece la localización.
+</ParamField>
+
+<ParamField path="locationId" type="integer" required>
+  Identificador único de la localización a consultar.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/storerooms/3/locations/12" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/storerooms/3/locations/12", {
+  method: "GET",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+  },
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/storerooms/3/locations/12",
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "id": 12,
+  "code": "A-01-03",
+  "aisle": "A",
+  "row": "01",
+  "bin": "03",
+  "description": "Repisa de electrónicos",
+  "insertedBy": "jdoe",
+  "insertedDate": "2026-09-26T10:00:00Z",
+  "updatedBy": "mlopez",
+  "updatedDate": "2026-09-27T11:30:00Z",
+  "isActive": true
+}
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único de la localización.
+</ResponseField>
+
+<ResponseField name="code" type="string">
+  Código de la localización. Único dentro del almacén.
+</ResponseField>
+
+<ResponseField name="aisle" type="string">
+  Pasillo. `null` si no aplica.
+</ResponseField>
+
+<ResponseField name="row" type="string">
+  Fila. `null` si no aplica.
+</ResponseField>
+
+<ResponseField name="bin" type="string">
+  Bin / casilla. `null` si no aplica.
+</ResponseField>
+
+<ResponseField name="description" type="string">
+  Descripción de la localización. `null` si no aplica.
+</ResponseField>
+
+<ResponseField name="insertedBy" type="string">
+  Usuario que creó el registro.
+</ResponseField>
+
+<ResponseField name="insertedDate" type="string">
+  Fecha de creación en formato ISO 8601.
+</ResponseField>
+
+<ResponseField name="updatedBy" type="string">
+  Usuario que actualizó el registro por última vez. `null` si no ha sido actualizado.
+</ResponseField>
+
+<ResponseField name="updatedDate" type="string">
+  Fecha de la última actualización en formato ISO 8601. `null` si no ha sido actualizado.
+</ResponseField>
+
+<ResponseField name="isActive" type="boolean">
+  Indica si la localización está activa.
+</ResponseField>
+
+### Errores
+
+<ResponseField name="404 Not Found">
+  No existe ninguna localización con el `locationId` especificado, o no pertenece al almacén indicado en `id`.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `Storerooms.Read` requerido.
+</ResponseField>

@@ -134,6 +134,12 @@ Actualiza un detalle parcialmente para una factura de compra específica.
   - Debe ser una dimensión con el campo `typeId` igual a `3` (Project).
 </ParamField>
 
+<ParamField body="locationId" type="integer">
+  Identificador de la localización de almacén (Storeroom Location) donde se ubica el ítem. Ver [Almacenes de Inventario](/api-reference/storerooms/listar-localizaciones).
+
+  - Al no enviar este campo en una actualización parcial, la localización actual del detalle se conserva.
+</ParamField>
+
 <ParamField body="estimateId" type="integer">
   Identificador del estimado de gasto (Service Expense) asociado.
 </ParamField>
@@ -274,6 +280,7 @@ Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
   "departmentId": 3,
   "costCenterId": 5,
   "projectId": null,
+  "locationId": 12,
   "estimateId": 450,
   "acquiredWarranty": null
 }

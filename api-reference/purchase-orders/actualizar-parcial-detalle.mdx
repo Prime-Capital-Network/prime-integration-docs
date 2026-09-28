@@ -122,6 +122,12 @@ Actualiza un detalle parcialmente para una orden de compra específica.
   - Debe ser una dimensión con el campo `typeId` igual a `3` (Project).
 </ParamField>
 
+<ParamField body="locationId" type="integer">
+  Identificador de la localización de almacén (Storeroom Location) donde se ubica el ítem. Ver [Almacenes de Inventario](/api-reference/storerooms/listar-localizaciones).
+
+  - Al no enviar este campo en una actualización parcial, la localización actual del detalle se conserva.
+</ParamField>
+
 ### Example request
 
 <CodeGroup>

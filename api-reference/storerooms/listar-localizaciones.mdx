@@ -1,0 +1,178 @@
+---
+title: "Listar Localizaciones"
+sidebarTitle: "Listar localizaciones"
+description: "Permite manejar las localizaciones de un almacén de inventario mediante REST API"
+api: "GET /storerooms/{id}/locations"
+---
+
+Obtén una lista paginada de las localizaciones (pasillo, fila, bin) de un almacén de inventario específico.
+
+<Note>
+  Este endpoint requiere el scope **`Storerooms.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único del almacén de inventario.
+</ParamField>
+
+### Query parameters
+
+<ParamField query="filter_by" type="string">
+  Filtro rápido de estado. Valor aceptado:
+
+  - `Active` — retorna únicamente localizaciones activas.
+
+  Si se omite, retorna todas las localizaciones (activas e inactivas).
+</ParamField>
+
+<ParamField query="skip" default="0" type="integer">
+  Número de registros a omitir desde el inicio de los resultados. Utilízalo junto con `take` para paginar los resultados.
+</ParamField>
+
+<ParamField query="take" default="20" type="integer">
+  Número de registros a retornar. Por defecto `20`, máximo `100`.
+</ParamField>
+
+<ParamField query="code" type="StringSearchFilter">
+  Filtra por el código de la localización.
+</ParamField>
+
+<ParamField query="aisle" type="StringSearchFilter">
+  Filtra por el pasillo.
+</ParamField>
+
+<ParamField query="row" type="StringSearchFilter">
+  Filtra por la fila.
+</ParamField>
+
+<ParamField query="bin" type="StringSearchFilter">
+  Filtra por el bin / casilla.
+</ParamField>
+
+<ParamField query="description" type="StringSearchFilter">
+  Filtra por la descripción de la localización.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/storerooms/3/locations?filter_by=Active" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/storerooms/3/locations?filter_by=Active",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID",
+    },
+  }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/storerooms/3/locations",
+    params={
+        "filter_by": "Active",
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "totalCount": 1,
+  "data": [
+    {
+      "id": 12,
+      "code": "A-01-03",
+      "aisle": "A",
+      "row": "01",
+      "bin": "03",
+      "description": "Repisa de electrónicos",
+      "isActive": true,
+      "storeroom": {
+        "id": 3,
+        "name": "Almacén Principal"
+      }
+    }
+  ]
+}
+```
+
+### Response fields
+
+<ResponseField name="totalCount" type="integer">
+  Total de registros.
+</ResponseField>
+
+<ResponseField name="data" type="array">
+  Lista de objetos StoreroomLocation.
+
+  <Expandable title="StoreroomLocation">
+    <ResponseField name="id" type="integer">
+      Identificador único de la localización.
+    </ResponseField>
+    <ResponseField name="code" type="string">
+      Código de la localización. Único dentro del almacén.
+    </ResponseField>
+    <ResponseField name="aisle" type="string">
+      Pasillo. `null` si no aplica.
+    </ResponseField>
+    <ResponseField name="row" type="string">
+      Fila. `null` si no aplica.
+    </ResponseField>
+    <ResponseField name="bin" type="string">
+      Bin / casilla. `null` si no aplica.
+    </ResponseField>
+    <ResponseField name="description" type="string">
+      Descripción de la localización. `null` si no aplica.
+    </ResponseField>
+    <ResponseField name="isActive" type="boolean">
+      Indica si la localización está activa.
+    </ResponseField>
+    <ResponseField name="storeroom" type="object">
+      Almacén de inventario al que pertenece la localización.
+      <Expandable title="Ver propiedades">
+        <ResponseField name="id" type="integer">Identificador del almacén.</ResponseField>
+        <ResponseField name="name" type="string">Nombre del almacén.</ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Errores
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `Storerooms.Read` requerido.
+</ResponseField>

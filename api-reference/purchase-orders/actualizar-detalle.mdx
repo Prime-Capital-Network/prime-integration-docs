@@ -126,6 +126,10 @@ Actualiza un detalle para una orden de compra específica.
   - Debe ser una dimensión con el campo `typeId` igual a `3` (Project).
 </ParamField>
 
+<ParamField body="locationId" type="integer">
+  Identificador de la localización de almacén (Storeroom Location) donde se ubica el ítem. Ver [Almacenes de Inventario](/api-reference/storerooms/listar-localizaciones).
+</ParamField>
+
 ### Example request
 
 <CodeGroup>
@@ -245,7 +249,8 @@ Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
   "operationId": 5321,
   "departmentId": 3,
   "costCenterId": 5,
-  "projectId": null
+  "projectId": null,
+  "locationId": 12
 }
 ```
 

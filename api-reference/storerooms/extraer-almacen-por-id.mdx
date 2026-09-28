@@ -1,0 +1,128 @@
+---
+title: "Obtener Almacén por ID"
+sidebarTitle: "Obtener por ID"
+description: "Permite manejar almacenes de inventario mediante REST API"
+api: "GET /storerooms/{id}"
+---
+
+Obtén todos los datos de un almacén de inventario específico.
+
+<Note>
+  Este endpoint requiere el scope **`Storerooms.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único del almacén de inventario.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/storerooms/3" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/storerooms/3", {
+  method: "GET",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+  },
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/storerooms/3",
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "id": 3,
+  "code": "ALM-01",
+  "name": "Almacén Principal",
+  "location": "Zona Franca Las Américas, Nave 4",
+  "insertedBy": "jdoe",
+  "insertedDate": "2026-09-26T10:00:00Z",
+  "updatedBy": "mlopez",
+  "updatedDate": "2026-09-27T11:30:00Z",
+  "isActive": true
+}
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único del almacén.
+</ResponseField>
+
+<ResponseField name="code" type="string">
+  Código del almacén.
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  Nombre del almacén.
+</ResponseField>
+
+<ResponseField name="location" type="string">
+  Localización o dirección del almacén. `null` si no aplica.
+</ResponseField>
+
+<ResponseField name="insertedBy" type="string">
+  Usuario que creó el registro.
+</ResponseField>
+
+<ResponseField name="insertedDate" type="string">
+  Fecha de creación en formato ISO 8601.
+</ResponseField>
+
+<ResponseField name="updatedBy" type="string">
+  Usuario que actualizó el registro por última vez. `null` si no ha sido actualizado.
+</ResponseField>
+
+<ResponseField name="updatedDate" type="string">
+  Fecha de la última actualización en formato ISO 8601. `null` si no ha sido actualizado.
+</ResponseField>
+
+<ResponseField name="isActive" type="boolean">
+  Indica si el almacén está activo.
+</ResponseField>
+
+### Errores
+
+<ResponseField name="404 Not Found">
+  No existe ningún almacén de inventario con el `id` especificado en la URL.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `Storerooms.Read` requerido.
+</ResponseField>

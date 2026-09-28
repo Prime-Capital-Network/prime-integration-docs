@@ -1,0 +1,130 @@
+---
+title: "Actualizar"
+sidebarTitle: "Actualizar"
+description: "Permite manejar almacenes de inventario mediante REST API"
+api: "PUT /storerooms/{id}"
+---
+
+Actualiza un almacén de inventario existente.
+
+<Note>
+  Este endpoint requiere el scope **`Storerooms.Write`**.
+</Note>
+
+<Warning>
+  Este es un reemplazo completo del recurso (PUT). Todos los campos enviados en el body sobrescribirán el estado actual del almacén.
+</Warning>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único del almacén de inventario a actualizar.
+</ParamField>
+
+### Body parameters
+
+<ParamField body="code" type="string" required>
+  Código del almacén. Máximo 10 caracteres. No se permiten códigos duplicados.
+</ParamField>
+
+<ParamField body="name" type="string" required>
+  Nombre del almacén. Máximo 60 caracteres. Debe ser único entre todos los almacenes de inventario.
+</ParamField>
+
+<ParamField body="location" type="string">
+  Localización o dirección del almacén. Máximo 250 caracteres.
+</ParamField>
+
+<ParamField body="isActive" type="boolean" default="true">
+  Indica si el almacén queda activo.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request PUT \
+  --url "https://api.primenetcloud.com/v1/storerooms/3" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "code": "ALM-01",
+    "name": "Almacén Principal",
+    "location": "Zona Franca Las Américas, Nave 4"
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/storerooms/3", {
+  method: "PUT",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    code: "ALM-01",
+    name: "Almacén Principal",
+    location: "Zona Franca Las Américas, Nave 4",
+  }),
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.put(
+    "https://api.primenetcloud.com/v1/storerooms/3",
+    json={
+        "code": "ALM-01",
+        "name": "Almacén Principal",
+        "location": "Zona Franca Las Américas, Nave 4",
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Response
+
+Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
+
+### Errores
+
+<ResponseField name="404 Not Found">
+  No existe ningún almacén de inventario con el `id` especificado en la URL.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `Storerooms.Write` requerido.
+</ResponseField>
+
+<RequestExample>
+
+```json
+{
+  "code": "ALM-01",
+  "name": "Almacén Principal",
+  "location": "Zona Franca Las Américas, Nave 4",
+  "isActive": true
+}
+```
+
+</RequestExample>

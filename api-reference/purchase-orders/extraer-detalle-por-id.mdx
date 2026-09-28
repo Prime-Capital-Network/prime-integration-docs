@@ -253,6 +253,21 @@ print(response.json())
   </Expandable>
 </ResponseField>
 
+<ResponseField name="location" type="object">
+  Localización de almacén (Storeroom Location) asignada al detalle. `null` si no aplica.
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="integer">Identificador de la localización.</ResponseField>
+    <ResponseField name="code" type="string">Código de la localización.</ResponseField>
+    <ResponseField name="storeroom" type="object">
+      Almacén de inventario al que pertenece la localización.
+      <Expandable title="Ver propiedades">
+        <ResponseField name="id" type="integer">Identificador del almacén.</ResponseField>
+        <ResponseField name="name" type="string">Nombre del almacén.</ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
 <ResponseField name="useDepartment" type="object">
   Opción de uso para el departamento según la cuenta configurada.
   <Expandable title="Ver propiedades">
@@ -373,6 +388,14 @@ print(response.json())
     "name": "Operations"
   },
   "project": null,
+  "location": {
+    "id": 12,
+    "code": "A-01-03",
+    "storeroom": {
+      "id": 3,
+      "name": "Almacén Principal"
+    }
+  },
   "useDepartment": {
     "id": "Optional",
     "name": "Opcional"

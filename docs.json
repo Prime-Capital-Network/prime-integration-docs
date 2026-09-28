@@ -157,6 +157,21 @@
                 ]
               },
               {
+                "group": "Almacenes de Inventario",
+                "pages": [
+                  "api-reference/storerooms/listar-almacenes",
+                  "api-reference/storerooms/extraer-almacen-por-id",
+                  "api-reference/storerooms/crear-almacenes",
+                  "api-reference/storerooms/actualizar-almacenes",
+                  "api-reference/storerooms/actualizar-parcial-almacenes",
+                  "api-reference/storerooms/buscar-almacenes",
+                  "api-reference/storerooms/listar-localizaciones",
+                  "api-reference/storerooms/extraer-localizacion-por-id",
+                  "api-reference/storerooms/crear-localizacion",
+                  "api-reference/storerooms/actualizar-localizacion"
+                ]
+              },
+              {
                 "group": "Recepciones de Compra",
                 "pages": [
                   "api-reference/purchase-receptions/listar-recepciones",
