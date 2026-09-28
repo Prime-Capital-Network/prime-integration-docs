@@ -21,8 +21,16 @@ Crea una nueva solicitud (request) en la empresa, a partir de una plantilla prev
   Identificador de la plantilla de solicitud a utilizar. Determina el menú de origen y de destino de la solicitud.
 </ParamField>
 
-<ParamField body="originOperationId" type="integer" required>
-  Identificador de la operación de origen (ej. el `id` de la factura por pagar). Debe existir en el menú de origen de la plantilla.
+<ParamField body="originOperationId" type="integer">
+  Identificador de la operación de origen (ej. el `id` de la factura por pagar). Debe existir en el menú de origen de la plantilla. Es equivalente a enviar `originOperationIds` con un único elemento.
+
+  Se debe enviar `originOperationId` **o** `originOperationIds`, pero no ambos.
+</ParamField>
+
+<ParamField body="originOperationIds" type="integer[]">
+  Lista de identificadores de operaciones de origen, para solicitudes con múltiples orígenes. Actualmente solo el menú de estimados de costos (`CostEstimates`) soporta más de un origen.
+
+  Todos los estimados deben existir, estar activas, no estar ya facturadas, no tener otra solicitud activa asociada, y compartir el mismo proveedor y la misma moneda. No se permiten IDs repetidos.
 </ParamField>
 
 <ParamField body="subject" type="string" required>
@@ -107,10 +115,23 @@ print(response.json())
   Identificador único de la solicitud creada.
 </ResponseField>
 
+### Ejemplo con múltiples orígenes
+
+Solo el menú de cotizaciones de costos (`CostEstimates`) permite más de un origen. La solicitud resultante se resuelve como un único pago al proveedor, por lo que todas las cotizaciones enviadas deben compartir el mismo proveedor y la misma moneda.
+
+```json
+{
+  "templateId": 4,
+  "originOperationIds": [8410, 8411],
+  "subject": "Pago combinado de cotizaciones",
+  "description": "Pago de cotizaciones de flete y almacenaje del mismo proveedor"
+}
+```
+
 ### Errores
 
 <ResponseField name="400 Bad Request">
-  El `templateId` no es válido, la operación de origen no existe en el menú de origen de la plantilla, o la combinación de menú de origen/destino de la plantilla no está permitida.
+  El `templateId` no es válido, alguna operación de origen no existe en el menú de origen de la plantilla, el menú de origen no soporta múltiples orígenes, las cotizaciones de costo enviadas no comparten proveedor o moneda, alguna cotización ya está facturada o ya tiene una solicitud activa asociada, o la combinación de menú de origen/destino de la plantilla no está permitida.
 </ResponseField>
 
 <ResponseField name="403 Forbidden">

@@ -101,7 +101,12 @@ print(response.json())
     "name": "string",
     "isRequestAmountRequired": true
   },
+  "originType": {
+    "id": 0,
+    "name": "string"
+  },
   "originOperationId": 8410,
+  "details": null,
   "origin": {
     "number": 0,
     "date": "2026-07-01T00:00:00Z",
@@ -278,12 +283,96 @@ print(response.json())
   </Expandable>
 </ResponseField>
 
+<ResponseField name="originType" type="object">
+  Tipo de origen de la solicitud.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del tipo de origen. Valores posibles: `SingleOrigin`, `MultipleOrigins`.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido del tipo de origen.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
 <ResponseField name="originOperationId" type="integer">
-  Identificador de la operación de origen.
+  Identificador de la operación de origen. `null` cuando `originType.id` es `MultipleOrigins`, en cuyo caso los orígenes están en `details`.
+</ResponseField>
+
+<ResponseField name="details" type="array">
+  Lista de orígenes de la solicitud, solo presente cuando `originType.id` es `MultipleOrigins`. Actualmente solo aplica a solicitudes cuyo origen son estimados de costos.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del detalle.
+    </ResponseField>
+
+    <ResponseField name="menu" type="object">
+      Menú de origen del detalle.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="string">
+          Identificador del menú.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido del menú.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="operationId" type="integer">
+      Identificador de la operación de origen (ej. el `id` de la cotización de costo).
+    </ResponseField>
+
+    <ResponseField name="description" type="string">
+      Descripción del documento de origen.
+    </ResponseField>
+
+    <ResponseField name="origin" type="object">
+      Datos del documento de origen.
+
+      <Expandable title="propiedades">
+        <ResponseField name="date" type="string">
+          Fecha del documento de origen.
+        </ResponseField>
+
+        <ResponseField name="associate" type="object">
+          Asociado del documento de origen.
+
+          <Expandable title="propiedades">
+            <ResponseField name="id" type="integer">
+              Identificador del asociado.
+            </ResponseField>
+
+            <ResponseField name="name" type="string">
+              Nombre del asociado.
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+
+        <ResponseField name="currency" type="object">
+          Moneda del documento de origen.
+
+          <Expandable title="propiedades">
+            <ResponseField name="id" type="string">
+              Identificador de la moneda.
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+
+        <ResponseField name="amount" type="number">
+          Monto del documento de origen.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
 </ResponseField>
 
 <ResponseField name="origin" type="object">
-  Datos del documento de origen.
+  Datos del documento de origen. Cuando `originType.id` es `MultipleOrigins`, resume la suma de los montos y los datos comunes (proveedor, moneda) de las cotizaciones en `details`.
 
   <Expandable title="propiedades">
     <ResponseField name="number" type="integer">
