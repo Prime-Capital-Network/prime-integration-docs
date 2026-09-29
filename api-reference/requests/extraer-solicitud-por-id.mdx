@@ -106,6 +106,7 @@ print(response.json())
     "name": "string"
   },
   "originOperationId": 8410,
+  "originOperationIds": [8410],
   "details": null,
   "origin": {
     "number": 0,
@@ -299,6 +300,10 @@ print(response.json())
 
 <ResponseField name="originOperationId" type="integer">
   Identificador de la operación de origen. `null` cuando `originType.id` es `MultipleOrigins`, en cuyo caso los orígenes están en `details`.
+</ResponseField>
+
+<ResponseField name="originOperationIds" type="integer[]">
+  Identificadores de todas las operaciones de origen. Con un único origen contiene solo `originOperationId`; con `MultipleOrigins` contiene las operaciones listadas en `details`.
 </ResponseField>
 
 <ResponseField name="details" type="array">

@@ -23,8 +23,14 @@ Obtén el listado de solicitudes (requests) creadas sobre una operación especí
   Identificador del menú de origen de la operación (ej. `PurchaseInvoices`).
 </ParamField>
 
-<ParamField query="operation_id" type="string" required>
-  Identificador de la operación dentro del menú indicado en `menu_id` (ej. el `id` de la factura por pagar).
+<ParamField query="operation_id" type="string">
+  Identificador de la operación dentro del menú indicado en `menu_id` (ej. el `id` de la factura por pagar). También encuentra las solicitudes con múltiples orígenes que incluyan esa operación.
+
+  Se debe enviar `operation_id` **o** `origin_operation_ids`, pero no ambos.
+</ParamField>
+
+<ParamField query="origin_operation_ids" type="integer[]">
+  Lista de identificadores de operaciones de origen, separados por coma (ej. `origin_operation_ids=1,3`) o repitiendo el parámetro (`origin_operation_ids=1&origin_operation_ids=3`). Devuelve las solicitudes cuyo origen, único o múltiple, incluya alguna de esas operaciones.
 </ParamField>
 
 ### Example request
@@ -83,6 +89,8 @@ print(response.json())
     "number": 152,
     "date": "2026-07-01",
     "subject": "Reembolso de factura DGV-002145",
+    "originOperationId": 8410,
+    "originOperationIds": [8410],
     "template": {
       "name": "Vale de caja chica por factura"
     },
@@ -111,6 +119,14 @@ print(response.json())
 
 <ResponseField name="subject" type="string">
   Asunto de la solicitud.
+</ResponseField>
+
+<ResponseField name="originOperationId" type="integer">
+  Identificador de la operación de origen. `null` cuando la solicitud tiene múltiples orígenes, en cuyo caso se usa `originOperationIds`.
+</ResponseField>
+
+<ResponseField name="originOperationIds" type="integer[]">
+  Identificadores de todas las operaciones de origen de la solicitud. Con un único origen contiene solo `originOperationId`.
 </ResponseField>
 
 <ResponseField name="template" type="object">
@@ -148,5 +164,5 @@ print(response.json())
 </ResponseField>
 
 <ResponseField name="400 Bad Request">
-  No se envió el parámetro `menu_id` o `operation_id`.
+  No se envió `menu_id`, no se envió ni `operation_id` ni `origin_operation_ids`, se enviaron ambos, o algún valor de `origin_operation_ids` no es un entero.
 </ResponseField>
