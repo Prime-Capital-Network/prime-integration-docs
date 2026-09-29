@@ -47,6 +47,13 @@ Actualiza un detalle para una recepción de compra específica.
   Cantidad de empaques recibidos. Debe ser mayor que cero.
 </ParamField>
 
+<ParamField body="locationId" type="integer">
+  Identificador de la localización de almacén (Storeroom Location) donde se ubica el ítem. Ver [Almacenes de Inventario](/api-reference/storerooms/listar-localizaciones).
+
+  - Solo puede especificarse si la recepción de compra tiene un almacén (`storeroomId`) asociado.
+  - Debe pertenecer al almacén de la recepción de compra.
+</ParamField>
+
 ### Example request
 
 <CodeGroup>
@@ -61,7 +68,8 @@ curl --request PUT \
     "productId": 88,
     "quantity": 750,
     "productPackagingId": 10,
-    "packagingQuantity": 18.75
+    "packagingQuantity": 18.75,
+    "locationId": 12
   }'
 ```
 
@@ -77,7 +85,8 @@ const response = await fetch("https://api.primenetcloud.com/v1/purchase-receptio
     productId: 88,
     quantity: 750,
     productPackagingId: 10,
-    packagingQuantity: 18.75
+    packagingQuantity: 18.75,
+    locationId: 12
   }),
 });
 
@@ -94,7 +103,8 @@ response = requests.put(
         "productId": 88,
         "quantity": 750,
         "productPackagingId": 10,
-        "packagingQuantity": 18.75
+        "packagingQuantity": 18.75,
+        "locationId": 12
     },
     headers={
         "X-Api-Key": "YOUR_API_KEY",
@@ -114,7 +124,7 @@ Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
 ### Errores
 
 <ResponseField name="400 Bad Request">
-  La recepción de compra ya ha sido cancelada y no puede actualizarse.
+  La recepción de compra ya ha sido cancelada y no puede actualizarse, o el `locationId` se especificó sin que la recepción tenga almacén o no pertenece al almacén de la recepción.
 </ResponseField>
 
 <ResponseField name="404 Not Found">
@@ -132,7 +142,8 @@ Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
   "productId": 88,
   "quantity": 750.0000,
   "productPackagingId": 10,
-  "packagingQuantity": 18.7500
+  "packagingQuantity": 18.7500,
+  "locationId": 12
 }
 ```
 

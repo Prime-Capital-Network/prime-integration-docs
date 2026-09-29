@@ -43,6 +43,10 @@ Crea una nueva entrega de compra en la empresa.
   - No puede especificarse cuando `handedTo` es `Requester`.
 </ParamField>
 
+<ParamField body="storeroomId" type="integer">
+  Identificador del almacén de inventario (Storeroom) donde se entrega la mercancía. Ver [Almacenes de Inventario](/api-reference/storerooms/listar-almacenes).
+</ParamField>
+
 import DetailFields from './snippets/purchase-delivery-detail-fields.mdx'
 
 <ParamField body="details" type="array">
@@ -68,12 +72,14 @@ curl --request POST \
     "requestedBy": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
     "handedTo": "ThirdPerson",
     "receiverId": 12,
+    "storeroomId": 3,
     "details": [
       {
         "productId": 88,
         "quantity": 50,
         "observations": "Entrega parcial para el proyecto Los Almendros",
-        "requestDetailId": 34
+        "requestDetailId": 34,
+        "locationId": 12
       }
     ]
   }'
@@ -93,12 +99,14 @@ const response = await fetch("https://api.primenetcloud.com/v1/purchase-deliveri
     requestedBy: "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
     handedTo: "ThirdPerson",
     receiverId: 12,
+    storeroomId: 3,
     details: [
       {
         productId: 88,
         quantity: 50,
         observations: "Entrega parcial para el proyecto Los Almendros",
-        requestDetailId: 34
+        requestDetailId: 34,
+        locationId: 12
       }
     ]
   }),
@@ -119,12 +127,14 @@ response = requests.post(
         "requestedBy": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
         "handedTo": "ThirdPerson",
         "receiverId": 12,
+        "storeroomId": 3,
         "details": [
             {
                 "productId": 88,
                 "quantity": 50,
                 "observations": "Entrega parcial para el proyecto Los Almendros",
-                "requestDetailId": 34
+                "requestDetailId": 34,
+                "locationId": 12
             }
         ]
     },
@@ -156,7 +166,7 @@ print(response.json())
 ### Errores
 
 <ResponseField name="400 Bad Request">
-  Alguno de los identificadores especificados (`requestId`, `requestedBy`, `receiverId`, `productId`, `requestDetailId`) no es válido, o la combinación de `handedTo`/`receiverId` es inconsistente.
+  Alguno de los identificadores especificados (`requestId`, `requestedBy`, `receiverId`, `storeroomId`, `productId`, `requestDetailId`, `locationId`) no es válido, la combinación de `handedTo`/`receiverId` es inconsistente, o se especificó un `locationId` en un detalle sin `storeroomId` en la entrega o de un almacén distinto al de la entrega.
 </ResponseField>
 
 <ResponseField name="403 Forbidden">
@@ -172,12 +182,14 @@ print(response.json())
   "requestedBy": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
   "handedTo": "ThirdPerson",
   "receiverId": 12,
+  "storeroomId": 3,
   "details": [
     {
       "productId": 88,
       "quantity": 50.0000,
       "observations": "Entrega parcial para el proyecto Los Almendros",
-      "requestDetailId": 34
+      "requestDetailId": 34,
+      "locationId": 12
     }
   ]
 }

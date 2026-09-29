@@ -112,6 +112,10 @@ print(response.json())
     "id": 1,
     "name": "Confirmada"
   },
+  "storeroom": {
+    "id": 3,
+    "name": "Almacén Principal"
+  },
   "details": [
     {
       "id": 1,
@@ -125,6 +129,10 @@ print(response.json())
         "id": 34,
         "quantity": 100,
         "handedOver": 50
+      },
+      "location": {
+        "id": 12,
+        "code": "A-01-03"
       },
       "insertedBy": "jdoe",
       "insertedDate": "2026-07-15T09:30:00.000Z",
@@ -278,6 +286,20 @@ print(response.json())
   </Expandable>
 </ResponseField>
 
+<ResponseField name="storeroom" type="object">
+  Almacén de inventario (Storeroom) de la entrega. Sus propiedades son `null` si la entrega no tiene almacén asignado.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del almacén.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del almacén.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
 <ResponseField name="details" type="array">
   Detalles (líneas) de la entrega de compra. Solo se incluye si se solicita mediante `include=Details`.
 
@@ -322,6 +344,20 @@ print(response.json())
 
         <ResponseField name="handedOver" type="decimal">
           Unidades ya entregadas mediante entregas de compra, incluyendo esta.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="location" type="object">
+      Localización de almacén (Storeroom Location) de donde sale el producto. Sus propiedades son `null` si no aplica.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador de la localización.
+        </ResponseField>
+
+        <ResponseField name="code" type="string">
+          Código de la localización.
         </ResponseField>
       </Expandable>
     </ResponseField>

@@ -17,3 +17,10 @@
 <ParamField body="packagingQuantity" type="decimal" required>
   Cantidad de empaques recibidos. Debe ser mayor que cero.
 </ParamField>
+
+<ParamField body="locationId" type="integer">
+  Identificador de la localización de almacén (Storeroom Location) donde se ubica el ítem. Ver [Almacenes de Inventario](/api-reference/storerooms/listar-localizaciones).
+
+  - Solo puede especificarse si la recepción de compra tiene un almacén (`storeroomId`) asociado.
+  - Debe pertenecer al almacén de la recepción de compra.
+</ParamField>

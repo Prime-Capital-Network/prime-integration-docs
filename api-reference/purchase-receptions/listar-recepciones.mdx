@@ -139,6 +139,10 @@ print(response.json())
         "id": 142,
         "name": "Ferretería y Suministros del Caribe, SRL"
       },
+      "storeroom": {
+        "id": 3,
+        "name": "Almacén Central"
+      },
       "status": {
         "id": 0,
         "name": "Nueva"
@@ -194,6 +198,20 @@ print(response.json())
 
         <ResponseField name="name" type="string">
           Nombre del vendor.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="storeroom" type="object">
+      Almacén de inventario de la recepción de compra. Sus propiedades son `null` si no fue especificado.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador del almacén.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del almacén.
         </ResponseField>
       </Expandable>
     </ResponseField>

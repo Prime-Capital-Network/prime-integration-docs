@@ -119,6 +119,20 @@ print(response.json())
   </Expandable>
 </ResponseField>
 
+<ResponseField name="location" type="object">
+  Localización de almacén (Storeroom Location) asignada al detalle. Sus propiedades son `null` si no aplica.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador de la localización.
+    </ResponseField>
+
+    <ResponseField name="code" type="string">
+      Código de la localización.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
 <ResponseField name="insertedBy" type="string">
   Usuario que creó el registro.
 </ResponseField>
@@ -162,6 +176,10 @@ print(response.json())
   "quantity": 800.0000,
   "purchaseOrderDetail": {
     "id": 34
+  },
+  "location": {
+    "id": 12,
+    "code": "A-01-03"
   },
   "insertedBy": "jdoe",
   "insertedDate": "2026-07-15T09:30:00Z",

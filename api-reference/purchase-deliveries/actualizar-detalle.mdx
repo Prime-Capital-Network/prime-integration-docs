@@ -54,6 +54,13 @@ Actualiza un detalle para una entrega de compra específica.
   Identificador del vehículo utilizado para transportar el producto entregado.
 </ParamField>
 
+<ParamField body="locationId" type="integer">
+  Identificador de la localización de almacén (Storeroom Location) de donde sale el producto entregado. Ver [Almacenes de Inventario](/api-reference/storerooms/listar-localizaciones).
+
+  - Solo puede especificarse si la entrega de compra tiene un almacén (`storeroomId`) asignado.
+  - Debe pertenecer al almacén de la entrega.
+</ParamField>
+
 ### Example request
 
 <CodeGroup>
@@ -69,7 +76,8 @@ curl --request PUT \
     "quantity": 45,
     "observations": "Entrega ajustada tras conteo físico",
     "requestDetailId": 34,
-    "vehicleId": 12
+    "vehicleId": 12,
+    "locationId": 12
   }'
 ```
 
@@ -86,7 +94,8 @@ const response = await fetch("https://api.primenetcloud.com/v1/purchase-deliveri
     quantity: 45,
     observations: "Entrega ajustada tras conteo físico",
     requestDetailId: 34,
-    vehicleId: 12
+    vehicleId: 12,
+    locationId: 12
   }),
 });
 
@@ -104,7 +113,8 @@ response = requests.put(
         "quantity": 45,
         "observations": "Entrega ajustada tras conteo físico",
         "requestDetailId": 34,
-        "vehicleId": 12
+        "vehicleId": 12,
+        "locationId": 12
     },
     headers={
         "X-Api-Key": "YOUR_API_KEY",
@@ -124,7 +134,7 @@ Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
 ### Errores
 
 <ResponseField name="400 Bad Request">
-  La entrega de compra ya ha sido cancelada y no puede actualizarse, o alguno de los identificadores especificados (`productId`, `requestDetailId`, `vehicleId`) no es válido.
+  La entrega de compra ya ha sido cancelada y no puede actualizarse, o alguno de los identificadores especificados (`productId`, `requestDetailId`, `vehicleId`, `locationId`) no es válido, o el `locationId` no pertenece al almacén de la entrega o la entrega no tiene almacén asignado.
 </ResponseField>
 
 <ResponseField name="404 Not Found">
@@ -143,7 +153,8 @@ Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
   "quantity": 45.0000,
   "observations": "Entrega ajustada tras conteo físico",
   "requestDetailId": 34,
-  "vehicleId": 12
+  "vehicleId": 12,
+  "locationId": 12
 }
 ```
 

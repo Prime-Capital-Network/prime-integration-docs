@@ -58,6 +58,10 @@ Actualiza los datos parcialmente de una entrega de compra en la empresa.
   - No puede especificarse cuando `handedTo` es `Requester`.
 </ParamField>
 
+<ParamField body="storeroomId" type="integer">
+  Identificador del almacén de inventario (Storeroom) donde se entrega la mercancía. Ver [Almacenes de Inventario](/api-reference/storerooms/listar-almacenes).
+</ParamField>
+
 <ParamField body="status" type="string">
   Estatus de la entrega de compra. Valores aceptados:
 
@@ -128,7 +132,7 @@ Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
 ### Errores
 
 <ResponseField name="400 Bad Request">
-  La entrega de compra ya ha sido cancelada y no puede actualizarse, alguno de los identificadores especificados no es válido, la combinación de `handedTo`/`receiverId` es inconsistente, o se intentó cambiar `requestId` teniendo detalles vinculados a una solicitud de compra.
+  La entrega de compra ya ha sido cancelada y no puede actualizarse, alguno de los identificadores especificados (incluido `storeroomId`) no es válido, la combinación de `handedTo`/`receiverId` es inconsistente, o se intentó cambiar `requestId` teniendo detalles vinculados a una solicitud de compra.
 </ResponseField>
 
 <ResponseField name="404 Not Found">

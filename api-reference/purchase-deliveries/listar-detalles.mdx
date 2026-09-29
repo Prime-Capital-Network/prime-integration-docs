@@ -129,6 +129,20 @@ print(response.json())
   </Expandable>
 </ResponseField>
 
+<ResponseField name="location" type="object">
+  Localización de almacén (Storeroom Location) de donde sale el producto entregado. Sus propiedades son `null` si no aplica.
+
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador de la localización.
+    </ResponseField>
+
+    <ResponseField name="code" type="string">
+      Código de la localización.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
 <RequestExample>
 
 ```json Ejemplo de Respuesta
@@ -151,6 +165,10 @@ print(response.json())
     },
     "vehicle": {
       "description": "Camión Freightliner M2 - Placa L123456"
+    },
+    "location": {
+      "id": 12,
+      "code": "A-01-03"
     }
   }
 ]

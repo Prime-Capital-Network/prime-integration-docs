@@ -20,3 +20,10 @@
 <ParamField body="vehicleId" type="integer">
   Identificador del vehículo utilizado para transportar el producto entregado.
 </ParamField>
+
+<ParamField body="locationId" type="integer">
+  Identificador de la localización de almacén (Storeroom Location) de donde sale el producto entregado. Ver [Almacenes de Inventario](/api-reference/storerooms/listar-localizaciones).
+
+  - Solo puede especificarse si la entrega de compra tiene un almacén (`storeroomId`) asignado.
+  - Debe pertenecer al almacén de la entrega.
+</ParamField>

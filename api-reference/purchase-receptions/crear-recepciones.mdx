@@ -35,6 +35,12 @@ Crea una nueva recepción de compra en la empresa.
   Observaciones de la recepción de compra. Máximo 250 caracteres.
 </ParamField>
 
+<ParamField body="storeroomId" type="integer">
+  Identificador del almacén de inventario (Storeroom) donde se recibe la mercancía. Ver [Almacenes de Inventario](/api-reference/storerooms/listar-almacenes).
+
+  - Es requerido para poder especificar `locationId` en los detalles de la recepción.
+</ParamField>
+
 import DetailFields from './snippets/purchase-reception-detail-fields.mdx'
 
 <ParamField body="details" type="array">
@@ -59,13 +65,15 @@ curl --request POST \
     "date": "2026-07-15",
     "vendorId": 142,
     "observations": "Recepción parcial del contenedor MSCU1234567",
+    "storeroomId": 3,
     "details": [
       {
         "productId": 88,
         "quantity": 800,
         "purchaseOrderDetailId": 34,
         "productPackagingId": 10,
-        "packagingQuantity": 20
+        "packagingQuantity": 20,
+        "locationId": 12
       }
     ]
   }'
@@ -84,13 +92,15 @@ const response = await fetch("https://api.primenetcloud.com/v1/purchase-receptio
     date: "2026-07-15",
     vendorId: 142,
     observations: "Recepción parcial del contenedor MSCU1234567",
+    storeroomId: 3,
     details: [
       {
         productId: 88,
         quantity: 800,
         purchaseOrderDetailId: 34,
         productPackagingId: 10,
-        packagingQuantity: 20
+        packagingQuantity: 20,
+        locationId: 12
       }
     ]
   }),
@@ -110,13 +120,15 @@ response = requests.post(
         "date": "2026-07-15",
         "vendorId": 142,
         "observations": "Recepción parcial del contenedor MSCU1234567",
+        "storeroomId": 3,
         "details": [
             {
                 "productId": 88,
                 "quantity": 800,
                 "purchaseOrderDetailId": 34,
                 "productPackagingId": 10,
-                "packagingQuantity": 20
+                "packagingQuantity": 20,
+                "locationId": 12
             }
         ]
     },
@@ -147,6 +159,10 @@ print(response.json())
 
 ### Errores
 
+<ResponseField name="400 Bad Request">
+  El `storeroomId` o alguno de los identificadores de los detalles no es válido, o el `locationId` de un detalle no pertenece al almacén de la recepción.
+</ResponseField>
+
 <ResponseField name="403 Forbidden">
   El API Key no tiene el scope `PurchaseReceptions.Write` requerido.
 </ResponseField>
@@ -159,13 +175,15 @@ print(response.json())
   "date": "2026-07-15",
   "vendorId": 142,
   "observations": "Recepción parcial del contenedor MSCU1234567",
+  "storeroomId": 3,
   "details": [
     {
       "productId": 88,
       "quantity": 800.0000,
       "purchaseOrderDetailId": 34,
       "productPackagingId": 10,
-      "packagingQuantity": 20.0000
+      "packagingQuantity": 20.0000,
+      "locationId": 12
     }
   ]
 }

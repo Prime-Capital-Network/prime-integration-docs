@@ -65,6 +65,14 @@ Obtén una lista paginada de entregas de compra en la empresa.
   Filtra por si la entrega de compra ha sido confirmada.
 </ParamField>
 
+<ParamField query="Status.Id" type="EnumSearchFilter">
+  Filtra por el estatus de la entrega de compra. Valores aceptados:
+
+  - `New`
+  - `Confirmed`
+  - `Deleted`
+</ParamField>
+
 ### Example request
 
 <CodeGroup>
@@ -132,7 +140,11 @@ print(response.json())
       "requestedBy": {
         "name": "Carlos Martínez"
       },
-      "isConfirmed": true
+      "isConfirmed": true,
+      "storeroom": {
+        "id": 3,
+        "name": "Almacén Principal"
+      }
     }
   ]
 }
@@ -190,6 +202,20 @@ print(response.json())
 
     <ResponseField name="isConfirmed" type="boolean">
       Indica si la entrega de compra ha sido confirmada.
+    </ResponseField>
+
+    <ResponseField name="storeroom" type="object">
+      Almacén de inventario (Storeroom) de la entrega. Sus propiedades son `null` si la entrega no tiene almacén asignado.
+
+      <Expandable title="storeroom">
+        <ResponseField name="id" type="integer">
+          Identificador del almacén.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del almacén.
+        </ResponseField>
+      </Expandable>
     </ResponseField>
   </Expandable>
 </ResponseField>
