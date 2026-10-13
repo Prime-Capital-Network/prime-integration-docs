@@ -1,0 +1,259 @@
+---
+title: "Crear Cotización"
+api: "POST /purchase-requisitions/{id}/quotes"
+---
+
+Registra una cotización de un proveedor para una requisición de compra, opcionalmente con sus líneas.
+
+Solo pueden cotizarse requisiciones aprobadas (estatus `Approved`, `Quoting`, `Ordering` o `Concluded`). Para agregar de una vez todas las líneas de la requisición, usa [Cargar Líneas](/api-reference/purchase-requisitions/cargar-detalles-cotizacion).
+
+<Note>
+  Este endpoint requiere el scope **`PurchaseRequisitions.Write`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único de la requisición de compra.
+</ParamField>
+
+### Body parameters
+
+<ParamField body="vendorId" type="integer" required>
+  Identificador del proveedor (Vendor).
+
+  - Debe ser un asociado con el campo `IsVendor` como true.
+  - Un proveedor solo puede tener una cotización activa por requisición.
+</ParamField>
+
+<ParamField body="number" type="string">
+  Número de la cotización asignado por el proveedor. Máximo 24 caracteres.
+</ParamField>
+
+<ParamField body="date" type="date">
+  Fecha de la cotización, en formato `YYYY-MM-DD`.
+</ParamField>
+
+<ParamField body="validUntil" type="date">
+  Fecha hasta la que es válida la cotización, en formato `YYYY-MM-DD`. No puede ser anterior a `date`.
+</ParamField>
+
+<ParamField body="currencyId" type="string" required>
+  Identificador de la moneda de la cotización (ej. `DOP`, `USD`). Ver [Monedas](/api-reference/currencies/listar-monedas).
+</ParamField>
+
+<ParamField body="paymentTermId" type="integer">
+  Identificador del término de pago ofrecido. Ver [Términos de Pago](/api-reference/payment-terms/listar-terminos-pago).
+</ParamField>
+
+<ParamField body="deliveryDays" type="integer">
+  Días de entrega ofrecidos por el proveedor. Debe ser mayor o igual a cero.
+</ParamField>
+
+<ParamField body="notes" type="string">
+  Notas de la cotización. Máximo 4000 caracteres.
+</ParamField>
+
+import DetailFields from './snippets/cotizacion-detail-fields.mdx'
+
+<ParamField body="details" type="array">
+  Lista de líneas de la cotización.
+  <Expandable title="detalle">
+    <DetailFields />
+  </Expandable>
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request POST \
+  --url "https://api.primenetcloud.com/v1/purchase-requisitions/37/quotes" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "vendorId": 142,
+    "number": "COT-2026-0881",
+    "date": "2026-10-13",
+    "validUntil": "2026-10-28",
+    "currencyId": "DOP",
+    "paymentTermId": 2,
+    "deliveryDays": 5,
+    "notes": "Incluye entrega en el taller de Santo Domingo Este",
+    "details": [
+      {
+        "requisitionDetailId": 101,
+        "productPackagingId": 10,
+        "packagingQuantity": 1,
+        "quantity": 4,
+        "price": 18500,
+        "discount": 500,
+        "taxPercent": 18,
+        "notes": "Precio sujeto a disponibilidad"
+      },
+      {
+        "requisitionDetailId": 102,
+        "quantity": 6,
+        "price": 2350,
+        "taxPercent": 18
+      }
+    ]
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/purchase-requisitions/37/quotes", {
+  method: "POST",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    "vendorId": 142,
+    "number": "COT-2026-0881",
+    "date": "2026-10-13",
+    "validUntil": "2026-10-28",
+    "currencyId": "DOP",
+    "paymentTermId": 2,
+    "deliveryDays": 5,
+    "notes": "Incluye entrega en el taller de Santo Domingo Este",
+    "details": [
+      {
+        "requisitionDetailId": 101,
+        "productPackagingId": 10,
+        "packagingQuantity": 1,
+        "quantity": 4,
+        "price": 18500,
+        "discount": 500,
+        "taxPercent": 18,
+        "notes": "Precio sujeto a disponibilidad"
+      },
+      {
+        "requisitionDetailId": 102,
+        "quantity": 6,
+        "price": 2350,
+        "taxPercent": 18
+      }
+    ]
+  }),
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.post(
+    "https://api.primenetcloud.com/v1/purchase-requisitions/37/quotes",
+    json={
+        "vendorId": 142,
+        "number": "COT-2026-0881",
+        "date": "2026-10-13",
+        "validUntil": "2026-10-28",
+        "currencyId": "DOP",
+        "paymentTermId": 2,
+        "deliveryDays": 5,
+        "notes": "Incluye entrega en el taller de Santo Domingo Este",
+        "details": [
+            {
+                "requisitionDetailId": 101,
+                "productPackagingId": 10,
+                "packagingQuantity": 1,
+                "quantity": 4,
+                "price": 18500,
+                "discount": 500,
+                "taxPercent": 18,
+                "notes": "Precio sujeto a disponibilidad"
+            },
+            {
+                "requisitionDetailId": 102,
+                "quantity": 6,
+                "price": 2350,
+                "taxPercent": 18
+            }
+        ]
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "id": 21
+}
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único de la cotización creada.
+</ResponseField>
+
+### Errores
+
+<ResponseField name="400 Bad Request">
+  La requisición no está aprobada o la cotización está cancelada; el proveedor no es válido, no es un vendor o ya tiene otra cotización activa en la requisición; la moneda o el término de pago no es válido; o `validUntil` es anterior a `date`. También si alguna línea no pertenece a la requisición, se repite, tiene un descuento mayor que el precio, o tiene empaque sin ser un producto.
+</ResponseField>
+
+<ResponseField name="404 Not Found">
+  No existe ninguna requisición de compra con el `id` especificado en la URL.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `PurchaseRequisitions.Write` requerido.
+</ResponseField>
+
+<RequestExample>
+
+```json
+{
+  "vendorId": 142,
+  "number": "COT-2026-0881",
+  "date": "2026-10-13",
+  "validUntil": "2026-10-28",
+  "currencyId": "DOP",
+  "paymentTermId": 2,
+  "deliveryDays": 5,
+  "notes": "Incluye entrega en el taller de Santo Domingo Este",
+  "details": [
+    {
+      "requisitionDetailId": 101,
+      "productPackagingId": 10,
+      "packagingQuantity": 1,
+      "quantity": 4,
+      "price": 18500,
+      "discount": 500,
+      "taxPercent": 18,
+      "notes": "Precio sujeto a disponibilidad"
+    },
+    {
+      "requisitionDetailId": 102,
+      "quantity": 6,
+      "price": 2350,
+      "taxPercent": 18
+    }
+  ]
+}
+```
+
+</RequestExample>

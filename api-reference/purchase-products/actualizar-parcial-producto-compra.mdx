@@ -28,6 +28,12 @@ Actualiza los datos parcialmente de un producto de compra en la empresa.
   Nombre del producto de compra. Máximo 200 caracteres.
 </ParamField>
 
+<ParamField body="code" type="string">
+  Código del producto de compra. Máximo 30 caracteres. Se ignoran los espacios al inicio y al final; un valor vacío se guarda como `null`.
+
+  - Debe ser único entre los productos de compra activos.
+</ParamField>
+
 <ParamField body="goodServiceApplicability" type="string">
   Aplicabilidad del producto de compra. Valores aceptados:
 
@@ -122,6 +128,10 @@ print(response.json())
 Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
 
 ### Errores
+
+<ResponseField name="400 Bad Request">
+  El `code` especificado ya está siendo utilizado por otro producto de compra activo, o alguno de los datos enviados no es válido.
+</ResponseField>
 
 <ResponseField name="404 Not Found">
   No existe ningún producto de compra con el `id` especificado en la URL.

@@ -70,8 +70,9 @@ print(response.json())
 {
   "id": 412,
   "name": "Aceite Hidráulico ISO 68",
+  "code": "LUB-HID-068",
   "goodServiceApplicability": {
-    "id": 1,
+    "id": "Product",
     "name": "Producto"
   },
   "category": {
@@ -111,6 +112,10 @@ print(response.json())
 
 <ResponseField name="name" type="string">
   Nombre del producto de compra.
+</ResponseField>
+
+<ResponseField name="code" type="string">
+  Código del producto de compra. `null` si no tiene.
 </ResponseField>
 
 <ResponseField name="goodServiceApplicability" type="object">

@@ -10,6 +10,10 @@ Actualiza los datos de una orden de compra en la empresa.
   Este endpoint requiere el scope **`PurchaseOrders.Write`**.
 </Note>
 
+<Info>
+  En las órdenes generadas desde una [requisición de compra](/api-reference/purchase-requisitions/generar-orden) (con `requisition.id` en [Obtener por ID](/api-reference/purchase-orders/extraer-orden-por-id)) no pueden cambiarse `vendorId` ni `currencyId`, y una orden cancelada solo puede reactivarse (`status` `New`) si sus líneas no superan lo pendiente por ordenar de sus líneas de cotización.
+</Info>
+
 <Warning>
   Este es un reemplazo completo del recurso (PUT). Todos los campos enviados en el body sobrescribirán el estado actual de la orden. Para cambios parciales, verificar la sección [Actualizar Parcial](/api-reference/purchase-orders/actualizar-parcial-ordenes).
 </Warning>

@@ -87,7 +87,9 @@ print(response.json())
     "name": "string",
     "mask": "string",
     "number": "string",
-    "length": 0
+    "length": 0,
+    "isNumberRequired": true,
+    "shouldPreventDuplicates": true
   },
   "franchise": {
     "id": 0,
@@ -422,6 +424,14 @@ print(response.json())
 
     <ResponseField name="length" type="integer">
       Longitud esperada del número de documento.
+    </ResponseField>
+
+    <ResponseField name="isNumberRequired" type="boolean">
+      Indica si el tipo de documento de identidad exige que se especifique el número.
+    </ResponseField>
+
+    <ResponseField name="shouldPreventDuplicates" type="boolean">
+      Indica si el tipo de documento de identidad impide que dos asociados tengan el mismo número.
     </ResponseField>
   </Expandable>
 </ResponseField>

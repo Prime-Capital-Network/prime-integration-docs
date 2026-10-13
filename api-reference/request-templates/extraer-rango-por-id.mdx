@@ -104,7 +104,7 @@ print(response.json())
 
   <Expandable title="propiedades">
     <ResponseField name="type" type="string">
-      Tipo de participante. Valores posibles: `User`, `Group`.
+      Tipo de participante. Valores posibles: `User`, `Group`, `Supervisor`. Con `Supervisor`, quien autoriza es el supervisor del usuario que envía la solicitud, y `id`/`name` son `null`.
     </ResponseField>
 
     <ResponseField name="id" type="string">

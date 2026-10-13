@@ -62,11 +62,14 @@ Actualiza los datos parcialmente de una entrega de compra en la empresa.
   Identificador del almacén de inventario (Storeroom) donde se entrega la mercancía. Ver [Almacenes de Inventario](/api-reference/storerooms/listar-almacenes).
 </ParamField>
 
+<ParamField body="reference" type="string">
+  Referencia libre de la entrega. Máximo 50 caracteres.
+</ParamField>
+
 <ParamField body="status" type="string">
   Estatus de la entrega de compra. Valores aceptados:
 
   - `New`
-  - `Confirmed`
   - `Deleted`
 </ParamField>
 
@@ -82,7 +85,7 @@ curl --request PATCH \
   --header "Content-Type: application/merge-patch+json" \
   --data '{
     "confirmedBy": "b2c3d4e5-f6a7-8901-bcde-f21345678901",
-    "status": "Confirmed"
+    "status": "New"
   }'
 ```
 
@@ -96,7 +99,7 @@ const response = await fetch("https://api.primenetcloud.com/v1/purchase-deliveri
   },
   body: JSON.stringify({
     confirmedBy: "b2c3d4e5-f6a7-8901-bcde-f21345678901",
-    status: "Confirmed"
+    status: "New"
   }),
 });
 
@@ -111,7 +114,7 @@ response = requests.patch(
     "https://api.primenetcloud.com/v1/purchase-deliveries/318",
     json={
         "confirmedBy": "b2c3d4e5-f6a7-8901-bcde-f21345678901",
-        "status": "Confirmed"
+        "status": "New"
     },
     headers={
         "X-Api-Key": "YOUR_API_KEY",
@@ -152,7 +155,7 @@ Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
 ```json
 {
   "confirmedBy": "b2c3d4e5-f6a7-8901-bcde-f21345678901",
-  "status": "Confirmed"
+  "status": "New"
 }
 ```
 

@@ -28,9 +28,12 @@ Crea una nueva solicitud (request) en la empresa, a partir de una plantilla prev
 </ParamField>
 
 <ParamField body="originOperationIds" type="integer[]">
-  Lista de identificadores de operaciones de origen, para solicitudes con múltiples orígenes. Actualmente solo el menú de estimados de costos (`CostEstimates`) soporta más de un origen.
+  Lista de identificadores de operaciones de origen, para solicitudes con múltiples orígenes. Solo los siguientes menús de origen soportan más de un origen:
 
-  Todos los estimados deben existir, estar activas, no estar ya facturadas, no tener otra solicitud activa asociada, y compartir el mismo proveedor y la misma moneda. No se permiten IDs repetidos.
+  - `CostEstimates` (estimados de costos): todos los estimados deben existir, estar activos, no estar ya facturados, no tener otra solicitud activa asociada, y compartir el mismo proveedor y la misma moneda.
+  - `PurchaseRequisitionQuotes` (líneas de cotización de requisiciones de compra): ver [Aprobación de requisiciones de compra](#aprobación-de-requisiciones-de-compra).
+
+  No se permiten IDs repetidos.
 </ParamField>
 
 <ParamField body="subject" type="string" required>
@@ -117,7 +120,7 @@ print(response.json())
 
 ### Ejemplo con múltiples orígenes
 
-Solo el menú de cotizaciones de costos (`CostEstimates`) permite más de un origen. La solicitud resultante se resuelve como un único pago al proveedor, por lo que todas las cotizaciones enviadas deben compartir el mismo proveedor y la misma moneda.
+Con el menú de estimados de costos (`CostEstimates`), la solicitud resultante se resuelve como un único pago al proveedor, por lo que todas las cotizaciones enviadas deben compartir el mismo proveedor y la misma moneda.
 
 ```json
 {
@@ -128,10 +131,30 @@ Solo el menú de cotizaciones de costos (`CostEstimates`) permite más de un ori
 }
 ```
 
+### Aprobación de requisiciones de compra
+
+Las [requisiciones de compra](/api-reference/purchase-requisitions/listar-requisiciones) y las líneas de sus cotizaciones se envían a aprobación creando una solicitud con una plantilla cuyo menú de origen sea el correspondiente:
+
+- **Requisición** (`PurchaseRequisitions`): se envía con `originOperationId` igual al `id` de la requisición. La requisición debe estar en estatus `New` y tener al menos una línea, y la plantilla no puede tener autorización por rangos (`Range`), ya que la requisición aún no tiene montos. Al crearse la solicitud, la requisición pasa a `InApproval` (o directamente a `Approved` si la plantilla no requiere autorización). Si la solicitud es rechazada o eliminada, la requisición vuelve a `New` para poder corregirse y enviarse de nuevo.
+- **Líneas de cotización** (`PurchaseRequisitionQuotes`): se envían con `originOperationIds` igual a los `id` de las líneas de cotización elegidas (o `originOperationId` para una sola línea). La plantilla debe requerir autorización; todas las líneas deben pertenecer a cotizaciones no canceladas de una misma requisición en estatus `Approved`, tener aprobación `NotSent` o `Rejected`, y cada línea de la requisición solo puede enviarse desde una cotización (y no debe estar ya en aprobación o aprobada en otra). Con autorización por rangos, el monto de la solicitud es la suma del total de las líneas, convertido a la moneda de la plantilla cuando las cotizaciones están en monedas distintas. Al crearse, las líneas pasan a aprobación `Pending`; al aprobarse o rechazarse la solicitud pasan a `Approved`/`Rejected` (los aprobadores pueden rechazar líneas individuales mientras aprueban el resto), y si la solicitud se elimina vuelven a `NotSent`.
+
+```json
+{
+  "templateId": 9,
+  "originOperationIds": [5012, 5013, 5020],
+  "subject": "Aprobación de cotización - Requisición 37",
+  "description": "Repuestos para mantenimiento preventivo de la flotilla"
+}
+```
+
+<Note>
+  Si la plantilla tiene como autorizador al supervisor (`authParticipant.type` igual a `Supervisor`), la solicitud solo puede ser enviada por un usuario que tenga supervisor asignado; un API Key no puede crearla.
+</Note>
+
 ### Errores
 
 <ResponseField name="400 Bad Request">
-  El `templateId` no es válido, alguna operación de origen no existe en el menú de origen de la plantilla, el menú de origen no soporta múltiples orígenes, las cotizaciones de costo enviadas no comparten proveedor o moneda, alguna cotización ya está facturada o ya tiene una solicitud activa asociada, o la combinación de menú de origen/destino de la plantilla no está permitida.
+  El `templateId` no es válido, alguna operación de origen no existe en el menú de origen de la plantilla, el menú de origen no soporta múltiples orígenes, las cotizaciones de costo enviadas no comparten proveedor o moneda, alguna cotización ya está facturada o ya tiene una solicitud activa asociada, la requisición o las líneas de cotización no cumplen las condiciones para enviarse a aprobación, la plantilla tiene como autorizador al supervisor y la solicitud la envía un API Key (o un usuario sin supervisor), o la combinación de menú de origen/destino de la plantilla no está permitida.
 </ResponseField>
 
 <ResponseField name="403 Forbidden">

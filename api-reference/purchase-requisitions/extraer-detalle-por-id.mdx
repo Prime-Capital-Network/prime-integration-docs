@@ -1,0 +1,252 @@
+---
+title: "Obtener Detalle"
+api: "GET /purchase-requisitions/{id}/details/{detailId}"
+---
+
+Obtén una línea específica de una requisición de compra.
+
+<Note>
+  Este endpoint requiere el scope **`PurchaseRequisitions.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único de la requisición de compra.
+</ParamField>
+
+<ParamField path="detailId" type="integer" required>
+  Identificador único de la línea.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/purchase-requisitions/37/details/101" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/purchase-requisitions/37/details/101", {
+  method: "GET",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+  },
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/purchase-requisitions/37/details/101",
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "id": 101,
+  "item": {
+    "type": {
+      "id": "Product",
+      "name": "Producto"
+    },
+    "id": 412,
+    "code": "LUB-HID-068",
+    "name": "Aceite Hidráulico ISO 68"
+  },
+  "description": null,
+  "isOutOfCatalog": false,
+  "unit": null,
+  "unitName": "Tambor 55 gal",
+  "productPackaging": {
+    "id": 10,
+    "name": "Tambor 55 gal"
+  },
+  "packagingQuantity": 1,
+  "quantity": 4,
+  "units": 4,
+  "quoteCount": 2,
+  "approvalStatus": {
+    "id": "Approved",
+    "name": "Aprobada"
+  },
+  "orderedUnits": 0,
+  "pendingUnits": 4,
+  "notes": "Para el cambio de aceite de la flotilla",
+  "insertedBy": "cmartinez",
+  "insertedDate": "2026-10-12T13:45:00+00:00",
+  "updatedBy": null,
+  "updatedDate": null
+}
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único de la línea.
+</ResponseField>
+
+<ResponseField name="item" type="object">
+  Ítem del catálogo solicitado. Para líneas fuera de catálogo solo `type` tiene valor.
+
+  <Expandable title="Ver propiedades">
+    <ResponseField name="type" type="object">
+      Tipo de ítem de la línea.
+
+      <Expandable title="Ver propiedades">
+        <ResponseField name="id" type="string">
+          Identificador del tipo de ítem.
+
+          Valores posibles:
+          - `Product`
+          - `FixedAsset`
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido del tipo de ítem.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="id" type="integer">
+      Identificador del producto de compra o activo fijo. `null` si la línea está fuera de catálogo.
+    </ResponseField>
+
+    <ResponseField name="code" type="string">
+      Código del producto o código de barras del activo fijo.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del producto o activo fijo.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="description" type="string">
+  Descripción de la línea fuera de catálogo. `null` para líneas de catálogo.
+</ResponseField>
+
+<ResponseField name="isOutOfCatalog" type="boolean">
+  Indica si la línea está fuera de catálogo (no tiene un ítem asignado).
+</ResponseField>
+
+<ResponseField name="unit" type="string">
+  Unidad de medida libre de la línea fuera de catálogo. `null` para líneas de catálogo.
+</ResponseField>
+
+<ResponseField name="unitName" type="string">
+  Unidad en la que se expresa la cantidad: el nombre del empaque si tiene, o `unit`.
+</ResponseField>
+
+<ResponseField name="productPackaging" type="object">
+  Empaque del producto. Sus propiedades son `null` si no tiene.
+
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del empaque.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del empaque.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="packagingQuantity" type="decimal">
+  Unidades por empaque.
+</ResponseField>
+
+<ResponseField name="quantity" type="decimal">
+  Cantidad solicitada (en empaques).
+</ResponseField>
+
+<ResponseField name="units" type="decimal">
+  Total de unidades solicitadas (`quantity` × `packagingQuantity`).
+</ResponseField>
+
+<ResponseField name="quoteCount" type="integer">
+  Cantidad de cotizaciones activas que incluyen la línea.
+</ResponseField>
+
+<ResponseField name="approvalStatus" type="object">
+  Estado de aprobación de la línea según sus cotizaciones. Sus propiedades son `null` mientras la línea no ha sido cotizada.
+
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del estado de aprobación.
+
+      Valores posibles:
+      - `NotSent`
+      - `Pending`
+      - `Approved`
+      - `Rejected`
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido del estado de aprobación.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="orderedUnits" type="decimal">
+  Unidades ya incluidas en órdenes de compra activas.
+</ResponseField>
+
+<ResponseField name="pendingUnits" type="decimal">
+  Unidades solicitadas pendientes de ordenar (`units` − `orderedUnits`).
+</ResponseField>
+
+<ResponseField name="notes" type="string">
+  Notas de la línea.
+</ResponseField>
+
+<ResponseField name="insertedBy" type="string">
+  Usuario que creó la línea.
+</ResponseField>
+
+<ResponseField name="insertedDate" type="string">
+  Fecha y hora de creación.
+</ResponseField>
+
+<ResponseField name="updatedBy" type="string">
+  Último usuario que modificó la línea.
+</ResponseField>
+
+<ResponseField name="updatedDate" type="string">
+  Fecha y hora de la última modificación.
+</ResponseField>
+
+### Errores
+
+<ResponseField name="404 Not Found">
+  No existe ninguna requisición de compra con el `id` especificado en la URL, o el `detailId` no pertenece a esa requisición.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `PurchaseRequisitions.Read` requerido.
+</ResponseField>

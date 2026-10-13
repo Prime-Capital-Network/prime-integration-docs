@@ -1,0 +1,169 @@
+---
+title: "Listar Líneas"
+api: "GET /purchase-requisitions/{id}/quotes/{quoteId}/details"
+---
+
+Obtén todas las líneas de una cotización.
+
+<Note>
+  Este endpoint requiere el scope **`PurchaseRequisitions.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único de la requisición de compra.
+</ParamField>
+
+<ParamField path="quoteId" type="integer" required>
+  Identificador único de la cotización.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/purchase-requisitions/37/quotes/21/details" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/purchase-requisitions/37/quotes/21/details", {
+  method: "GET",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+  },
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/purchase-requisitions/37/quotes/21/details",
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+[
+  {
+    "id": 5012,
+    "requisitionDetail": {
+      "id": 101,
+      "lineNumber": 1,
+      "item": {
+        "type": {
+          "id": "Product",
+          "name": "Producto"
+        },
+        "id": 412,
+        "name": "Aceite Hidráulico ISO 68"
+      },
+      "description": null,
+      "unitName": "Tambor 55 gal",
+      "quantity": 4
+    },
+    "productPackaging": {
+      "id": 10,
+      "name": "Tambor 55 gal"
+    },
+    "packagingQuantity": 1,
+    "quantity": 4,
+    "price": 18500,
+    "discount": 500,
+    "taxPercent": 18,
+    "subTotalAmount": 74000,
+    "taxAmount": 12960,
+    "totalAmount": 84960,
+    "notes": "Precio sujeto a disponibilidad",
+    "approval": {
+      "id": "Approved",
+      "name": "Aprobada"
+    },
+    "approvalRequest": {
+      "id": 160,
+      "number": 160
+    },
+    "orderedUnits": 0
+  },
+  {
+    "id": 5013,
+    "requisitionDetail": {
+      "id": 102,
+      "lineNumber": 2,
+      "item": {
+        "type": {
+          "id": "Product",
+          "name": "Producto"
+        },
+        "id": null,
+        "name": null
+      },
+      "description": "Filtro de aire para camión Volvo FH",
+      "unitName": "Unidad",
+      "quantity": 6
+    },
+    "productPackaging": {
+      "id": null,
+      "name": null
+    },
+    "packagingQuantity": 1,
+    "quantity": 6,
+    "price": 2350,
+    "discount": 0,
+    "taxPercent": 18,
+    "subTotalAmount": 14100,
+    "taxAmount": 2538,
+    "totalAmount": 16638,
+    "notes": null,
+    "approval": {
+      "id": "Pending",
+      "name": "Pendiente"
+    },
+    "approvalRequest": {
+      "id": 161,
+      "number": 161
+    },
+    "orderedUnits": 0
+  }
+]
+```
+
+### Response fields
+
+import ListFields from './snippets/cotizacion-list-details.mdx'
+
+<ListFields />
+
+### Errores
+
+<ResponseField name="404 Not Found">
+  No existe ninguna requisición de compra con el `id` especificado, o el `quoteId` no pertenece a esa requisición.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `PurchaseRequisitions.Read` requerido.
+</ResponseField>

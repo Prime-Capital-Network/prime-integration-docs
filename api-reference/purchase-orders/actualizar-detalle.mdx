@@ -9,6 +9,10 @@ Actualiza un detalle para una orden de compra específica.
   Este endpoint requiere el scope **`PurchaseOrders.Write`**.
 </Note>
 
+<Info>
+  En los detalles generados desde una [requisición de compra](/api-reference/purchase-requisitions/generar-orden) (con `requisitionQuoteDetail.id`) no puede cambiarse el ítem, y la cantidad (`quantity` × `packagingQuantity`) no puede superar lo pendiente por ordenar de su línea de cotización.
+</Info>
+
 <Warning>
   Este es un reemplazo completo del recurso (PUT). Todos los campos enviados en el body sobrescribirán el estado actual del detalle. Para cambios parciales, verificar la sección [Actualizar Parcial Detalle](/api-reference/purchase-orders/actualizar-parcial-detalle).
 </Warning>
@@ -128,6 +132,12 @@ Actualiza un detalle para una orden de compra específica.
 
 <ParamField body="locationId" type="integer">
   Identificador de la localización de almacén (Storeroom Location) donde se ubica el ítem. Ver [Almacenes de Inventario](/api-reference/storerooms/listar-localizaciones).
+</ParamField>
+
+<ParamField body="vehicleId" type="integer">
+  Identificador del vehículo al que se destina el ítem. Ver [Vehículos](/api-reference/vehicles/listar-vehiculos).
+
+  - Debe corresponder a un vehículo existente.
 </ParamField>
 
 ### Example request
@@ -250,7 +260,8 @@ Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
   "departmentId": 3,
   "costCenterId": 5,
   "projectId": null,
-  "locationId": 12
+  "locationId": 12,
+  "vehicleId": 45
 }
 ```
 

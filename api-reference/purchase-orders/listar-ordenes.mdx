@@ -214,9 +214,14 @@ print(response.json())
       "taxAmount": 0,
       "totalAmount": 0,
       "insertedBy": "string",
+      "insertedDate": "2026-06-20T08:00:00.000Z",
       "status": {
-        "id": 0,
-        "name": "string"
+        "id": "New",
+        "name": "Nueva"
+      },
+      "requisition": {
+        "id": 37,
+        "number": 37
       }
     }
   ]
@@ -356,11 +361,15 @@ print(response.json())
       Usuario que creó la orden de compra.
     </ResponseField>
 
+    <ResponseField name="insertedDate" type="string">
+      Fecha y hora de creación de la orden de compra.
+    </ResponseField>
+
     <ResponseField name="status" type="object">
       Estatus de la orden de compra.
 
       <Expandable title="status">
-        <ResponseField name="id" type="integer">
+        <ResponseField name="id" type="string">
           Identificador del estatus.
 
           Valores posibles:
@@ -371,6 +380,20 @@ print(response.json())
 
         <ResponseField name="name" type="string">
           Nombre traducido del estatus.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="requisition" type="object">
+      [Requisición de compra](/api-reference/purchase-requisitions/extraer-requisicion-por-id) desde la que se generó la orden. Sus propiedades son `null` si la orden no proviene de una requisición.
+
+      <Expandable title="requisition">
+        <ResponseField name="id" type="integer">
+          Identificador de la requisición.
+        </ResponseField>
+
+        <ResponseField name="number" type="integer">
+          Número de la requisición.
         </ResponseField>
       </Expandable>
     </ResponseField>

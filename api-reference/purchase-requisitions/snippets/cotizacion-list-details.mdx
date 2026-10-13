@@ -1,0 +1,148 @@
+<ResponseField name="id" type="integer">
+  Identificador único de la línea de cotización.
+</ResponseField>
+
+<ResponseField name="requisitionDetail" type="object">
+  Línea de la requisición que se cotiza.
+
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador de la línea de la requisición.
+    </ResponseField>
+
+    <ResponseField name="lineNumber" type="integer">
+      Número de la línea en la requisición.
+    </ResponseField>
+
+    <ResponseField name="item" type="object">
+      Ítem solicitado. Para líneas fuera de catálogo solo `type` tiene valor.
+
+      <Expandable title="Ver propiedades">
+        <ResponseField name="type" type="object">
+          Tipo de ítem.
+
+          <Expandable title="Ver propiedades">
+            <ResponseField name="id" type="string">
+              Identificador del tipo de ítem.
+
+              Valores posibles:
+              - `Product`
+              - `FixedAsset`
+            </ResponseField>
+
+            <ResponseField name="name" type="string">
+              Nombre traducido del tipo de ítem.
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+
+        <ResponseField name="id" type="integer">
+          Identificador del producto o activo fijo.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del producto o activo fijo.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="description" type="string">
+      Descripción de la línea fuera de catálogo.
+    </ResponseField>
+
+    <ResponseField name="unitName" type="string">
+      Unidad en la que se expresa la cantidad de la requisición.
+    </ResponseField>
+
+    <ResponseField name="quantity" type="decimal">
+      Cantidad solicitada en la requisición.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="productPackaging" type="object">
+  Empaque cotizado. Sus propiedades son `null` si no tiene.
+
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del empaque.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del empaque.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="packagingQuantity" type="decimal">
+  Unidades por empaque.
+</ResponseField>
+
+<ResponseField name="quantity" type="decimal">
+  Cantidad cotizada (en empaques).
+</ResponseField>
+
+<ResponseField name="price" type="decimal">
+  Precio unitario cotizado.
+</ResponseField>
+
+<ResponseField name="discount" type="decimal">
+  Descuento por unidad.
+</ResponseField>
+
+<ResponseField name="taxPercent" type="decimal">
+  Porcentaje de impuesto.
+</ResponseField>
+
+<ResponseField name="subTotalAmount" type="decimal">
+  Subtotal de la línea antes de descuento (`quantity` × `price`).
+</ResponseField>
+
+<ResponseField name="taxAmount" type="decimal">
+  Monto de impuesto de la línea (`quantity` × (`price` − `discount`) × `taxPercent` / 100).
+</ResponseField>
+
+<ResponseField name="totalAmount" type="decimal">
+  Monto total de la línea (`quantity` × (`price` − `discount`) + `taxAmount`).
+</ResponseField>
+
+<ResponseField name="notes" type="string">
+  Notas de la línea.
+</ResponseField>
+
+<ResponseField name="approval" type="object">
+  Estado de aprobación de la línea.
+
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del estado de aprobación. Valores posibles:
+
+      - `NotSent`: no se ha enviado a aprobación.
+      - `Pending`: en aprobación.
+      - `Approved`: aprobada; puede ordenarse.
+      - `Rejected`: rechazada; puede corregirse y enviarse de nuevo.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido del estado de aprobación.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="approvalRequest" type="object">
+  Última [solicitud](/api-reference/requests/extraer-solicitud-por-id) con la que se envió la línea a aprobación. Sus propiedades son `null` si no se ha enviado.
+
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador de la solicitud.
+    </ResponseField>
+
+    <ResponseField name="number" type="integer">
+      Número de la solicitud.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="orderedUnits" type="decimal">
+  Unidades de la línea ya incluidas en órdenes de compra activas.
+</ResponseField>

@@ -1,0 +1,111 @@
+---
+title: "Cancelar Cotización"
+api: "POST /purchase-requisitions/{id}/quotes/{quoteId}/cancel"
+---
+
+Cancela una cotización de una requisición de compra. Una cotización cancelada deja de aparecer en la comparación y el proveedor puede registrar una nueva.
+
+<Note>
+  Este endpoint requiere el scope **`PurchaseRequisitions.Write`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único de la requisición de compra.
+</ParamField>
+
+<ParamField path="quoteId" type="integer" required>
+  Identificador único de la cotización.
+</ParamField>
+
+### Body parameters
+
+<ParamField body="reason" type="string">
+  Razón de la cancelación. Máximo 250 caracteres.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request POST \
+  --url "https://api.primenetcloud.com/v1/purchase-requisitions/37/quotes/22/cancel" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "reason": "El proveedor retiró la oferta"
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/purchase-requisitions/37/quotes/22/cancel", {
+  method: "POST",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    "reason": "El proveedor retiró la oferta"
+  }),
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.post(
+    "https://api.primenetcloud.com/v1/purchase-requisitions/37/quotes/22/cancel",
+    json={
+        "reason": "El proveedor retiró la oferta"
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Response
+
+Si la cancelación es exitosa, el endpoint retorna `204 No Content` sin body.
+
+### Errores
+
+<ResponseField name="400 Bad Request">
+  La cotización ya ha sido cancelada, tiene líneas en aprobación, o tiene líneas incluidas en órdenes de compra activas.
+</ResponseField>
+
+<ResponseField name="404 Not Found">
+  No existe ninguna requisición de compra con el `id` especificado, o el `quoteId` no pertenece a esa requisición.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `PurchaseRequisitions.Write` requerido.
+</ResponseField>
+
+<RequestExample>
+
+```json
+{
+  "reason": "El proveedor retiró la oferta"
+}
+```
+
+</RequestExample>

@@ -115,6 +115,10 @@ print(response.json())
   Detalle de la orden de compra contra el cual se recibió el producto. `null` si la recepción no está asociada a una orden de compra.
 
   <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del detalle de la orden de compra.
+    </ResponseField>
+
     <ResponseField name="quantity" type="decimal">
       Cantidad total solicitada en el detalle de la orden de compra.
     </ResponseField>
@@ -166,6 +170,7 @@ print(response.json())
       "name": "Paleta"
     },
     "purchaseOrderDetail": {
+      "id": 34,
       "quantity": 1000,
       "unitReceived": 800,
       "packagingQuantity": 25,

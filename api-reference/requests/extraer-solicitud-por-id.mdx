@@ -205,7 +205,7 @@ print(response.json())
 
       <Expandable title="propiedades">
         <ResponseField name="type" type="string">
-          Tipo de participante. Valores posibles: `User`, `Group`.
+          Tipo de participante. Valores posibles: `User`, `Group`, `Supervisor`. Con `Supervisor`, quien autoriza es el supervisor del usuario que envía la solicitud, y `id` es `null`.
         </ResponseField>
 
         <ResponseField name="id" type="string">
@@ -307,7 +307,7 @@ print(response.json())
 </ResponseField>
 
 <ResponseField name="details" type="array">
-  Lista de orígenes de la solicitud, solo presente cuando `originType.id` es `MultipleOrigins`. Actualmente solo aplica a solicitudes cuyo origen son estimados de costos.
+  Lista de orígenes de la solicitud, solo presente cuando `originType.id` es `MultipleOrigins`. Aplica a solicitudes cuyo origen son estimados de costos (`CostEstimates`) o líneas de cotización de requisiciones de compra (`PurchaseRequisitionQuotes`).
 
   <Expandable title="propiedades">
     <ResponseField name="id" type="integer">
@@ -372,6 +372,28 @@ print(response.json())
           Monto del documento de origen.
         </ResponseField>
       </Expandable>
+    </ResponseField>
+
+    <ResponseField name="response" type="object">
+      Respuesta de autorización de este origen. Solo los menús que permiten responder cada origen por separado (líneas de cotización de requisiciones, `PurchaseRequisitionQuotes`) la registran; en los demás se mantiene `Unassigned`.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="string">
+          Identificador de la respuesta. Valores posibles: `Unassigned`, `Approved`, `Rejected`.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido de la respuesta.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="respondedBy" type="string">
+      Nombre del usuario que respondió este origen. `null` si aún no ha sido respondido.
+    </ResponseField>
+
+    <ResponseField name="responseDate" type="string">
+      Fecha y hora en que se respondió este origen. `null` si aún no ha sido respondido.
     </ResponseField>
   </Expandable>
 </ResponseField>

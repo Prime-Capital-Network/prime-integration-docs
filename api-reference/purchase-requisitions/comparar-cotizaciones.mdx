@@ -1,0 +1,382 @@
+---
+title: "Comparar Cotizaciones"
+api: "GET /purchase-requisitions/{id}/quote-comparison"
+---
+
+Obtén el cuadro comparativo de las cotizaciones activas de una requisición: por cada línea de la requisición, lo que cotizó cada proveedor, con los montos convertidos a una moneda común para poder compararlos.
+
+<Note>
+  Este endpoint requiere el scope **`PurchaseRequisitions.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único de la requisición de compra.
+</ParamField>
+
+### Query parameters
+
+<ParamField query="currency_id" type="string">
+  Moneda en la que se comparan los montos (ej. `DOP`, `USD`). Si se omite, se usa la moneda local de la empresa. Los montos de cotizaciones en otra moneda se convierten con la tasa de cambio vigente; si no existe una tasa para la moneda de una cotización, sus campos comparados son `null`.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/purchase-requisitions/37/quote-comparison?currency_id=DOP" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/purchase-requisitions/37/quote-comparison?currency_id=DOP", {
+  method: "GET",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+  },
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/purchase-requisitions/37/quote-comparison?currency_id=DOP",
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "compareCurrency": {
+    "id": "DOP"
+  },
+  "lines": [
+    {
+      "requisitionDetail": {
+        "id": 101,
+        "lineNumber": 1,
+        "item": {
+          "type": {
+            "id": "Product",
+            "name": "Producto"
+          },
+          "id": 412,
+          "name": "Aceite Hidráulico ISO 68"
+        },
+        "description": null,
+        "unitName": "Tambor 55 gal",
+        "quantity": 4
+      },
+      "units": 4,
+      "quotes": [
+        {
+          "id": 21,
+          "vendor": {
+            "id": 142,
+            "name": "Lubricantes del Caribe, SRL"
+          },
+          "number": "COT-2026-0881",
+          "currency": {
+            "id": "DOP"
+          },
+          "paymentTerm": {
+            "id": 2,
+            "name": "30 días"
+          },
+          "deliveryDays": 5,
+          "quoteDetail": {
+            "id": 5012
+          },
+          "quantity": 4,
+          "packagingQuantity": 1,
+          "price": 18500,
+          "discount": 500,
+          "netAmount": 72000,
+          "compareRate": 1,
+          "comparedUnitCost": 18000,
+          "comparedAmount": 72000,
+          "isBestPrice": true,
+          "approval": {
+            "id": "Approved",
+            "name": "Aprobada"
+          },
+          "isSelectable": false
+        },
+        {
+          "id": 22,
+          "vendor": {
+            "id": 205,
+            "name": "Distribuidora Industrial Cibao, SRL"
+          },
+          "number": "Q-4471",
+          "currency": {
+            "id": "USD"
+          },
+          "paymentTerm": {
+            "id": 1,
+            "name": "Contado"
+          },
+          "deliveryDays": 10,
+          "quoteDetail": {
+            "id": 5020
+          },
+          "quantity": 4,
+          "packagingQuantity": 1,
+          "price": 320,
+          "discount": 0,
+          "netAmount": 1280,
+          "compareRate": 60.15,
+          "comparedUnitCost": 19248,
+          "comparedAmount": 76992,
+          "isBestPrice": false,
+          "approval": {
+            "id": "NotSent",
+            "name": "No enviada"
+          },
+          "isSelectable": false
+        }
+      ]
+    }
+  ]
+}
+```
+
+### Response fields
+
+<ResponseField name="compareCurrency" type="object">
+  Moneda en la que se expresan los montos comparados. Su `id` es `null` si la requisición no tiene cotizaciones activas.
+
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="string">
+      Identificador de la moneda (ej. `DOP`, `USD`).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="lines" type="array">
+  Una entrada por cada línea de la requisición.
+
+  <Expandable title="Ver propiedades">
+    <ResponseField name="requisitionDetail" type="object">
+      Línea de la requisición.
+
+      <Expandable title="Ver propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador de la línea.
+        </ResponseField>
+
+        <ResponseField name="lineNumber" type="integer">
+          Número de la línea.
+        </ResponseField>
+
+        <ResponseField name="item" type="object">
+          Ítem solicitado. Para líneas fuera de catálogo solo `type` tiene valor.
+
+          <Expandable title="Ver propiedades">
+            <ResponseField name="type" type="object">
+              Tipo de ítem.
+
+              <Expandable title="Ver propiedades">
+                <ResponseField name="id" type="string">
+                  Identificador del tipo de ítem.
+
+                  Valores posibles:
+                  - `Product`
+                  - `FixedAsset`
+                </ResponseField>
+
+                <ResponseField name="name" type="string">
+                  Nombre traducido del tipo de ítem.
+                </ResponseField>
+              </Expandable>
+            </ResponseField>
+
+            <ResponseField name="id" type="integer">
+              Identificador del producto o activo fijo.
+            </ResponseField>
+
+            <ResponseField name="name" type="string">
+              Nombre del producto o activo fijo.
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+
+        <ResponseField name="description" type="string">
+          Descripción de la línea fuera de catálogo.
+        </ResponseField>
+
+        <ResponseField name="unitName" type="string">
+          Unidad en la que se expresa la cantidad.
+        </ResponseField>
+
+        <ResponseField name="quantity" type="decimal">
+          Cantidad solicitada (en empaques).
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="units" type="decimal">
+      Total de unidades solicitadas.
+    </ResponseField>
+
+    <ResponseField name="quotes" type="array">
+      Una entrada por cada cotización activa de la requisición, haya cotizado o no la línea.
+
+      <Expandable title="Ver propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador de la cotización.
+        </ResponseField>
+
+        <ResponseField name="vendor" type="object">
+          Proveedor de la cotización.
+
+          <Expandable title="Ver propiedades">
+            <ResponseField name="id" type="integer">
+              Identificador del proveedor.
+            </ResponseField>
+
+            <ResponseField name="name" type="string">
+              Nombre del proveedor.
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+
+        <ResponseField name="number" type="string">
+          Número de la cotización asignado por el proveedor.
+        </ResponseField>
+
+        <ResponseField name="currency" type="object">
+          Moneda de la cotización.
+
+          <Expandable title="Ver propiedades">
+            <ResponseField name="id" type="string">
+              Identificador de la moneda (ej. `DOP`, `USD`).
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+
+        <ResponseField name="paymentTerm" type="object">
+          Término de pago de la cotización. Sus propiedades son `null` si no se especificó.
+
+          <Expandable title="Ver propiedades">
+            <ResponseField name="id" type="integer">
+              Identificador del término de pago.
+            </ResponseField>
+
+            <ResponseField name="name" type="string">
+              Nombre del término de pago.
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+
+        <ResponseField name="deliveryDays" type="integer">
+          Días de entrega ofrecidos por el proveedor.
+        </ResponseField>
+
+        <ResponseField name="quoteDetail" type="object">
+          Línea de cotización. Su `id` es `null` si el proveedor no cotizó esta línea, en cuyo caso los campos de precio también son `null`.
+
+          <Expandable title="Ver propiedades">
+            <ResponseField name="id" type="integer">
+              Identificador de la línea de cotización.
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+
+        <ResponseField name="quantity" type="decimal">
+          Cantidad cotizada (en empaques de la cotización).
+        </ResponseField>
+
+        <ResponseField name="packagingQuantity" type="decimal">
+          Unidades por empaque de la cotización.
+        </ResponseField>
+
+        <ResponseField name="price" type="decimal">
+          Precio unitario cotizado, en la moneda de la cotización.
+        </ResponseField>
+
+        <ResponseField name="discount" type="decimal">
+          Descuento por unidad, en la moneda de la cotización.
+        </ResponseField>
+
+        <ResponseField name="netAmount" type="decimal">
+          Monto neto cotizado (`quantity` × (`price` − `discount`)), sin impuesto, en la moneda de la cotización.
+        </ResponseField>
+
+        <ResponseField name="compareRate" type="decimal">
+          Tasa usada para convertir de la moneda de la cotización a `compareCurrency`.
+        </ResponseField>
+
+        <ResponseField name="comparedUnitCost" type="decimal">
+          Costo por unidad, neto de descuento y sin impuesto, convertido a `compareCurrency` con la tasa de cambio vigente.
+        </ResponseField>
+
+        <ResponseField name="comparedAmount" type="decimal">
+          Costo de cubrir las unidades solicitadas en la línea de la requisición (`comparedUnitCost` × `units`), en `compareCurrency`.
+        </ResponseField>
+
+        <ResponseField name="isBestPrice" type="boolean">
+          Indica si es el menor `comparedUnitCost` cotizado para la línea.
+        </ResponseField>
+
+        <ResponseField name="approval" type="object">
+          Estado de aprobación de la línea de cotización. Sus propiedades son `null` si el proveedor no cotizó la línea.
+
+          <Expandable title="Ver propiedades">
+            <ResponseField name="id" type="string">
+              Identificador del estado de aprobación.
+
+              Valores posibles:
+              - `NotSent`
+              - `Pending`
+              - `Approved`
+              - `Rejected`
+            </ResponseField>
+
+            <ResponseField name="name" type="string">
+              Nombre traducido del estado de aprobación.
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+
+        <ResponseField name="isSelectable" type="boolean">
+          Indica si la línea puede enviarse a aprobación desde esta cotización (ver [Aprobación de requisiciones de compra](/api-reference/requests/crear-solicitudes#aprobación-de-requisiciones-de-compra)).
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Errores
+
+<ResponseField name="404 Not Found">
+  No existe ninguna requisición de compra con el `id` especificado en la URL.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `PurchaseRequisitions.Read` requerido.
+</ResponseField>

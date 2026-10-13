@@ -1,0 +1,145 @@
+<ResponseField name="id" type="integer">
+  Identificador único de la línea.
+</ResponseField>
+
+<ResponseField name="lineNumber" type="integer">
+  Número de la línea dentro de la requisición.
+</ResponseField>
+
+<ResponseField name="item" type="object">
+  Ítem del catálogo solicitado. Para líneas fuera de catálogo solo `type` tiene valor.
+
+  <Expandable title="Ver propiedades">
+    <ResponseField name="type" type="object">
+      Tipo de ítem de la línea.
+
+      <Expandable title="Ver propiedades">
+        <ResponseField name="id" type="string">
+          Identificador del tipo de ítem.
+
+          Valores posibles:
+          - `Product`
+          - `FixedAsset`
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido del tipo de ítem.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="id" type="integer">
+      Identificador del producto de compra o activo fijo. `null` si la línea está fuera de catálogo.
+    </ResponseField>
+
+    <ResponseField name="code" type="string">
+      Código del producto o código de barras del activo fijo.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del producto o activo fijo.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="description" type="string">
+  Descripción de la línea fuera de catálogo. `null` para líneas de catálogo.
+</ResponseField>
+
+<ResponseField name="isOutOfCatalog" type="boolean">
+  Indica si la línea está fuera de catálogo (no tiene un ítem asignado). Una línea fuera de catálogo debe vincularse a un ítem con [Asignar Ítem](/api-reference/purchase-requisitions/asignar-articulo-detalle) antes de poder ordenarse.
+</ResponseField>
+
+<ResponseField name="unit" type="string">
+  Unidad de medida libre de la línea fuera de catálogo. `null` para líneas de catálogo.
+</ResponseField>
+
+<ResponseField name="unitName" type="string">
+  Unidad en la que se expresa la cantidad: el nombre del empaque (`productPackaging`) si tiene, o `unit`.
+</ResponseField>
+
+<ResponseField name="productPackaging" type="object">
+  Empaque del producto. Sus propiedades son `null` si no tiene.
+
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador del empaque.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre del empaque.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="packagingQuantity" type="decimal">
+  Unidades por empaque.
+</ResponseField>
+
+<ResponseField name="quantity" type="decimal">
+  Cantidad solicitada (en empaques).
+</ResponseField>
+
+<ResponseField name="units" type="decimal">
+  Total de unidades solicitadas (`quantity` × `packagingQuantity`).
+</ResponseField>
+
+<ResponseField name="quoteCount" type="integer">
+  Cantidad de cotizaciones activas que incluyen la línea.
+</ResponseField>
+
+<ResponseField name="awardedQuoteDetail" type="object">
+  Línea de cotización aprobada (adjudicada) para esta línea. Sus propiedades son `null` si no hay ninguna.
+
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador de la línea de cotización.
+    </ResponseField>
+
+    <ResponseField name="vendor" type="object">
+      Proveedor de la cotización adjudicada.
+
+      <Expandable title="Ver propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador del proveedor.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del proveedor.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="approvalStatus" type="object">
+  Estado de aprobación de la línea según sus cotizaciones. Sus propiedades son `null` mientras la línea no ha sido cotizada.
+
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del estado de aprobación.
+
+      Valores posibles:
+      - `NotSent`
+      - `Pending`
+      - `Approved`
+      - `Rejected`
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido del estado de aprobación.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="orderedUnits" type="decimal">
+  Unidades ya incluidas en órdenes de compra activas.
+</ResponseField>
+
+<ResponseField name="pendingUnits" type="decimal">
+  Unidades solicitadas pendientes de ordenar (`units` − `orderedUnits`).
+</ResponseField>
+
+<ResponseField name="notes" type="string">
+  Notas de la línea.
+</ResponseField>

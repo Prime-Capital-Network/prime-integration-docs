@@ -141,6 +141,41 @@
                 ]
               },
               {
+                "group": "Requisiciones de Compra",
+                "pages": [
+                  "api-reference/purchase-requisitions/listar-requisiciones",
+                  "api-reference/purchase-requisitions/extraer-requisicion-por-id",
+                  "api-reference/purchase-requisitions/crear-requisiciones",
+                  "api-reference/purchase-requisitions/actualizar-requisiciones",
+                  "api-reference/purchase-requisitions/actualizar-parcial-requisiciones",
+                  "api-reference/purchase-requisitions/cancelar-requisicion",
+                  "api-reference/purchase-requisitions/listar-detalles",
+                  "api-reference/purchase-requisitions/extraer-detalle-por-id",
+                  "api-reference/purchase-requisitions/crear-detalle",
+                  "api-reference/purchase-requisitions/actualizar-detalle",
+                  "api-reference/purchase-requisitions/actualizar-parcial-detalle",
+                  "api-reference/purchase-requisitions/asignar-articulo-detalle",
+                  "api-reference/purchase-requisitions/eliminar-detalle",
+                  "api-reference/purchase-requisitions/listar-cotizaciones",
+                  "api-reference/purchase-requisitions/extraer-cotizacion-por-id",
+                  "api-reference/purchase-requisitions/crear-cotizaciones",
+                  "api-reference/purchase-requisitions/actualizar-cotizaciones",
+                  "api-reference/purchase-requisitions/actualizar-parcial-cotizaciones",
+                  "api-reference/purchase-requisitions/cancelar-cotizacion",
+                  "api-reference/purchase-requisitions/cargar-detalles-cotizacion",
+                  "api-reference/purchase-requisitions/listar-detalles-cotizacion",
+                  "api-reference/purchase-requisitions/extraer-detalle-cotizacion-por-id",
+                  "api-reference/purchase-requisitions/crear-detalle-cotizacion",
+                  "api-reference/purchase-requisitions/actualizar-detalle-cotizacion",
+                  "api-reference/purchase-requisitions/actualizar-parcial-detalle-cotizacion",
+                  "api-reference/purchase-requisitions/eliminar-detalle-cotizacion",
+                  "api-reference/purchase-requisitions/comparar-cotizaciones",
+                  "api-reference/purchase-requisitions/listar-lineas-ordenables",
+                  "api-reference/purchase-requisitions/generar-orden",
+                  "api-reference/purchase-requisitions/listar-ordenes-requisicion"
+                ]
+              },
+              {
                 "group": "Órdenes de Compra",
                 "pages": [
                   "api-reference/purchase-orders/listar-ordenes",

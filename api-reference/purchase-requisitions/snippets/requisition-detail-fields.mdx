@@ -1,0 +1,43 @@
+<ParamField body="itemType" type="string" required>
+  Tipo de ítem de la línea. Valores aceptados:
+
+  - `Product`: producto de compra. Ver [Productos de Compra](/api-reference/purchase-products/listar-productos-compra).
+  - `FixedAsset`: activo fijo.
+</ParamField>
+
+<ParamField body="itemId" type="integer">
+  Identificador del producto de compra o activo fijo, según `itemType`.
+
+  - Si se omite, la línea queda **fuera de catálogo** y se describe con `description` y `unit`.
+  - Si se especifica, `description` y `unit` deben omitirse.
+</ParamField>
+
+<ParamField body="description" type="string">
+  Descripción del ítem para líneas fuera de catálogo. Máximo 250 caracteres.
+
+  - Requerido cuando `itemId` no se especifica.
+</ParamField>
+
+<ParamField body="unit" type="string">
+  Unidad de medida libre para líneas fuera de catálogo (ej. `Unidad`, `Galón`). Máximo 20 caracteres.
+
+  - Requerido cuando `itemId` no se especifica.
+</ParamField>
+
+<ParamField body="productPackagingId" type="integer">
+  Identificador del empaque del producto.
+
+  - Solo aplica cuando `itemType` es `Product`.
+</ParamField>
+
+<ParamField body="packagingQuantity" type="decimal" default="1">
+  Unidades por empaque. Debe ser mayor que cero. Por defecto `1`.
+</ParamField>
+
+<ParamField body="quantity" type="decimal" required>
+  Cantidad solicitada (en empaques). Debe ser mayor que cero.
+</ParamField>
+
+<ParamField body="notes" type="string">
+  Notas de la línea. Máximo 4000 caracteres.
+</ParamField>

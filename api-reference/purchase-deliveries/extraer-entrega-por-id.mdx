@@ -85,7 +85,7 @@ print(response.json())
     "date": "2026-07-10"
   },
   "handedTo": {
-    "id": 1,
+    "id": "ThirdPerson",
     "name": "Tercero"
   },
   "receiver": {
@@ -109,13 +109,14 @@ print(response.json())
   "cancelledDate": null,
   "cancelledReason": null,
   "status": {
-    "id": 1,
-    "name": "Confirmada"
+    "id": "New",
+    "name": "Nueva"
   },
   "storeroom": {
     "id": 3,
     "name": "Almacén Principal"
   },
+  "reference": "OT-2026-0457",
   "details": [
     {
       "id": 1,
@@ -271,12 +272,11 @@ print(response.json())
   Estatus de la entrega de compra.
 
   <Expandable title="propiedades">
-    <ResponseField name="id" type="integer">
+    <ResponseField name="id" type="string">
       Identificador del estatus.
 
       Valores posibles:
       - `New`
-      - `Confirmed`
       - `Deleted`
     </ResponseField>
 
@@ -298,6 +298,10 @@ print(response.json())
       Nombre del almacén.
     </ResponseField>
   </Expandable>
+</ResponseField>
+
+<ResponseField name="reference" type="string">
+  Referencia libre de la entrega. `null` si no se especificó.
 </ResponseField>
 
 <ResponseField name="details" type="array">

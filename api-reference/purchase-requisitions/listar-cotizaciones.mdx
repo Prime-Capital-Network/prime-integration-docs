@@ -1,0 +1,305 @@
+---
+title: "Listar Cotizaciones"
+api: "GET /purchase-requisitions/{id}/quotes"
+---
+
+Obtén una lista paginada de las cotizaciones de una requisición de compra, incluyendo las canceladas.
+
+Las cotizaciones registran lo que cada proveedor ofrece por las líneas de una requisición de compra aprobada. Una vez comparadas (ver [Comparar Cotizaciones](/api-reference/purchase-requisitions/comparar-cotizaciones)), las líneas de cotización elegidas se envían a aprobación mediante una [solicitud](/api-reference/requests/crear-solicitudes#aprobación-de-requisiciones-de-compra), y las aprobadas pueden convertirse en [órdenes de compra](/api-reference/purchase-requisitions/generar-orden).
+
+<Note>
+  Este endpoint requiere el scope **`PurchaseRequisitions.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único de la requisición de compra.
+</ParamField>
+
+### Query parameters
+
+<ParamField query="sort_by" type="string">
+  Campo por el cual ordenar los resultados. Valores aceptados:
+
+  - `Id`
+  - `VendorName`
+  - `Date`
+  - `DateDesc`
+  - `Total`
+  - `TotalDesc`
+  - `DeliveryDays`
+</ParamField>
+
+<ParamField query="skip" type="integer" default="0">
+  Número de registros a omitir desde el inicio de los resultados. Utilizado junto con `take` para paginar los resultados.
+</ParamField>
+
+<ParamField query="take" type="integer" default="20">
+  Número de registros a retornar. Por defecto `20`, máximo `100`.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/purchase-requisitions/37/quotes?sort_by=TotalDesc&skip=0&take=20" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/purchase-requisitions/37/quotes?sort_by=TotalDesc&skip=0&take=20", {
+  method: "GET",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+  },
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/purchase-requisitions/37/quotes?sort_by=TotalDesc&skip=0&take=20",
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "totalCount": 2,
+  "data": [
+    {
+      "id": 21,
+      "vendor": {
+        "id": 142,
+        "name": "Lubricantes del Caribe, SRL"
+      },
+      "number": "COT-2026-0881",
+      "date": "2026-10-13",
+      "validUntil": "2026-10-28",
+      "currency": {
+        "id": "DOP"
+      },
+      "paymentTerm": {
+        "id": 2,
+        "name": "30 días"
+      },
+      "deliveryDays": 5,
+      "summary": {
+        "lineCount": 2,
+        "requisitionLineCount": 2,
+        "approvedLines": 1,
+        "inApprovalLines": 1,
+        "rejectedLines": 0
+      },
+      "subTotalAmount": 88100,
+      "discountAmount": 2000,
+      "taxAmount": 15498,
+      "totalAmount": 101598,
+      "status": {
+        "id": "InApproval",
+        "name": "En aprobación"
+      }
+    },
+    {
+      "id": 22,
+      "vendor": {
+        "id": 205,
+        "name": "Distribuidora Industrial Cibao, SRL"
+      },
+      "number": "Q-4471",
+      "date": "2026-10-13",
+      "validUntil": null,
+      "currency": {
+        "id": "USD"
+      },
+      "paymentTerm": {
+        "id": 1,
+        "name": "Contado"
+      },
+      "deliveryDays": 10,
+      "summary": {
+        "lineCount": 1,
+        "requisitionLineCount": 2,
+        "approvedLines": 0,
+        "inApprovalLines": 0,
+        "rejectedLines": 0
+      },
+      "subTotalAmount": 1280,
+      "discountAmount": 0,
+      "taxAmount": 230.4,
+      "totalAmount": 1510.4,
+      "status": {
+        "id": "Active",
+        "name": "Activa"
+      }
+    }
+  ]
+}
+```
+
+### Response fields
+
+<ResponseField name="totalCount" type="integer">
+  Total de registros.
+</ResponseField>
+
+<ResponseField name="data" type="array">
+  Lista de cotizaciones.
+
+  <Expandable title="PurchaseRequisitionQuote">
+    <ResponseField name="id" type="integer">
+      Identificador único de la cotización.
+    </ResponseField>
+
+    <ResponseField name="vendor" type="object">
+      Proveedor de la cotización.
+
+      <Expandable title="Ver propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador del proveedor.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del proveedor.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="number" type="string">
+      Número de la cotización asignado por el proveedor.
+    </ResponseField>
+
+    <ResponseField name="date" type="date">
+      Fecha de la cotización.
+    </ResponseField>
+
+    <ResponseField name="validUntil" type="date">
+      Fecha hasta la que es válida la cotización.
+    </ResponseField>
+
+    <ResponseField name="currency" type="object">
+      Moneda de la cotización.
+
+      <Expandable title="Ver propiedades">
+        <ResponseField name="id" type="string">
+          Identificador de la moneda (ej. `DOP`, `USD`).
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="paymentTerm" type="object">
+      Término de pago ofrecido. Sus propiedades son `null` si no se especificó.
+
+      <Expandable title="Ver propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador del término de pago.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del término de pago.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="deliveryDays" type="integer">
+      Días de entrega ofrecidos.
+    </ResponseField>
+
+    <ResponseField name="summary" type="object">
+      Resumen de las líneas de la cotización.
+
+      <Expandable title="Ver propiedades">
+        <ResponseField name="lineCount" type="integer">
+          Cantidad de líneas cotizadas.
+        </ResponseField>
+
+        <ResponseField name="requisitionLineCount" type="integer">
+          Cantidad de líneas de la requisición (para saber cuántas quedaron sin cotizar).
+        </ResponseField>
+
+        <ResponseField name="approvedLines" type="integer">
+          Líneas aprobadas.
+        </ResponseField>
+
+        <ResponseField name="inApprovalLines" type="integer">
+          Líneas en aprobación.
+        </ResponseField>
+
+        <ResponseField name="rejectedLines" type="integer">
+          Líneas rechazadas.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="subTotalAmount" type="decimal">
+      Subtotal de la cotización (antes de descuentos e impuestos).
+    </ResponseField>
+
+    <ResponseField name="discountAmount" type="decimal">
+      Monto total de descuentos.
+    </ResponseField>
+
+    <ResponseField name="taxAmount" type="decimal">
+      Monto total de impuestos.
+    </ResponseField>
+
+    <ResponseField name="totalAmount" type="decimal">
+      Monto total de la cotización.
+    </ResponseField>
+
+    <ResponseField name="status" type="object">
+      Estatus de la cotización.
+
+      <Expandable title="Ver propiedades">
+        <ResponseField name="id" type="string">
+          Identificador del estatus. Valores posibles:
+
+          - `Active`: cotización vigente.
+          - `InApproval`: tiene líneas en aprobación.
+          - `Approved`: tiene líneas aprobadas y ninguna en aprobación.
+          - `Cancelled`: cancelada.
+
+          Solo `Active` y `Cancelled` se almacenan; `InApproval` y `Approved` se derivan del estado de aprobación de sus líneas.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido del estatus.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Errores
+
+<ResponseField name="404 Not Found">
+  No existe ninguna requisición de compra con el `id` especificado en la URL.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `PurchaseRequisitions.Read` requerido.
+</ResponseField>

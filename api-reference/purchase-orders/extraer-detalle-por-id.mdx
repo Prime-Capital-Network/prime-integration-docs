@@ -268,6 +268,21 @@ print(response.json())
   </Expandable>
 </ResponseField>
 
+<ResponseField name="vehicle" type="object">
+  Vehículo al que se destina el ítem. Sus propiedades son `null` si no aplica.
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="integer">Identificador del vehículo.</ResponseField>
+    <ResponseField name="description" type="string">Descripción del vehículo.</ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="requisitionQuoteDetail" type="object">
+  Línea de cotización de [requisición de compra](/api-reference/purchase-requisitions/listar-detalles-cotizacion) de la que se generó el detalle. Su `id` es `null` si el detalle no proviene de una requisición; en ese caso no aplican las restricciones de ítem y cantidad de los detalles generados desde requisiciones.
+  <Expandable title="Ver propiedades">
+    <ResponseField name="id" type="integer">Identificador de la línea de cotización.</ResponseField>
+  </Expandable>
+</ResponseField>
+
 <ResponseField name="useDepartment" type="object">
   Opción de uso para el departamento según la cuenta configurada.
   <Expandable title="Ver propiedades">
@@ -395,6 +410,13 @@ print(response.json())
       "id": 3,
       "name": "Almacén Principal"
     }
+  },
+  "vehicle": {
+    "id": 45,
+    "description": "Camión Volvo FH 2019 - L123456"
+  },
+  "requisitionQuoteDetail": {
+    "id": null
   },
   "useDepartment": {
     "id": "Optional",

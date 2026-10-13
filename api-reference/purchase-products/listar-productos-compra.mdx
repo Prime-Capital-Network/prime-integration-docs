@@ -35,6 +35,10 @@ Obtén una lista paginada de productos de compra en la empresa.
   Filtra por el nombre del producto de compra.
 </ParamField>
 
+<ParamField query="Code" type="StringSearchFilter">
+  Filtra por el código del producto de compra.
+</ParamField>
+
 <ParamField query="CategoryName" type="StringSearchFilter">
   Filtra por el nombre de la categoría del producto de compra.
 </ParamField>
@@ -108,8 +112,9 @@ print(response.json())
     {
       "id": 412,
       "name": "Aceite Hidráulico ISO 68",
+      "code": "LUB-HID-068",
       "goodServiceApplicability": {
-        "id": 1,
+        "id": "Product",
         "name": "Producto"
       },
       "categoryName": "Lubricantes",
@@ -138,6 +143,10 @@ print(response.json())
 
     <ResponseField name="name" type="string">
       Nombre del producto de compra.
+    </ResponseField>
+
+    <ResponseField name="code" type="string">
+      Código del producto de compra. `null` si no tiene.
     </ResponseField>
 
     <ResponseField name="goodServiceApplicability" type="object">

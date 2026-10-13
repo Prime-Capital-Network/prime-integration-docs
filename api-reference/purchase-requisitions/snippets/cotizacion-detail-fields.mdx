@@ -1,0 +1,36 @@
+<ParamField body="requisitionDetailId" type="integer" required>
+  Identificador de la línea de la requisición que se cotiza. Ver [Listar Detalles](/api-reference/purchase-requisitions/listar-detalles).
+
+  - Debe pertenecer a la requisición de la cotización.
+  - Cada línea de la requisición solo puede aparecer una vez por cotización.
+</ParamField>
+
+<ParamField body="productPackagingId" type="integer">
+  Identificador del empaque cotizado.
+
+  - Solo aplica cuando la línea de la requisición es un producto (`Product`).
+</ParamField>
+
+<ParamField body="packagingQuantity" type="decimal" default="1">
+  Unidades por empaque. Debe ser mayor que cero. Por defecto `1`.
+</ParamField>
+
+<ParamField body="quantity" type="decimal" required>
+  Cantidad cotizada (en empaques). Debe ser mayor que cero.
+</ParamField>
+
+<ParamField body="price" type="decimal" required>
+  Precio unitario cotizado. Debe ser mayor o igual a cero.
+</ParamField>
+
+<ParamField body="discount" type="decimal" default="0">
+  Descuento por unidad. Debe ser mayor o igual a cero y no puede superar `price`. Por defecto `0`.
+</ParamField>
+
+<ParamField body="taxPercent" type="decimal" default="0">
+  Porcentaje de impuesto, entre `0` y `100`. Por defecto `0`.
+</ParamField>
+
+<ParamField body="notes" type="string">
+  Notas de la línea. Máximo 4000 caracteres.
+</ParamField>

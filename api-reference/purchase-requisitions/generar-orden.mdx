@@ -1,0 +1,176 @@
+---
+title: "Generar Órdenes"
+api: "POST /purchase-requisitions/{id}/generate-order"
+---
+
+Genera órdenes de compra a partir de líneas de cotización aprobadas de una requisición. Se crea una [orden de compra](/api-reference/purchase-orders/extraer-orden-por-id) por cada cotización (proveedor) incluida en `details`, con:
+
+- El proveedor, la moneda y el término de pago de la cotización.
+- La referencia `Req. {número de requisición} - {número de cotización}`.
+- El propósito de facturación `SupplierInvoice` y estatus `New`.
+- Una línea por cada línea de cotización enviada, con el ítem de la requisición, el empaque, precio, descuento e impuesto cotizados, la cantidad indicada y las dimensiones (departamento, centro de costo y proyecto) de la requisición.
+
+<Note>
+  Este endpoint requiere el scope **`PurchaseRequisitions.Write`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único de la requisición de compra.
+</ParamField>
+
+### Body parameters
+
+<ParamField body="date" type="date" required>
+  Fecha de las órdenes de compra, en formato `YYYY-MM-DD`.
+</ParamField>
+
+<ParamField body="description" type="string">
+  Descripción de las órdenes de compra. Máximo 4000 caracteres.
+</ParamField>
+
+<ParamField body="details" type="array" required>
+  Líneas de cotización a ordenar. Debe incluir al menos una.
+  <Expandable title="detalle">
+    <ParamField body="quoteDetailId" type="integer" required>
+      Identificador de una línea de cotización aprobada de la requisición. Ver [Líneas Ordenables](/api-reference/purchase-requisitions/listar-lineas-ordenables).
+
+      - Cada línea de cotización solo puede enviarse una vez.
+      - Debe estar vinculada a un ítem del catálogo (no fuera de catálogo).
+    </ParamField>
+
+    <ParamField body="quantity" type="decimal" required>
+      Cantidad a ordenar, en empaques de la cotización. Debe ser mayor que cero y no superar lo pendiente por ordenar de la línea.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request POST \
+  --url "https://api.primenetcloud.com/v1/purchase-requisitions/37/generate-order" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "date": "2026-10-14",
+    "description": "Compra de lubricantes para mantenimiento preventivo",
+    "details": [
+      {
+        "quoteDetailId": 5012,
+        "quantity": 4
+      }
+    ]
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/purchase-requisitions/37/generate-order", {
+  method: "POST",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    "date": "2026-10-14",
+    "description": "Compra de lubricantes para mantenimiento preventivo",
+    "details": [
+      {
+        "quoteDetailId": 5012,
+        "quantity": 4
+      }
+    ]
+  }),
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.post(
+    "https://api.primenetcloud.com/v1/purchase-requisitions/37/generate-order",
+    json={
+        "date": "2026-10-14",
+        "description": "Compra de lubricantes para mantenimiento preventivo",
+        "details": [
+            {
+                "quoteDetailId": 5012,
+                "quantity": 4
+            }
+        ]
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+<Note>
+  En las órdenes generadas desde una requisición no pueden cambiarse el proveedor ni la moneda, sus líneas no pueden cambiar de ítem, y la cantidad de cada línea no puede superar lo pendiente por ordenar de su línea de cotización (tampoco al reactivar una orden cancelada).
+</Note>
+
+### Example response
+
+```json
+[
+  {
+    "id": 812
+  }
+]
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador de cada orden de compra generada (una por cotización).
+</ResponseField>
+
+### Errores
+
+<ResponseField name="400 Bad Request">
+  La requisición no está aprobada; no se envió ninguna línea o alguna se repite; alguna línea no es una línea de cotización aprobada de la requisición, está fuera de catálogo, o su cantidad supera lo pendiente por ordenar.
+</ResponseField>
+
+<ResponseField name="404 Not Found">
+  No existe ninguna requisición de compra con el `id` especificado en la URL.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `PurchaseRequisitions.Write` requerido.
+</ResponseField>
+
+<RequestExample>
+
+```json
+{
+  "date": "2026-10-14",
+  "description": "Compra de lubricantes para mantenimiento preventivo",
+  "details": [
+    {
+      "quoteDetailId": 5012,
+      "quantity": 4
+    }
+  ]
+}
+```
+
+</RequestExample>

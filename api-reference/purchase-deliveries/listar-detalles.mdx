@@ -81,6 +81,25 @@ print(response.json())
       Nombre del producto.
     </ResponseField>
 
+    <ResponseField name="goodServiceApplicability" type="object">
+      Aplicabilidad del producto (bien o servicio).
+
+      <Expandable title="Ver propiedades">
+        <ResponseField name="id" type="string">
+          Identificador de la aplicabilidad.
+
+          Valores posibles:
+          - `NotApplicable`
+          - `Product`
+          - `Service`
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido de la aplicabilidad.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
     <ResponseField name="category" type="object">
       Categoría del producto.
 
@@ -152,6 +171,10 @@ print(response.json())
     "product": {
       "id": 88,
       "name": "Cemento Gris 42.5kg",
+      "goodServiceApplicability": {
+        "id": "Product",
+        "name": "Producto"
+      },
       "category": {
         "name": "Materiales de Construcción"
       }

@@ -1,0 +1,85 @@
+---
+title: "Eliminar Detalle"
+api: "DELETE /purchase-requisitions/{id}/details/{detailId}"
+---
+
+Elimina una línea de una requisición de compra.
+
+Las líneas solo pueden agregarse, modificarse o eliminarse mientras la requisición tiene estatus `New`, ya que son lo que se aprueba.
+
+<Note>
+  Este endpoint requiere el scope **`PurchaseRequisitions.Write`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único de la requisición de compra.
+</ParamField>
+
+<ParamField path="detailId" type="integer" required>
+  Identificador único de la línea a eliminar.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request DELETE \
+  --url "https://api.primenetcloud.com/v1/purchase-requisitions/37/details/102" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/purchase-requisitions/37/details/102", {
+  method: "DELETE",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+  },
+});
+
+console.log(response.status);
+```
+
+```python Python
+import requests
+
+response = requests.delete(
+    "https://api.primenetcloud.com/v1/purchase-requisitions/37/details/102",
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.status_code)
+```
+
+</CodeGroup>
+
+### Response
+
+Si la eliminación es exitosa, el endpoint retorna `204 No Content` sin body.
+
+### Errores
+
+<ResponseField name="400 Bad Request">
+  La requisición no tiene estatus `New`, o la línea ya ha sido cotizada.
+</ResponseField>
+
+<ResponseField name="404 Not Found">
+  No existe ninguna requisición de compra con el `id` especificado en la URL, o el `detailId` no pertenece a esa requisición.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `PurchaseRequisitions.Write` requerido.
+</ResponseField>

@@ -21,6 +21,12 @@ Crea un nuevo producto de compra en la empresa.
   Nombre del producto de compra. Máximo 200 caracteres.
 </ParamField>
 
+<ParamField body="code" type="string">
+  Código del producto de compra. Máximo 30 caracteres. Se ignoran los espacios al inicio y al final; un valor vacío se guarda como `null`.
+
+  - Debe ser único entre los productos de compra activos.
+</ParamField>
+
 <ParamField body="goodServiceApplicability" type="string" required>
   Aplicabilidad del producto de compra. Valores aceptados:
 
@@ -67,6 +73,7 @@ curl --request POST \
   --header "Content-Type: application/json" \
   --data '{
     "name": "Aceite Hidráulico ISO 68",
+    "code": "LUB-HID-068",
     "goodServiceApplicability": "Product",
     "categoryId": 8,
     "manufacturerId": 21,
@@ -86,6 +93,7 @@ const response = await fetch("https://api.primenetcloud.com/v1/purchase-products
   },
   body: JSON.stringify({
     name: "Aceite Hidráulico ISO 68",
+    code: "LUB-HID-068",
     goodServiceApplicability: "Product",
     categoryId: 8,
     manufacturerId: 21,
@@ -106,6 +114,7 @@ response = requests.post(
     "https://api.primenetcloud.com/v1/purchase-products",
     json={
         "name": "Aceite Hidráulico ISO 68",
+        "code": "LUB-HID-068",
         "goodServiceApplicability": "Product",
         "categoryId": 8,
         "manufacturerId": 21,
@@ -140,6 +149,10 @@ print(response.json())
 
 ### Errores
 
+<ResponseField name="400 Bad Request">
+  El `code` especificado ya está siendo utilizado por otro producto de compra activo, o alguno de los datos enviados no es válido.
+</ResponseField>
+
 <ResponseField name="403 Forbidden">
   El API Key no tiene el scope `PurchaseProducts.Write` requerido.
 </ResponseField>
@@ -149,6 +162,7 @@ print(response.json())
 ```json
 {
   "name": "Aceite Hidráulico ISO 68",
+  "code": "LUB-HID-068",
   "goodServiceApplicability": "Product",
   "categoryId": 8,
   "manufacturerId": 21,

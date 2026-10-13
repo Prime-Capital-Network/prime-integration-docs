@@ -9,6 +9,10 @@ Actualiza un detalle parcialmente para una orden de compra específica.
   Este endpoint requiere el scope **`PurchaseOrders.Write`**.
 </Note>
 
+<Info>
+  En los detalles generados desde una [requisición de compra](/api-reference/purchase-requisitions/generar-orden) (con `requisitionQuoteDetail.id`) no puede cambiarse el ítem, y la cantidad (`quantity` × `packagingQuantity`) no puede superar lo pendiente por ordenar de su línea de cotización.
+</Info>
+
 ### Headers
 
 <ParamField header="X-Tenant-Id" type="string" required>
@@ -126,6 +130,13 @@ Actualiza un detalle parcialmente para una orden de compra específica.
   Identificador de la localización de almacén (Storeroom Location) donde se ubica el ítem. Ver [Almacenes de Inventario](/api-reference/storerooms/listar-localizaciones).
 
   - Al no enviar este campo en una actualización parcial, la localización actual del detalle se conserva.
+</ParamField>
+
+<ParamField body="vehicleId" type="integer">
+  Identificador del vehículo al que se destina el ítem. Ver [Vehículos](/api-reference/vehicles/listar-vehiculos).
+
+  - Debe corresponder a un vehículo existente.
+  - Al no enviar este campo en una actualización parcial, el vehículo actual del detalle se conserva.
 </ParamField>
 
 ### Example request

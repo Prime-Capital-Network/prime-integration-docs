@@ -1,0 +1,144 @@
+---
+title: "Actualizar Parcial Línea"
+api: "PATCH /purchase-requisitions/{id}/quotes/{quoteId}/details/{detailId}"
+---
+
+Actualiza parcialmente una línea de una cotización. Solo se modifican los campos enviados en el body (JSON Merge Patch).
+
+La requisición debe estar aprobada (estatus `Approved`, `Quoting`, `Ordering` o `Concluded`) y la cotización no puede estar cancelada. Las líneas en aprobación (`Pending`) o aprobadas (`Approved`) no pueden modificarse ni eliminarse.
+
+<Note>
+  Este endpoint requiere el scope **`PurchaseRequisitions.Write`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único de la requisición de compra.
+</ParamField>
+
+<ParamField path="quoteId" type="integer" required>
+  Identificador único de la cotización.
+</ParamField>
+
+<ParamField path="detailId" type="integer" required>
+  Identificador único de la línea de cotización.
+</ParamField>
+
+### Body parameters
+
+<ParamField body="productPackagingId" type="integer">
+  Identificador del empaque cotizado.
+
+  - Solo aplica cuando la línea de la requisición es un producto (`Product`).
+</ParamField>
+
+<ParamField body="packagingQuantity" type="decimal">
+  Unidades por empaque. Debe ser mayor que cero.
+</ParamField>
+
+<ParamField body="quantity" type="decimal">
+  Cantidad cotizada (en empaques). Debe ser mayor que cero.
+</ParamField>
+
+<ParamField body="price" type="decimal">
+  Precio unitario cotizado. Debe ser mayor o igual a cero.
+</ParamField>
+
+<ParamField body="discount" type="decimal">
+  Descuento por unidad. Debe ser mayor o igual a cero y no puede superar `price`.
+</ParamField>
+
+<ParamField body="taxPercent" type="decimal">
+  Porcentaje de impuesto, entre `0` y `100`.
+</ParamField>
+
+<ParamField body="notes" type="string">
+  Notas de la línea. Máximo 4000 caracteres.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request PATCH \
+  --url "https://api.primenetcloud.com/v1/purchase-requisitions/37/quotes/21/details/5013" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: application/merge-patch+json" \
+  --data '{
+    "price": 2200
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/purchase-requisitions/37/quotes/21/details/5013", {
+  method: "PATCH",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+    "Content-Type": "application/merge-patch+json",
+  },
+  body: JSON.stringify({
+    "price": 2200
+  }),
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.patch(
+    "https://api.primenetcloud.com/v1/purchase-requisitions/37/quotes/21/details/5013",
+    json={
+        "price": 2200
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+        "Content-Type": "application/merge-patch+json",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Response
+
+Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
+
+### Errores
+
+<ResponseField name="400 Bad Request">
+  La requisición no está aprobada o la cotización está cancelada; el descuento es mayor que el precio; o se especificó un empaque no válido o para una línea que no es un producto. También si la línea está en aprobación o aprobada.
+</ResponseField>
+
+<ResponseField name="404 Not Found">
+  No existe ninguna requisición de compra con el `id` especificado, el `quoteId` no pertenece a esa requisición, o el `detailId` no pertenece a esa cotización.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `PurchaseRequisitions.Write` requerido.
+</ResponseField>
+
+<RequestExample>
+
+```json
+{
+  "price": 2200
+}
+```
+
+</RequestExample>

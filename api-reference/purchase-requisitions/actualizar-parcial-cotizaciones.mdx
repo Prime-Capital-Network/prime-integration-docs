@@ -1,0 +1,152 @@
+---
+title: "Actualizar Parcial Cotización"
+api: "PATCH /purchase-requisitions/{id}/quotes/{quoteId}"
+---
+
+Actualiza parcialmente los datos generales de una cotización. Solo se modifican los campos enviados en el body (JSON Merge Patch).
+
+La requisición debe estar aprobada (estatus `Approved`, `Quoting`, `Ordering` o `Concluded`) y la cotización no puede estar cancelada.
+
+<Note>
+  Este endpoint requiere el scope **`PurchaseRequisitions.Write`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único de la requisición de compra.
+</ParamField>
+
+<ParamField path="quoteId" type="integer" required>
+  Identificador único de la cotización.
+</ParamField>
+
+### Body parameters
+
+<ParamField body="vendorId" type="integer">
+  Identificador del proveedor (Vendor).
+
+  - Debe ser un asociado con el campo `IsVendor` como true.
+  - Un proveedor solo puede tener una cotización activa por requisición.
+  - No puede cambiarse si la cotización tiene líneas en aprobación o aprobadas.
+</ParamField>
+
+<ParamField body="number" type="string">
+  Número de la cotización asignado por el proveedor. Máximo 24 caracteres.
+</ParamField>
+
+<ParamField body="date" type="date">
+  Fecha de la cotización, en formato `YYYY-MM-DD`.
+</ParamField>
+
+<ParamField body="validUntil" type="date">
+  Fecha hasta la que es válida la cotización, en formato `YYYY-MM-DD`. No puede ser anterior a `date`.
+</ParamField>
+
+<ParamField body="currencyId" type="string">
+  Identificador de la moneda de la cotización (ej. `DOP`, `USD`). Ver [Monedas](/api-reference/currencies/listar-monedas).
+
+  - No puede cambiarse si la cotización tiene líneas en aprobación o aprobadas.
+</ParamField>
+
+<ParamField body="paymentTermId" type="integer">
+  Identificador del término de pago ofrecido. Ver [Términos de Pago](/api-reference/payment-terms/listar-terminos-pago).
+</ParamField>
+
+<ParamField body="deliveryDays" type="integer">
+  Días de entrega ofrecidos por el proveedor. Debe ser mayor o igual a cero.
+</ParamField>
+
+<ParamField body="notes" type="string">
+  Notas de la cotización. Máximo 4000 caracteres.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request PATCH \
+  --url "https://api.primenetcloud.com/v1/purchase-requisitions/37/quotes/21" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: application/merge-patch+json" \
+  --data '{
+    "validUntil": "2026-10-31",
+    "deliveryDays": 3
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/purchase-requisitions/37/quotes/21", {
+  method: "PATCH",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+    "Content-Type": "application/merge-patch+json",
+  },
+  body: JSON.stringify({
+    "validUntil": "2026-10-31",
+    "deliveryDays": 3
+  }),
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.patch(
+    "https://api.primenetcloud.com/v1/purchase-requisitions/37/quotes/21",
+    json={
+        "validUntil": "2026-10-31",
+        "deliveryDays": 3
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+        "Content-Type": "application/merge-patch+json",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Response
+
+Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
+
+### Errores
+
+<ResponseField name="400 Bad Request">
+  La requisición no está aprobada o la cotización está cancelada; el proveedor no es válido, no es un vendor o ya tiene otra cotización activa en la requisición; la moneda o el término de pago no es válido; o `validUntil` es anterior a `date`. También si se intenta cambiar el proveedor o la moneda teniendo líneas en aprobación o aprobadas.
+</ResponseField>
+
+<ResponseField name="404 Not Found">
+  No existe ninguna requisición de compra con el `id` especificado, o el `quoteId` no pertenece a esa requisición.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `PurchaseRequisitions.Write` requerido.
+</ResponseField>
+
+<RequestExample>
+
+```json
+{
+  "validUntil": "2026-10-31",
+  "deliveryDays": 3
+}
+```
+
+</RequestExample>
