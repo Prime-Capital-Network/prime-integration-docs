@@ -244,6 +244,8 @@ Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
 
 <ResponseField name="400 Bad Request">
   La solicitud será rechazada si la factura ya ha sido posteada (campo `status` como `Posted`). La factura no puede ser modificada en este estado.
+
+  También será rechazada si la factura es un e-CF ya enviado a la DGII (código `ISSUED_ECF`).
 </ResponseField>
 
 <ResponseField name="404 Not Found">

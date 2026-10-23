@@ -10,7 +10,7 @@ Actualiza solo los campos enviados de una factura por cobrar, siguiendo el forma
 </Note>
 
 <Warning>
-  Si la factura es un e-CF que ya fue enviado a la DGII, la solicitud será rechazada con un error `400 Bad Request` y el código `IssuedEcf`: la factura no puede ser modificada.
+  Si la factura es un e-CF que ya fue enviado a la DGII, la solicitud será rechazada con un error `400 Bad Request` y el código `ISSUED_ECF`: la factura no puede ser modificada.
 </Warning>
 
 ### Headers
@@ -177,7 +177,7 @@ Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
 ### Errores
 
 <ResponseField name="400 Bad Request">
-  La solicitud no cumple alguna de las reglas de los campos, la factura ya está posteada y se envía `status` como `Posted`, la transición de estatus no está permitida, o la factura es un e-CF ya enviado a la DGII (código `IssuedEcf`).
+  La solicitud no cumple alguna de las reglas de los campos, la factura ya está posteada y se envía `status` como `Posted`, la transición de estatus no está permitida, o la factura es un e-CF ya enviado a la DGII (código `ISSUED_ECF`).
 </ResponseField>
 
 <ResponseField name="403 Forbidden">
