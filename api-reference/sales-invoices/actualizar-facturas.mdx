@@ -1,0 +1,224 @@
+---
+title: "Actualizar"
+api: "PUT /sales-invoices/{id}"
+---
+
+Actualiza todos los datos de una factura por cobrar. Los campos que no se envíen quedan con su valor por defecto (`null`), por lo que deben enviarse todos los valores que la factura debe conservar. Para modificar solo algunos campos usa [Actualizar Parcial](/api-reference/sales-invoices/actualizar-parcial-facturas).
+
+<Note>
+  Este endpoint requiere el scope **`SalesInvoices.Write`**.
+</Note>
+
+<Warning>
+  Si la factura es un e-CF que ya fue enviado a la DGII, la solicitud será rechazada con un error `400 Bad Request` y el código `IssuedEcf`: la factura no puede ser modificada.
+</Warning>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único de la factura a actualizar.
+</ParamField>
+
+### Body parameters
+
+<ParamField body="date" type="date" required>
+  Fecha de la factura en formato `YYYY-MM-DD`.
+
+  - No puede ser posterior a mañana, según la zona horaria de la empresa.
+  - Debe pertenecer a un período fiscal activo.
+</ParamField>
+
+<ParamField body="fiscalDocumentId" type="string">
+  Identificador del documento fiscal (tipo de comprobante). Requerido.
+
+  - Debe ser un documento fiscal que aplique a cuentas por cobrar: `FC` (crédito fiscal), `FF` (consumo), `FG` (gubernamental) o `FE` (régimen especial).
+  - Si la empresa no es de República Dominicana, o el método de NCF está deshabilitado, solo se acepta `FC`.
+</ParamField>
+
+<ParamField body="customerId" type="integer" required>
+  Identificador del cliente.
+
+  - Debe ser un asociado con `isCustomer` como `true`.
+  - Debe tener un grupo de cuentas de cliente asignado.
+  - Su tipo de negocio de cliente debe tener el porcentaje de impuesto configurado.
+</ParamField>
+
+<ParamField body="attention" type="string">
+  Persona a la que va dirigida la factura. Máximo 50 caracteres.
+</ParamField>
+
+<ParamField body="paymentTermId" type="integer" required>
+  Identificador del término de pago. Se usa para calcular la fecha de vencimiento.
+</ParamField>
+
+<ParamField body="currencyId" type="string" required>
+  Identificador de la moneda. Máximo 3 caracteres.
+</ParamField>
+
+<ParamField body="exchangeRate" type="decimal">
+  Tasa de cambio aplicada. Debe ser mayor que cero.
+
+  - Si `currencyId` es igual a la moneda de la empresa, siempre se asigna `1`.
+  - Si es distinta y el campo es `null`, el sistema asigna la tasa vigente a la fecha de la factura.
+</ParamField>
+
+<ParamField body="reference" type="string">
+  Referencia de la factura. Máximo 200 caracteres.
+</ParamField>
+
+<ParamField body="jobNumber" type="string">
+  Número de job u orden de compra del cliente. Máximo 80 caracteres.
+</ParamField>
+
+<ParamField body="footnotes" type="string">
+  Notas al pie de la factura. Máximo 250 caracteres.
+</ParamField>
+
+<ParamField body="billingTemplateId" type="integer">
+  Identificador de la plantilla de facturación.
+</ParamField>
+
+<ParamField body="printFormat" type="string">
+  Formato de impresión. Valores aceptados:
+
+  - `Spanish`
+  - `English`
+  - `HyH`
+</ParamField>
+
+<ParamField body="status" type="string">
+  Estatus de la factura. Si no se envía, se asume `New`: una factura posteada se despostearía.
+
+  Valores aceptados:
+
+  - `New`
+  - `Posted`
+  - `Cancelled`
+  - `Deleted`
+
+  Reglas:
+  - Una factura posteada (`Posted`) no puede modificarse: si ya está posteada y se envía `Posted`, la solicitud será rechazada.
+  - No se permiten las transiciones `Cancelled` → `Posted`, `Deleted` → `Posted`, `New` → `Deleted`, `Posted` → `Cancelled` ni `Posted` → `Deleted`.
+  - Para postear la factura, sus débitos y créditos deben estar balanceados y cada cuenta debe cumplir con las dimensiones (departamento, centro de costo, proyecto) que exige su cuenta contable.
+  - Si la factura es un e-CF, no puede despostearse (`Posted` → `New`) mientras está siendo transmitida a la DGII, ni después de transmitida.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request PUT \
+  --url "https://api.primenetcloud.com/v1/sales-invoices/2210" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "date": "2026-10-20",
+    "fiscalDocumentId": "FC",
+    "customerId": 2045,
+    "attention": "Departamento de Cuentas por Pagar",
+    "paymentTermId": 5,
+    "currencyId": "DOP",
+    "reference": "PO-45871",
+    "jobNumber": "JOB-2026-118",
+    "printFormat": "Spanish",
+    "status": "New"
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/sales-invoices/2210", {
+  method: "PUT",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    date: "2026-10-20",
+    fiscalDocumentId: "FC",
+    customerId: 2045,
+    attention: "Departamento de Cuentas por Pagar",
+    paymentTermId: 5,
+    currencyId: "DOP",
+    reference: "PO-45871",
+    jobNumber: "JOB-2026-118",
+    printFormat: "Spanish",
+    status: "New"
+  }),
+});
+
+console.log(response.status);
+```
+
+```python Python
+import requests
+
+response = requests.put(
+    "https://api.primenetcloud.com/v1/sales-invoices/2210",
+    json={
+        "date": "2026-10-20",
+        "fiscalDocumentId": "FC",
+        "customerId": 2045,
+        "attention": "Departamento de Cuentas por Pagar",
+        "paymentTermId": 5,
+        "currencyId": "DOP",
+        "reference": "PO-45871",
+        "jobNumber": "JOB-2026-118",
+        "printFormat": "Spanish",
+        "status": "New"
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.status_code)
+```
+
+</CodeGroup>
+
+### Response
+
+Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
+
+### Errores
+
+<ResponseField name="400 Bad Request">
+  La solicitud no cumple alguna de las reglas de los campos, la factura ya está posteada y se envía `status` como `Posted`, la transición de estatus no está permitida, o la factura es un e-CF ya enviado a la DGII (código `IssuedEcf`).
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `SalesInvoices.Write` requerido.
+</ResponseField>
+
+<ResponseField name="404 Not Found">
+  No existe ninguna factura con el `id` especificado en la URL, o es una proforma.
+</ResponseField>
+
+<RequestExample>
+
+```json
+{
+  "date": "2026-10-20",
+  "fiscalDocumentId": "FC",
+  "customerId": 2045,
+  "attention": "Departamento de Cuentas por Pagar",
+  "paymentTermId": 5,
+  "currencyId": "DOP",
+  "reference": "PO-45871",
+  "jobNumber": "JOB-2026-118",
+  "printFormat": "Spanish",
+  "status": "New"
+}
+```
+
+</RequestExample>

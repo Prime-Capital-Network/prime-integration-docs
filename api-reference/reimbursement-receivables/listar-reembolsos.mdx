@@ -1,0 +1,359 @@
+---
+title: "Listar"
+api: "GET /reimbursement-receivables"
+---
+
+Obtén una lista paginada de reembolsos por cobrar de la empresa.
+
+<Note>
+  Este endpoint requiere el scope **`ReimbursementReceivables.Read`**.
+</Note>
+
+<Info>
+  Los reembolsos preliminares (proformas) no están disponibles mediante API Key: no aparecen en el listado y cualquier endpoint que reciba el `id` de un reembolso preliminar responde `404 Not Found`. Se crean y se convierten en reembolsos desde PrimeERP.
+</Info>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Query parameters
+
+<ParamField query="start" type="datetime" required>
+  Fecha de inicio del rango de búsqueda (fecha del reembolso).
+</ParamField>
+
+<ParamField query="end" type="datetime" required>
+  Fecha de fin del rango de búsqueda (fecha del reembolso).
+</ParamField>
+
+<ParamField query="sort_by" type="string">
+  Campo por el cual ordenar los resultados. Valores aceptados:
+
+  - `Id`
+  - `JournalNumber`
+  - `TransactionNumber`
+  - `Date`
+  - `Customer.Id`
+  - `Customer.Name`
+  - `FormattedCustomerTax`
+  - `Currency.Id`
+  - `PaymentTerm.Name`
+  - `TotalAmount`
+  - `TotalDebit`
+  - `TotalCredit`
+  - `InsertedBy`
+  - `Status`
+</ParamField>
+
+<ParamField query="skip" default="0" type="integer">
+  Número de registros a omitir desde el inicio de los resultados. Utilizado junto con `take` para paginar los resultados.
+</ParamField>
+
+<ParamField query="take" default="20" type="integer">
+  Número de registros a retornar. Por defecto `20`, máximo `100`.
+</ParamField>
+
+<ParamField query="Criteria" type="string">
+  Filtra los reembolsos según el estatus de su comprobante contable.
+
+  Valores aceptados:
+  - `Active`
+  - `New`
+  - `Posted`
+  - `Cancelled`
+  - `Deleted`
+</ParamField>
+
+<ParamField query="JournalNumber" type="RangeSearchFilter<integer>">
+  Filtra por el número de comprobante contable del reembolso.
+</ParamField>
+
+<ParamField query="TransactionNumber" type="RangeSearchFilter<integer>">
+  Filtra por el número de transacción del reembolso.
+</ParamField>
+
+<ParamField query="Customer.Id" type="RangeSearchFilter<integer>">
+  Filtra por el identificador del cliente.
+</ParamField>
+
+<ParamField query="Customer.Name" type="StringSearchFilter">
+  Filtra por el nombre del cliente.
+</ParamField>
+
+<ParamField query="Currency.Id" type="StringSearchFilter">
+  Filtra por el identificador de la moneda.
+</ParamField>
+
+<ParamField query="PaymentTerm.Name" type="StringSearchFilter">
+  Filtra por el nombre del término de pago.
+</ParamField>
+
+<ParamField query="TotalAmount" type="RangeSearchFilter<decimal>">
+  Filtra por el monto total del reembolso.
+</ParamField>
+
+<ParamField query="TotalDebit" type="RangeSearchFilter<decimal>">
+  Filtra por el total del débito.
+</ParamField>
+
+<ParamField query="TotalCredit" type="RangeSearchFilter<decimal>">
+  Filtra por el total del crédito.
+</ParamField>
+
+<ParamField query="InsertedBy" type="StringSearchFilter">
+  Filtra por el usuario o integración que creó el reembolso.
+</ParamField>
+
+<ParamField query="PaymentStatus.Id" type="EnumSearchFilter">
+  Filtra por el estatus de pago. Valores aceptados:
+
+  - `Paid`
+  - `Unpaid`
+  - `Advance`
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/reimbursement-receivables?start=2026-10-01T00:00:00Z&end=2026-10-31T23:59:59Z&skip=0&take=20" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/reimbursement-receivables?start=2026-10-01T00:00:00Z&end=2026-10-31T23:59:59Z&skip=0&take=20", {
+  method: "GET",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+  },
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/reimbursement-receivables",
+    params={
+        "start": "2026-10-01T00:00:00Z",
+        "end": "2026-10-31T23:59:59Z",
+        "skip": 0,
+        "take": 20,
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "totalCount": 1,
+  "data": [
+    {
+      "id": 1187,
+      "journalNumber": 2290,
+      "transactionNumber": 100991,
+      "date": "2026-10-21",
+      "customer": {
+        "id": 2045,
+        "name": "Distribuidora Caribe Azul, SRL"
+      },
+      "formattedCustomerTax": "1-31-12345-6",
+      "currency": {
+        "id": "DOP"
+      },
+      "paymentTerm": {
+        "name": "Crédito 30 días"
+      },
+      "reference": "BL MSCU1234567",
+      "totalAmount": 12500,
+      "totalToPay": 12500,
+      "totalDebit": 12500,
+      "totalCredit": 12500,
+      "insertedBy": "Integración ERP Caribe Azul",
+      "paymentStatus": {
+        "id": "Unpaid",
+        "name": "Pendiente"
+      },
+      "printFormat": {
+        "id": "Spanish",
+        "name": "Español"
+      },
+      "status": {
+        "id": "New",
+        "name": "Nuevo"
+      }
+    }
+  ]
+}
+```
+
+### Response fields
+
+<ResponseField name="totalCount" type="integer">
+  Total de registros.
+</ResponseField>
+
+<ResponseField name="data" type="array">
+  Lista de reembolsos.
+
+  <Expandable title="ReimbursementReceivable">
+    <ResponseField name="id" type="integer">
+      Identificador único del reembolso.
+    </ResponseField>
+
+    <ResponseField name="journalNumber" type="integer">
+      Número de comprobante contable del reembolso.
+    </ResponseField>
+
+    <ResponseField name="transactionNumber" type="integer">
+      Número de transacción del reembolso.
+    </ResponseField>
+
+    <ResponseField name="date" type="date">
+      Fecha del reembolso.
+    </ResponseField>
+
+    <ResponseField name="customer" type="object">
+      Cliente al que se le cobra el reembolso.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="integer">
+          Identificador del cliente.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre del cliente.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="formattedCustomerTax" type="string">
+      Documento de identidad del cliente con su máscara aplicada.
+    </ResponseField>
+
+    <ResponseField name="currency" type="object">
+      Moneda del reembolso.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="string">
+          Identificador de la moneda.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="paymentTerm" type="object">
+      Término de pago del reembolso.
+
+      <Expandable title="propiedades">
+        <ResponseField name="name" type="string">
+          Nombre del término de pago.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="reference" type="string">
+      Referencia del reembolso.
+    </ResponseField>
+
+    <ResponseField name="totalAmount" type="decimal">
+      Monto total del reembolso.
+    </ResponseField>
+
+    <ResponseField name="totalToPay" type="decimal">
+      Balance pendiente de cobro.
+    </ResponseField>
+
+    <ResponseField name="totalDebit" type="decimal">
+      Total del débito.
+    </ResponseField>
+
+    <ResponseField name="totalCredit" type="decimal">
+      Total del crédito.
+    </ResponseField>
+
+    <ResponseField name="insertedBy" type="string">
+      Usuario o integración (nombre del API Key) que creó el reembolso.
+    </ResponseField>
+
+    <ResponseField name="paymentStatus" type="object">
+      Estatus de pago del reembolso.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="string">
+          Identificador del valor. Valores posibles:
+
+          - `Paid`
+          - `Unpaid`
+          - `Advance`
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido del valor.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="printFormat" type="object">
+      Formato de impresión del reembolso.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="string">
+          Identificador del valor. Valores posibles:
+
+          - `Spanish`
+          - `English`
+          - `ReimbursementInvoice`
+          - `InternationalFreightDocument`
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido del valor.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="status" type="object">
+      Estatus del comprobante contable del reembolso.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="string">
+          Identificador del valor. Valores posibles:
+
+          - `New`
+          - `Posted`
+          - `Cancelled`
+          - `Deleted`
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido del valor.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Errores
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `ReimbursementReceivables.Read` requerido.
+</ResponseField>

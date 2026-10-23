@@ -1,0 +1,204 @@
+---
+title: "Actualizar"
+api: "PUT /reimbursement-receivables/{id}"
+---
+
+Actualiza todos los datos de un reembolso por cobrar. Los campos que no se envíen quedan con su valor por defecto (`null`), por lo que deben enviarse todos los valores que el reembolso debe conservar. Para modificar solo algunos campos usa [Actualizar Parcial](/api-reference/reimbursement-receivables/actualizar-parcial-reembolsos).
+
+<Note>
+  Este endpoint requiere el scope **`ReimbursementReceivables.Write`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único del reembolso a actualizar.
+</ParamField>
+
+### Body parameters
+
+<ParamField body="date" type="date" required>
+  Fecha del reembolso en formato `YYYY-MM-DD`.
+
+  - No puede ser posterior a mañana, según la zona horaria de la empresa.
+  - Debe pertenecer a un período fiscal activo.
+</ParamField>
+
+<ParamField body="customerId" type="integer" required>
+  Identificador del cliente.
+
+  - Debe ser un asociado con `isCustomer` como `true`.
+  - Debe tener un grupo de cuentas de cliente asignado.
+</ParamField>
+
+<ParamField body="attention" type="string">
+  Persona a la que va dirigido el reembolso. Máximo 50 caracteres.
+</ParamField>
+
+<ParamField body="paymentTermId" type="integer" required>
+  Identificador del término de pago. Se usa para calcular la fecha de vencimiento.
+</ParamField>
+
+<ParamField body="currencyId" type="string" required>
+  Identificador de la moneda. Máximo 3 caracteres.
+</ParamField>
+
+<ParamField body="exchangeRate" type="decimal">
+  Tasa de cambio aplicada. Debe ser mayor que cero.
+
+  - Si `currencyId` es igual a la moneda de la empresa, siempre se asigna `1`.
+  - Si es distinta y el campo es `null`, el sistema asigna la tasa vigente a la fecha del reembolso.
+</ParamField>
+
+<ParamField body="reference" type="string">
+  Referencia del reembolso. Máximo 200 caracteres.
+</ParamField>
+
+<ParamField body="jobNumber" type="string">
+  Número de job u orden de compra del cliente. Máximo 80 caracteres.
+</ParamField>
+
+<ParamField body="footnotes" type="string">
+  Notas al pie del reembolso. Máximo 250 caracteres.
+</ParamField>
+
+<ParamField body="printFormat" type="string">
+  Formato de impresión. Valores aceptados:
+
+  - `Spanish`
+  - `English`
+  - `ReimbursementInvoice`
+  - `InternationalFreightDocument`
+</ParamField>
+
+<ParamField body="status" type="string">
+  Estatus del reembolso. Si no se envía, se asume `New`: un reembolso posteado se despostearía.
+
+  Valores aceptados:
+
+  - `New`
+  - `Posted`
+  - `Cancelled`
+  - `Deleted`
+
+  Reglas:
+  - Un reembolso posteado (`Posted`) no puede modificarse: si ya está posteado y se envía `Posted`, la solicitud será rechazada.
+  - No se permiten las transiciones `Cancelled` → `Posted`, `Deleted` → `Posted`, `New` → `Deleted`, `Posted` → `Cancelled` ni `Posted` → `Deleted`.
+  - Para postear el reembolso, sus débitos y créditos deben estar balanceados.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request PUT \
+  --url "https://api.primenetcloud.com/v1/reimbursement-receivables/1187" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "date": "2026-10-21",
+    "customerId": 2045,
+    "attention": "Departamento de Cuentas por Pagar",
+    "paymentTermId": 5,
+    "currencyId": "DOP",
+    "reference": "BL MSCU1234567",
+    "jobNumber": "JOB-2026-118",
+    "printFormat": "Spanish",
+    "status": "New"
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/reimbursement-receivables/1187", {
+  method: "PUT",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    date: "2026-10-21",
+    customerId: 2045,
+    attention: "Departamento de Cuentas por Pagar",
+    paymentTermId: 5,
+    currencyId: "DOP",
+    reference: "BL MSCU1234567",
+    jobNumber: "JOB-2026-118",
+    printFormat: "Spanish",
+    status: "New"
+  }),
+});
+
+console.log(response.status);
+```
+
+```python Python
+import requests
+
+response = requests.put(
+    "https://api.primenetcloud.com/v1/reimbursement-receivables/1187",
+    json={
+        "date": "2026-10-21",
+        "customerId": 2045,
+        "attention": "Departamento de Cuentas por Pagar",
+        "paymentTermId": 5,
+        "currencyId": "DOP",
+        "reference": "BL MSCU1234567",
+        "jobNumber": "JOB-2026-118",
+        "printFormat": "Spanish",
+        "status": "New"
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.status_code)
+```
+
+</CodeGroup>
+
+### Response
+
+Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
+
+### Errores
+
+<ResponseField name="400 Bad Request">
+  La solicitud no cumple alguna de las reglas de los campos, el reembolso ya está posteado y se envía `status` como `Posted`, o la transición de estatus no está permitida.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `ReimbursementReceivables.Write` requerido.
+</ResponseField>
+
+<ResponseField name="404 Not Found">
+  No existe ningún reembolso con el `id` especificado en la URL, o es un reembolso preliminar (proforma).
+</ResponseField>
+
+<RequestExample>
+
+```json
+{
+  "date": "2026-10-21",
+  "customerId": 2045,
+  "attention": "Departamento de Cuentas por Pagar",
+  "paymentTermId": 5,
+  "currencyId": "DOP",
+  "reference": "BL MSCU1234567",
+  "jobNumber": "JOB-2026-118",
+  "printFormat": "Spanish",
+  "status": "New"
+}
+```
+
+</RequestExample>

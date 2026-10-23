@@ -273,6 +273,38 @@
                 ]
               },
               {
+                "group": "Facturas por Cobrar",
+                "pages": [
+                  "api-reference/sales-invoices/listar-facturas",
+                  "api-reference/sales-invoices/extraer-factura-por-id",
+                  "api-reference/sales-invoices/crear-facturas",
+                  "api-reference/sales-invoices/actualizar-facturas",
+                  "api-reference/sales-invoices/actualizar-parcial-facturas",
+                  "api-reference/sales-invoices/listar-detalles",
+                  "api-reference/sales-invoices/extraer-detalle-por-id",
+                  "api-reference/sales-invoices/crear-detalle",
+                  "api-reference/sales-invoices/actualizar-detalle",
+                  "api-reference/sales-invoices/actualizar-parcial-detalle",
+                  "api-reference/sales-invoices/eliminar-detalle"
+                ]
+              },
+              {
+                "group": "Reembolsos por Cobrar",
+                "pages": [
+                  "api-reference/reimbursement-receivables/listar-reembolsos",
+                  "api-reference/reimbursement-receivables/extraer-reembolso-por-id",
+                  "api-reference/reimbursement-receivables/crear-reembolsos",
+                  "api-reference/reimbursement-receivables/actualizar-reembolsos",
+                  "api-reference/reimbursement-receivables/actualizar-parcial-reembolsos",
+                  "api-reference/reimbursement-receivables/listar-detalles",
+                  "api-reference/reimbursement-receivables/extraer-detalle-por-id",
+                  "api-reference/reimbursement-receivables/crear-detalle",
+                  "api-reference/reimbursement-receivables/actualizar-detalle",
+                  "api-reference/reimbursement-receivables/actualizar-parcial-detalle",
+                  "api-reference/reimbursement-receivables/eliminar-detalle"
+                ]
+              },
+              {
                 "group": "Solicitudes",
                 "pages": [
                   "api-reference/requests/listar-solicitudes-por-operacion",

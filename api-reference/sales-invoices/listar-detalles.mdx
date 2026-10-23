@@ -1,0 +1,178 @@
+---
+title: "Listar Detalles"
+api: "GET /sales-invoices/{id}/details"
+---
+
+Obtén todos los detalles (líneas) de una factura por cobrar.
+
+<Note>
+  Este endpoint requiere el scope **`SalesInvoices.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único de la factura.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/sales-invoices/2210/details" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.primenetcloud.com/v1/sales-invoices/2210/details", {
+  method: "GET",
+  headers: {
+    "X-Api-Key": "YOUR_API_KEY",
+    "X-Tenant-Id": "TENANT_ID",
+  },
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/sales-invoices/2210/details",
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+[
+  {
+    "id": 3301,
+    "charge": {
+      "id": 87,
+      "name": "Flete marítimo",
+      "fastCode": "FLM",
+      "hasFixedTax": false,
+      "isDescriptionFixed": false,
+      "incomeAccount": {
+        "id": 120,
+        "useDepartment": {
+          "id": "Optional",
+          "name": "Opcional"
+        },
+        "useCostCenter": {
+          "id": "Optional",
+          "name": "Opcional"
+        },
+        "useProject": {
+          "id": "Disabled",
+          "name": "Deshabilitado"
+        }
+      }
+    },
+    "chargeDescription": "Flete marítimo Miami - Santo Domingo",
+    "chargeDetails": "Contenedor 40' HC",
+    "calculationType": {
+      "id": "BLS"
+    },
+    "quantity": 1,
+    "price": 1850,
+    "taxPercent": 18,
+    "discount": 0,
+    "operation": {
+      "id": 5321,
+      "transactionNumber": 100543,
+      "category": {
+        "id": "Shipment",
+        "name": "Embarque"
+      },
+      "movementType": {
+        "id": "Import",
+        "name": "Importación"
+      },
+      "transportType": {
+        "id": "Sea",
+        "name": "Marítimo"
+      },
+      "bl": {
+        "number": "MSCU1234567"
+      },
+      "customer": {
+        "name": "Distribuidora Caribe Azul, SRL"
+      },
+      "master": {
+        "id": 890,
+        "transactionNumber": 90021,
+        "portOfLoading": {
+          "id": "USMIA"
+        },
+        "portOfDischarge": {
+          "id": "DOHAI"
+        }
+      }
+    },
+    "master": {
+      "id": null,
+      "transactionNumber": null
+    },
+    "department": {
+      "id": 3,
+      "name": "Operaciones"
+    },
+    "costCenter": {
+      "id": null,
+      "name": null
+    },
+    "project": {
+      "id": null,
+      "name": null
+    },
+    "estimate": {
+      "id": null
+    },
+    "subTotalAmount": 1850,
+    "taxAmount": 333,
+    "totalAmount": 2183
+  }
+]
+```
+
+### Response fields
+
+import ListFields from './snippets/list-sale-invoice-details.mdx'
+
+<ResponseField name="[]" type="array">
+  Lista de detalles de la factura.
+  <Expandable title="detalle">
+    <ListFields />
+  </Expandable>
+</ResponseField>
+
+### Errores
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `SalesInvoices.Read` requerido.
+</ResponseField>
+
+<ResponseField name="404 Not Found">
+  No existe ninguna factura con el `id` especificado en la URL, o es una proforma.
+</ResponseField>
