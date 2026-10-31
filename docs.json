@@ -42,6 +42,13 @@
             "pages": [
               "api-reference/filtros-avanzados",
               {
+                "group": "Grupos de Cuentas",
+                "pages": [
+                  "api-reference/account-groups/listar-grupos-cuentas",
+                  "api-reference/account-groups/extraer-grupo-cuentas-por-id"
+                ]
+              },
+              {
                 "group": "Configuracion CxP",
                 "pages": [
                   "api-reference/account-payable-config/listar-config"

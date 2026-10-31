@@ -1,0 +1,131 @@
+---
+title: "Listar Grupos de Cuentas"
+sidebarTitle: "Listar"
+description: "Permite listar los grupos de cuentas mediante REST API"
+api: "GET /account-groups"
+---
+
+Obtén la lista de grupos de cuentas de la empresa, ordenada por nombre. Un grupo de cuentas define la cuenta contable por cobrar o por pagar que se asigna a los asociados (clientes o suplidores) que pertenecen a él.
+
+<Note>
+  Este endpoint requiere el scope **`AccountGroups.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Query parameters
+
+<ParamField query="filter_by" type="string">
+  Valores aceptados:
+
+  - `Active` — retorna solo los grupos de cuentas activos. De no enviarse, se incluyen también los inactivos.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/account-groups?filter_by=Active" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/account-groups?filter_by=Active",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID",
+    },
+  }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/account-groups",
+    params={
+        "filter_by": "Active",
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Clientes Locales",
+    "associateType": {
+      "id": "Customer",
+      "name": "Cliente"
+    },
+    "isActive": true
+  },
+  {
+    "id": 4,
+    "name": "Proveedores del Exterior",
+    "associateType": {
+      "id": "Vendor",
+      "name": "Proveedor"
+    },
+    "isActive": true
+  }
+]
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único del grupo de cuentas.
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  Nombre del grupo de cuentas.
+</ResponseField>
+
+<ResponseField name="associateType" type="object">
+  Tipo de asociado al que aplica el grupo.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del tipo. Valores posibles: `Customer`, `Vendor`.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido del tipo.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="isActive" type="boolean">
+  Indica si el grupo de cuentas está activo.
+</ResponseField>
+
+### Errores
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `AccountGroups.Read` requerido.
+</ResponseField>

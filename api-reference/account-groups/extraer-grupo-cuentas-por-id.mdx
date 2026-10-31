@@ -1,0 +1,258 @@
+---
+title: "Obtener Grupo de Cuentas por ID"
+sidebarTitle: "Obtener por ID"
+description: "Permite consultar un grupo de cuentas mediante REST API"
+api: "GET /account-groups/{id}"
+---
+
+Obtén todos los datos de un grupo de cuentas específico, incluyendo su cuenta contable por defecto y, opcionalmente, las cuentas asignadas por moneda.
+
+<Note>
+  Este endpoint requiere el scope **`AccountGroups.Read`**.
+</Note>
+
+### Headers
+
+<ParamField header="X-Tenant-Id" type="string" required>
+  Identificador del tenant al cual pertenece el API Key.
+</ParamField>
+
+### Path parameters
+
+<ParamField path="id" type="integer" required>
+  Identificador único del grupo de cuentas.
+</ParamField>
+
+### Query parameters
+
+<ParamField query="include" type="string">
+  Sección adicional a incluir en la respuesta. Valores aceptados:
+
+  - `Currencies` — incluye el arreglo `currencies` con la cuenta contable asignada a cada moneda. De no enviarse, `currencies` es `null`.
+</ParamField>
+
+### Example request
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url "https://api.primenetcloud.com/v1/account-groups/4?include=Currencies" \
+  --header "X-Api-Key: YOUR_API_KEY" \
+  --header "X-Tenant-Id: TENANT_ID"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.primenetcloud.com/v1/account-groups/4?include=Currencies",
+  {
+    method: "GET",
+    headers: {
+      "X-Api-Key": "YOUR_API_KEY",
+      "X-Tenant-Id": "TENANT_ID",
+    },
+  }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.primenetcloud.com/v1/account-groups/4",
+    params={
+        "include": "Currencies",
+    },
+    headers={
+        "X-Api-Key": "YOUR_API_KEY",
+        "X-Tenant-Id": "TENANT_ID",
+    },
+)
+
+print(response.json())
+```
+
+</CodeGroup>
+
+### Example response
+
+```json
+{
+  "id": 4,
+  "name": "Proveedores del Exterior",
+  "associateType": {
+    "id": "Vendor",
+    "name": "Proveedor"
+  },
+  "accountType": {
+    "id": "Currency",
+    "name": "Moneda"
+  },
+  "defaultAccount": {
+    "id": 215,
+    "code": "2101-01",
+    "name": "Cuentas por Pagar Proveedores",
+    "useDepartment": {
+      "id": "Optional",
+      "name": "Opcional"
+    },
+    "useCostCenter": {
+      "id": "Disabled",
+      "name": "Deshabilitado"
+    },
+    "useProject": {
+      "id": "Disabled",
+      "name": "Deshabilitado"
+    }
+  },
+  "currencies": [
+    {
+      "currency": {
+        "id": "USD",
+        "name": "Dólar Estadounidense"
+      },
+      "account": {
+        "id": 217,
+        "code": "2101-03",
+        "name": "Cuentas por Pagar Proveedores USD",
+        "useDepartment": null,
+        "useCostCenter": null,
+        "useProject": null
+      }
+    }
+  ],
+  "insertedBy": "jdoe",
+  "insertedDate": "2026-03-12T09:15:00-04:00",
+  "updatedBy": "mlopez",
+  "updatedDate": "2026-08-20T16:40:00-04:00",
+  "isActive": true
+}
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único del grupo de cuentas.
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  Nombre del grupo de cuentas.
+</ResponseField>
+
+<ResponseField name="associateType" type="object">
+  Tipo de asociado al que aplica el grupo.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del tipo. Valores posibles: `Customer`, `Vendor`.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido del tipo.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="accountType" type="object">
+  Forma en que el grupo asigna la cuenta contable a sus asociados.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del tipo. Valores posibles:
+
+      - `Group` — todos los asociados del grupo usan la cuenta `defaultAccount`.
+      - `Currency` — la cuenta depende de la moneda del documento, según `currencies`.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido del tipo.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="defaultAccount" type="object">
+  Cuenta contable por defecto del grupo. Si el grupo no tiene una, sus propiedades son `null`.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="integer">
+      Identificador de la cuenta en el catálogo de cuentas.
+    </ResponseField>
+
+    <ResponseField name="code" type="string">
+      Código de la cuenta.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre de la cuenta.
+    </ResponseField>
+
+    <ResponseField name="useDepartment" type="object">
+      Uso del departamento en los asientos de esta cuenta. `id` puede ser `Mandatory`, `Optional` o `Disabled`; `name` es su nombre traducido.
+    </ResponseField>
+
+    <ResponseField name="useCostCenter" type="object">
+      Uso del centro de costo en los asientos de esta cuenta. `id` puede ser `Mandatory`, `Optional` o `Disabled`; `name` es su nombre traducido.
+    </ResponseField>
+
+    <ResponseField name="useProject" type="object">
+      Uso del proyecto en los asientos de esta cuenta. `id` puede ser `Mandatory`, `Optional` o `Disabled`; `name` es su nombre traducido.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="currencies" type="object[]">
+  Cuentas contables asignadas por moneda. Solo se incluye al enviar `include=Currencies`; de lo contrario es `null`.
+
+  <Expandable title="propiedades">
+    <ResponseField name="currency" type="object">
+      Moneda.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="string">
+          Código ISO de la moneda (por ejemplo, `USD`).
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre de la moneda.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="account" type="object">
+      Cuenta contable asignada a la moneda. Contiene `id`, `code` y `name`; `useDepartment`, `useCostCenter` y `useProject` siempre son `null` en este nivel.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="insertedBy" type="string">
+  Usuario que creó el registro.
+</ResponseField>
+
+<ResponseField name="insertedDate" type="string">
+  Fecha de creación en formato ISO 8601.
+</ResponseField>
+
+<ResponseField name="updatedBy" type="string">
+  Usuario que actualizó el registro por última vez. `null` si no ha sido actualizado.
+</ResponseField>
+
+<ResponseField name="updatedDate" type="string">
+  Fecha de la última actualización en formato ISO 8601. `null` si no ha sido actualizado.
+</ResponseField>
+
+<ResponseField name="isActive" type="boolean">
+  Indica si el grupo de cuentas está activo.
+</ResponseField>
+
+### Errores
+
+<ResponseField name="404 Not Found">
+  No existe ningún grupo de cuentas con el `id` especificado en la URL.
+</ResponseField>
+
+<ResponseField name="403 Forbidden">
+  El API Key no tiene el scope `AccountGroups.Read` requerido.
+</ResponseField>
