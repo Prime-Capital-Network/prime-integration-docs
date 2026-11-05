@@ -3,6 +3,9 @@ title: "Actualizar"
 api: "PUT /operation-expenses/{id}"
 ---
 
+import CalculationTypes from '/snippets/catalogs/calculation-types.mdx'
+import ChargeTypes from '/snippets/catalogs/charge-types.mdx'
+
 Actualiza un estimado de gasto (operation expense) en la empresa.
 
 <Note>
@@ -41,6 +44,8 @@ Actualiza un estimado de gasto (operation expense) en la empresa.
 
 <ParamField body="chargeTypeId" type="integer" required>
   Identificador del tipo de cargo.
+
+  <ChargeTypes />
 </ParamField>
 
 <ParamField body="quotationGroupId" type="integer" required>
@@ -49,6 +54,8 @@ Actualiza un estimado de gasto (operation expense) en la empresa.
 
 <ParamField body="calculationTypeId" type="string">
   Identificador del tipo de cálculo.
+
+  <CalculationTypes />
 </ParamField>
 
 <ParamField body="currencyId" type="string" required>

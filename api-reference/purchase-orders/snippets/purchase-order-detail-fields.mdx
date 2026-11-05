@@ -1,3 +1,6 @@
+import CalculationTypes from '/snippets/catalogs/calculation-types.mdx'
+import ChargeTypes from '/snippets/catalogs/charge-types.mdx'
+
 <ParamField body="itemType" type="string" required>
   Tipo de ítem a registrar. Valores aceptados:
 
@@ -16,6 +19,8 @@
   Identificador del tipo de cargo.
 
   - Este campo debe ser `null` si el campo `itemType` no es `Charge`.
+
+  <ChargeTypes />
 </ParamField>
 
 <ParamField body="isTransparent" type="boolean" default="false">
@@ -32,6 +37,8 @@
 
 <ParamField body="calculationTypeId" type="string">
   Identificador del tipo de cálculo.
+
+  <CalculationTypes />
 </ParamField>
 
 <ParamField body="quantity" type="decimal" required>

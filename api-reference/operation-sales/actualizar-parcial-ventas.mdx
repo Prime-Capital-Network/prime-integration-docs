@@ -4,6 +4,8 @@ sidebarTitle: "Actualizar Parcial"
 api: "PATCH /operation-sales/{id}"
 ---
 
+import CalculationTypes from '/snippets/catalogs/calculation-types.mdx'
+
 Actualiza los datos parcialmente de un estimado de venta (operation sale) en la empresa.
 
 <Note>
@@ -42,6 +44,8 @@ Actualiza los datos parcialmente de un estimado de venta (operation sale) en la 
 
 <ParamField body="calculationTypeId" type="string">
   Identificador del tipo de cálculo.
+
+  <CalculationTypes />
 </ParamField>
 
 <ParamField body="currencyId" type="string">

@@ -4,6 +4,8 @@ sidebarTitle: "Actualizar"
 api: "PUT /operation-sales/{id}"
 ---
 
+import CalculationTypes from '/snippets/catalogs/calculation-types.mdx'
+
 Actualiza los datos de un estimado de venta (operation sale) en la empresa.
 
 <Note>
@@ -46,6 +48,8 @@ Actualiza los datos de un estimado de venta (operation sale) en la empresa.
 
 <ParamField body="calculationTypeId" type="string">
   Identificador del tipo de cálculo.
+
+  <CalculationTypes />
 </ParamField>
 
 <ParamField body="currencyId" type="string" required>

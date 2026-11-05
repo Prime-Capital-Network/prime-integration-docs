@@ -3,6 +3,8 @@ title: "Crear"
 api: "POST /operation-sales"
 ---
 
+import CalculationTypes from '/snippets/catalogs/calculation-types.mdx'
+
 Crea un nuevo estimado de venta (operation sale) en la empresa.
 
 <Note>
@@ -35,6 +37,8 @@ Crea un nuevo estimado de venta (operation sale) en la empresa.
 
 <ParamField body="calculationTypeId" type="string">
   Identificador del tipo de cálculo.
+
+  <CalculationTypes />
 </ParamField>
 
 <ParamField body="currencyId" type="string" required>

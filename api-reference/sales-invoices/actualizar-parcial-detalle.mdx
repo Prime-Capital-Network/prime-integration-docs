@@ -3,6 +3,8 @@ title: "Actualizar Parcial Detalle"
 api: "PATCH /sales-invoices/{id}/details/{detailId}"
 ---
 
+import CalculationTypes from '/snippets/catalogs/calculation-types.mdx'
+
 Actualiza solo los campos enviados de un detalle de una factura por cobrar, siguiendo el formato [JSON Merge Patch](https://datatracker.ietf.org/doc/html/rfc7396): los campos omitidos conservan su valor actual y los enviados como `null` se limpian.
 
 <Note>
@@ -49,6 +51,8 @@ Acepta los mismos campos que [Actualizar Detalle](/api-reference/sales-invoices/
 
 <ParamField body="calculationTypeId" type="string">
   Identificador del tipo de cálculo. Máximo 3 caracteres.
+
+  <CalculationTypes />
 </ParamField>
 
 <ParamField body="quantity" type="decimal">

@@ -5,6 +5,8 @@ description: "Este endpoint permite registrar un nuevo transporte terrestre en l
 api: "POST /ground-transportations"
 ---
 
+import ServiceLevels from '/snippets/catalogs/service-levels.mdx'
+
 <Note>
   Este endpoint requiere el scope **`GroundTransportations.Write`**.
 </Note>
@@ -53,6 +55,8 @@ api: "POST /ground-transportations"
 
 <ParamField body="serviceLevelId" type="integer">
   Identificador del nivel de servicio contratado.
+
+  <ServiceLevels />
 </ParamField>
 
 <ParamField body="loadingDate" type="datetime" required>

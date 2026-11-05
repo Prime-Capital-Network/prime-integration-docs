@@ -71,7 +71,8 @@
                   "api-reference/attachments/extraer-anexo-por-id",
                   "api-reference/attachments/crear-anexo",
                   "api-reference/attachments/eliminar-anexo",
-                  "api-reference/attachments/descargar-anexo"
+                  "api-reference/attachments/descargar-anexo",
+                  "api-reference/attachments/menus"
                 ]
               },
               {

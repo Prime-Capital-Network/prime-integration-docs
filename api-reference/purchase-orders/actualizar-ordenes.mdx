@@ -4,6 +4,8 @@ sidebarTitle: "Actualizar"
 api: "PUT /purchase-orders/{id}"
 ---
 
+import DgiiGoodsServices from '/snippets/catalogs/dgii-goods-services.mdx'
+
 Actualiza los datos de una orden de compra en la empresa.
 
 <Note>
@@ -51,7 +53,7 @@ Actualiza los datos de una orden de compra en la empresa.
 </ParamField>
 
 <ParamField body="identityDocumentId" type="integer">
-  Identificador del tipo de documento de identidad.
+  Identificador del tipo de documento de identidad. Ver [Documentos de Identidad](/api-reference/identity-documents/listar-documentos-identidad).
 </ParamField>
 
 <ParamField body="identityDocumentNumber" type="string">
@@ -101,6 +103,8 @@ Actualiza los datos de una orden de compra en la empresa.
 
 <ParamField body="dgiiServiceId" type="string">
   Identificador del servicio de la DGII.
+
+  <DgiiGoodsServices />
 </ParamField>
 
 <ParamField body="status" type="string">

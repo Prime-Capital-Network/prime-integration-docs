@@ -3,6 +3,9 @@ title: "Actualizar Parcial"
 api: "PATCH /houses/{id}"
 ---
 
+import ImoClasses from '/snippets/catalogs/imo-classes.mdx'
+import ServiceLevels from '/snippets/catalogs/service-levels.mdx'
+
 Actualiza los datos parcialmente de un house existente en la empresa.
 
 <Note>
@@ -263,6 +266,8 @@ Actualiza los datos parcialmente de un house existente en la empresa.
   Identificador del nivel de servicio.
 
   - Si el campo `movementType` es `Transit`, `Transshipment` o `Crosstrade`, este campo debe ser nulo.
+
+  <ServiceLevels />
 </ParamField>
 
 <ParamField body="isCharter" type="boolean">
@@ -397,6 +402,8 @@ Actualiza los datos parcialmente de un house existente en la empresa.
 
 <ParamField body="imoClassId" type="string">
   Identificador de la clase IMO. Si el campo `isDangerous` no es `true`, este campo debe ser null.
+
+  <ImoClasses />
 </ParamField>
 
 <ParamField body="dangerousUNCode" type="string">

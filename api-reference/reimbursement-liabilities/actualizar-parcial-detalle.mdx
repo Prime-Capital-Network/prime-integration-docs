@@ -3,6 +3,8 @@ title: "Actualizar Parcial Detalle"
 api: "PATCH /reimbursement-liabilities/{id}/details/{detailId}"
 ---
 
+import ChargeTypes from '/snippets/catalogs/charge-types.mdx'
+
 Actualiza un detalle para un reembolso específico.
 
 <Note>
@@ -36,13 +38,7 @@ Actualiza un detalle para un reembolso específico.
 
   - Si el reembolso tiene asignado el campo `masterId`, y el master tiene el campo `transportType` igual a `Rail`, este campo no puede ser igual a `1` (Prorrateo Por Peso (WM)).
 
-  Valores aceptados:
-  - `1`	(Prorrateo Por Peso (WM))
-  - `2`	(Ganancias Agentes)
-  - `3`	(Distribucion En Montos Equitativos)
-  - `4`	(Impuestos)
-  - `5`	(Prorrateo Por Peso Fisico)
-  - `6`	(Prorrateo Por Volumen)
+  <ChargeTypes />
 </ParamField>
 
 <ParamField body="description" type="string">

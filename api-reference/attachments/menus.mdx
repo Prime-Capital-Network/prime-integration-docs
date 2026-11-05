@@ -1,0 +1,45 @@
+---
+title: "Menús para adjuntos"
+sidebarTitle: "Menús"
+description: "Valores aceptados en el campo menuId de los adjuntos."
+---
+
+Cada adjunto se asocia a un registro mediante el par `menuId` + `recordId`: `menuId` indica el módulo del registro y `recordId` su identificador (el `id` que devuelve el endpoint de ese recurso).
+
+- El registro debe existir en el módulo indicado; de lo contrario, la solicitud será rechazada con un error `400 Bad Request`.
+- Los menús son fijos: no pueden crearse ni modificarse.
+
+### Menús de los recursos de esta API
+
+| `menuId` | Recurso | `recordId` |
+|---|---|---|
+| `accountgroups` | [Grupos de Cuentas](/api-reference/account-groups/listar-grupos-cuentas) | `id` del grupo de cuentas |
+| `associates` | [Asociados](/api-reference/associates/listar-asociados) | `id` del asociado |
+| `charges` | [Cargos](/api-reference/charges/listar-cargos) | `id` del cargo |
+| `containers` | [Contenedores](/api-reference/containers/listar-contenedores) | `id` del contenedor |
+| `costestimates` | [Estimados de Gastos](/api-reference/operation-expenses/listar-gastos) | `id` del estimado de gasto |
+| `currencies` | [Monedas](/api-reference/currencies/listar-monedas) | `id` de la moneda |
+| `customs` | [Aduanas](/api-reference/customs/listar-aduanas) | `id` de la gestión aduanal |
+| `groundtransportations` | [Transportes Terrestres](/api-reference/ground-transportations/listar-transportes) | `id` del transporte |
+| `houses` | [Houses](/api-reference/houses/listar-houses) | `id` del house |
+| `miscellaneous` | Misceláneos (`operationCategory` = `Additional`) | `operationId` del misceláneo |
+| `paymentterms` | [Términos de Pago](/api-reference/payment-terms/listar-terminos-pago) | `id` del término de pago |
+| `purchasedeliveries` | [Entregas](/api-reference/purchase-deliveries/listar-entregas) | `id` de la entrega |
+| `purchaseinvoices` | [Facturas de Compra](/api-reference/purchase-invoices/listar-facturas) | `id` de la factura |
+| `purchaseorders` | [Órdenes de Compra](/api-reference/purchase-orders/listar-ordenes) | `id` de la orden |
+| `purchaseproducts` | [Productos de Compra](/api-reference/purchase-products/listar-productos-compra) | `id` del producto |
+| `purchasereceptions` | [Recepciones](/api-reference/purchase-receptions/listar-recepciones) | `id` de la recepción |
+| `purchaserequisitions` | [Requisiciones de Compra](/api-reference/purchase-requisitions/listar-requisiciones) | `id` de la requisición |
+| `quotations` | Cotizaciones (`quotationId`) | `quotationId` de la cotización |
+| `reimbursementliabilities` | [Reembolsos por Pagar](/api-reference/reimbursement-liabilities/listar-reembolsos) | `id` del reembolso |
+| `reimbursementreceivables` | [Reembolsos por Cobrar](/api-reference/reimbursement-receivables/listar-reembolsos) | `id` del reembolso |
+| `requests` | [Solicitudes](/api-reference/requests/listar-solicitudes-por-operacion) | `id` de la solicitud |
+| `requesttemplates` | [Plantillas de Solicitudes](/api-reference/request-templates/listar-plantillas) | `id` de la plantilla |
+| `salesinvoices` | [Facturas de Venta](/api-reference/sales-invoices/listar-facturas) | `id` de la factura |
+| `shipments` | Embarques master (`masterId`) | `masterId` del embarque |
+| `storerooms` | [Almacenes de Inventario](/api-reference/storerooms/listar-almacenes) | `id` del almacén |
+| `vehicles` | [Vehículos](/api-reference/vehicles/listar-vehiculos) | `id` del vehículo |
+
+### Adjuntos con `trackingId`
+
+Si se envía `trackingId`, el `menuId` debe ser uno de los módulos de operaciones logísticas: `quotations`, `shipments`, `houses`, `customs`, `groundtransportations` o `miscellaneous`. De lo contrario, la solicitud será rechazada con un error `400 Bad Request`.

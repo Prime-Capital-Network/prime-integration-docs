@@ -3,6 +3,8 @@ title: "Actualizar Parcial"
 api: "PATCH /ground-transportations/{id}"
 ---
 
+import ServiceLevels from '/snippets/catalogs/service-levels.mdx'
+
 Este endpoint permite actualizar parcialmente los datos de un transporte terrestre existente en la empresa.
 
 <Note>
@@ -51,6 +53,8 @@ Este endpoint permite actualizar parcialmente los datos de un transporte terrest
 
 <ParamField body="serviceLevelId" type="integer">
   Identificador del nivel de servicio contratado.
+
+  <ServiceLevels />
 </ParamField>
 
 <ParamField body="loadingDate" type="datetime">

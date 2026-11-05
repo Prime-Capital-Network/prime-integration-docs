@@ -3,6 +3,9 @@ title: "Crear"
 api: "POST /houses"
 ---
 
+import ImoClasses from '/snippets/catalogs/imo-classes.mdx'
+import ServiceLevels from '/snippets/catalogs/service-levels.mdx'
+
 Crea un nuevo house (embarque) en la empresa.
 
 <Note>
@@ -273,6 +276,8 @@ Crea un nuevo house (embarque) en la empresa.
   Identificador del nivel de servicio.
 
   - Si el campo `movementType` es `Transit`, `Transshipment` o `Crosstrade`, este campo debe ser nulo.
+
+  <ServiceLevels />
 </ParamField>
 
 <ParamField body="isCharter" type="boolean">
@@ -407,6 +412,8 @@ Crea un nuevo house (embarque) en la empresa.
 
 <ParamField body="imoClassId" type="string">
   Identificador de la clase IMO. Si el campo `isDangerous` no es `true`, este campo debe ser null.
+
+  <ImoClasses />
 </ParamField>
 
 <ParamField body="dangerousUNCode" type="string">

@@ -3,6 +3,8 @@ title: "Crear"
 api: "POST /purchase-orders"
 ---
 
+import DgiiGoodsServices from '/snippets/catalogs/dgii-goods-services.mdx'
+
 Crea una nueva orden de compra (purchase order) en la empresa.
 
 <Note>
@@ -36,7 +38,7 @@ Crea una nueva orden de compra (purchase order) en la empresa.
 </ParamField>
 
 <ParamField body="identityDocumentId" type="integer">
-  Identificador del tipo de documento de identidad.
+  Identificador del tipo de documento de identidad. Ver [Documentos de Identidad](/api-reference/identity-documents/listar-documentos-identidad).
 </ParamField>
 
 <ParamField body="identityDocumentNumber" type="string">
@@ -86,6 +88,8 @@ Crea una nueva orden de compra (purchase order) en la empresa.
 
 <ParamField body="dgiiServiceId" type="string">
   Identificador del servicio de la DGII.
+
+  <DgiiGoodsServices />
 </ParamField>
 
 <ParamField body="purchaseRequestId" type="integer">

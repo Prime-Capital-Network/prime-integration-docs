@@ -4,6 +4,8 @@ sidebarTitle: "Actualizar"
 api: "PUT /ground-transportations/{id}"
 ---
 
+import ServiceLevels from '/snippets/catalogs/service-levels.mdx'
+
 Este endpoint permite actualizar los datos de un transporte terrestre existente en la empresa.
 
 <Note>
@@ -56,6 +58,8 @@ Este endpoint permite actualizar los datos de un transporte terrestre existente 
 
 <ParamField body="serviceLevelId" type="integer">
   Identificador del nivel de servicio contratado.
+
+  <ServiceLevels />
 </ParamField>
 
 <ParamField body="loadingDate" type="datetime" required>

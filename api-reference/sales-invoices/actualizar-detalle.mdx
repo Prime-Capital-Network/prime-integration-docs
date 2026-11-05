@@ -3,6 +3,8 @@ title: "Actualizar Detalle"
 api: "PUT /sales-invoices/{id}/details/{detailId}"
 ---
 
+import CalculationTypes from '/snippets/catalogs/calculation-types.mdx'
+
 Actualiza todos los datos de un detalle de una factura por cobrar. Los campos que no se envíen quedan con su valor por defecto (`null`). Para modificar solo algunos campos usa [Actualizar Parcial Detalle](/api-reference/sales-invoices/actualizar-parcial-detalle).
 
 <Note>
@@ -43,6 +45,8 @@ Actualiza todos los datos de un detalle de una factura por cobrar. Los campos qu
 
 <ParamField body="calculationTypeId" type="string">
   Identificador del tipo de cálculo. Máximo 3 caracteres.
+
+  <CalculationTypes />
 </ParamField>
 
 <ParamField body="quantity" type="decimal" required>

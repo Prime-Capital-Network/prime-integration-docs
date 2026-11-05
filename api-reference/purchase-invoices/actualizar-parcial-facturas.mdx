@@ -4,6 +4,11 @@ sidebarTitle: "Actualizar Parcial"
 api: "PATCH /purchase-invoices/{id}"
 ---
 
+import DgiiGoodsServices from '/snippets/catalogs/dgii-goods-services.mdx'
+import DgiiService609Details from '/snippets/catalogs/dgii-service-609-details.mdx'
+import RetentionTypes606 from '/snippets/catalogs/retention-types-606.mdx'
+import RetentionTypesIR17 from '/snippets/catalogs/retention-types-ir17.mdx'
+
 Actualiza los datos parcialmente de una factura de compra en la empresa.
 
 <Note>
@@ -49,7 +54,7 @@ Actualiza los datos parcialmente de una factura de compra en la empresa.
 </ParamField>
 
 <ParamField body="identityDocumentId" type="integer">
-  Identificador del tipo de documento de identidad.
+  Identificador del tipo de documento de identidad. Ver [Documentos de Identidad](/api-reference/identity-documents/listar-documentos-identidad).
 </ParamField>
 
 <ParamField body="identityDocumentNumber" type="string">
@@ -131,14 +136,20 @@ Actualiza los datos parcialmente de una factura de compra en la empresa.
 
 <ParamField body="dgiiServiceId" type="string">
   Identificador del servicio de la DGII.
+
+  <DgiiGoodsServices />
 </ParamField>
 
 <ParamField body="retentionType606Id" type="integer">
   Identificador del tipo de retención para el formato 606.
+
+  <RetentionTypes606 />
 </ParamField>
 
 <ParamField body="retentionTypeIR17Id" type="integer">
   Identificador del tipo de retención para el formato IR-17.
+
+  <RetentionTypesIR17 />
 </ParamField>
 
 <ParamField body="purchaseOrderId" type="integer">
@@ -147,6 +158,8 @@ Actualiza los datos parcialmente de una factura de compra en la empresa.
 
 <ParamField body="dgiiService609DetailId" type="integer">
   Identificador del detalle del servicio DGII 609.
+
+  <DgiiService609Details />
 </ParamField>
 
 <ParamField body="status" type="string">

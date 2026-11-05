@@ -3,6 +3,8 @@ title: "Crear Detalle"
 api: "POST /reimbursement-receivables/{id}/details"
 ---
 
+import CalculationTypes from '/snippets/catalogs/calculation-types.mdx'
+
 Agrega un detalle a un reembolso por cobrar. El sistema recalcula automáticamente los totales y las cuentas contables del reembolso.
 
 <Note>
@@ -39,6 +41,8 @@ Agrega un detalle a un reembolso por cobrar. El sistema recalcula automáticamen
 
 <ParamField body="calculationTypeId" type="string">
   Identificador del tipo de cálculo. Máximo 3 caracteres.
+
+  <CalculationTypes />
 </ParamField>
 
 <ParamField body="quantity" type="decimal" required>

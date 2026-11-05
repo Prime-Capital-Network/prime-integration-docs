@@ -5,6 +5,10 @@ description: "Este endpoint permite actualizar los datos parcialmente de un asoc
 api: "PATCH /associates/{id}"
 ---
 
+import AssociateStatuses from '/snippets/catalogs/associate-statuses.mdx'
+import AssociateTypes from '/snippets/catalogs/associate-types.mdx'
+import DgiiGoodsServices from '/snippets/catalogs/dgii-goods-services.mdx'
+
 <Note>
   Este endpoint requiere el scope **`Associates.Write`**.
 </Note>
@@ -33,10 +37,12 @@ api: "PATCH /associates/{id}"
 
 <ParamField body="typeId" type="integer">
   Identificador del tipo de asociado.
+
+  <AssociateTypes />
 </ParamField>
 
 <ParamField body="identityDocumentId" type="integer">
-  Identificador del tipo de documento de identidad.
+  Identificador del tipo de documento de identidad. Ver [Documentos de Identidad](/api-reference/identity-documents/listar-documentos-identidad).
 </ParamField>
 
 <ParamField body="identityDocumentNumber" type="string">
@@ -157,6 +163,8 @@ api: "PATCH /associates/{id}"
 
 <ParamField body="vendorGoodServiceId" type="string">
   Identificador del bien o servicio principal del suplidor. No debe enviarse si `isVendor` es `false`.
+
+  <DgiiGoodsServices />
 </ParamField>
 
 <ParamField body="vendorBusinessTypeId" type="integer">
@@ -281,6 +289,8 @@ api: "PATCH /associates/{id}"
 
 <ParamField body="statusId" type="integer">
   Identificador del estado inicial del asociado.
+
+  <AssociateStatuses />
 </ParamField>
 
 ### Example request

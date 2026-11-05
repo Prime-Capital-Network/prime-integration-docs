@@ -3,6 +3,9 @@ title: "Actualizar Parcial"
 api: "PATCH /operation-expenses/{id}"
 ---
 
+import CalculationTypes from '/snippets/catalogs/calculation-types.mdx'
+import ChargeTypes from '/snippets/catalogs/charge-types.mdx'
+
 Actualiza parcialmente un estimado de gasto (operation expense) en la empresa.
 
 <Note>
@@ -37,6 +40,8 @@ Actualiza parcialmente un estimado de gasto (operation expense) en la empresa.
 
 <ParamField body="chargeTypeId" type="integer">
   Identificador del tipo de cargo.
+
+  <ChargeTypes />
 </ParamField>
 
 <ParamField body="quotationGroupId" type="integer">
@@ -45,6 +50,8 @@ Actualiza parcialmente un estimado de gasto (operation expense) en la empresa.
 
 <ParamField body="calculationTypeId" type="string">
   Identificador del tipo de cálculo.
+
+  <CalculationTypes />
 </ParamField>
 
 <ParamField body="currencyId" type="string">

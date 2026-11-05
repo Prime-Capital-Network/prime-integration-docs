@@ -5,6 +5,8 @@ description: "Permite listar los cargos mediante REST API"
 api: "GET /charges"
 ---
 
+import CalculationTypes from '/snippets/catalogs/calculation-types.mdx'
+
 Obtén una lista paginada de cargos en la empresa.
 
 <Note>
@@ -47,6 +49,8 @@ Obtén una lista paginada de cargos en la empresa.
 
 <ParamField query="CalculationId" type="StringSearchFilter">
   Filtra por el identificador del tipo de cálculo del cargo.
+
+  <CalculationTypes />
 </ParamField>
 
 <ParamField query="IsUsedForSales" type="BooleanSearchFilter">

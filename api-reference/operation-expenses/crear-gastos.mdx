@@ -3,6 +3,9 @@ title: "Crear"
 api: "POST /operation-expenses"
 ---
 
+import CalculationTypes from '/snippets/catalogs/calculation-types.mdx'
+import ChargeTypes from '/snippets/catalogs/charge-types.mdx'
+
 Crea un nuevo estimado de gasto (operation expense) en la empresa.
 
 <Note>
@@ -31,6 +34,8 @@ Crea un nuevo estimado de gasto (operation expense) en la empresa.
 
 <ParamField body="chargeTypeId" type="integer" required>
   Identificador del tipo de cargo.
+
+  <ChargeTypes />
 </ParamField>
 
 <ParamField body="quotationGroupId" type="integer" required>
@@ -39,6 +44,8 @@ Crea un nuevo estimado de gasto (operation expense) en la empresa.
 
 <ParamField body="calculationTypeId" type="string">
   Identificador del tipo de cálculo.
+
+  <CalculationTypes />
 </ParamField>
 
 <ParamField body="currencyId" type="string" required>

@@ -3,6 +3,9 @@ title: "Actualizar Detalle"
 api: "PUT /purchase-orders/{id}/details/{detailId}"
 ---
 
+import CalculationTypes from '/snippets/catalogs/calculation-types.mdx'
+import ChargeTypes from '/snippets/catalogs/charge-types.mdx'
+
 Actualiza un detalle para una orden de compra específica.
 
 <Note>
@@ -53,6 +56,8 @@ Actualiza un detalle para una orden de compra específica.
   Identificador del tipo de cargo.
 
   - Este campo debe ser `null` si el campo `itemType` no es `Charge`.
+
+  <ChargeTypes />
 </ParamField>
 
 <ParamField body="isTransparent" type="boolean" default="false">
@@ -69,6 +74,8 @@ Actualiza un detalle para una orden de compra específica.
 
 <ParamField body="calculationTypeId" type="string">
   Identificador del tipo de cálculo.
+
+  <CalculationTypes />
 </ParamField>
 
 <ParamField body="quantity" type="decimal" required>
