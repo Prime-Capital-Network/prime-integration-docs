@@ -8,6 +8,8 @@ api: "POST /associates"
 import AssociateStatuses from '/snippets/catalogs/associate-statuses.mdx'
 import AssociateTypes from '/snippets/catalogs/associate-types.mdx'
 import DgiiGoodsServices from '/snippets/catalogs/dgii-goods-services.mdx'
+import CustomerBusinessTypes from '/snippets/catalogs/customer-business-types.mdx'
+import VendorBusinessTypes from '/snippets/catalogs/vendor-business-types.mdx'
 
 <Note>
   Este endpoint requiere el scope **`Associates.Write`**.
@@ -129,6 +131,10 @@ import DgiiGoodsServices from '/snippets/catalogs/dgii-goods-services.mdx'
 
 <ParamField body="businessTypeId" type="integer">
   Identificador del tipo de negocio del cliente. Requerido si `isCustomer` es `true`, y no debe enviarse si `isCustomer` es `false`.
+
+  Valores aceptados:
+
+  <CustomerBusinessTypes />
 </ParamField>
 
 <ParamField body="customerCurrencyId" type="string">
@@ -163,6 +169,10 @@ import DgiiGoodsServices from '/snippets/catalogs/dgii-goods-services.mdx'
 
 <ParamField body="vendorBusinessTypeId" type="integer">
   Identificador del tipo de negocio del suplidor. No debe enviarse si `isVendor` es `false`. Puede ser requerido si `isVendor` es `true`, según el método de NCF configurado para la empresa.
+
+  Valores aceptados:
+
+  <VendorBusinessTypes />
 </ParamField>
 
 <ParamField body="isVendorNCFRequired" type="boolean">

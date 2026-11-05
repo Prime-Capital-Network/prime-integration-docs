@@ -5,6 +5,9 @@ description: "Permite extraer un asociado en específico mediante REST API"
 api: "GET /associates/{id}"
 ---
 
+import CustomerBusinessTypes from '/snippets/catalogs/customer-business-types.mdx'
+import VendorBusinessTypes from '/snippets/catalogs/vendor-business-types.mdx'
+
 Obtén un asociado por ID en la empresa.
 
 <Note>
@@ -624,6 +627,10 @@ print(response.json())
   <Expandable title="propiedades">
     <ResponseField name="id" type="integer">
       Identificador del tipo de negocio.
+
+      Valores posibles:
+
+      <CustomerBusinessTypes />
     </ResponseField>
 
     <ResponseField name="name" type="string">
@@ -770,6 +777,10 @@ print(response.json())
   <Expandable title="propiedades">
     <ResponseField name="id" type="integer">
       Identificador del tipo de negocio.
+
+      Valores posibles:
+
+      <VendorBusinessTypes />
     </ResponseField>
 
     <ResponseField name="name" type="string">

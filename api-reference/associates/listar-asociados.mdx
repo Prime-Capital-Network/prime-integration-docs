@@ -5,6 +5,8 @@ description: "Permite manejar asociados mediante REST API"
 api: "GET /associates"
 ---
 
+import CustomerBusinessTypes from '/snippets/catalogs/customer-business-types.mdx'
+
 Obtén una lista paginada de asociados en la empresa.
 
 <Note>
@@ -131,6 +133,10 @@ Obtén una lista paginada de asociados en la empresa.
 
 <ParamField query="customerBusinessTypeName" type="StringSearchFilter">
   Filtra por el nombre del tipo de negocio.
+
+  Valores posibles (nombre del tipo de negocio de cliente):
+
+  <CustomerBusinessTypes />
 </ParamField>
 
 <ParamField query="commercialActivityName" type="StringSearchFilter">
@@ -405,6 +411,10 @@ print(response.json())
 
     <ResponseField name="customerBusinessTypeName" type="string">
       Tipo de negocio del cliente. `null` si no aplica.
+
+      Valores posibles:
+
+      <CustomerBusinessTypes />
     </ResponseField>
 
     <ResponseField name="customerPaymentTerm" type="object">
