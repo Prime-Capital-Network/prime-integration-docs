@@ -71,12 +71,13 @@ Crea un nuevo reembolso por cobrar en la empresa. Al crearlo, el sistema genera 
   - `InternationalFreightDocument`
 </ParamField>
 
-<ParamField body="details" type="array">
-  Lista de detalles del reembolso. Cada elemento acepta los mismos campos que [Crear Detalle](/api-reference/reimbursement-receivables/crear-detalle).
-</ParamField>
+import DetailFields from './snippets/reimbursement-receivable-detail-fields.mdx'
 
-<ParamField body="isProforma" type="boolean">
-  No disponible mediante API Key: si se envía como `true`, la solicitud será rechazada con un error `400 Bad Request`.
+<ParamField body="details" type="array">
+  Lista de detalles del reembolso.
+  <Expandable title="detalle">
+    <DetailFields />
+  </Expandable>
 </ParamField>
 
 ### Example request
@@ -198,7 +199,7 @@ print(response.json())
 ### Errores
 
 <ResponseField name="400 Bad Request">
-  La solicitud no cumple alguna de las reglas de los campos (por ejemplo, el cliente no es válido, la fecha no pertenece a un período fiscal activo o se envió `isProforma` como `true`).
+  La solicitud no cumple alguna de las reglas de los campos (por ejemplo, el cliente no es válido o la fecha no pertenece a un período fiscal activo).
 </ResponseField>
 
 <ResponseField name="403 Forbidden">

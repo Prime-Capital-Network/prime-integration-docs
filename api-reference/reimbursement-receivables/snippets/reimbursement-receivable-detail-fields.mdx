@@ -1,0 +1,62 @@
+import CalculationTypes from '/snippets/catalogs/calculation-types.mdx'
+
+<ParamField body="chargeId" type="integer" required>
+  Identificador del cargo.
+
+  - Debe ser un cargo que aplique para reembolsos (`appliesForReimbursement` como `true`) y con una cuenta de reembolsos por cobrar asignada.
+</ParamField>
+
+<ParamField body="chargeDescription" type="string">
+  Descripción del cargo en el reembolso. Máximo 120 caracteres. Si no se envía, se usa el nombre del cargo.
+</ParamField>
+
+<ParamField body="chargeDetails" type="string">
+  Detalle adicional del cargo. Máximo 250 caracteres.
+</ParamField>
+
+<ParamField body="calculationTypeId" type="string">
+  Identificador del tipo de cálculo. Máximo 3 caracteres.
+
+  <CalculationTypes />
+</ParamField>
+
+<ParamField body="quantity" type="decimal" required>
+  Cantidad. Debe ser mayor que cero.
+</ParamField>
+
+<ParamField body="price" type="decimal">
+  Precio unitario. Debe ser mayor que cero.
+</ParamField>
+
+<ParamField body="operationCategory" type="string">
+  Categoría de la operación logística asociada. Requerido si `operationId` está presente. Valores aceptados:
+
+  - `Shipment` (Embarque)
+  - `CustomManagement` (Aduanas)
+  - `Additional` (Misceláneos)
+  - `InlandFreight` (Transporte Terrestre)
+</ParamField>
+
+<ParamField body="operationId" type="integer">
+  Identificador de la operación logística asociada. Requerido si `operationCategory` está presente.
+</ParamField>
+
+<ParamField body="masterId" type="integer">
+  Identificador del master asociado.
+</ParamField>
+
+<ParamField body="departmentId" type="integer">
+  Identificador del departamento. Debe ser una dimensión de tipo departamento.
+</ParamField>
+
+<ParamField body="costCenterId" type="integer">
+  Identificador del centro de costo. Debe ser una dimensión de tipo centro de costo.
+</ParamField>
+
+<ParamField body="projectId" type="integer">
+  Identificador del proyecto. Debe ser una dimensión de tipo proyecto.
+</ParamField>
+
+<ParamField body="estimateId" type="integer">
+  Identificador del estimado de venta que reembolsa este detalle.
+</ParamField>

@@ -85,12 +85,13 @@ Crea un nuevo reembolso por pagar en la empresa.
   - Si `currencyId` es igual a la moneda de la empresa, se asignará por defecto el valor `1`.
 </ParamField>
 
+import DetailFields from './snippets/reimbursement-liability-detail-fields.mdx'
+
 <ParamField body="details" type="array">
   Lista de detalles del reembolso.
-</ParamField>
-
-<ParamField body="accounts" type="array">
-  Lista de distribución contable adicional del reembolso.
+  <Expandable title="detalle">
+    <DetailFields />
+  </Expandable>
 </ParamField>
 
 ### Example request
@@ -112,8 +113,7 @@ curl --request POST \
     "exchangeRate": 58.50,
     "operationId": 5321,
     "operationCategory": "Shipment",
-    "details": [],
-    "accounts": []
+    "details": []
   }'
 ```
 
@@ -134,8 +134,7 @@ const response = await fetch("https://api.primenetcloud.com/v1/reimbursement-lia
     exchangeRate: 58.50,
     operationId: 5321,
     operationCategory: "Shipment",
-    details: [],
-    accounts: []
+    details: []
   }),
 });
 
@@ -157,8 +156,7 @@ response = requests.post(
         "exchangeRate": 58.50,
         "operationId": 5321,
         "operationCategory": "Shipment",
-        "details": [],
-        "accounts": []
+        "details": []
     },
     headers={
         "X-Api-Key": "YOUR_API_KEY",
@@ -208,8 +206,7 @@ print(response.json())
   "description": "Reembolso por gastos de flete marítimo",
   "currencyId": "USD",
   "exchangeRate": 58.50,
-  "details": [],
-  "accounts": []
+  "details": []
 }
 ```
 

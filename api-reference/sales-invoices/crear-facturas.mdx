@@ -83,12 +83,13 @@ Crea una nueva factura por cobrar (factura de venta) en la empresa. Al crearla, 
   - `HyH`
 </ParamField>
 
-<ParamField body="details" type="array">
-  Lista de detalles de la factura. Cada elemento acepta los mismos campos que [Crear Detalle](/api-reference/sales-invoices/crear-detalle).
-</ParamField>
+import DetailFields from './snippets/sale-invoice-detail-fields.mdx'
 
-<ParamField body="isProforma" type="boolean">
-  No disponible mediante API Key: si se envía como `true`, la solicitud será rechazada con un error `400 Bad Request`.
+<ParamField body="details" type="array">
+  Lista de detalles de la factura.
+  <Expandable title="detalle">
+    <DetailFields />
+  </Expandable>
 </ParamField>
 
 ### Example request
@@ -216,7 +217,7 @@ print(response.json())
 ### Errores
 
 <ResponseField name="400 Bad Request">
-  La solicitud no cumple alguna de las reglas de los campos (por ejemplo, el cliente no es válido, la fecha no pertenece a un período fiscal activo, no quedan comprobantes fiscales disponibles o se envió `isProforma` como `true`).
+  La solicitud no cumple alguna de las reglas de los campos (por ejemplo, el cliente no es válido, la fecha no pertenece a un período fiscal activo o no quedan comprobantes fiscales disponibles).
 </ResponseField>
 
 <ResponseField name="403 Forbidden">
