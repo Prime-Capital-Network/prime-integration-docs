@@ -34,8 +34,8 @@ Actualiza todos los datos de una factura por cobrar. Los campos que no se envíe
   - Debe pertenecer a un período fiscal activo.
 </ParamField>
 
-<ParamField body="fiscalDocumentId" type="string">
-  Identificador del documento fiscal (tipo de comprobante). Requerido.
+<ParamField body="fiscalDocumentId" type="string" required>
+  Identificador del documento fiscal (tipo de comprobante).
 
   - Debe ser un documento fiscal que aplique a cuentas por cobrar: `FC` (crédito fiscal), `FF` (consumo), `FG` (gubernamental) o `FE` (régimen especial).
   - Si la empresa no es de República Dominicana, o el método de NCF está deshabilitado, solo se acepta `FC`.
