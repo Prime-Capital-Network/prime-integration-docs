@@ -304,6 +304,10 @@ Actualiza los datos parcialmente de un house existente en la empresa.
   Lugar de entrega. Máximo 100 caracteres.
 </ParamField>
 
+<ParamField body="deliveryDate" type="date">
+  Fecha de entrega en formato `YYYY-MM-DD`.
+</ParamField>
+
 <ParamField body="sigaTransitType" type="string">
   Tipo de tránsito SIGA.
 </ParamField>
@@ -589,6 +593,7 @@ Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
   "eta": "2026-07-20T00:00:00Z",
   "placeReceipt": "string",
   "placeDelivery": "string",
+  "deliveryDate": "2026-07-25",
   "description": "string",
   "weightValue": 0,
   "weightUnit": "Kilogram",

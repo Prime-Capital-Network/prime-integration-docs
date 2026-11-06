@@ -151,6 +151,9 @@ print(response.json())
     "name": "string"
   },
   "insertedBy": "string",
+  "insertedByUser": {
+    "id": "string"
+  },
   "insertedDate": "2026-07-01T08:00:00.000Z",
   "updatedBy": "string",
   "updatedDate": "2026-07-01T08:00:00.000Z",
@@ -548,6 +551,16 @@ print(response.json())
 
 <ResponseField name="insertedBy" type="string">
   Usuario o integración que creó la solicitud.
+</ResponseField>
+
+<ResponseField name="insertedByUser" type="object">
+  Usuario o integración que creó la solicitud.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del usuario, o del API Key si la solicitud se creó mediante una integración.
+    </ResponseField>
+  </Expandable>
 </ResponseField>
 
 <ResponseField name="insertedDate" type="string">

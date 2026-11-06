@@ -83,6 +83,8 @@ print(response.json())
     "id": "Numeric",
     "name": "Numérico"
   },
+  "isNumberRequired": true,
+  "shouldPreventDuplicates": true,
   "insertedBy": "string",
   "insertedDate": "2026-07-01T08:00:00.000Z",
   "updatedBy": "string",
@@ -139,6 +141,14 @@ print(response.json())
       Nombre traducido del tipo de dato.
     </ResponseField>
   </Expandable>
+</ResponseField>
+
+<ResponseField name="isNumberRequired" type="boolean">
+  Indica si el tipo de documento de identidad exige que se especifique el número.
+</ResponseField>
+
+<ResponseField name="shouldPreventDuplicates" type="boolean">
+  Indica si el tipo de documento de identidad impide que dos asociados tengan el mismo número.
 </ResponseField>
 
 <ResponseField name="insertedBy" type="string">

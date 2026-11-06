@@ -39,12 +39,20 @@ Obtén una lista paginada de asociados en la empresa.
   Número de registros a retornar. Por defecto `20`, máximo `100`.
 </ParamField>
 
+<ParamField query="Id" type="RangeSearchFilter<integer>">
+  Filtra por el identificador del asociado.
+</ParamField>
+
 <ParamField query="name" type="StringSearchFilter">
   Filtra por nombre del asociado.
 </ParamField>
 
 <ParamField query="alias" type="StringSearchFilter">
   Filtra por alias o nombre corto del asociado.
+</ParamField>
+
+<ParamField query="IdentityDocument.Id" type="RangeSearchFilter<integer>">
+  Filtra por el identificador del tipo de documento de identidad.
 </ParamField>
 
 <ParamField query="IdentityDocument.Mask" type="StringSearchFilter">
@@ -117,6 +125,10 @@ Obtén una lista paginada de asociados en la empresa.
 
 <ParamField query="isEmployee" type="BooleanSearchFilter">
   Filtra asociados que son empleados internos.
+</ParamField>
+
+<ParamField query="SalesPerson.Id" type="RangeSearchFilter<integer>">
+  Filtra por el identificador del vendedor asignado.
 </ParamField>
 
 <ParamField query="salesPersonName" type="StringSearchFilter">
@@ -230,6 +242,7 @@ print(response.json())
       "name": "string",
       "alias": "string",
       "identityDocument": {
+        "id": 0,
         "mask": "string",
         "number": "string"
       },
@@ -303,6 +316,10 @@ print(response.json())
       Documento de identidad del asociado.
 
       <Expandable title="identityDocument">
+        <ResponseField name="id" type="integer">
+          Identificador del tipo de documento de identidad.
+        </ResponseField>
+
         <ResponseField name="mask" type="string">
           Máscara del documento (ej. CED de cédula).
         </ResponseField>

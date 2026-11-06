@@ -91,6 +91,10 @@ print(response.json())
     "mask": "string",
     "number": "string",
     "length": 0,
+    "fieldType": {
+      "id": "Numeric",
+      "name": "Numérico"
+    },
     "isNumberRequired": true,
     "shouldPreventDuplicates": true
   },
@@ -427,6 +431,20 @@ print(response.json())
 
     <ResponseField name="length" type="integer">
       Longitud esperada del número de documento.
+    </ResponseField>
+
+    <ResponseField name="fieldType" type="object">
+      Tipo de dato aceptado por el número de documento.
+
+      <Expandable title="propiedades">
+        <ResponseField name="id" type="string">
+          Identificador del tipo de dato. Valores posibles: `Alphanumeric`, `Numeric`.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Nombre traducido del tipo de dato.
+        </ResponseField>
+      </Expandable>
     </ResponseField>
 
     <ResponseField name="isNumberRequired" type="boolean">

@@ -314,6 +314,10 @@ Crea un nuevo house (embarque) en la empresa.
   Lugar de entrega. Máximo 100 caracteres.
 </ParamField>
 
+<ParamField body="deliveryDate" type="date">
+  Fecha de entrega en formato `YYYY-MM-DD`.
+</ParamField>
+
 <ParamField body="sigaTransitType" type="string">
   Tipo de tránsito SIGA.
 </ParamField>
@@ -609,6 +613,7 @@ print(response.json())
   "eta": "2026-07-20T00:00:00Z",
   "placeReceipt": "string",
   "placeDelivery": "string",
+  "deliveryDate": "2026-07-25",
   "description": "string",
   "weightValue": 0,
   "weightUnit": "Kilogram",
