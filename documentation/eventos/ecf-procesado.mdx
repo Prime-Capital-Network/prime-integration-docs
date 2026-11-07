@@ -1,0 +1,101 @@
+---
+title: "ecf.processed"
+description: "Se envía cuando un comprobante fiscal electrónico recibe su respuesta final de la DGII"
+---
+
+Se envía cuando un comprobante fiscal electrónico (e-CF) emitido desde PrimeERP llega a su estado final: aceptado, aceptado condicional o rechazado por la DGII, o fallido si no pudo procesarse.
+
+Se envía **una sola vez por documento**, cuando se conoce el resultado final.
+
+### Ejemplo de notificación
+
+```json
+{
+  "type": "ecf.processed",
+  "timestamp": "2026-11-06T20:06:30.0000000Z",
+  "tenantId": "55dea78f-bbe3-4b04-97e3-26b33547bcf8",
+  "data": {
+    "documentId": 10457,
+    "documentType": "SaleInvoice",
+    "encf": "E310000000123",
+    "status": "AcceptedWithObservations",
+    "securityCode": "Kd8Pq2",
+    "signatureDate": "2026-11-06T16:06:06-04:00",
+    "issueDate": "2026-11-06",
+    "stampUrl": "https://ecf.dgii.gov.do/ecf/ConsultaTimbre?RncEmisor=130965943&RncComprador=101010101&ENCF=E310000000123&FechaEmision=06-11-2026&MontoTotal=132600&FechaFirma=06-11-2026%2016:06:06&CodigoSeguridad=Kd8Pq2",
+    "error": null,
+    "messages": [
+      {
+        "code": "1385",
+        "message": "El campo RNCComprador del área Comprador de la sección Encabezado no es válido."
+      }
+    ]
+  }
+}
+```
+
+### Campos de `data`
+
+<ResponseField name="documentId" type="integer">
+  Identificador del documento en PrimeERP. Corresponde al `id` del recurso indicado en `documentType`; por ejemplo, para `SaleInvoice` puedes consultarlo en [Extraer factura de venta](/api-reference/sales-invoices/extraer-factura-por-id).
+</ResponseField>
+
+<ResponseField name="documentType" type="string">
+  Tipo de documento.
+
+  Valores posibles:
+  - `SaleInvoice`: factura de venta.
+  - `SalesCreditNote`: nota de crédito de venta.
+  - `SalesDebitNote`: nota de débito de venta.
+  - `PurchaseInvoice`: factura de compra (comprobante de compras, gastos menores o pagos al exterior).
+  - `PurchaseCreditNote`: nota de crédito de compra.
+  - `PurchaseDebitNote`: nota de débito de compra.
+</ResponseField>
+
+<ResponseField name="encf" type="string">
+  Número de comprobante fiscal electrónico (e-NCF) del documento, por ejemplo `E310000000123`. Sus primeros tres caracteres indican el tipo de e-CF (`E31`: crédito fiscal, `E32`: consumo, etc.).
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Resultado final del e-CF.
+
+  Valores posibles:
+  - `Accepted`: aceptado por la DGII.
+  - `AcceptedWithObservations`: aceptado condicional; la DGII lo aceptó con observaciones (ver `messages`).
+  - `Rejected`: rechazado por la DGII (ver `messages`).
+  - `Failed`: el documento no pudo procesarse y no tiene respuesta de la DGII (ver `error`).
+</ResponseField>
+
+<ResponseField name="securityCode" type="string">
+  Código de seguridad del e-CF, el que aparece en su representación impresa. `null` si no tiene.
+</ResponseField>
+
+<ResponseField name="signatureDate" type="string">
+  Fecha y hora de la firma digital del e-CF (ISO 8601), con el desfase horario de la hora local en que se firmó. `null` si no tiene.
+</ResponseField>
+
+<ResponseField name="issueDate" type="string">
+  Fecha de emisión del e-CF, sin hora (`YYYY-MM-DD`). `null` si no tiene.
+</ResponseField>
+
+<ResponseField name="stampUrl" type="string">
+  URL de consulta del timbre en la DGII, la que se codifica en el código QR de la representación impresa. `null` si el documento no tiene timbre.
+</ResponseField>
+
+<ResponseField name="error" type="string">
+  Descripción del error cuando el documento no pudo procesarse. `null` si no hubo error.
+</ResponseField>
+
+<ResponseField name="messages" type="object[]">
+  Mensajes que devolvió la DGII junto con su respuesta, por ejemplo los motivos de un rechazo o las observaciones de un aceptado condicional. Lista vacía si no hay mensajes.
+
+  <Expandable title="propiedades">
+    <ResponseField name="code" type="string">
+      Código del mensaje según la DGII.
+    </ResponseField>
+
+    <ResponseField name="message" type="string">
+      Texto del mensaje.
+    </ResponseField>
+  </Expandable>
+</ResponseField>

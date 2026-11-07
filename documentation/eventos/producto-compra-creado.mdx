@@ -1,0 +1,67 @@
+---
+title: "purchase_product.created"
+description: "Se envía cuando se crea un producto de compra"
+---
+
+Se envía cada vez que se crea un producto de compra, ya sea desde la aplicación o desde la API.
+
+`data` trae los identificadores de los catálogos relacionados. Para obtener sus nombres o el resto de los campos del producto, consulta [Extraer producto de compra](/api-reference/purchase-products/extraer-producto-compra-por-id) con el `id`.
+
+### Ejemplo de notificación
+
+```json
+{
+  "type": "purchase_product.created",
+  "timestamp": "2026-08-02T16:35:00.0000000Z",
+  "tenantId": "55dea78f-bbe3-4b04-97e3-26b33547bcf8",
+  "data": {
+    "id": 4821,
+    "name": "Resina epóxica 5L",
+    "categoryId": 12,
+    "manufacturerId": 7,
+    "brandId": 3,
+    "packagingId": 2,
+    "goodServiceApplicability": "Product",
+    "isActive": true
+  }
+}
+```
+
+### Campos de `data`
+
+<ResponseField name="id" type="integer">
+  Identificador del producto de compra.
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  Nombre del producto de compra.
+</ResponseField>
+
+<ResponseField name="categoryId" type="integer">
+  Identificador de la categoría de bienes/servicios.
+</ResponseField>
+
+<ResponseField name="manufacturerId" type="integer">
+  Identificador del fabricante. `null` si no aplica.
+</ResponseField>
+
+<ResponseField name="brandId" type="integer">
+  Identificador de la marca. `null` si no aplica.
+</ResponseField>
+
+<ResponseField name="packagingId" type="integer">
+  Identificador del empaque. `null` si no aplica.
+</ResponseField>
+
+<ResponseField name="goodServiceApplicability" type="string">
+  Aplicabilidad del producto de compra.
+
+  Valores posibles:
+  - `NotApplicable`
+  - `Product`
+  - `Service`
+</ResponseField>
+
+<ResponseField name="isActive" type="boolean">
+  Indica si el producto de compra está activo.
+</ResponseField>

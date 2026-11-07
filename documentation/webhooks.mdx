@@ -17,9 +17,12 @@ Los webhooks envían una solicitud HTTP `POST` a una URL de tu elección cada ve
 
 # Catálogo de eventos
 
+Cada evento tiene su propia página con el detalle de los campos que trae en `data`.
+
 | Evento | Descripción |
 | --- | --- |
-| `purchase_product.created` | Se creó un nuevo producto de compra. |
+| [`purchase_product.created`](/documentation/eventos/producto-compra-creado) | Se creó un nuevo producto de compra. |
+| [`ecf.processed`](/documentation/eventos/ecf-procesado) | Un e-CF recibió su respuesta final de la DGII (aceptado, aceptado condicional o rechazado) o no pudo procesarse. |
 
 # Formato de la notificación
 
@@ -56,7 +59,7 @@ Cada notificación es un `POST` con cuerpo `application/json` y estos headers, s
 | `type` | El evento (ver catálogo). |
 | `timestamp` | Fecha ISO 8601 (UTC) en que ocurrió el evento; no cambia entre reintentos. |
 | `tenantId` | La compañía donde ocurrió el evento. |
-| `data` | Los datos del recurso. |
+| `data` | Los datos del evento. Sus campos se documentan en la página de cada evento (ver catálogo). |
 
 # Verificación de la firma
 

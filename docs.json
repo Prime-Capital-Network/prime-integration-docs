@@ -29,7 +29,14 @@
               "documentation/generar-api-key",
               "documentation/autenticacion",
               "documentation/rate-limiting",
-              "documentation/webhooks"
+              {
+                "group": "Webhooks",
+                "pages": [
+                  "documentation/webhooks",
+                  "documentation/eventos/producto-compra-creado",
+                  "documentation/eventos/ecf-procesado"
+                ]
+              }
             ]
           }
         ]
