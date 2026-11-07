@@ -11,9 +11,9 @@ Los webhooks te permiten recibir una notificación HTTP `POST` automática hacia
 
 # Cómo crear una suscripción
 
-1. En la aplicación de PrimeNet, ve a **Configuración → Suscripciones de Webhooks**.
-2. Crea una nueva suscripción indicando uno o más **tipos de evento** (ver catálogo abajo) y la **URL** que recibirá las notificaciones. La URL debe ser una dirección **HTTPS pública** — no se aceptan URLs `localhost` ni direcciones de red privada/interna. Una misma suscripción puede escuchar varios tipos de evento a la vez.
-3. Al crear la suscripción, PrimeERP te muestra un **secreto** (`whsec_...`). Guárdalo de forma segura: se muestra **una sola vez**, en el momento de la creación, y se usa para verificar la autenticidad de cada notificación que recibas (ver más abajo). Si lo pierdes, puedes rotarlo (ver "Rotación del secreto" abajo).
+1. En la aplicación de PrimeNet, ve a **Configuración → Webhooks** y presiona **+** para crear una suscripción.
+2. Indica un **nombre** que identifique la integración, la **URL** que recibirá las notificaciones y activa uno o más **eventos** (ver catálogo abajo); cada evento aparece con su identificador, por ejemplo `purchase_product.created`. La URL debe ser una dirección **HTTPS pública** que empiece con `https://` — no se aceptan URLs `localhost` ni direcciones de red privada/interna. Una misma suscripción puede escuchar varios eventos a la vez.
+3. Al crear la suscripción, PrimeERP te muestra un **secreto** (`whsec_...`) con un botón para copiarlo. Guárdalo de forma segura: se muestra **una sola vez**, en el momento de la creación, y se usa para verificar la autenticidad de cada notificación que recibas (ver más abajo). Si lo pierdes, puedes rotarlo (ver "Rotación del secreto" abajo).
 
 <Warning>
   Trata el secreto del webhook como cualquier otra credencial: no lo incluyas en repositorios públicos ni en código del lado del cliente. Cualquiera que lo tenga puede falsificar notificaciones hacia tu endpoint.
@@ -170,7 +170,7 @@ def is_valid_signature(
 
 # Rotación del secreto
 
-Si necesitas rotar el secreto, puedes hacerlo desde la aplicación de PrimeERP. Al rotar:
+Si necesitas rotar el secreto, abre la suscripción en **Configuración → Webhooks** y presiona **Rotar secret**. Al rotar:
 
 - Se genera un nuevo secreto y se muestra **una sola vez**, igual que al crear la suscripción.
 - Por defecto, el secreto anterior sigue siendo válido durante una **ventana de gracia de 24 horas**: en ese lapso, cada notificación se firma con **ambos** secretos (verás dos firmas en `webhook-signature`), para que puedas actualizar tu verificación sin perder entregas en tránsito.
@@ -185,7 +185,7 @@ PrimeERP reintenta las notificaciones que no reciben una respuesta `2xx`, siguie
 - Cualquier código de respuesta distinto de `2xx` (incluyendo timeouts o errores de conexión) se considera un fallo y activa un reintento.
 
 <Warning>
-  Si tu endpoint responde `410 Gone`, PrimeERP interpreta que ya no quieres recibir notificaciones y **desactiva la suscripción por completo** — no solo esa entrega — sin reintentar.
+  Si tu endpoint responde `410 Gone`, PrimeERP interpreta que ya no quieres recibir notificaciones y **desactiva la suscripción por completo** — no solo esa entrega — sin reintentar. Para volver a recibir notificaciones, abre la suscripción y marca **Activo** de nuevo.
 </Warning>
 
 <Note>
@@ -198,7 +198,7 @@ PrimeERP reintenta las notificaciones que no reciben una respuesta `2xx`, siguie
 
 # Historial de entregas
 
-Desde la aplicación de PrimeERP puedes consultar el historial de entregas de una suscripción: cada intento muestra su estado (`Pending`, `Delivered`, `Failed`), la cantidad de intentos realizados, el último código de respuesta HTTP recibido, y — mientras esté pendiente — la fecha del próximo reintento programado.
+Al abrir una suscripción en **Configuración → Webhooks** verás su historial de entregas. Cada entrega muestra la fecha, el evento, su estado (**Pendiente**, **Entregado** o **Fallido**), la cantidad de intentos realizados, el último código de respuesta HTTP recibido, la fecha del próximo reintento programado (mientras esté pendiente) y la fecha en que se entregó.
 
 # Buenas prácticas
 
