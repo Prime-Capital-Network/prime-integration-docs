@@ -51,6 +51,10 @@ Obtén una lista paginada de asociados en la empresa.
   Filtra por alias o nombre corto del asociado.
 </ParamField>
 
+<ParamField query="ReferenceCode" type="StringSearchFilter">
+  Filtra por el código de referencia del asociado.
+</ParamField>
+
 <ParamField query="IdentityDocument.Id" type="RangeSearchFilter<integer>">
   Filtra por el identificador del tipo de documento de identidad.
 </ParamField>
@@ -241,6 +245,7 @@ print(response.json())
       "id": 0,
       "name": "string",
       "alias": "string",
+      "referenceCode": "string",
       "identityDocument": {
         "id": 0,
         "mask": "string",
@@ -310,6 +315,10 @@ print(response.json())
 
     <ResponseField name="alias" type="string">
       Nombre corto o alias utilizado internamente.
+    </ResponseField>
+
+    <ResponseField name="referenceCode" type="string">
+      Código de referencia del asociado. `null` si no tiene.
     </ResponseField>
 
     <ResponseField name="identityDocument" type="object">

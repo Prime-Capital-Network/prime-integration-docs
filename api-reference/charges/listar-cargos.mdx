@@ -43,6 +43,10 @@ Obtén una lista paginada de cargos en la empresa.
   Filtra por el código rápido del cargo.
 </ParamField>
 
+<ParamField query="ReferenceCode" type="StringSearchFilter">
+  Filtra por el código de referencia del cargo.
+</ParamField>
+
 <ParamField query="TypeName" type="StringSearchFilter">
   Filtra por el nombre del tipo de cargo.
 </ParamField>
@@ -234,6 +238,7 @@ print(response.json())
       "id": 12,
       "name": "Flete Marítimo",
       "fastCode": "FLM",
+      "referenceCode": "FRT-001",
       "typeName": "Flete",
       "calculationId": "FLAT",
       "isUsedForSales": true,
@@ -302,6 +307,10 @@ print(response.json())
 
     <ResponseField name="fastCode" type="string">
       Código rápido del cargo.
+    </ResponseField>
+
+    <ResponseField name="referenceCode" type="string">
+      Código de referencia del cargo. `null` si no tiene.
     </ResponseField>
 
     <ResponseField name="typeName" type="string">
