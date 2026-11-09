@@ -99,3 +99,20 @@ Se envía **una sola vez por documento**, cuando se conoce el resultado final.
     </ResponseField>
   </Expandable>
 </ResponseField>
+
+### Empresas DEMO
+
+En una empresa DEMO los e-CF **no se envían a la DGII**: PrimeERP simula su respuesta unos segundos después de que el documento se registra, y `ecf.processed` se envía igual que en producción. El documento queda con los mismos valores que trae la notificación, así que puedes consultarlo después por su `documentId`.
+
+El resultado depende de los centavos del monto total del documento, en su moneda:
+
+| Monto total termina en | `status` | Ejemplo |
+| --- | --- | --- |
+| `.13` | `Rejected` | `1000.13` |
+| `.14` | `AcceptedWithObservations` | `1000.14` |
+| cualquier otro valor | `Accepted` | `1000.00` |
+
+- Un documento rechazado o aceptado condicional trae un mensaje simulado en `messages` que indica por qué se obtuvo ese resultado.
+- `securityCode` es aleatorio, y `stampUrl` apunta al ambiente de pruebas de la DGII (`https://ecf.dgii.gov.do/testecf/...`), por lo que no muestra un timbre real.
+- El resultado `Failed` no se simula.
+- Las validaciones previas al envío se aplican igual que en producción: un documento que no las pasa no se procesa y no genera la notificación.
