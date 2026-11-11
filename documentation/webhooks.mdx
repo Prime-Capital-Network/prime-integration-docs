@@ -15,6 +15,10 @@ Los webhooks envían una solicitud HTTP `POST` a una URL de tu elección cada ve
   Trata el secreto como cualquier otra credencial: quien lo tenga puede falsificar notificaciones hacia tu endpoint.
 </Warning>
 
+### Límite de suscripciones activas
+
+Cada compañía puede tener un número máximo de suscripciones **activas** según su plan (**5** por defecto). Al alcanzarlo, PrimeERP no permite crear una suscripción nueva ni reactivar una desactivada; desactiva o reutiliza una existente, o contáctanos para ampliar el límite. Las suscripciones desactivadas no cuentan.
+
 # Catálogo de eventos
 
 Cada evento tiene su propia página con el detalle de los campos que trae en `data`.
@@ -168,13 +172,24 @@ Cualquier respuesta distinta de `2xx` (incluidos timeouts y errores de conexión
 - El primer reintento es a **1 minuto** y la espera se duplica en cada intento, hasta **6 horas**. Si respondes con `Retry-After`, se respeta.
 - Tras **3 días** desde el primer intento, la entrega queda como fallida.
 
-<Warning>
-  Si tu endpoint responde `410 Gone`, PrimeERP interpreta que ya no quieres recibir notificaciones y **desactiva la suscripción**. Para reactivarla, ábrela y marca **Activo**.
-</Warning>
-
 <Note>
   Si respondes `429`, `502` o `504`, se pausan **todas** las entregas pendientes de la suscripción hasta el próximo reintento.
 </Note>
+
+# Desactivación automática
+
+PrimeERP **desactiva la suscripción** en estos casos:
+
+- Tu endpoint responde **`410 Gone`**: se interpreta que ya no quieres recibir notificaciones.
+- La suscripción pasa **5 días sin ninguna entrega exitosa**, contados desde el primer intento fallido. Una sola entrega exitosa reinicia la cuenta. Los intentos que no se hicieron porque las entregas estaban pausadas (ver arriba) no cuentan como fallos.
+
+Al desactivarse, la entrega en curso queda como **Fallido** y los usuarios de la compañía que administran los webhooks reciben una alerta en PrimeNet y un correo con el nombre de la suscripción, su URL y el motivo.
+
+Para reactivarla, ábrela y marca **Activo** (sujeto al [límite de suscripciones activas](#límite-de-suscripciones-activas)). Reactivarla o cambiar su URL reinicia la cuenta de días sin entregas.
+
+<Warning>
+  Los eventos que ocurren mientras la suscripción está desactivada no se le envían, ni siquiera al reactivarla.
+</Warning>
 
 # Historial de entregas
 

@@ -47,12 +47,33 @@ X-RateLimit-Remaining: 0
 </ResponseField>
 
 <Warning>
-  Los headers `X-RateLimit-Limit` y `X-RateLimit-Remaining` solo se incluyen en respuestas `429 Too Many Requests`. No están presentes en respuestas exitosas, por lo que no deben usarse para monitorear tu consumo de forma proactiva antes de alcanzar el límite.
+  Los headers `X-RateLimit-Limit` y `X-RateLimit-Remaining` solo se incluyen en respuestas `429 Too Many Requests` por cuota agotada (no en las de un [bloqueo temporal](#bloqueo-temporal-por-ignorar-el-429)). No están presentes en respuestas exitosas, por lo que no deben usarse para monitorear tu consumo de forma proactiva antes de alcanzar el límite.
 </Warning>
 
 <Tip>
   Es recomendable leer el header `Retry-After` (o el campo `retryAfterSeconds` del cuerpo) para implementar un backoff antes de reintentar, en lugar de reintentar de inmediato.
 </Tip>
+
+### Bloqueo temporal por ignorar el 429
+
+Si tu integración sigue enviando solicitudes después de recibir `429` en lugar de esperar lo que indica `Retry-After`, PrimeERP **bloquea temporalmente tu API Key**. El bloqueo se activa cuando una misma API Key acumula **30 respuestas `429` en un minuto**.
+
+La duración del bloqueo aumenta si el comportamiento se repite:
+
+| Bloqueo | Duración |
+| --- | --- |
+| Primero | 1 minuto |
+| Segundo | 5 minutos |
+| Tercero | 15 minutos |
+| Cuarto y siguientes | 1 hora |
+
+Un bloqueo cuenta como repetición si ocurre antes de que pase **1 hora** desde que terminó el anterior; si tu integración se comporta durante esa hora, el siguiente bloqueo vuelve a ser de 1 minuto.
+
+Mientras dure el bloqueo, **todas** las solicitudes con esa API Key se rechazan con el mismo `429 Too Many Requests` descrito arriba, sin procesarse. El header `Retry-After` y el campo `retryAfterSeconds` indican los segundos que faltan para que termine el bloqueo.
+
+<Note>
+  Cuando una API Key se bloquea por primera vez, y cuando llega al bloqueo máximo de 1 hora, los usuarios de la compañía que administran las integraciones reciben una alerta en PrimeNet y un correo con el nombre de la integración y la duración del bloqueo, para que contacten a quien la mantiene o revoquen la clave si ya no se usa.
+</Note>
 
 ### Buenas prácticas
 
