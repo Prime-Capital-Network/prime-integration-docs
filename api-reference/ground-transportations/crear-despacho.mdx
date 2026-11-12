@@ -84,9 +84,19 @@ print(response.json())
 
 </CodeGroup>
 
-### Response
+### Example response
 
-Si la creación es exitosa, el endpoint retorna `201 Created` sin body, con el header `Location` apuntando al nuevo despacho.
+```json
+{
+  "id": 1
+}
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único del despacho creado.
+</ResponseField>
 
 ### Errores
 

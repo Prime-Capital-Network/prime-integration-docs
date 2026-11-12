@@ -91,9 +91,19 @@ print(response.json())
 
 </CodeGroup>
 
-### Response
+### Example response
 
-Si la creación es exitosa, el endpoint retorna `201 Created` sin body, con el header `Location` apuntando al nuevo registro de chasis.
+```json
+{
+  "id": 1
+}
+```
+
+### Response fields
+
+<ResponseField name="id" type="integer">
+  Identificador único del chasis creado.
+</ResponseField>
 
 ### Errores
 
