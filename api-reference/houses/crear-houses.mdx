@@ -231,10 +231,6 @@ Crea un nuevo house (embarque) en la empresa.
   Identificador del incoterm.
 </ParamField>
 
-<ParamField body="containerId" type="integer">
-  Identificador del contenedor.
-</ParamField>
-
 <ParamField body="paymentType" type="string">
   Tipo de pago logístico. Valores aceptados:
 
@@ -383,7 +379,7 @@ Crea un nuevo house (embarque) en la empresa.
 </ParamField>
 
 <ParamField body="pieces" type="integer">
-  Cantidad de piezas.
+  Cantidad de piezas. Debe estar entre 0 y 100,000,000.
 </ParamField>
 
 <ParamField body="packingTypeId" type="integer">
@@ -585,7 +581,6 @@ print(response.json())
   "blShouldShowLogoOnBL": true,
   "insuranceValue": 0,
   "incotermId": "FOB",
-  "containerId": 1,
   "paymentType": "Prepaid",
   "bookingNumber": "string",
   "jobNumber": "string",
