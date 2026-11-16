@@ -242,6 +242,7 @@ print(response.json())
     "id": 0,
     "name": "string"
   },
+  "usesPackageTotals": false,
   "pieces": 0,
   "packingType": {
     "id": 0,
@@ -906,15 +907,15 @@ print(response.json())
   Volumen del house en pies cúbicos.
 </ResponseField>
 
-<ResponseField name="length" type="integer">
+<ResponseField name="length" type="number">
   Largo de la carga.
 </ResponseField>
 
-<ResponseField name="width" type="integer">
+<ResponseField name="width" type="number">
   Ancho de la carga.
 </ResponseField>
 
-<ResponseField name="height" type="integer">
+<ResponseField name="height" type="number">
   Alto de la carga.
 </ResponseField>
 
@@ -930,6 +931,10 @@ print(response.json())
       Nombre traducido de la unidad de dimensiones.
     </ResponseField>
   </Expandable>
+</ResponseField>
+
+<ResponseField name="usesPackageTotals" type="boolean">
+  Indica si las piezas, el peso y el volumen del house se toman de la suma de sus embalajes.
 </ResponseField>
 
 <ResponseField name="pieces" type="integer">

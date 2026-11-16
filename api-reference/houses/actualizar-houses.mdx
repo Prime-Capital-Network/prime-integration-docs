@@ -356,20 +356,24 @@ Actualiza los datos de un house existente en la empresa.
   Unidad de volumen. Requerido si `volumeValue` no es null.
 </ParamField>
 
-<ParamField body="length" type="integer">
-  Largo de la carga.
+<ParamField body="length" type="decimal">
+  Largo de la carga. Debe ser mayor o igual a 0, con hasta 4 decimales.
 </ParamField>
 
-<ParamField body="width" type="integer">
-  Ancho de la carga.
+<ParamField body="width" type="decimal">
+  Ancho de la carga. Debe ser mayor o igual a 0, con hasta 4 decimales.
 </ParamField>
 
-<ParamField body="height" type="integer">
-  Alto de la carga.
+<ParamField body="height" type="decimal">
+  Alto de la carga. Debe ser mayor o igual a 0, con hasta 4 decimales.
 </ParamField>
 
 <ParamField body="dimensionUnit" type="string">
   Unidad de las dimensiones.
+</ParamField>
+
+<ParamField body="usesPackageTotals" type="boolean">
+  Indica si las piezas, el peso y el volumen del house se toman de la suma de sus embalajes. Si es `true`, los valores enviados en `pieces`, `weightValue` y `volumeValue` se ignoran, y el house se recalcula cada vez que se agrega, modifica o elimina un embalaje.
 </ParamField>
 
 <ParamField body="pieces" type="integer">
@@ -597,6 +601,7 @@ Si la actualización es exitosa, el endpoint retorna `204 No Content` sin body.
   "width": 0,
   "height": 0,
   "dimensionUnit": "Centimeter",
+  "usesPackageTotals": false,
   "pieces": 0,
   "packingTypeId": 1,
   "assignedToId": "string",
