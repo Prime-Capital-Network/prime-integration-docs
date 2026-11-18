@@ -355,7 +355,7 @@ Crea un nuevo house (embarque) en la empresa.
 </ParamField>
 
 <ParamField body="volumeValue" type="decimal">
-  Volumen de la carga. Requiere `volumeUnit` si se define.
+  Volumen de la carga. Requiere `volumeUnit` si se define. Se ignora si `usesDimensionVolume` o `usesPackageTotals` es `true`.
 </ParamField>
 
 <ParamField body="volumeUnit" type="string">
@@ -376,6 +376,10 @@ Crea un nuevo house (embarque) en la empresa.
 
 <ParamField body="dimensionUnit" type="string">
   Unidad de las dimensiones.
+</ParamField>
+
+<ParamField body="usesDimensionVolume" type="boolean">
+  Indica si el volumen del house se calcula con sus dimensiones: `length` × `width` × `height`, convertido de `dimensionUnit` a `volumeUnit` (por defecto `CubicMeters`) y redondeado a 4 decimales. Si es `true`, el `volumeValue` enviado se ignora y `dimensionUnit` es requerido; si falta alguna dimensión, o vale 0, el volumen queda en 0. Las piezas no influyen en el cálculo. No puede ser `true` junto con `usesPackageTotals`, y el volumen calculado no puede pasar de 10,000,000,000.
 </ParamField>
 
 <ParamField body="usesPackageTotals" type="boolean">
@@ -622,6 +626,7 @@ print(response.json())
   "width": 0,
   "height": 0,
   "dimensionUnit": "Centimeter",
+  "usesDimensionVolume": false,
   "usesPackageTotals": false,
   "pieces": 0,
   "packingTypeId": 1,

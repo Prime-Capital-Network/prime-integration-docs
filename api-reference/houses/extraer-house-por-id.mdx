@@ -242,6 +242,7 @@ print(response.json())
     "id": 0,
     "name": "string"
   },
+  "usesDimensionVolume": false,
   "usesPackageTotals": false,
   "pieces": 0,
   "packingType": {
@@ -931,6 +932,10 @@ print(response.json())
       Nombre traducido de la unidad de dimensiones.
     </ResponseField>
   </Expandable>
+</ResponseField>
+
+<ResponseField name="usesDimensionVolume" type="boolean">
+  Indica si el volumen del house se calcula con su largo, ancho y alto.
 </ResponseField>
 
 <ResponseField name="usesPackageTotals" type="boolean">
