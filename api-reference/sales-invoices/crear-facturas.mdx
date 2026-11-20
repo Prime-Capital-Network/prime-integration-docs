@@ -29,6 +29,7 @@ Crea una nueva factura por cobrar (factura de venta) en la empresa. Al crearla, 
 
   - Debe ser un documento fiscal que aplique a cuentas por cobrar: `FC` (crédito fiscal), `FF` (consumo), `FG` (gubernamental) o `FE` (régimen especial).
   - Si la empresa no es de República Dominicana, o el método de NCF está deshabilitado, solo se acepta `FC`.
+  - Si la empresa es de República Dominicana y tiene la facturación electrónica activa, `FC` solo se acepta si el cliente tiene como tipo de documento de identidad RNC o Cédula.
   - El comprobante fiscal (NCF o e-NCF) se asigna automáticamente según este documento fiscal; la solicitud será rechazada si no quedan comprobantes disponibles.
 </ParamField>
 

@@ -39,6 +39,7 @@ Actualiza todos los datos de una factura por cobrar. Los campos que no se envíe
 
   - Debe ser un documento fiscal que aplique a cuentas por cobrar: `FC` (crédito fiscal), `FF` (consumo), `FG` (gubernamental) o `FE` (régimen especial).
   - Si la empresa no es de República Dominicana, o el método de NCF está deshabilitado, solo se acepta `FC`.
+  - Si la empresa es de República Dominicana y tiene la facturación electrónica activa, `FC` solo se acepta si el cliente tiene como tipo de documento de identidad RNC o Cédula.
 </ParamField>
 
 <ParamField body="customerId" type="integer" required>
