@@ -5,6 +5,8 @@ description: "Permite extraer un house en específico mediante REST API"
 api: "GET /houses/{id}"
 ---
 
+import BillingStatusField from '/snippets/catalogs/billing-status-field.mdx'
+
 Obtén un house por ID en la empresa.
 
 <Note>
@@ -306,6 +308,10 @@ print(response.json())
   "monthlyDepartures": [1],
   "status": {
     "id": 0,
+    "name": "string"
+  },
+  "billingStatus": {
+    "id": "AvailableForBilling",
     "name": "string"
   },
   "packings": [],
@@ -1173,6 +1179,8 @@ print(response.json())
     </ResponseField>
   </Expandable>
 </ResponseField>
+
+<BillingStatusField />
 
 <ResponseField name="packings" type="object[]">
   Empaques del house. Solo se incluye si se envía `include=Packings`; de lo contrario retorna un array vacío.

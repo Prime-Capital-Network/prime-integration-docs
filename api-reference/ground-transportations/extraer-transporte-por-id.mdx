@@ -5,6 +5,8 @@ description: "Permite extraer un registro de transporte terrestre en específico
 api: "GET /ground-transportations/{id}"
 ---
 
+import BillingStatusField from '/snippets/catalogs/billing-status-field.mdx'
+
 Obtén un registro de transporte terrestre por ID en la empresa.
 
 <Note>
@@ -195,6 +197,10 @@ print(response.json())
   "cancelledReason": null,
   "status": {
     "id": 0,
+    "name": "string"
+  },
+  "billingStatus": {
+    "id": "AvailableForBilling",
     "name": "string"
   },
   "dispatches": []
@@ -562,6 +568,8 @@ print(response.json())
     </ResponseField>
   </Expandable>
 </ResponseField>
+
+<BillingStatusField />
 
 import DispatchFields from './snippets/dispatch-response-fields.mdx'
 

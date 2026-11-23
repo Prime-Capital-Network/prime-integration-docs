@@ -145,6 +145,12 @@
                 ]
               },
               {
+                "group": "Estatus de Facturación",
+                "pages": [
+                  "api-reference/operation-billing-statuses/actualizar-estatus-facturacion"
+                ]
+              },
+              {
                 "group": "Productos de Compra",
                 "pages": [
                   "api-reference/purchase-products/listar-productos-compra",

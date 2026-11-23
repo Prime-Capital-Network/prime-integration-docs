@@ -1,0 +1,13 @@
+<ResponseField name="billingStatus" type="object">
+  Estatus de facturación de la operación. Se cambia entre `NotAvailable` y `AvailableForBilling` con [Actualizar estatus de facturación](/api-reference/operation-billing-statuses/actualizar-estatus-facturacion); `PartiallyBilled` y `Billed` los calcula el sistema a partir de las facturas posteadas.
+
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del estatus. Valores posibles: `NotAvailable`, `AvailableForBilling`, `PartiallyBilled`, `Billed`.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Nombre traducido del estatus.
+    </ResponseField>
+  </Expandable>
+</ResponseField>

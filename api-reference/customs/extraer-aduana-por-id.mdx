@@ -5,6 +5,8 @@ description: "Permite extraer un registro de aduana en específico mediante REST
 api: "GET /customs/{id}"
 ---
 
+import BillingStatusField from '/snippets/catalogs/billing-status-field.mdx'
+
 Obtén un registro de aduana por ID en la empresa.
 
 <Note>
@@ -132,6 +134,10 @@ print(response.json())
   "cancelledReason": "string",
   "status": {
     "id": 0,
+    "name": "string"
+  },
+  "billingStatus": {
+    "id": "AvailableForBilling",
     "name": "string"
   }
 }
@@ -376,3 +382,5 @@ print(response.json())
     </ResponseField>
   </Expandable>
 </ResponseField>
+
+<BillingStatusField />
